@@ -10,4 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="are_you_admin_or_technician">Are you Admin or Technician?</string>
+    <string name="admin">Admin</string>
+    <string name="technician">Technician</string>
 </resources>
