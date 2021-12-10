@@ -4,10 +4,10 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/brown</item>
         <item name="colorPrimaryVariant">@color/brown</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/brown</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/brown</item>
-        <item name="colorSecondaryVariant">@color/dim_white</item>
+        <item name="colorSecondaryVariant">@color/brown</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
@@ -21,7 +21,7 @@
 
     <style name="Theme.OrpatServiceCenter.StepsHead">
         <item name="fontFamily">@font/poppins_semi_bold</item>
-        <item name="font">@dimen/heading_size</item>
+        <item name="android:textSize">@dimen/heading_size</item>
         <item name="color">@color/brown</item>
         <item name="android:textAlignment">center</item>
     </style>
