@@ -24,7 +24,7 @@ class SelectUserActivity : AppCompatActivity() {
         }
     }
 
-    fun signUp(view: View) {
+    fun selectUser(view: View) {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }

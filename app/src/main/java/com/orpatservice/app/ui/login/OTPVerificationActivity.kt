@@ -1,16 +1,14 @@
 package com.orpatservice.app.ui.login
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.orpatservice.app.R
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity() {
+class OTPVerificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_otpverification)
 
         // set toolbar as support action bar
         setSupportActionBar(toolbar)
@@ -22,10 +20,5 @@ class LoginActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
-    }
-
-    fun signUp(view: View) {
-        val intent = Intent(this, OTPVerificationActivity::class.java)
-        startActivity(intent)
     }
 }

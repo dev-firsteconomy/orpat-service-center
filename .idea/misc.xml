@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../../layout/custom_preview.xml" value="0.47685185185185186" />
         <entry key="app/src/main/res/drawable-v24/bg_radiobutton_deselected.xml" value="0.4824074074074074" />
         <entry key="app/src/main/res/drawable-xhdpi/bg_edittext.xml" value="0.47685185185185186" />
         <entry key="app/src/main/res/drawable/bg_button.xml" value="0.4824074074074074" />
@@ -16,6 +17,7 @@
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.5078125" />
         <entry key="app/src/main/res/layout/activity_fullscreen.xml" value="0.45153985507246375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.45153985507246375" />
+        <entry key="app/src/main/res/layout/activity_otpverification.xml" value="0.49375" />
         <entry key="app/src/main/res/layout/activity_select_user.xml" value="0.45153985507246375" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.45153985507246375" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.21732522796352582" />

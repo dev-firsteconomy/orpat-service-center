@@ -123,7 +123,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="8dp"
             android:drawableEnd="@drawable/ic_draw_arrow_right"
-            android:onClick="signUp"
+            android:onClick="selectUser"
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
             android:text="@string/btn_continue"
