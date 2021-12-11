@@ -38,6 +38,7 @@
         <item name="android:textColor">@color/dim_white</item>
     </style>
 
+    <!-- User Type Radio Button selection theme-->
     <style name="UserTypeRadioButtonStyle" parent="@android:style/Widget.CompoundButton">
         <!-- <item name="radioButtonStyle">@style/Widget.MaterialComponents.CompoundButton.RadioButton</item>-->
         <item name="android:background">@drawable/rb_selector</item>
@@ -45,6 +46,14 @@
         <item name="android:textColor">@color/brown</item>
         <item name="android:textAlignment">center</item>
         <item name="fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <!-- User Type Radio Button selection theme-->
+    <style name="Theme.OrpatServiceCenter.MediumText">
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/brown</item>
     </style>
 
     <style name="Theme.OrpatServiceCenter.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

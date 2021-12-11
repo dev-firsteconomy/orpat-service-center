@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".ui.login.SelectUserActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dim_white"
-        android:translationZ="1dp"
+        android:background="@color/white"
+        android:translationZ="0dp"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -23,124 +22,123 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
                 <TextView
                     android:id="@+id/tv_title"
-                    android:layout_width="0dp"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="@string/admin"
+                    android:text="@string/step_1"
                     android:textColor="@color/brown"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_horizontal"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_end_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="32dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_start_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="32dp" />
+
+        <TextView
+            android:id="@+id/tv_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/are_you_admin_or_technician"
+            android:theme="@style/Theme.OrpatServiceCenter.StepsHead"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+            app:layout_constraintTop_toBottomOf="@id/gl_horizontal" />
+
+        <RadioGroup
+            android:id="@+id/rg_user_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
+            app:layout_constraintTop_toBottomOf="@id/tv_heading">
+
+            <RadioButton
+                android:id="@+id/rb_admin"
+                style="@style/UserTypeRadioButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="16dp" />
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:drawableTop="@drawable/ic_admin"
+                android:elevation="2dp"
+                android:padding="16dp"
+                android:text="@string/admin"
+                android:translationZ="2dp" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_vertical_start"
+            <RadioButton
+                android:id="@+id/rb_technician"
+                style="@style/UserTypeRadioButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="16dp" />
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:drawableTop="@drawable/ic_technician"
+                android:elevation="2dp"
+                android:padding="16dp"
+                android:text="@string/technician"
+                android:translationZ="2dp" />
+        </RadioGroup>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_vertical_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="16dp" />
+        <Button
+            android:id="@+id/btn_continue_user"
+            style="@style/Theme.OrpatServiceCenter.Buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawableEnd="@drawable/ic_draw_arrow_right"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp"
+            android:text="@string/btn_continue"
+            android:translationZ="4dp"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
+            app:layout_constraintTop_toBottomOf="@id/rg_user_type" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_vertical_end_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="32dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_vertical_start_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="32dp" />
-
-            <TextView
-                android:id="@+id/tv_heading"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/are_you_admin_or_technician"
-                android:theme="@style/Theme.OrpatServiceCenter.StepsHead"
-                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
-                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-                app:layout_constraintTop_toBottomOf="@id/gl_horizontal" />
-
-            <RadioGroup
-                android:id="@+id/rg_user_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
-                app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
-                app:layout_constraintTop_toBottomOf="@id/tv_heading">
-
-                <RadioButton
-                    android:id="@+id/rb_admin"
-                    style="@style/UserTypeRadioButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:drawableTop="@drawable/ic_admin"
-                    android:elevation="2dp"
-                    android:padding="16dp"
-                    android:text="@string/admin"
-                    android:translationZ="2dp" />
-
-                <RadioButton
-                    android:id="@+id/rb_technician"
-                    style="@style/UserTypeRadioButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:drawableTop="@drawable/ic_technician"
-                    android:elevation="2dp"
-                    android:padding="16dp"
-                    android:text="@string/technician"
-                    android:translationZ="2dp" />
-            </RadioGroup>
-
-            <Button
-                android:id="@+id/btn_continue_user"
-                style="@style/Theme.OrpatServiceCenter.Buttons"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:drawableEnd="@drawable/ic_draw_arrow_right"
-                android:paddingStart="80dp"
-                android:paddingEnd="80dp"
-                android:text="@string/btn_continue"
-                android:translationZ="4dp"
-                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
-                app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
-                app:layout_constraintTop_toBottomOf="@id/rg_user_type" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
