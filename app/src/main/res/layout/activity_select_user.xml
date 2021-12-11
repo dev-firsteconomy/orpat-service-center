@@ -27,6 +27,20 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="16dp" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_vertical_end_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="32dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_vertical_start_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="32dp" />
+
     <TextView
         android:id="@+id/tv_heading"
         android:layout_width="0dp"
@@ -41,66 +55,53 @@
         android:id="@+id/rg_user_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
-        app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
+        app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
         app:layout_constraintTop_toBottomOf="@id/tv_heading">
 
         <RadioButton
             android:id="@+id/rb_admin"
+            style="@style/UserTypeRadioButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:button="@drawable/bg_radiobutton_selector"
-            android:checked="true"
-            android:elevation="8dp"
-            android:fontFamily="@font/poppins_medium"
-            android:minWidth="100dp"
-            android:minHeight="140dp"
+            android:drawableTop="@drawable/ic_admin"
+            android:elevation="2dp"
+            android:padding="16dp"
             android:text="@string/admin"
-            android:textAlignment="center"
-            android:textColor="@color/brown"
-            android:textSize="16sp"
-            android:translationZ="4dp" />
+            android:translationZ="2dp" />
 
         <RadioButton
             android:id="@+id/rb_technician"
+            style="@style/UserTypeRadioButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:button="@drawable/bg_radiobutton_selector"
-            android:elevation="8dp"
-            android:fontFamily="@font/poppins_medium"
-            android:minWidth="100dp"
-            android:minHeight="140dp"
+            android:drawableTop="@drawable/ic_technician"
+            android:elevation="2dp"
+            android:padding="16dp"
             android:text="@string/technician"
-            android:textAlignment="center"
-            android:textColor="@color/brown"
-            android:textSize="16sp"
-            android:translationZ="4dp" />
-
+            android:translationZ="2dp" />
     </RadioGroup>
 
     <Button
         android:id="@+id/btn_continue_user"
         android:layout_width="wrap_content"
-        android:layout_height="52dp"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_button"
+        android:layout_marginBottom="8dp"
         android:drawableEnd="@drawable/ic_draw_arrow_right"
-        android:elevation="8dp"
         android:paddingStart="80dp"
         android:paddingEnd="80dp"
         android:text="@string/btn_continue"
-        android:textColor="@color/dim_white"
-        android:theme="@style/Theme.OrpatServiceCenter.Buttons"
+        style="@style/Theme.OrpatServiceCenter.Buttons"
         android:translationZ="4dp"
-        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
-        app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
+        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
+        app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
         app:layout_constraintTop_toBottomOf="@id/rg_user_type" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
