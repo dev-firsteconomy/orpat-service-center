@@ -3,10 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_fullscreen.xml" value="0.45153985507246375" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.45153985507246375" />
-        <entry key="app/src/main/res/layout/activity_select_user.xml" value="0.45153985507246375" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.45153985507246375" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/drawable/drawable_circle.xml" value="0.25833333333333336" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/drawable/drawable_rectangle_gray.xml" value="0.25833333333333336" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/activity_dashboard.xml" value="0.2421875" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/activity_login.xml" value="0.2421875" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/activity_select_user.xml" value="0.2421875" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/activity_splash.xml" value="0.2421875" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/content_dashboard.xml" value="0.2421875" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/content_main.xml" value="0.2421875" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/fragment_first.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.21732522796352582" />
       </map>
     </option>
