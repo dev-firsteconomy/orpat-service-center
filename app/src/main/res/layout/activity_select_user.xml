@@ -16,24 +16,18 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:background="@android:color/transparent">
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:minHeight="?attr/actionBarSize">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/tv_title"
-                    style="@style/Theme.OrpatServiceCenter.MediumText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/step_1"
-                    android:textColor="@color/brown"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/Theme.OrpatServiceCenter.MediumText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/step_1"
+                android:textColor="@color/brown" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,13 +35,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="16dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_vertical_start"
@@ -64,28 +51,28 @@
             app:layout_constraintGuide_end="16dp" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_vertical_end_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="32dp" />
-
-        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_vertical_start_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="32dp" />
+            app:layout_constraintGuide_begin="48dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_end_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="48dp" />
 
         <TextView
             android:id="@+id/tv_heading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/are_you_admin_or_technician"
-            android:theme="@style/Theme.OrpatServiceCenter.StepsHead"
+            style="@style/Theme.OrpatServiceCenter.StepsHead"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-            app:layout_constraintTop_toBottomOf="@id/gl_horizontal" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RadioGroup
             android:id="@+id/rg_user_type"
@@ -105,7 +92,10 @@
                 android:layout_margin="8dp"
                 android:drawableTop="@drawable/ic_admin"
                 android:elevation="2dp"
-                android:padding="16dp"
+                android:paddingStart="24dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="4dp"
                 android:text="@string/admin"
                 android:translationZ="2dp" />
 
@@ -117,7 +107,10 @@
                 android:layout_margin="8dp"
                 android:drawableTop="@drawable/ic_technician"
                 android:elevation="2dp"
-                android:padding="16dp"
+                android:paddingStart="24dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="4dp"
                 android:text="@string/technician"
                 android:translationZ="2dp" />
         </RadioGroup>
@@ -125,15 +118,14 @@
         <Button
             android:id="@+id/btn_continue_user"
             style="@style/Theme.OrpatServiceCenter.Buttons"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:drawableEnd="@drawable/ic_draw_arrow_right"
-            android:paddingStart="80dp"
-            android:paddingEnd="80dp"
+            android:onClick="signUp"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
             android:text="@string/btn_continue"
             android:translationZ="4dp"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
