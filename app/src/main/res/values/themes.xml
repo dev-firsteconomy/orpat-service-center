@@ -55,7 +55,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:layout_weight">1</item>
         <item name="android:imeOptions">actionDone</item>
-        <item name="android:inputType">phone</item>
+        <item name="android:inputType">number</item>
         <item name="android:textAlignment">center</item>
         <item name="android:background">@drawable/bg_otp_edittext</item>
     </style>
