@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:minHeight="?attr/actionBarSize"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -56,61 +56,90 @@
 
     <TextView
         android:id="@+id/tv_heading"
+        style="@style/Theme.OrpatServiceCenter.StepsHead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/verification"
-        style="@style/Theme.OrpatServiceCenter.StepsHead"
         app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
         app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <TextView
         android:id="@+id/tv_subheading"
+        style="@style/Theme.OrpatServiceCenter.RegularText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/please_verify_the_code_sent_to_your_mobile_number_91_9xxxx_x2358"
-        style="@style/Theme.OrpatServiceCenter.RegularText"
         android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_heading"
+        android:text="@string/please_verify_the_code_sent_to_your_mobile_number_91_9xxxx_x2358"
+        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
         app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_heading" />
 
     <TextView
         android:id="@+id/tv_resend_timer"
+        style="@style/Theme.OrpatServiceCenter.MediumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        style="@style/Theme.OrpatServiceCenter.MediumText"
         android:text="00.01"
-        app:layout_constraintTop_toBottomOf="@id/tv_subheading"
+        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
         app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
-        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_subheading" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_mobile"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_otp_layout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/mobile_number"
+        android:layout_height="66dp"
         android:layout_marginTop="32dp"
-        app:boxBackgroundMode="outline"
-        app:boxBackgroundColor="@color/white"
-        app:boxStrokeColor="@color/dim_brown"
-        app:boxCornerRadiusBottomStart="@dimen/corner_radius"
-        app:boxCornerRadiusBottomEnd="@dimen/corner_radius"
-        app:boxCornerRadiusTopEnd="@dimen/corner_radius"
-        app:boxCornerRadiusTopStart="@dimen/corner_radius"
-        app:layout_constraintTop_toBottomOf="@id/tv_resend_timer"
+        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
         app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
-        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one">
+        app:layout_constraintTop_toBottomOf="@id/tv_resend_timer">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_mobile"
-            android:maxLength="10"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        <EditText
+            android:id="@+id/edt_digit1"
+            style="@style/Theme.OrpatServiceCenter.OTPEditText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/edt_digit2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edt_digit2"
+            style="@style/Theme.OrpatServiceCenter.OTPEditText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/edt_digit3"
+            app:layout_constraintStart_toEndOf="@id/edt_digit1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edt_digit3"
+            style="@style/Theme.OrpatServiceCenter.OTPEditText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/edt_digit4"
+            app:layout_constraintStart_toEndOf="@id/edt_digit2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edt_digit4"
+            style="@style/Theme.OrpatServiceCenter.OTPEditText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/edt_digit3"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/btn_continue_otp"
@@ -126,6 +155,6 @@
         android:translationZ="4dp"
         app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
         app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
-        app:layout_constraintTop_toBottomOf="@id/til_mobile" />
+        app:layout_constraintTop_toBottomOf="@id/cl_otp_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

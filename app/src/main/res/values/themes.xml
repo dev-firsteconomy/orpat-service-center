@@ -47,6 +47,20 @@
         <item name="fontFamily">@font/poppins_medium</item>
     </style>
 
+    <!-- OTP EditText Theme-->
+    <style name="Theme.OrpatServiceCenter.OTPEditText">
+        <item name="android:textSize">@dimen/OTP_text_size</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:inputType">phone</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@drawable/bg_button</item>
+    </style>
+
     <style name="Theme.OrpatServiceCenter.MediumText">
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:letterSpacing">0</item>

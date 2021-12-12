@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="dim_white">#FEFEFE</color>
-    <color name="black">#FF000000</color>
-    <color name="brown">#2B2A29</color>
-    <color name="dim_brown">#9F9A95</color>
     <color name="white">#FFFFFF</color>
+    <color name="dim_white">#FEFEFE</color>
+    <color name="off_white">#F5F7FB</color>
+    <color name="gray">#BEB9B3</color>
+    <color name="brown">#2B2A29</color>
+    <color name="black">#FF000000</color>
 </resources>

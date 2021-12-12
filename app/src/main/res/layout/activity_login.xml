@@ -80,10 +80,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/mobile_number"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="1dp"
         app:boxBackgroundColor="@color/white"
-        app:boxStrokeColor="@color/dim_brown"
+        app:boxStrokeColor="@color/gray"
         app:boxCornerRadiusBottomStart="@dimen/corner_radius"
         app:boxCornerRadiusBottomEnd="@dimen/corner_radius"
         app:boxCornerRadiusTopEnd="@dimen/corner_radius"
@@ -98,7 +99,7 @@
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"/>
+            android:padding="14dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
