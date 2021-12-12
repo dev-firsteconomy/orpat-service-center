@@ -112,7 +112,6 @@
         android:drawableEnd="@drawable/ic_draw_arrow_right"
         android:paddingStart="40dp"
         android:paddingEnd="40dp"
-        android:onClick="signUp"
         android:text="@string/btn_continue"
         android:translationZ="4dp"
         app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"

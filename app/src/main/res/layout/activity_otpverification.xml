@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="@string/please_verify_the_code_sent_to_your_mobile_number_91_9xxxx_x2358"
+        android:text="@string/please_verify_the_code_sent_to_your_mobile_number"
         app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
         app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
         app:layout_constraintTop_toBottomOf="@id/tv_heading" />

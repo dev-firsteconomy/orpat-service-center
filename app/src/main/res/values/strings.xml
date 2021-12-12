@@ -20,7 +20,10 @@
     <string name="welcome_to_orpat_service_center">Welcome to Orpat\nService Center</string>
     <string name="enter_your_mobile_no_to_continue">Enter your mobile no. to continue</string>
     <string name="mobile_number">Mobile Number</string>
+    <string name="please_verify_the_code_sent_to_your_mobile_number">Please verify the code sent to your\nmobile number +91</string>
     <string name="verification">Verification</string>
-    <string name="please_verify_the_code_sent_to_your_mobile_number_91_9xxxx_x2358">Please verify the code sent to your\nmobile number +91 9XXXX X2358</string>
     <string name="verify">Verify</string>
+    <string name="warning_select_admin_technician">Please select user Admin or Technician!</string>
+    <string name="warning_mobile_number">Mobile number should be 10 digit!</string>
+    <string name="warning_enter_OTP">Please enter your 4-digit OTP, received by sms.</string>
 </resources>

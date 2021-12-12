@@ -1,5 +1,6 @@
 package com.orpatservice.app.ui.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -7,11 +8,13 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.orpatservice.app.R
+import com.orpatservice.app.utils.Constants
 import kotlinx.android.synthetic.main.activity_otpverification.*
 
-class OTPVerificationActivity : AppCompatActivity(), TextWatcher {
+class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickListener {
 
     private val editTextArray: ArrayList<EditText> = ArrayList(NUM_OF_DIGITS)
     private var numTemp = ""
@@ -36,6 +39,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher {
             setDisplayShowHomeEnabled(true)
         }
 
+        // OTP UI logic
         //create array
         val layout: ConstraintLayout = cl_otp_layout
         for (index in 0 until (layout.childCount)) {
@@ -62,6 +66,37 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher {
                     false
                 }
             }
+        // OTP UI logic
+        ///////////////////////////////////////
+
+        btn_continue_otp.setOnClickListener(this)
+        val intent: Intent = intent
+        val mobileNumber = intent.getStringExtra(Constants.MOBILE_NUMBER)
+        if (mobileNumber != null) {
+            setMobileNumber(mobileNumber)
+        }
+    }
+
+
+    override fun onClick(v: View) {
+        if (v.id == R.id.btn_continue_otp) {
+            verifyOTP()
+        }
+    }
+
+    private fun verifyOTP() {
+        (0 until editTextArray.size)
+            .forEach { i ->
+                if(editTextArray[i].text.isEmpty()) {
+                    Toast.makeText(this, getString(R.string.warning_enter_OTP), Toast.LENGTH_SHORT).show()
+                    return
+                }
+            }
+    }
+
+    private fun setMobileNumber(mobileNumber: String) {
+        val customMessage = tv_subheading.text.toString() + " " + mobileNumber.substring(0,1) + "XXXX X"+ mobileNumber.substring(6, 10)
+        tv_subheading.text = customMessage
     }
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
