@@ -11,6 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrpatServiceCenter">
         <activity
+            android:name=".ui.addtechnician.AddTechniciansActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar" />
+        <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
             android:label="@string/app_name"

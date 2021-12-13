@@ -1,18 +1,20 @@
 package com.orpatservice.app.ui.dashboard
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
+import com.orpatservice.app.ui.addtechnician.AddTechniciansActivity
 
-class DashboardActivity : AppCompatActivity() {
+
+
+
+class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityDashboardBinding
 
@@ -25,11 +27,44 @@ class DashboardActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val navHostFragment =
+        /*val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        setupActionBarWithNavController(navController, appBarConfiguration)*/
+
+        binding.includedContent.mcvRequest.setOnClickListener(this)
+        binding.includedContent.mcvAddTechnician.setOnClickListener(this)
+        binding.includedContent.mcvHistory.setOnClickListener(this)
+        binding.includedContent.mcvProfile.setOnClickListener(this)
+        binding.includedContent.mcvPayment.setOnClickListener(this)
+        binding.includedContent.mcvMore.setOnClickListener(this)
+
+    }
+
+    override fun onClick(view: View?) {
+        //val navController = findNavController()
+        when (view?.id) {
+            R.id.mcv_request -> {
+                startActivity(Intent(this,AddTechniciansActivity::class.java))
+
+            }
+            R.id.mcv_add_technician -> {
+
+            }
+            R.id.mcv_history -> {
+
+            }
+            R.id.mcv_profile -> {
+
+            }
+            R.id.mcv_payment -> {
+
+            }
+            R.id.mcv_more -> {
+
+            }
+        }
 
     }
 
@@ -39,19 +74,16 @@ class DashboardActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val item: MenuItem = menu.findItem(R.id.action_settings)
+        item.isVisible = false
+        super.onPrepareOptionsMenu(menu)
+        return true
     }
 
-    override fun onSupportNavigateUp(): Boolean {
+    /*override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }
+    }*/
 }

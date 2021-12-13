@@ -55,10 +55,10 @@
 
                 <ImageView
                     android:id="@+id/iv_request"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_test_icon"
+                    android:src="@drawable/notification"
                     app:layout_constraintBottom_toTopOf="@id/tv_request"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -119,10 +119,10 @@
 
                 <ImageView
                     android:id="@+id/iv_add_tech"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_test_icon"
+                    android:src="@drawable/add_contact"
                     app:layout_constraintBottom_toTopOf="@id/tv_add_tech"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -170,10 +170,10 @@
 
                 <ImageView
                     android:id="@+id/iv_history"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_test_icon"
+                    android:src="@drawable/history"
                     app:layout_constraintBottom_toTopOf="@id/tv_history"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -220,10 +220,10 @@
 
                 <ImageView
                     android:id="@+id/iv_profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_test_icon"
+                    android:src="@drawable/profile_user"
                     app:layout_constraintBottom_toTopOf="@id/tv_profile"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -270,10 +270,10 @@
 
                 <ImageView
                     android:id="@+id/iv_payment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_test_icon"
+                    android:src="@drawable/wallet"
                     app:layout_constraintBottom_toTopOf="@id/tv_payment"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -320,10 +320,10 @@
 
                 <ImageView
                     android:id="@+id/iv_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_test_icon"
+                    android:src="@drawable/more"
                     app:layout_constraintBottom_toTopOf="@id/tv_more"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
