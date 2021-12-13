@@ -49,7 +49,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
 
             }
             R.id.mcv_add_technician -> {
-                startActivity(Intent(this,AddTechniciansActivity::class.java))
+                //startActivity(Intent(this,AddTechniciansActivity::class.java))
             }
             R.id.mcv_history -> {
 
