@@ -78,6 +78,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/rv_tech_list"
+        tools:listitem="@layout/item_technician"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
@@ -92,6 +93,15 @@
         app:backgroundTint="@color/dim_white"
         app:fabCustomSize="45dp"
         android:layout_gravity="bottom|end"  />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/cpi_loading"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:indicatorColor="@color/red"
+        app:trackThickness="4dp" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
