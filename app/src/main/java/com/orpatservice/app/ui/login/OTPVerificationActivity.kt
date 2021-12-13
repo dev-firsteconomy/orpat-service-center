@@ -15,7 +15,11 @@ import kotlinx.android.synthetic.main.activity_otpverification.*
 import android.os.CountDownTimer
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
+import com.orpatservice.app.ui.dashboard.DashboardActivity
 import com.tapadoo.alerter.Alerter
+import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_otpverification.toolbar
+import kotlinx.android.synthetic.main.activity_otpverification.tv_subheading
 
 
 class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickListener {
@@ -149,6 +153,13 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                     return
                 }
             }
+        //todo: need to check Verify Button logic
+        dashboardLanding()
+    }
+
+    private fun dashboardLanding() {
+        val intent = Intent(this, DashboardActivity::class.java)
+        startActivity(intent)
     }
 
     private fun requestOTP() {

@@ -46,11 +46,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         //val navController = findNavController()
         when (view?.id) {
             R.id.mcv_request -> {
-                startActivity(Intent(this,AddTechniciansActivity::class.java))
 
             }
             R.id.mcv_add_technician -> {
-
+                startActivity(Intent(this,AddTechniciansActivity::class.java))
             }
             R.id.mcv_history -> {
 
