@@ -134,6 +134,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         tv_resend_otp_timer.setTextColor(ContextCompat.getColor(this@OTPVerificationActivity, R.color.brown))
 
         Alerter.create(this)
+            .setTitle(getString(R.string.otp_resend))
             .setText(getString(R.string.message_resend_otp))
             .setBackgroundColorRes(R.color.orange)
             .setDuration(2000)

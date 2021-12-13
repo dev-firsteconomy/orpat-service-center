@@ -27,5 +27,6 @@
     <string name="warning_mobile_number">Mobile number should be 10 digit!</string>
     <string name="warning_enter_OTP">Please enter 4-digit OTP, received by sms.</string>
     <string name="resend_otp">Resend OTP</string>
-    <string name="message_resend_otp">You will receive your OTP Code on your registered contact details shortly.\nOTP Resend.</string>
+    <string name="otp_resend">OTP Resend!</string>
+    <string name="message_resend_otp">You will receive your OTP Code on your registered contact details shortly.</string>
 </resources>
