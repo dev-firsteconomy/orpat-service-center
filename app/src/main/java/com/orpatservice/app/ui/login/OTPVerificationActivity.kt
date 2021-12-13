@@ -8,13 +8,13 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.orpatservice.app.R
 import com.orpatservice.app.utils.Constants
 import kotlinx.android.synthetic.main.activity_otpverification.*
 import android.os.CountDownTimer
 import androidx.core.content.ContextCompat
+import com.tapadoo.alerter.Alerter
 
 
 class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickListener {
@@ -119,7 +119,11 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         (0 until editTextArray.size)
             .forEach { i ->
                 if(editTextArray[i].text.isEmpty()) {
-                    Toast.makeText(this, getString(R.string.warning_enter_OTP), Toast.LENGTH_SHORT).show()
+                    Alerter.create(this)
+                        .setText(getString(R.string.warning_enter_OTP))
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
                     return
                 }
             }
@@ -128,6 +132,12 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     private fun requestOTP() {
         resendOTPTimer()
         tv_resend_otp_timer.setTextColor(ContextCompat.getColor(this@OTPVerificationActivity, R.color.brown))
+
+        Alerter.create(this)
+            .setText(getString(R.string.message_resend_otp))
+            .setBackgroundColorRes(R.color.orange)
+            .setDuration(2000)
+            .show()
     }
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {

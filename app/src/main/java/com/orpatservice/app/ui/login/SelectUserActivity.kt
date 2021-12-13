@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.orpatservice.app.R
+import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_select_user.*
 
 class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
@@ -40,7 +40,12 @@ class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
         } else if (rb_technician.isChecked) {
             goToLogin("TECHNICIAN")
         } else {
-            Toast.makeText(this, getString(R.string.warning_select_admin_technician), Toast.LENGTH_SHORT).show()
+            Alerter.create(this)
+                .setTitle("")
+                .setText(getString(R.string.warning_select_admin_technician))
+                .setBackgroundColorRes(R.color.orange)
+                .setDuration(1000)
+                .show()
         }
     }
 

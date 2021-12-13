@@ -25,6 +25,7 @@
     <string name="verify">Verify</string>
     <string name="warning_select_admin_technician">Please select user Admin or Technician!</string>
     <string name="warning_mobile_number">Mobile number should be 10 digit!</string>
-    <string name="warning_enter_OTP">Please enter your 4-digit OTP, received by sms.</string>
+    <string name="warning_enter_OTP">Please enter 4-digit OTP, received by sms.</string>
     <string name="resend_otp">Resend OTP</string>
+    <string name="message_resend_otp">You will receive your OTP Code on your registered contact details shortly.\nOTP Resend.</string>
 </resources>

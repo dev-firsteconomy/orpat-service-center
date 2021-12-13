@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.orpatservice.app.R
 import com.orpatservice.app.utils.Constants
+import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -34,7 +34,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         if(v.id == R.id.btn_continue_mobile) {
             val mobileNumber = edt_mobile.text ?: ""
             if(mobileNumber.length < 10) {
-                Toast.makeText(this, getString(R.string.warning_mobile_number), Toast.LENGTH_SHORT).show()
+                Alerter.create(this)
+                    .setText(getString(R.string.warning_mobile_number))
+                    .setBackgroundColorRes(R.color.orange)
+                    .setDuration(1000)
+                    .show()
             } else {
                 signUp()
             }
