@@ -13,6 +13,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.orpatservice.app.R
 import com.orpatservice.app.utils.Constants
 import kotlinx.android.synthetic.main.activity_otpverification.*
+import android.os.CountDownTimer
+import androidx.core.content.ContextCompat
+
 
 class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickListener {
 
@@ -39,7 +42,23 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
             setDisplayShowHomeEnabled(true)
         }
 
+        btn_continue_otp.setOnClickListener(this)
+
         // OTP UI logic
+        createOTPUI()
+        getIntentData()
+        resendOTPTimer()
+    }
+
+    private fun getIntentData() {
+        val intent: Intent = intent
+        val mobileNumber = intent.getStringExtra(Constants.MOBILE_NUMBER)
+        if (mobileNumber != null) {
+            setMobileNumber(mobileNumber)
+        }
+    }
+
+    private fun createOTPUI() {
         //create array
         val layout: ConstraintLayout = cl_otp_layout
         for (index in 0 until (layout.childCount)) {
@@ -66,21 +85,33 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                     false
                 }
             }
-        // OTP UI logic
-        ///////////////////////////////////////
-
-        btn_continue_otp.setOnClickListener(this)
-        val intent: Intent = intent
-        val mobileNumber = intent.getStringExtra(Constants.MOBILE_NUMBER)
-        if (mobileNumber != null) {
-            setMobileNumber(mobileNumber)
-        }
     }
 
+    private fun setMobileNumber(mobileNumber: String) {
+        val customMessage = tv_subheading.text.toString() + " " + mobileNumber.substring(0,1) + "XXXX X"+ mobileNumber.substring(6, 10)
+        tv_subheading.text = customMessage
+    }
+
+    //resend OTP timer
+    private fun resendOTPTimer() {
+        object : CountDownTimer(30000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                tv_resend_otp_timer.text =String.format("%02d:%02d", 0, millisUntilFinished / 1000)
+            }
+
+            override fun onFinish() {
+                tv_resend_otp_timer.text = getString(R.string.resend_otp)
+                tv_resend_otp_timer.setTextColor(ContextCompat.getColor(this@OTPVerificationActivity, R.color.orange))
+                tv_resend_otp_timer.setOnClickListener(this@OTPVerificationActivity)
+            }
+        }.start()
+    }
 
     override fun onClick(v: View) {
         if (v.id == R.id.btn_continue_otp) {
             verifyOTP()
+        } else if (v.id == R.id.tv_resend_otp_timer) {
+            requestOTP()
         }
     }
 
@@ -94,9 +125,9 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
             }
     }
 
-    private fun setMobileNumber(mobileNumber: String) {
-        val customMessage = tv_subheading.text.toString() + " " + mobileNumber.substring(0,1) + "XXXX X"+ mobileNumber.substring(6, 10)
-        tv_subheading.text = customMessage
+    private fun requestOTP() {
+        resendOTPTimer()
+        tv_resend_otp_timer.setTextColor(ContextCompat.getColor(this@OTPVerificationActivity, R.color.brown))
     }
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
