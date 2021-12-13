@@ -1,4 +1,5 @@
 <resources>
+    <!-- App-->
     <string name="app_name">Orpat Service Center</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -10,6 +11,8 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <!-- Login Module-->
     <string name="are_you_admin_or_technician">Are you Admin \nor Technician?</string>
     <string name="admin">Admin</string>
     <string name="technician">Technician</string>
@@ -29,4 +32,5 @@
     <string name="resend_otp">Resend OTP</string>
     <string name="otp_resend">OTP Resend!</string>
     <string name="message_resend_otp">You will receive your OTP Code on your registered contact details shortly.</string>
+    <!-- -->
 </resources>
