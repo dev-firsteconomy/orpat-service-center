@@ -3,6 +3,7 @@ package com.orpatservice.app.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import com.orpatservice.app.R
 import com.orpatservice.app.utils.Constants
@@ -31,16 +32,18 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        if(v.id == R.id.btn_continue_mobile) {
-            val mobileNumber = edt_mobile.text ?: ""
-            if(mobileNumber.length < 10) {
-                Alerter.create(this)
-                    .setText(getString(R.string.warning_mobile_number))
-                    .setBackgroundColorRes(R.color.orange)
-                    .setDuration(1000)
-                    .show()
-            } else {
-                signUp()
+        when (v.id) {
+            R.id.btn_continue_mobile -> {
+                val mobileNumber = edt_mobile.text ?: ""
+                if (mobileNumber.length < 10) {
+                    Alerter.create(this)
+                        .setText(getString(R.string.warning_mobile_number))
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
+                } else {
+                    signUp()
+                }
             }
         }
     }
@@ -49,5 +52,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val intent = Intent(this, OTPVerificationActivity::class.java)
         intent.putExtra(Constants.MOBILE_NUMBER, edt_mobile.text.toString())
         startActivity(intent)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -13,6 +13,7 @@ import com.orpatservice.app.R
 import com.orpatservice.app.utils.Constants
 import kotlinx.android.synthetic.main.activity_otpverification.*
 import android.os.CountDownTimer
+import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import com.tapadoo.alerter.Alerter
 
@@ -48,6 +49,16 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         createOTPUI()
         getIntentData()
         resendOTPTimer()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun getIntentData() {
@@ -88,7 +99,10 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     }
 
     private fun setMobileNumber(mobileNumber: String) {
-        val customMessage = tv_subheading.text.toString() + " " + mobileNumber.substring(0,1) + "XXXX X"+ mobileNumber.substring(6, 10)
+        val customMessage = tv_subheading.text.toString() + " " + mobileNumber.substring(
+            0,
+            1
+        ) + "XXXX X" + mobileNumber.substring(6, 10)
         tv_subheading.text = customMessage
     }
 
@@ -96,29 +110,37 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     private fun resendOTPTimer() {
         object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                tv_resend_otp_timer.text =String.format("%02d:%02d", 0, millisUntilFinished / 1000)
+                tv_resend_otp_timer.text = String.format("%02d:%02d", 0, millisUntilFinished / 1000)
             }
 
             override fun onFinish() {
                 tv_resend_otp_timer.text = getString(R.string.resend_otp)
-                tv_resend_otp_timer.setTextColor(ContextCompat.getColor(this@OTPVerificationActivity, R.color.orange))
+                tv_resend_otp_timer.setTextColor(
+                    ContextCompat.getColor(
+                        this@OTPVerificationActivity,
+                        R.color.orange
+                    )
+                )
                 tv_resend_otp_timer.setOnClickListener(this@OTPVerificationActivity)
             }
         }.start()
     }
 
     override fun onClick(v: View) {
-        if (v.id == R.id.btn_continue_otp) {
-            verifyOTP()
-        } else if (v.id == R.id.tv_resend_otp_timer) {
-            requestOTP()
+        when (v.id) {
+            R.id.btn_continue_otp -> {
+                verifyOTP()
+            }
+            R.id.tv_resend_otp_timer -> {
+                requestOTP()
+            }
         }
     }
 
     private fun verifyOTP() {
         (0 until editTextArray.size)
             .forEach { i ->
-                if(editTextArray[i].text.isEmpty()) {
+                if (editTextArray[i].text.isEmpty()) {
                     Alerter.create(this)
                         .setText(getString(R.string.warning_enter_OTP))
                         .setBackgroundColorRes(R.color.orange)
@@ -131,7 +153,12 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
 
     private fun requestOTP() {
         resendOTPTimer()
-        tv_resend_otp_timer.setTextColor(ContextCompat.getColor(this@OTPVerificationActivity, R.color.brown))
+        tv_resend_otp_timer.setTextColor(
+            ContextCompat.getColor(
+                this@OTPVerificationActivity,
+                R.color.brown
+            )
+        )
 
         Alerter.create(this)
             .setTitle(getString(R.string.otp_resend))
