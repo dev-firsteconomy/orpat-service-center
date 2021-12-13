@@ -2,6 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <runningDeviceTargetsSelectedWithDialog>
+    <runningDeviceTargetSelectedWithDropDown>
       <Target>
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
@@ -32,5 +33,11 @@
         </deviceKey>
       </Target>
     </targetsSelectedWithDialog>
+            <value value="C:\Users\Esoft\.android\avd\Pixel_2_API_311.avd" />
+          </Key>
+        </deviceKey>
+      </Target>
+    </runningDeviceTargetSelectedWithDropDown>
+    <timeTargetWasSelectedWithDropDown value="2021-12-13T10:04:24.408198800Z" />
   </component>
 </project>
