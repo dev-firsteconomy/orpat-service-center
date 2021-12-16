@@ -5,6 +5,10 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface ApiEndPoint {
+
     @GET("technicians")
     fun getTechnicianAPI(): Call<TechnicianResponse>
+
+    @GET("/technicians/create")
+    fun hitAPIAddTechnician(): Call<TechnicianResponse>
 }

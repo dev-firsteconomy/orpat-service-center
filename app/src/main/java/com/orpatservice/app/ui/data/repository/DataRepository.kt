@@ -52,4 +52,37 @@ class DataRepository {
         return mutableTestData
 
     }
+
+    fun hitAPIAddTechnician(): LiveData<Resource<TechnicianResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<TechnicianResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+
+        ApiClient.getAuthApi().hitAPIAddTechnician()
+            .enqueue(object : Callback<TechnicianResponse> {
+
+                override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<TechnicianResponse>,
+                    response: Response<TechnicianResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+
+    }
 }

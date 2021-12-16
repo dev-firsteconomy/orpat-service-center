@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@id/btn_continue_mobile"
+        app:layout_constraintBottom_toTopOf="@id/btn_submit_mobile"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -183,7 +183,7 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_continue_mobile"
+        android:id="@+id/btn_submit_mobile"
         style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
