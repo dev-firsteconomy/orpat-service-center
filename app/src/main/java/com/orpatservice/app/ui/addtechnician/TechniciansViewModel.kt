@@ -6,7 +6,7 @@ import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.orpatservice.app.ui.data.repository.DataRepository
 
-class AddTechniciansViewModel : ViewModel() {
+class TechniciansViewModel : ViewModel() {
 
     fun loadTechnician(): LiveData<Resource<TechnicianResponse>> {
         return DataRepository.instance.loadTechnician()

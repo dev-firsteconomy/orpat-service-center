@@ -9,6 +9,7 @@ import android.os.Looper
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.orpatservice.app.R
+import com.orpatservice.app.ui.dashboard.DashboardActivity
 import com.orpatservice.app.ui.login.SelectUserActivity
 
 class SplashActivity : AppCompatActivity() {

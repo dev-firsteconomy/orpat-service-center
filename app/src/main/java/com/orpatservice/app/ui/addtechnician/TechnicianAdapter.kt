@@ -1,6 +1,5 @@
 package com.orpatservice.app.ui.addtechnician
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -17,8 +16,6 @@ class TechnicianAdapter(private val techList: ArrayList<TechnicianData>) : Recyc
             R.layout.item_technician, parent, false
 
         )
-        /*val binding: ItemTechnicianBinding =
-            ItemTechnicianBinding.inflate(LayoutInflater.from(parent.context))*/
 
         return TechnicianViewHolder(binding)
     }
@@ -38,7 +35,6 @@ class TechnicianAdapter(private val techList: ArrayList<TechnicianData>) : Recyc
     inner class TechnicianViewHolder(private val binding: ItemTechnicianBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(technicianData: TechnicianData) {
-            Log.d("technicianName",""+technicianData.name)
             binding.tvTechName.text = technicianData.name
             binding.tvLocation.text = technicianData.email
             if (technicianData.status==1){

@@ -1,28 +1,38 @@
 package com.orpatservice.app.ui.addtechnician
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.orpatservice.app.databinding.ActivityAddTechniciansBinding
+import com.orpatservice.app.databinding.ActivityTechniciansBinding
 import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.TechnicianData
 
-class AddTechniciansActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAddTechniciansBinding
-    private lateinit var viewModel : AddTechniciansViewModel
+class TechniciansActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityTechniciansBinding
+    private lateinit var viewModel : TechniciansViewModel
 
     private val techList: ArrayList<TechnicianData> = ArrayList()
     private var technicianAdapter = TechnicianAdapter(techList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddTechniciansBinding.inflate(layoutInflater)
-
+        binding = ActivityTechniciansBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[AddTechniciansViewModel::class.java]
+        setSupportActionBar(binding.toolbar)
+
+        supportActionBar?.apply {
+            title = "Technician"
+            // show back button on toolbar
+            // on back button press, it will navigate to parent activity
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
+
+        viewModel = ViewModelProvider(this)[TechniciansViewModel::class.java]
 
         binding.rvTechList.apply {
             adapter = technicianAdapter
@@ -57,6 +67,16 @@ class AddTechniciansActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

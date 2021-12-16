@@ -49,7 +49,7 @@
                     app:layout_constraintEnd_toStartOf="@id/iv_logout"
                     app:layout_constraintStart_toEndOf="@id/tv_title"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/search" />
+                    app:srcCompat="@drawable/ic_search" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_logout"
@@ -60,7 +60,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/iv_search"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/logout" />
+                    app:srcCompat="@drawable/ic_logout" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
 

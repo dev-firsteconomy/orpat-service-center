@@ -74,6 +74,16 @@
         <item name="android:textColor">@color/brown</item>
     </style>
 
+    <style name="Theme.OrpatServiceCenter.EditText">
+        <item name="android:textSize">@dimen/edit_text_size</item>
+        <item name="hintTextColor">@color/brown</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/bg_edit_text_border</item>
+    </style>
+
     <style name="Theme.OrpatServiceCenter.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.OrpatServiceCenter.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

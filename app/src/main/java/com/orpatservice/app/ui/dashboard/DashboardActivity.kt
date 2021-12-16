@@ -6,16 +6,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.AppBarConfiguration
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
-import com.orpatservice.app.ui.addtechnician.AddTechniciansActivity
-
-
+import com.orpatservice.app.ui.addtechnician.TechniciansActivity
 
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,15 +19,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
 
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //setContentView(R.layout.activity_dashboard)
 
         setSupportActionBar(binding.toolbar)
-
-        /*val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-        val navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)*/
 
         binding.includedContent.mcvRequest.setOnClickListener(this)
         binding.includedContent.mcvAddTechnician.setOnClickListener(this)
@@ -43,13 +32,12 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        //val navController = findNavController()
         when (view?.id) {
             R.id.mcv_request -> {
 
             }
             R.id.mcv_add_technician -> {
-                //startActivity(Intent(this,AddTechniciansActivity::class.java))
+                startActivity(Intent(this, TechniciansActivity::class.java))
             }
             R.id.mcv_history -> {
 
@@ -79,10 +67,4 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         super.onPrepareOptionsMenu(menu)
         return true
     }
-
-    /*override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }*/
 }
