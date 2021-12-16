@@ -1,16 +1,18 @@
 package com.orpatservice.app.ui.addtechnician
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityTechniciansBinding
 import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.TechnicianData
 
-class TechniciansActivity : AppCompatActivity() {
+class TechniciansActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityTechniciansBinding
     private lateinit var viewModel : TechniciansViewModel
 
@@ -21,6 +23,8 @@ class TechniciansActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTechniciansBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.fabAddTechnician.setOnClickListener(this)
 
         setSupportActionBar(binding.toolbar)
 
@@ -77,6 +81,15 @@ class TechniciansActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.fab_add_technician -> {
+                startActivity(Intent(this, AddTechnicianActivity::class.java))
+
+            }
+        }
     }
 
 }

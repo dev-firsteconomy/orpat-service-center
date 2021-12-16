@@ -14,7 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrpatServiceCenter"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".ui.addtechnician.AddTechnicianActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.addtechnician.TechniciansActivity"
             android:exported="false"
