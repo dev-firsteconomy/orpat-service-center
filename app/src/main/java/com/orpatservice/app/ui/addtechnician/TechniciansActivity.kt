@@ -70,12 +70,12 @@ class TechniciansActivity : AppCompatActivity() {
                     binding.cpiLoading.visibility = View.GONE
                     val data = it?.data
 
-                    data.let {
-                        if (it?.success == true) {
+                    data?.let {
+                        if (it.success) {
                             techList.addAll(it.data.data)
                             technicianAdapter.notifyDataSetChanged()
                         }
-                    }.run {
+                    }?: run {
                         Alerter.create(this@TechniciansActivity)
                             .setTitle("")
                             .setText(it.data?.message.toString())
