@@ -9,12 +9,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityTechniciansBinding
+import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.TechnicianData
+import com.orpatservice.app.ui.data.model.TechnicianResponse
+import com.tapadoo.alerter.Alerter
 
 class TechniciansActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityTechniciansBinding
-    private lateinit var viewModel : TechniciansViewModel
+    private lateinit var viewModel: TechniciansViewModel
 
     private val techList: ArrayList<TechnicianData> = ArrayList()
     private var technicianAdapter = TechnicianAdapter(techList)
@@ -46,31 +49,46 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun setObserver(){
-        viewModel.loadTechnician().observe(this, Observer { resource ->
-            when (resource?.status) {
+    private fun setObserver() {
+        viewModel.loadTechnician().observe(this, loadTechnician())
+    }
+
+    private fun loadTechnician(): Observer<Resource<TechnicianResponse>> {
+        return Observer { it ->
+            when (it?.status) {
                 Status.LOADING -> {
-                   binding.cpiLoading.visibility = View.VISIBLE
+                    binding.cpiLoading.visibility = View.VISIBLE
 
                 }
                 Status.ERROR -> {
                     binding.cpiLoading.visibility = View.GONE
+                    Alerter.create(this@TechniciansActivity)
+                        .setTitle("")
+                        .setText(""+it.error?.message.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
                 }
                 else -> {
                     binding.cpiLoading.visibility = View.GONE
-                    val data = resource?.data
+                    val data = it?.data
 
                     data.let {
-                        if (it?.success == true){
+                        if (it?.success == true) {
                             techList.addAll(it.data.data)
                             technicianAdapter.notifyDataSetChanged()
                         }
                     }.run {
-
+                        Alerter.create(this@TechniciansActivity)
+                            .setTitle("")
+                            .setText(it.data?.message.toString())
+                            .setBackgroundColorRes(R.color.orange)
+                            .setDuration(1000)
+                            .show()
                     }
                 }
             }
-        })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
