@@ -5,20 +5,30 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
+import com.orpatservice.app.databinding.ActivityLoginBinding
+import com.orpatservice.app.ui.data.Resource
+import com.orpatservice.app.ui.data.Status
+import com.orpatservice.app.ui.data.model.TechnicianResponse
+import com.orpatservice.app.ui.data.model.otp.OTPSendResponse
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
-import kotlinx.android.synthetic.main.activity_login.*
 
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
+    private lateinit var binding : ActivityLoginBinding
+    private lateinit var viewModel : UserLoginViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // set toolbar as support action bar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         supportActionBar?.apply {
             title = ""
@@ -28,13 +38,46 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             setDisplayShowHomeEnabled(true)
         }
 
-        btn_continue_mobile.setOnClickListener(this)
+        //Listeners
+        binding.btnContinueMobile.setOnClickListener(this)
+
+        viewModel = ViewModelProvider(this)[UserLoginViewModel::class.java]
+
+        setObserver()
+    }
+
+    private fun setObserver() {
+        viewModel.getOTP().observe(this, this::onLogin)
+    }
+
+    private fun onLogin(resources: Resource<OTPSendResponse>) {
+        when (resources.status) {
+                Status.LOADING -> {
+                    binding.cpiLoading.visibility = View.VISIBLE
+                }
+                Status.ERROR -> {
+                    binding.cpiLoading.visibility = View.GONE
+                }
+                else -> {
+                    binding.cpiLoading.visibility = View.GONE
+
+                    val data = resources.data
+
+                    data.let {
+                        if(it?.success == true){
+                            val intent = Intent(this, OTPVerificationActivity::class.java)
+                            intent.putExtra(Constants.MOBILE_NUMBER, binding.edtMobile.text.toString())
+                            startActivity(intent)
+                        }
+                    }.run {  }
+                }
+            }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_continue_mobile -> {
-                val mobileNumber = edt_mobile.text ?: ""
+                val mobileNumber = binding.edtMobile.text ?: ""
                 if (mobileNumber.length < 10) {
                     Alerter.create(this)
                         .setText(getString(R.string.warning_mobile_number))
@@ -49,9 +92,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun signUp() {
-        val intent = Intent(this, OTPVerificationActivity::class.java)
-        intent.putExtra(Constants.MOBILE_NUMBER, edt_mobile.text.toString())
-        startActivity(intent)
+        //hit get otp api
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

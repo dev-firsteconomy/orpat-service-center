@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.model.TechnicianResponse
+import com.orpatservice.app.ui.data.model.otp.OTPSendResponse
 import com.orpatservice.app.ui.data.remote.ApiClient
 import com.orpatservice.app.ui.data.remote.ErrorUtils
 import retrofit2.Call
@@ -51,5 +52,39 @@ class DataRepository {
             })
         return mutableTestData
 
+    }
+
+    //To get OTP on user register mobile number
+    fun getOTP(mobileNumber: String): LiveData<Resource<OTPSendResponse>> {
+        val mutableOTPData = MutableLiveData<Resource<OTPSendResponse>>()
+
+        mutableOTPData.value = (Resource.loading(null))
+
+        ApiClient.getAuthApi().getOtpAPI(mobileNumber)
+            .enqueue(object : Callback<OTPSendResponse>{
+                override fun onResponse(
+                    call: Call<OTPSendResponse>,
+                    response: Response<OTPSendResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableOTPData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableOTPData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+
+                override fun onFailure(call: Call<OTPSendResponse>, t: Throwable) {
+                    mutableOTPData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+            })
+
+        return mutableOTPData
     }
 }
