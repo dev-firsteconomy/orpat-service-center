@@ -87,10 +87,10 @@
 
         <TextView
             android:id="@+id/tv_resend_otp_timer"
-            style="@style/Theme.OrpatServiceCenter.MediumText"
+            style="@style/Theme.OrpatServiceCenter.MediumText.ResenOTP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toTopOf="@id/cl_otp_layout"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
@@ -113,7 +113,7 @@
             android:id="@+id/cl_otp_layout"
             android:layout_width="0dp"
             android:layout_height="66dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintBottom_toTopOf="@+id/btn_continue_otp"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
