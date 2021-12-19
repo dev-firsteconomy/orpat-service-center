@@ -14,8 +14,12 @@ import com.orpatservice.app.utils.Constants
 import android.os.CountDownTimer
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.databinding.ActivityOtpverificationBinding
 import com.orpatservice.app.ui.dashboard.DashboardActivity
+import com.orpatservice.app.ui.data.Resource
+import com.orpatservice.app.ui.data.Status
+import com.orpatservice.app.ui.data.model.otp.OTPSendResponse
 import com.tapadoo.alerter.Alerter
 
 
@@ -23,13 +27,14 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
 
     private val editTextArray: ArrayList<EditText> = ArrayList(NUM_OF_DIGITS)
     private var numTemp = ""
-    var index = 0
+    private var mobileNumber = ""
 
     companion object {
         const val NUM_OF_DIGITS = 4
     }
 
     lateinit var binding : ActivityOtpverificationBinding
+    private lateinit var viewModel : UserLoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,12 +52,62 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
             setDisplayShowHomeEnabled(true)
         }
 
+        viewModel = ViewModelProvider(this)[UserLoginViewModel::class.java]
         binding.btnContinueOtp.setOnClickListener(this)
 
         // OTP UI logic
+        setObserver()
         createOTPUI()
         getIntentData()
         resendOTPTimer()
+    }
+
+    private fun setObserver() {
+        viewModel.OTPData.observe(this, this::onLogin)
+    }
+
+    private fun onLogin(resources: Resource<OTPSendResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                binding.cpiLoadingResend.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                binding.cpiLoadingResend.visibility = View.GONE
+
+                Alerter.create(this)
+                    .setText(resources.error.toString())
+                    .setBackgroundColorRes(R.color.orange)
+                    .setDuration(1000)
+                    .show()
+            }
+            else -> {
+                binding.cpiLoadingResend.visibility = View.GONE
+
+                val data = resources.data
+
+                data.let {
+                    if(it?.success == true){
+
+                        //Once opt resend to user, it will take 30 sec to enable resend OTP button
+                        resendOTPTimer()
+
+                        binding.tvResendOtpTimer.setTextColor(
+                            ContextCompat.getColor(
+                                this@OTPVerificationActivity,
+                                R.color.brown
+                            )
+                        )
+
+                        Alerter.create(this)
+                            .setTitle(getString(R.string.otp_resend))
+                            .setText(it.message)
+                            .setBackgroundColorRes(R.color.orange)
+                            .setDuration(2000)
+                            .show()
+                    }
+                }.run {  }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -67,10 +122,8 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
 
     private fun getIntentData() {
         val intent: Intent = intent
-        val mobileNumber = intent.getStringExtra(Constants.MOBILE_NUMBER)
-        if (mobileNumber != null) {
-            setMobileNumber(mobileNumber)
-        }
+        mobileNumber = intent.getStringExtra(Constants.MOBILE_NUMBER).toString()
+        setMobileNumber(mobileNumber)
     }
 
     private fun createOTPUI() {
@@ -112,6 +165,9 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
 
     //resend OTP timer
     private fun resendOTPTimer() {
+        //When timer is running then maje sure click listener is disable
+        binding.tvResendOtpTimer.setOnClickListener(null)
+
         object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 binding.tvResendOtpTimer.text = String.format("%02d:%02d", 0, millisUntilFinished / 1000)
@@ -133,7 +189,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_continue_otp -> {
-                verifyOTP()
+                validateOTP()
             }
             R.id.tv_resend_otp_timer -> {
                 requestOTP()
@@ -141,7 +197,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         }
     }
 
-    private fun verifyOTP() {
+    private fun validateOTP() {
         (0 until editTextArray.size)
             .forEach { i ->
                 if (editTextArray[i].text.isEmpty()) {
@@ -153,31 +209,30 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                     return
                 }
             }
+
+
         //todo: need to check Verify Button logic
-        dashboardLanding()
+        //dashboardLanding()
     }
 
+    //After successful login user get land on dashboard activity
     private fun dashboardLanding() {
         val intent = Intent(this, DashboardActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
 
-    private fun requestOTP() {
-        resendOTPTimer()
-        binding.tvResendOtpTimer.setTextColor(
-            ContextCompat.getColor(
-                this@OTPVerificationActivity,
-                R.color.brown
-            )
-        )
 
-        Alerter.create(this)
-            .setTitle(getString(R.string.otp_resend))
-            .setText(getString(R.string.message_resend_otp))
-            .setBackgroundColorRes(R.color.orange)
-            .setDuration(2000)
-            .show()
+    //API to get OTP
+    private fun signUp() {
+        viewModel.hitOTPApi(mobileNumber)
+    }
+
+    private fun requestOTP() {
+        binding.cpiLoadingResend.visibility = View.VISIBLE
+        binding.tvResendOtpTimer.text = ""
+
+        signUp()
     }
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {

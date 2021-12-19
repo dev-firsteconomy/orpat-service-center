@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivitySelectUserBinding
+import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
 class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
@@ -42,9 +43,9 @@ class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun selectUser() {
         if (binding.rbAdmin.isChecked) {
-            goToLogin("ADMIN")
+            goToLogin(Constants.ADMIN)
         } else if (binding.rbTechnician.isChecked) {
-            goToLogin("TECHNICIAN")
+            goToLogin(Constants.TECHNICIAN)
         } else {
             Alerter.create(this)
                 .setTitle("")
@@ -57,6 +58,7 @@ class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun goToLogin(userType: String) {
         val intent = Intent(this, LoginActivity::class.java)
+        intent.putExtra(Constants.MOBILE_NUMBER, userType)
         startActivity(intent)
     }
 

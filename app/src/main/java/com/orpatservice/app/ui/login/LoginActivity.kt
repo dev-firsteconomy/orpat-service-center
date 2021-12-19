@@ -38,10 +38,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             setDisplayShowHomeEnabled(true)
         }
 
+        viewModel = ViewModelProvider(this)[UserLoginViewModel::class.java]
         //Listeners
         binding.btnContinueMobile.setOnClickListener(this)
-
-        viewModel = ViewModelProvider(this)[UserLoginViewModel::class.java]
 
         setObserver()
     }
@@ -57,6 +56,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 Status.ERROR -> {
                     binding.cpiLoading.visibility = View.GONE
+                    binding.btnContinueMobile.visibility = View.GONE
+
+                    Alerter.create(this)
+                        .setText(resources.error.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
                 }
                 else -> {
                     binding.cpiLoading.visibility = View.GONE
@@ -67,11 +73,23 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         if(it?.success == true){
                             val intent = Intent(this, OTPVerificationActivity::class.java)
                             intent.putExtra(Constants.MOBILE_NUMBER, binding.edtMobile.text.toString())
+
+                            //getting user type from select user activity
+                            val intentSlectUser: Intent = intent
+                            val userType = intentSlectUser.getStringExtra(Constants.USER_TYPE)
+
+                            intent.putExtra(Constants.USER_TYPE, userType)
                             startActivity(intent)
                         }
                     }.run {  }
                 }
             }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //After getting user to next screen send OTP button should be visible
+        binding.btnContinueMobile.visibility = View.VISIBLE
     }
 
     override fun onClick(v: View) {
@@ -92,6 +110,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun signUp() {
+        binding.btnContinueMobile.visibility = View.GONE
+        binding.cpiLoading.visibility = View.VISIBLE
         val mobileNumber = binding.edtMobile.text.toString()
         viewModel.hitOTPApi(mobileNumber)
     }

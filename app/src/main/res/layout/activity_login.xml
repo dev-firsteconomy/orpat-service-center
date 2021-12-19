@@ -120,11 +120,12 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/cpi_loading"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="@dimen/fab_margin"
+        android:layout_height="@dimen/fab_margin"
         android:indeterminate="true"
         app:indicatorColor="@color/brown"
         app:trackThickness="4dp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
