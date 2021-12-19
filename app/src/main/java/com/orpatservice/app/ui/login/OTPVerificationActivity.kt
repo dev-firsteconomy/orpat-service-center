@@ -236,8 +236,6 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     }
 
     private fun validateOTP() {
-        binding.btnContinueOtp.visibility = View.INVISIBLE
-        binding.cpiLoading.visibility = View.VISIBLE
 
         (0 until editTextArray.size)
             .forEach { i ->
@@ -365,7 +363,9 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     private fun verifyOTPCode(verificationCode: String) {
         if (verificationCode.isNotEmpty()) {
             enableCodeEditTexts(false)
-            //Your code
+            //API trigger
+            binding.btnContinueOtp.visibility = View.INVISIBLE
+            binding.cpiLoading.visibility = View.VISIBLE
             viewModel.hitVerifyOTPLoginApi(mobileNumber, verificationCode)
         }
     }
