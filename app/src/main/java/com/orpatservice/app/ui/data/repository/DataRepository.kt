@@ -55,36 +55,7 @@ class DataRepository {
     }
 
     //To get OTP on user register mobile number
-    fun getOTP(mobileNumber: String): LiveData<Resource<OTPSendResponse>> {
-        val mutableOTPData = MutableLiveData<Resource<OTPSendResponse>>()
-
-        mutableOTPData.value = (Resource.loading(null))
-
-        ApiClient.getAuthApi().getOtpAPI(mobileNumber)
-            .enqueue(object : Callback<OTPSendResponse>{
-                override fun onResponse(
-                    call: Call<OTPSendResponse>,
-                    response: Response<OTPSendResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        mutableOTPData.value = response.body()?.let { Resource.success(it) }
-                    } else {
-                        mutableOTPData.value =
-                            Resource.error(
-                                ErrorUtils.getError(
-                                    response.errorBody(),
-                                    response.code()
-                                )
-                            )
-                    }
-                }
-
-                override fun onFailure(call: Call<OTPSendResponse>, t: Throwable) {
-                    mutableOTPData.value = Resource.error(ErrorUtils.getError(t))
-                }
-
-            })
-
-        return mutableOTPData
+    fun hitOTPApi(mobileNumber: String): Call<OTPSendResponse> {
+        return ApiClient.getAuthApi().getOtpAPI(mobileNumber)
     }
 }

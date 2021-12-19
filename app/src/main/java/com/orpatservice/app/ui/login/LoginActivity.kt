@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setObserver() {
-        viewModel.getOTP().observe(this, this::onLogin)
+        viewModel.OTPData.observe(this, this::onLogin)
     }
 
     private fun onLogin(resources: Resource<OTPSendResponse>) {
@@ -92,7 +92,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun signUp() {
-        //hit get otp api
+        val mobileNumber = binding.edtMobile.text.toString()
+        viewModel.hitOTPApi(mobileNumber)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
