@@ -67,6 +67,10 @@
         <item name="android:textColor">@color/brown</item>
     </style>
 
+    <style name="Theme.OrpatServiceCenter.MediumText.toolbarTittle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Theme.OrpatServiceCenter.RegularText">
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:letterSpacing">0</item>

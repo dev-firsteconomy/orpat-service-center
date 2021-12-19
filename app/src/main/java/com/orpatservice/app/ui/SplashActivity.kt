@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
         // we used the postDelayed(Runnable, time) method
         // to send a message with a delayed time.
         Handler(Looper.getMainLooper()).postDelayed({
-            if (SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.TOKEN).isNullOrEmpty()) {
+            if (SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN).isNullOrEmpty()) {
                 val intent = Intent(this, SelectUserActivity::class.java)
                 startActivity(intent)
             } else {

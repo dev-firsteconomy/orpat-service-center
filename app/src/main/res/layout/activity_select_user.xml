@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_constraintVertical_chainStyle="packed"
     tools:context=".ui.login.SelectUserActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:translationZ="0dp"
-        app:elevation="0dp">
+        android:background="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/Theme.OrpatServiceCenter.MediumText.toolbarTittle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:minHeight="?attr/actionBarSize">
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                style="@style/Theme.OrpatServiceCenter.MediumText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/step_1"
-                android:textColor="@color/brown" />
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_gravity="center"
+            android:text="@string/step_1"
+            android:textColor="@color/brown" />
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_vertical_start"
@@ -72,18 +69,20 @@
             android:text="@string/are_you_admin_or_technician"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/rg_user_type"/>
 
         <RadioGroup
             android:id="@+id/rg_user_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="32dp"
             android:orientation="horizontal"
             android:weightSum="1"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
-            app:layout_constraintTop_toBottomOf="@id/tv_heading">
+            app:layout_constraintTop_toBottomOf="@id/tv_heading"
+            app:layout_constraintBottom_toTopOf="@id/btn_continue_user">
 
             <RadioButton
                 android:id="@+id/rb_admin"
@@ -94,10 +93,11 @@
                 android:layout_weight=".5"
                 android:drawableTop="@drawable/ic_admin"
                 android:elevation="2dp"
-                android:paddingStart="24dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="24dp"
-                android:paddingBottom="4dp"
+                android:paddingStart="20dp"
+                android:drawablePadding="12dp"
+                android:paddingTop="32dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="24dp"
                 android:text="@string/admin"
                 android:translationZ="2dp" />
 
@@ -110,10 +110,11 @@
                 android:layout_weight=".5"
                 android:drawableTop="@drawable/ic_technician"
                 android:elevation="2dp"
-                android:paddingStart="24dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="24dp"
-                android:paddingBottom="4dp"
+                android:paddingStart="20dp"
+                android:drawablePadding="12dp"
+                android:paddingTop="32dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="24dp"
                 android:text="@string/technician"
                 android:translationZ="2dp" />
         </RadioGroup>
@@ -123,7 +124,7 @@
             style="@style/Theme.OrpatServiceCenter.Buttons"
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="8dp"
             android:drawableEnd="@drawable/ic_draw_arrow_right"
             android:paddingStart="40dp"
@@ -132,7 +133,7 @@
             android:translationZ="4dp"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
-            app:layout_constraintTop_toBottomOf="@id/rg_user_type" />
-
+            app:layout_constraintTop_toBottomOf="@id/rg_user_type"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
