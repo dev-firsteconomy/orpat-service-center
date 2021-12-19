@@ -6,17 +6,20 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import com.orpatservice.app.R
+import com.orpatservice.app.databinding.ActivitySelectUserBinding
 import com.tapadoo.alerter.Alerter
-import kotlinx.android.synthetic.main.activity_select_user.*
 
 class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
 
+    private lateinit var binding : ActivitySelectUserBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_user)
+        binding = ActivitySelectUserBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // set toolbar as support action bar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         supportActionBar?.apply {
             title = ""
@@ -26,7 +29,7 @@ class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
             setDisplayShowHomeEnabled(true)
         }
 
-        btn_continue_user.setOnClickListener(this)
+        binding.btnContinueUser.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -38,9 +41,9 @@ class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun selectUser() {
-        if (rb_admin.isChecked) {
+        if (binding.rbAdmin.isChecked) {
             goToLogin("ADMIN")
-        } else if (rb_technician.isChecked) {
+        } else if (binding.rbTechnician.isChecked) {
             goToLogin("TECHNICIAN")
         } else {
             Alerter.create(this)

@@ -11,15 +11,12 @@ import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.orpatservice.app.R
 import com.orpatservice.app.utils.Constants
-import kotlinx.android.synthetic.main.activity_otpverification.*
 import android.os.CountDownTimer
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
+import com.orpatservice.app.databinding.ActivityOtpverificationBinding
 import com.orpatservice.app.ui.dashboard.DashboardActivity
 import com.tapadoo.alerter.Alerter
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_otpverification.toolbar
-import kotlinx.android.synthetic.main.activity_otpverification.tv_subheading
 
 
 class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickListener {
@@ -32,12 +29,15 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         const val NUM_OF_DIGITS = 4
     }
 
+    lateinit var binding : ActivityOtpverificationBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_otpverification)
+        binding = ActivityOtpverificationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // set toolbar as support action bar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         supportActionBar?.apply {
             title = ""
@@ -47,7 +47,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
             setDisplayShowHomeEnabled(true)
         }
 
-        btn_continue_otp.setOnClickListener(this)
+        binding.btnContinueOtp.setOnClickListener(this)
 
         // OTP UI logic
         createOTPUI()
@@ -75,7 +75,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
 
     private fun createOTPUI() {
         //create array
-        val layout: ConstraintLayout = cl_otp_layout
+        val layout: ConstraintLayout = binding.clOtpLayout
         for (index in 0 until (layout.childCount)) {
             val view: View = layout.getChildAt(index)
             if (view is EditText) {
@@ -103,29 +103,29 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     }
 
     private fun setMobileNumber(mobileNumber: String) {
-        val customMessage = tv_subheading.text.toString() + " " + mobileNumber.substring(
+        val customMessage = binding.tvSubheading.text.toString() + " " + mobileNumber.substring(
             0,
             1
         ) + "XXXX X" + mobileNumber.substring(6, 10)
-        tv_subheading.text = customMessage
+        binding.tvSubheading.text = customMessage
     }
 
     //resend OTP timer
     private fun resendOTPTimer() {
         object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                tv_resend_otp_timer.text = String.format("%02d:%02d", 0, millisUntilFinished / 1000)
+                binding.tvResendOtpTimer.text = String.format("%02d:%02d", 0, millisUntilFinished / 1000)
             }
 
             override fun onFinish() {
-                tv_resend_otp_timer.text = getString(R.string.resend_otp)
-                tv_resend_otp_timer.setTextColor(
+                binding.tvResendOtpTimer.text = getString(R.string.resend_otp)
+                binding.tvResendOtpTimer.setTextColor(
                     ContextCompat.getColor(
                         this@OTPVerificationActivity,
                         R.color.orange
                     )
                 )
-                tv_resend_otp_timer.setOnClickListener(this@OTPVerificationActivity)
+                binding.tvResendOtpTimer.setOnClickListener(this@OTPVerificationActivity)
             }
         }.start()
     }
@@ -165,7 +165,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
 
     private fun requestOTP() {
         resendOTPTimer()
-        tv_resend_otp_timer.setTextColor(
+        binding.tvResendOtpTimer.setTextColor(
             ContextCompat.getColor(
                 this@OTPVerificationActivity,
                 R.color.brown
