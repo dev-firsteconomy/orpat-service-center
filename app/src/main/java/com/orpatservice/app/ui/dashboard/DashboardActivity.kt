@@ -11,9 +11,6 @@ import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
 import com.orpatservice.app.ui.addtechnician.AddTechniciansActivity
 
-
-
-
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityDashboardBinding
@@ -39,6 +36,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         binding.includedContent.mcvProfile.setOnClickListener(this)
         binding.includedContent.mcvPayment.setOnClickListener(this)
         binding.includedContent.mcvMore.setOnClickListener(this)
+
+
+        //todo: Token data testing remove once task is done
+    // Toast.makeText(this, SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN).toString(), Toast.LENGTH_LONG).show()
 
     }
 

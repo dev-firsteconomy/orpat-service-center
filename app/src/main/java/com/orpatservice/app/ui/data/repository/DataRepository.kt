@@ -2,10 +2,10 @@ package com.orpatservice.app.ui.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.JsonObject
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.model.TechnicianResponse
-import com.orpatservice.app.ui.data.model.otp.OTPSendResponse
+import com.orpatservice.app.ui.data.model.login.LoginResponse
+import com.orpatservice.app.ui.data.model.login.OTPSendResponse
 import com.orpatservice.app.ui.data.remote.ApiClient
 import com.orpatservice.app.ui.data.remote.ErrorUtils
 import retrofit2.Call
@@ -57,5 +57,10 @@ class DataRepository {
     //To get OTP on user register mobile number
     fun hitOTPApi(mobileNumber: String): Call<OTPSendResponse> {
         return ApiClient.getAuthApi().getOtpAPI(mobileNumber)
+    }
+
+    //To verify OTP and login
+    fun hitVerifyOTPLoginApi(mobileNumber: String, otp: String): Call<LoginResponse> {
+        return ApiClient.getAuthApi().verifyOTPandLoginAPI(mobileNumber, otp)
     }
 }

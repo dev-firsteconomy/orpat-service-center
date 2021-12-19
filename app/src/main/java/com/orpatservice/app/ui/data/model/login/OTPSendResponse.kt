@@ -1,6 +1,4 @@
-package com.orpatservice.app.ui.data.model.otp
-
-import com.orpatservice.app.ui.data.model.TechnicianBaseData
+package com.orpatservice.app.ui.data.model.login
 
 /**
  * Created by Ajay Yadav on 15/12/21.

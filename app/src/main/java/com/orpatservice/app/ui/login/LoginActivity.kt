@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityLoginBinding
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
-import com.orpatservice.app.ui.data.model.TechnicianResponse
-import com.orpatservice.app.ui.data.model.otp.OTPSendResponse
+import com.orpatservice.app.ui.data.model.login.OTPSendResponse
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
@@ -46,10 +44,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setObserver() {
-        viewModel.OTPData.observe(this, this::onLogin)
+        viewModel.OTPData.observe(this, this::onGetOTP)
     }
 
-    private fun onLogin(resources: Resource<OTPSendResponse>) {
+    private fun onGetOTP(resources: Resource<OTPSendResponse>) {
         when (resources.status) {
                 Status.LOADING -> {
                     binding.cpiLoading.visibility = View.VISIBLE

@@ -15,11 +15,14 @@ import android.os.CountDownTimer
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import com.orpatservice.app.databinding.ActivityOtpverificationBinding
 import com.orpatservice.app.ui.dashboard.DashboardActivity
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
-import com.orpatservice.app.ui.data.model.otp.OTPSendResponse
+import com.orpatservice.app.ui.data.model.login.LoginResponse
+import com.orpatservice.app.ui.data.model.login.OTPSendResponse
+import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.tapadoo.alerter.Alerter
 
 
@@ -63,10 +66,14 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     }
 
     private fun setObserver() {
-        viewModel.OTPData.observe(this, this::onLogin)
+        viewModel.OTPData.observe(this, this::onGetOTP)
+        viewModel.loginData.observe(this, this::onLogin)
     }
 
-    private fun onLogin(resources: Resource<OTPSendResponse>) {
+    /**
+     * OTP response handling
+     */
+    private fun onGetOTP(resources: Resource<OTPSendResponse>) {
         when (resources.status) {
             Status.LOADING -> {
                 binding.cpiLoadingResend.visibility = View.VISIBLE
@@ -88,9 +95,10 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                 data.let {
                     if(it?.success == true){
 
+                        //When timer is running then make sure click listener is disable
+                        binding.tvResendOtpTimer.setOnClickListener(null)
                         //Once opt resend to user, it will take 30 sec to enable resend OTP button
                         resendOTPTimer()
-
                         binding.tvResendOtpTimer.setTextColor(
                             ContextCompat.getColor(
                                 this@OTPVerificationActivity,
@@ -104,6 +112,37 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                             .setBackgroundColorRes(R.color.orange)
                             .setDuration(2000)
                             .show()
+                    }
+                }.run {  }
+            }
+        }
+    }
+
+    //Login response handling
+    private fun onLogin(resources: Resource<LoginResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                binding.cpiLoading.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                binding.btnContinueOtp.visibility = View.GONE
+                binding.cpiLoading.visibility = View.GONE
+                enableCodeEditTexts(true)
+                Alerter.create(this)
+                    .setText(resources.error.toString())
+                    .setBackgroundColorRes(R.color.orange)
+                    .setDuration(1000)
+                    .show()
+            }
+            else -> {
+                binding.cpiLoading.visibility = View.GONE
+
+                val data = resources.data
+
+                data.let {
+                    if(it?.success == true){
+                       //go to dashboard
+                        dashboardLanding(it)
                     }
                 }.run {  }
             }
@@ -163,17 +202,17 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         binding.tvSubheading.text = customMessage
     }
 
-    //resend OTP timer
+    /**
+     * resend OTP timer
+     */
     private fun resendOTPTimer() {
-        //When timer is running then maje sure click listener is disable
-        binding.tvResendOtpTimer.setOnClickListener(null)
-
         object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 binding.tvResendOtpTimer.text = String.format("%02d:%02d", 0, millisUntilFinished / 1000)
             }
 
             override fun onFinish() {
+                binding.tvResendOtpTimer.setOnClickListener(this@OTPVerificationActivity)
                 binding.tvResendOtpTimer.text = getString(R.string.resend_otp)
                 binding.tvResendOtpTimer.setTextColor(
                     ContextCompat.getColor(
@@ -181,7 +220,6 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                         R.color.orange
                     )
                 )
-                binding.tvResendOtpTimer.setOnClickListener(this@OTPVerificationActivity)
             }
         }.start()
     }
@@ -198,6 +236,9 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     }
 
     private fun validateOTP() {
+        binding.btnContinueOtp.visibility = View.GONE
+        binding.cpiLoading.visibility = View.VISIBLE
+
         (0 until editTextArray.size)
             .forEach { i ->
                 if (editTextArray[i].text.isEmpty()) {
@@ -209,21 +250,27 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                     return
                 }
             }
-
-
-        //todo: need to check Verify Button logic
-        //dashboardLanding()
+        verifyOTPCode(testCodeValidity())
     }
 
     //After successful login user get land on dashboard activity
-    private fun dashboardLanding() {
+    private fun dashboardLanding(loginResponse: LoginResponse) {
+
+        //Now save token and basic details in shared pref
+        SharedPrefs.getInstance().addString(Constants.TOKEN, loginResponse.data.token)
+        //Storing service center data in form of JSON
+        val gson = Gson()
+        SharedPrefs.getInstance().addString(Constants.SERVICE_CENTER, gson.toJson(loginResponse.data.serviceCenter))
+
         val intent = Intent(this, DashboardActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
 
 
-    //API to get OTP
+    /**
+     * API to get OTP
+     */
     private fun signUp() {
         viewModel.hitOTPApi(mobileNumber)
     }
@@ -263,6 +310,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                         editTextArray[i + 1].setSelection(editTextArray[i + 1].length())
                         return
                     } else {
+                        //THIS BLOCK FOR AUTOMATIC OTP VERIFY API TRIGGER BUT FOR NOW WE DO IT MANUALLY
                         //will verify code the moment the last character is inserted and all digits have a number
                         //verifyCode(testCodeValidity())
                     }
@@ -270,8 +318,8 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
             }
     }
 
-    /** Set the edittext views to be editable / uneditable
-     *
+    /**
+     * Set the edittext views to be editable / uneditable
      */
     private fun enableCodeEditTexts(enable: Boolean) {
         for (i in 0 until editTextArray.size)
@@ -279,8 +327,8 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     }
 
 
-    /** Initialize all views back to blanks and focus on first view
-     *
+    /**
+     * Initialize all views back to blanks and focus on first view
      */
     private fun initCodeEditTexts() {
         for (i in 0 until editTextArray.size)
@@ -288,16 +336,16 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         editTextArray[0].requestFocus()
     }
 
-    /** Use this function to set the views text from a string i.e using an sms listener to read the code off an sms
-     *
+    /**
+     * Use this function to set the views text from a string i.e using an sms listener to read the code off an sms
      */
     private fun setVerificationCode(verificationCode: String) {
         for (i in 0 until editTextArray.size)
             editTextArray[i].setText(verificationCode.substring(i, i))
     }
 
-    /** Returns the code if it has the correct number of digits, else ""
-     *
+    /**
+     * Returns the code if it has the correct number of digits, else ""
      */
     private fun testCodeValidity(): String {
         var verificationCode = ""
@@ -311,13 +359,14 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         return ""
     }
 
-    /**Verify the code - you take it from here
-     *
+    /**
+     * Verify the code - you take it from here
      */
-    private fun verifyCode(verificationCode: String) {
+    private fun verifyOTPCode(verificationCode: String) {
         if (verificationCode.isNotEmpty()) {
             enableCodeEditTexts(false)
             //Your code
+            viewModel.hitVerifyOTPLoginApi(mobileNumber, verificationCode)
         }
     }
 }

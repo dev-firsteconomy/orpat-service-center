@@ -9,7 +9,10 @@ import android.os.Looper
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.orpatservice.app.R
+import com.orpatservice.app.ui.dashboard.DashboardActivity
+import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.SelectUserActivity
+import com.orpatservice.app.utils.Constants
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +32,13 @@ class SplashActivity : AppCompatActivity() {
         // we used the postDelayed(Runnable, time) method
         // to send a message with a delayed time.
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, SelectUserActivity::class.java)
-            startActivity(intent)
+            if (SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.TOKEN).isNullOrEmpty()) {
+                val intent = Intent(this, SelectUserActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
+            }
             finish()
         }, 3000)// 3000 is the delayed time in milliseconds.
     }
