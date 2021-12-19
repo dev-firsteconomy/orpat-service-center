@@ -54,10 +54,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 Status.ERROR -> {
                     binding.cpiLoading.visibility = View.GONE
-                    binding.btnContinueMobile.visibility = View.GONE
+                    binding.btnContinueMobile.visibility = View.VISIBLE
 
                     Alerter.create(this)
-                        .setText(resources.error.toString())
+                        .setText(resources.error?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1000)
                         .show()
@@ -108,7 +108,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun signUp() {
-        binding.btnContinueMobile.visibility = View.GONE
+        binding.btnContinueMobile.visibility = View.INVISIBLE
         binding.cpiLoading.visibility = View.VISIBLE
         val mobileNumber = binding.edtMobile.text.toString()
         viewModel.hitOTPApi(mobileNumber)

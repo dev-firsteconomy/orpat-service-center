@@ -125,7 +125,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                 binding.cpiLoading.visibility = View.VISIBLE
             }
             Status.ERROR -> {
-                binding.btnContinueOtp.visibility = View.GONE
+                binding.btnContinueOtp.visibility = View.VISIBLE
                 binding.cpiLoading.visibility = View.GONE
                 enableCodeEditTexts(true)
                 Alerter.create(this)
@@ -236,7 +236,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     }
 
     private fun validateOTP() {
-        binding.btnContinueOtp.visibility = View.GONE
+        binding.btnContinueOtp.visibility = View.INVISIBLE
         binding.cpiLoading.visibility = View.VISIBLE
 
         (0 until editTextArray.size)
