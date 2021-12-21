@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.addtechnician.AddTechniciansActivity">
+    tools:context=".ui.addtechnician.TechniciansActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -30,6 +30,7 @@
                     android:layout_width="16dp"
                     android:layout_height="14dp"
                     android:src="@drawable/back"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/tv_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_title" />
@@ -57,7 +58,7 @@
                     app:layout_constraintEnd_toStartOf="@id/iv_logout"
                     app:layout_constraintStart_toEndOf="@id/tv_title"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/search" />
+                    app:srcCompat="@drawable/ic_search" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_logout"
@@ -68,7 +69,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/iv_search"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/notification" />
+                    app:srcCompat="@drawable/ic_notification" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
 
@@ -85,12 +86,12 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_chat"
+        android:id="@+id/fab_add_technician"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="40dp"
-        android:src="@drawable/more"
+        android:src="@drawable/ic_more"
         app:backgroundTint="@color/dim_white"
         app:fabCustomSize="45dp"
         android:layout_gravity="bottom|end"  />
