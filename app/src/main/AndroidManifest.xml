@@ -6,11 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!--Open fone dialpad for calling-->
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-
-    <!--Permission when working system apps-->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Open fone dialpad for calling -->
+    <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- Permission when working system apps -->
     <queries>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
@@ -27,13 +24,16 @@
         android:theme="@style/Theme.OrpatServiceCenter"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.addtechnician.AddTechnicianActivity"
+            android:name=".ui.technician.TechnicianDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.orpatservice.app.ui.admin.technician.AddTechnicianActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.addtechnician.TechniciansActivity"
+            android:name="com.orpatservice.app.ui.admin.technician.TechniciansActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
@@ -87,7 +87,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
-
     </application>
 
 </manifest>

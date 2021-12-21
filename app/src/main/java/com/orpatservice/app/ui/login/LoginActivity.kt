@@ -72,11 +72,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                             val intent = Intent(this, OTPVerificationActivity::class.java)
                             intent.putExtra(Constants.MOBILE_NUMBER, binding.edtMobile.text.toString())
 
-                            //getting user type from select user activity
-                            val intentSlectUser: Intent = intent
-                            val userType = intentSlectUser.getStringExtra(Constants.USER_TYPE)
-
-                            intent.putExtra(Constants.USER_TYPE, userType)
                             startActivity(intent)
                         }
                     }.run {  }

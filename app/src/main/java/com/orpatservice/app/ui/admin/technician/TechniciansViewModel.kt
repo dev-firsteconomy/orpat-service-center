@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.addtechnician
+package com.orpatservice.app.ui.admin.technician
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.addtechnician
+package com.orpatservice.app.ui.admin.technician
 
 import android.Manifest
 import android.annotation.SuppressLint

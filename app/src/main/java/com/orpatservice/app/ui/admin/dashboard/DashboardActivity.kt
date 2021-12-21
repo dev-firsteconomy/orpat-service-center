@@ -8,7 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
-import com.orpatservice.app.ui.addtechnician.TechniciansActivity
+import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {

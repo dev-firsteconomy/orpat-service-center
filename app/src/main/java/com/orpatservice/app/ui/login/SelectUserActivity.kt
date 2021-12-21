@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivitySelectUserBinding
+import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
@@ -57,8 +58,8 @@ class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun goToLogin(userType: String) {
+        SharedPrefs.getInstance().addString(Constants.USER_TYPE, userType)
         val intent = Intent(this, LoginActivity::class.java)
-        intent.putExtra(Constants.MOBILE_NUMBER, userType)
         startActivity(intent)
     }
 
