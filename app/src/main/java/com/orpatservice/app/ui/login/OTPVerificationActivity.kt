@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.orpatservice.app.databinding.ActivityOtpverificationBinding
-import com.orpatservice.app.ui.dashboard.DashboardActivity
+import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.login.LoginResponse

@@ -9,7 +9,7 @@ import android.os.Looper
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.orpatservice.app.R
-import com.orpatservice.app.ui.dashboard.DashboardActivity
+import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.SelectUserActivity
 import com.orpatservice.app.ui.technician.TechnicianDashboardActivity

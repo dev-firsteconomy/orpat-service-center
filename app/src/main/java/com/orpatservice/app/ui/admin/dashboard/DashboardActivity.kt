@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.dashboard
+package com.orpatservice.app.ui.admin.dashboard
 
 import android.content.Intent
 import android.os.Bundle

@@ -38,7 +38,6 @@
             android:layout_height="150dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="10dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/corner_radius"
             app:cardElevation="14dp"
@@ -47,7 +46,8 @@
             app:layout_constraintBottom_toTopOf="@id/mcv_history"
             app:layout_constraintEnd_toStartOf="@id/mcv_add_technician"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-            app:layout_constraintTop_toTopOf="@id/gl_horizontal">
+            app:layout_constraintTop_toBottomOf="@id/gl_horizontal"
+            app:layout_constraintVertical_chainStyle="packed">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -65,27 +65,27 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_count"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:id="@+id/tv_count"
-                    android:text="5"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:textColor="@color/white"
                     android:background="@drawable/drawable_circle"
                     android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@id/iv_request"
-                    app:layout_constraintStart_toEndOf="@id/iv_request"
                     app:layout_constraintEnd_toEndOf="@id/iv_request"
-                    app:layout_constraintTop_toTopOf="@id/iv_request"/>
+                    app:layout_constraintStart_toEndOf="@id/iv_request"
+                    app:layout_constraintTop_toTopOf="@id/iv_request" />
 
                 <TextView
                     android:id="@+id/tv_request"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/request"
-                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -129,12 +129,12 @@
 
                 <TextView
                     android:id="@+id/tv_add_tech"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/add_technician"
-                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -151,12 +151,12 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="10dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/corner_radius"
             app:cardElevation="14dp"
             app:cardMaxElevation="36dp"
             app:contentPadding="16dp"
+            app:layout_constraintBottom_toTopOf="@id/mcv_payment"
             app:layout_constraintEnd_toStartOf="@id/mcv_profile"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
             app:layout_constraintTop_toBottomOf="@id/mcv_request">
@@ -178,11 +178,11 @@
 
                 <TextView
                     android:id="@+id/tv_history"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/history"
-                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -226,11 +226,11 @@
 
                 <TextView
                     android:id="@+id/tv_profile"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/profile"
-                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -246,6 +246,7 @@
             android:layout_height="150dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginEnd="16dp"
             android:paddingBottom="20dp"
             app:cardBackgroundColor="@color/white"
@@ -253,6 +254,7 @@
             app:cardElevation="14dp"
             app:cardMaxElevation="36dp"
             app:contentPadding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/mcv_more"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
             app:layout_constraintTop_toBottomOf="@id/mcv_history">
@@ -274,11 +276,11 @@
 
                 <TextView
                     android:id="@+id/tv_payment"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/payment"
-                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -322,11 +324,11 @@
 
                 <TextView
                     android:id="@+id/tv_more"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/more"
-                    style="@style/Theme.OrpatServiceCenter.MediumText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
