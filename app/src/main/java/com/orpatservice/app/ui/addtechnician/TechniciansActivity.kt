@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
+import com.orpatservice.app.base.Callback
 import com.orpatservice.app.databinding.ActivityTechniciansBinding
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
@@ -15,7 +16,7 @@ import com.orpatservice.app.ui.data.model.TechnicianData
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.tapadoo.alerter.Alerter
 
-class TechniciansActivity : AppCompatActivity(), View.OnClickListener {
+class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback {
     private lateinit var binding: ActivityTechniciansBinding
     private lateinit var viewModel: TechniciansViewModel
 
@@ -44,6 +45,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener {
         binding.rvTechList.apply {
             adapter = technicianAdapter
         }
+        technicianAdapter.callback = this
 
         setObserver()
 
@@ -104,10 +106,21 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.fab_add_technician -> {
-                startActivity(Intent(this, AddTechnicianActivity::class.java))
+                val intent = Intent(this, AddTechnicianActivity::class.java)
+                intent.putExtra(ADD, ADD)
+
+                startActivity(intent)
 
             }
         }
+    }
+
+    override fun onItemClick(view: View, position: Int) {
+        val intent = Intent(this, AddTechnicianActivity::class.java)
+        intent.putExtra(UPDATE, UPDATE)
+        intent.putExtra(PARCELABLE_TECHNICIAN,techList[position])
+
+        startActivity(intent)
     }
 
 }

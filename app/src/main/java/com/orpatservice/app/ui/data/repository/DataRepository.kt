@@ -2,11 +2,11 @@ package com.orpatservice.app.ui.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.JsonObject
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.orpatservice.app.ui.data.remote.ApiClient
 import com.orpatservice.app.ui.data.remote.ErrorUtils
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,12 +53,50 @@ class DataRepository {
 
     }
 
-    fun hitAPIAddTechnician(): LiveData<Resource<TechnicianResponse>> {
+    fun hitAPIAddTechnician(
+        requestBody: MultipartBody
+    ): LiveData<Resource<TechnicianResponse>> {
         val mutableLiveData = MutableLiveData<Resource<TechnicianResponse>>()
 
         mutableLiveData.value = (Resource.loading(null))
 
-        ApiClient.getAuthApi().hitAPIAddTechnician()
+        ApiClient.getAuthApi().hitAPIAddTechnician(requestBody)
+            .enqueue(object : Callback<TechnicianResponse> {
+
+                override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<TechnicianResponse>,
+                    response: Response<TechnicianResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+
+    }
+
+    fun hitAPIUpdateTechnician(
+        requestBody: MultipartBody,
+        technicianID: Int?
+    ): LiveData<Resource<TechnicianResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<TechnicianResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+
+        ApiClient.getAuthApi().hitAPIUpdateTechnician(requestBody,technicianID)
             .enqueue(object : Callback<TechnicianResponse> {
 
                 override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {

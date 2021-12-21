@@ -10,6 +10,7 @@
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/drawable/drawable_circle.xml" value="0.25833333333333336" />
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/drawable/drawable_rectangle_gray.xml" value="0.25833333333333336" />
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/drawable/ic_call.xml" value="0.25833333333333336" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/drawable/ic_upload.xml" value="0.2537037037037037" />
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/activity_add_technician.xml" value="0.128" />
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/activity_add_technicians.xml" value="0.2421875" />
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/activity_dashboard.xml" value="0.2421875" />
@@ -25,7 +26,9 @@
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/fragment_dashboard.xml" value="0.16" />
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/fragment_first.xml" value="0.2421875" />
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/item_technician.xml" value="0.264" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/layout/open_camera_bottom_sheet.xml" value="0.228125" />
         <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/menu/menu_main.xml" value="0.2421875" />
+        <entry key="..\:/Users/Esoft/AndroidStudioProjects/golden2/new_cambel/orpat-service-center/app/src/main/res/xml/filepaths.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.21732522796352582" />
       </map>
     </option>
