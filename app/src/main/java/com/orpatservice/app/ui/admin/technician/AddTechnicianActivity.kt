@@ -85,7 +85,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         binding.includedContent.etFirstName.setText(technicianData?.first_name)
         binding.includedContent.etLastName.setText(technicianData?.last_name)
         binding.includedContent.etMobileNo.setText(technicianData?.mobile)
-        binding.includedContent.etArea.setText(technicianData?.area)
+        binding.includedContent.etPinCode.setText(technicianData?.area)
         imageUrl = technicianData?.image
         technicianID = technicianData?.id
 
@@ -143,7 +143,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         params.addFormDataPart("first_name",binding.includedContent.etFirstName.text.toString())
         params.addFormDataPart("last_name",binding.includedContent.etLastName.text.toString())
         params.addFormDataPart("mobile",binding.includedContent.etMobileNo.text.toString())
-        params.addFormDataPart("area",binding.includedContent.etArea.text.toString())
+        params.addFormDataPart("pincode",binding.includedContent.etPinCode.text.toString())
 
         val files = File(resultUri?.path ?: "")
         val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
@@ -159,7 +159,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         params.addFormDataPart("first_name",binding.includedContent.etFirstName.text.toString())
         params.addFormDataPart("last_name",binding.includedContent.etLastName.text.toString())
         params.addFormDataPart("mobile",binding.includedContent.etMobileNo.text.toString())
-        params.addFormDataPart("area",binding.includedContent.etArea.text.toString())
+        params.addFormDataPart("pincode",binding.includedContent.etPinCode.text.toString())
 
         val files = File(resultUri?.path ?: "")
         val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
