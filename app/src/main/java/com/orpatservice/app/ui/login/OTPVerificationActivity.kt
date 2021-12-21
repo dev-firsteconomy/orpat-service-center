@@ -261,6 +261,9 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         val gson = Gson()
         SharedPrefs.getInstance().addString(Constants.SERVICE_CENTER, gson.toJson(loginResponse.data.serviceCenter))
 
+        /**
+         * User navigation after login
+         */
         if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.ADMIN)) {
             val intent = Intent(this, DashboardActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
