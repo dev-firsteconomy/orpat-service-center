@@ -11,7 +11,7 @@ data class TechnicianData(
     val mobile: String,
     val area: String,
     val status: Int,
-    val profile: String,
+    val image: String,
     val location: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -34,7 +34,7 @@ data class TechnicianData(
         parcel.writeString(mobile)
         parcel.writeString(area)
         parcel.writeInt(status)
-        parcel.writeString(profile)
+        parcel.writeString(image)
         parcel.writeString(location)
     }
 

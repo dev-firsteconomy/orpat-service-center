@@ -33,7 +33,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
         setSupportActionBar(binding.toolbar)
 
         supportActionBar?.apply {
-            title = "Technician"
+            title = ""
             // show back button on toolbar
             // on back button press, it will navigate to parent activity
             setDisplayHomeAsUpEnabled(true)

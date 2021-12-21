@@ -86,7 +86,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         binding.includedContent.etLastName.setText(technicianData?.last_name)
         binding.includedContent.etMobileNo.setText(technicianData?.mobile)
         binding.includedContent.etArea.setText(technicianData?.area)
-        imageUrl = technicianData?.profile
+        imageUrl = technicianData?.image
         technicianID = technicianData?.id
 
         //binding.includedContent.ivUploadImage

@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.orpatservice.app.R
 import com.orpatservice.app.base.Callback
 import com.orpatservice.app.databinding.ItemTechnicianBinding
@@ -39,13 +41,23 @@ class TechnicianAdapter(private val techList: ArrayList<TechnicianData>) : Recyc
     inner class TechnicianViewHolder(private val binding: ItemTechnicianBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         init {
-            binding.ivEdit.setOnClickListener(this)
+            binding.tvEdit.setOnClickListener(this)
         }
         fun bind(technicianData: TechnicianData) {
+            Glide.with(binding.ivProfile)
+                .load(technicianData.image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .circleCrop() // .error(R.drawable.active_dot)
+                .placeholder(R.drawable.avtar)
+                .into(binding.ivProfile)
+
             binding.tvTechName.text = technicianData.first_name+" "+technicianData.last_name
             binding.tvLocation.text = technicianData.email
             if (technicianData.status==1){
                 binding.tvIsAvailable.text = "Available"
+            }
+            if (adapterPosition==techList.size-1){
+                binding.vDivider.visibility = View.GONE
             }
         }
 
