@@ -17,7 +17,7 @@ class SessionRepository {
         return if (raw.equals("na", ignoreCase = true)) {
             "na"
         } else {
-            String.format("%s", raw)
+            String.format("%s", "Bearer $raw")
         }
     }
 
