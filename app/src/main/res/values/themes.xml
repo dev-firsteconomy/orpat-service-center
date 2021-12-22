@@ -108,11 +108,11 @@
     </style>
     <style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/white</item>
-        <item name="backgroundTint">@color/red</item>
+        <item name="backgroundTint">@color/brown</item>
     </style>
     <style name="NegativeButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/white</item>
-        <item name="backgroundTint">@color/orange</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="backgroundTint">@color/off_white</item>
     </style>
 
     <style name="Theme.OrpatServiceCenter.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

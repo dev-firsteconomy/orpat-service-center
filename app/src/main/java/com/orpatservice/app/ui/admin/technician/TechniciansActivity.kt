@@ -2,12 +2,16 @@ package com.orpatservice.app.ui.admin.technician
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
 import com.orpatservice.app.base.Callback
 import com.orpatservice.app.databinding.ActivityTechniciansBinding
@@ -17,7 +21,7 @@ import com.orpatservice.app.ui.data.model.TechnicianData
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.tapadoo.alerter.Alerter
 
-class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback {
+class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
     private lateinit var binding: ActivityTechniciansBinding
     private lateinit var viewModel: TechniciansViewModel
 
@@ -43,6 +47,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
         viewModel = ViewModelProvider(this)[TechniciansViewModel::class.java]
 
+
+        layoutManager = LinearLayoutManager(this)
+        //attaches LinearLayoutManager with RecyclerView
+        binding.rvTechList.layoutManager = layoutManager
+
+
         binding.rvTechList.apply {
             adapter = technicianAdapter
         }
@@ -50,12 +60,40 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
         setObserver()
 
+        addScrollerListener()
+
+    }
+    private var isLoading: Boolean = false
+    lateinit var layoutManager : LinearLayoutManager
+    var pageCount : Int = 1
+
+    private fun addScrollerListener()
+    {
+        //attaches scrollListener with RecyclerView
+        binding.rvTechList.addOnScrollListener(object : RecyclerView.OnScrollListener()
+        {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int)
+            {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!isLoading)
+                {
+                    //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
+                    ////It checks, fully visible view is the last one.
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == techList.size - 1){
+                        pageCount++
+                        viewModel.loadNextTechnician(pageCount).observe(this@TechniciansActivity, loadTechnician())
+                        isLoading = true
+                    }
+                }
+            }
+        })
     }
 
     private fun setObserver() {
         viewModel.loadTechnician().observe(this, loadTechnician())
     }
 
+    var nextPage : String ? = null
     private fun loadTechnician(): Observer<Resource<TechnicianResponse>> {
         return Observer { it ->
             when (it?.status) {
@@ -80,6 +118,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                         if (it.success) {
                             techList.addAll(it.data.data)
                             technicianAdapter.notifyDataSetChanged()
+                            nextPage = it.data.pagination.next_page_url
                         }
                     }?: run {
                         Alerter.create(this@TechniciansActivity)
@@ -124,20 +163,19 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
     }
 
     override fun onItemClick(view: View, position: Int) {
-        when(view.id){
-            R.id.tv_edit->{
+        when (view.id) {
+            R.id.tv_edit -> {
                 val intent = Intent(this, AddTechnicianActivity::class.java)
                 intent.putExtra(UPDATE, UPDATE)
-                intent.putExtra(PARCELABLE_TECHNICIAN,techList[position])
+                intent.putExtra(PARCELABLE_TECHNICIAN, techList[position])
 
                 startActivity(intent)
             }
-            R.id.iv_call->{
+            R.id.iv_call -> {
                 openCallDialPad(techList[position].mobile)
 
             }
         }
 
     }
-
-}
+} 
