@@ -120,7 +120,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
                         if (it.success) {
                             techList.addAll(it.data.data)
                             nextPage = it.data.pagination.next_page_url
-                            technicianAdapter.notifyDataSetChanged()
+
+                            if (pageCount==1)
+                                technicianAdapter.notifyDataSetChanged()
+                            else
+                                technicianAdapter.notifyItemInserted(techList.size-1)
+
                         }
                     }?: run {
                         Alerter.create(this@TechniciansActivity)
