@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentNewRequestBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.requests_leads.CustomerDetailsActivity
@@ -31,13 +32,20 @@ class NewRequestsFragment : Fragment() {
     private var leadDataArrayList : ArrayList<LeadData> = ArrayList()
 
     //Click listener for List Item
-    private val onItemClickListener: (Int) -> Unit = { position ->
-        val intent = Intent(activity, CustomerDetailsActivity::class.java)
+    private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
+        when (id) {
+            R.id.btn_view_details -> {
+                val intent = Intent(activity, CustomerDetailsActivity::class.java)
 
-        intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-        startActivity(intent)
+                intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+                startActivity(intent)
+            }
+            R.id.btn_view_decline -> {
+
+            }
+        }
     }
-    private val requestsLeadsAdapter = RequestsLeadsAdapter(leadDataArrayList, itemClickListener = onItemClickListener)
+    private val requestsLeadsAdapter = RequestsLeadsAdapter(leadDataArrayList, itemClickListener = onItemClickListener, Constants.NEW_LEAD)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

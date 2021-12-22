@@ -18,4 +18,9 @@ object Constants {
         "New Request",
         "Assign To Technician"
     )
+
+    //Fragment Type
+    const val NEW_LEAD = "NEW_LEAD"
+    const val ASSIGN_TECHNICIAN = "ASSIGN_TECHNICIAN"
+    const val HISTORY = "HISTORY"
 }

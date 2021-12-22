@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentAssignToTechnicianBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.requests_leads.CustomerDetailsActivity
@@ -27,16 +28,24 @@ class AssignToTechnicianFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding : FragmentAssignToTechnicianBinding
-    private var leadDataArrayList : ArrayList<LeadData> = ArrayList()
+    private lateinit var binding: FragmentAssignToTechnicianBinding
+    private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
 
-    private val onItemClickListener: (Int) -> Unit = { position ->
-        val intent = Intent(activity, CustomerDetailsActivity::class.java)
+    private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
+        when (id) {
+            R.id.btn_view_details -> {
+                val intent = Intent(activity, CustomerDetailsActivity::class.java)
 
-        intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-        startActivity(intent)
+                intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+                startActivity(intent)
+            }
+        }
     }
-    private val requestsLeadsAdapter = RequestsLeadsAdapter(leadDataArrayList, itemClickListener = onItemClickListener)
+    private val requestsLeadsAdapter = RequestsLeadsAdapter(
+        leadDataArrayList,
+        itemClickListener = onItemClickListener,
+        Constants.ASSIGN_TECHNICIAN
+    )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
