@@ -28,6 +28,11 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
     private val techList: ArrayList<TechnicianData> = ArrayList()
     private var technicianAdapter = TechnicianAdapter(techList)
 
+
+    private var isLoading: Boolean = false
+    private lateinit var layoutManager : LinearLayoutManager
+    private var pageCount : Int = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTechniciansBinding.inflate(layoutInflater)
@@ -63,9 +68,6 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
         addScrollerListener()
 
     }
-    private var isLoading: Boolean = false
-    lateinit var layoutManager : LinearLayoutManager
-    var pageCount : Int = 1
 
     private fun addScrollerListener()
     {
@@ -79,7 +81,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
                 {
                     //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
                     ////It checks, fully visible view is the last one.
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == techList.size - 1){
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == techList.size - 1 && !nextPage.isNullOrEmpty()){
                         pageCount++
                         viewModel.loadNextTechnician(pageCount).observe(this@TechniciansActivity, loadTechnician())
                         isLoading = true
@@ -117,8 +119,8 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
                     data?.let {
                         if (it.success) {
                             techList.addAll(it.data.data)
-                            technicianAdapter.notifyDataSetChanged()
                             nextPage = it.data.pagination.next_page_url
+                            technicianAdapter.notifyDataSetChanged()
                         }
                     }?: run {
                         Alerter.create(this@TechniciansActivity)
