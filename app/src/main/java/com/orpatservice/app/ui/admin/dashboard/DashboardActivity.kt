@@ -6,9 +6,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
+import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.login.SelectUserActivity
 
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
@@ -28,6 +31,28 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         binding.includedContent.mcvProfile.setOnClickListener(this)
         binding.includedContent.mcvPayment.setOnClickListener(this)
         binding.includedContent.mcvMore.setOnClickListener(this)
+        binding.ivLogout.setOnClickListener(this)
+
+    }
+    private fun confirmationDialog() {
+
+        MaterialAlertDialogBuilder(
+            this,
+            R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog
+        )
+            .setTitle("Logout")
+            .setMessage("Are you sure, you want to logout?")
+            .setPositiveButton(
+                "Logout"
+            ) { _, i ->
+                SharedPrefs.getInstance().removeAll()
+                startActivity(Intent(this,SelectUserActivity::class.java))
+                finish()
+            }
+            .setNegativeButton(
+                "CANCEL"
+            ) { _, i -> }
+            .show()
 
     }
 
@@ -50,6 +75,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.mcv_more -> {
 
+            }
+            R.id.iv_logout -> {
+                confirmationDialog()
             }
         }
 

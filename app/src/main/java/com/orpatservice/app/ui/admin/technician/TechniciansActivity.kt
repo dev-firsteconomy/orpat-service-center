@@ -1,6 +1,7 @@
 package com.orpatservice.app.ui.admin.technician
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -93,6 +94,13 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
         }
     }
 
+    private fun openCallDialPad(contactNumber : String){
+        val i = Intent(Intent.ACTION_DIAL)
+        val p = "tel:$contactNumber"
+        i.data = Uri.parse(p)
+        startActivity(i)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -116,11 +124,20 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
     }
 
     override fun onItemClick(view: View, position: Int) {
-        val intent = Intent(this, AddTechnicianActivity::class.java)
-        intent.putExtra(UPDATE, UPDATE)
-        intent.putExtra(PARCELABLE_TECHNICIAN,techList[position])
+        when(view.id){
+            R.id.tv_edit->{
+                val intent = Intent(this, AddTechnicianActivity::class.java)
+                intent.putExtra(UPDATE, UPDATE)
+                intent.putExtra(PARCELABLE_TECHNICIAN,techList[position])
 
-        startActivity(intent)
+                startActivity(intent)
+            }
+            R.id.iv_call->{
+                openCallDialPad(techList[position].mobile)
+
+            }
+        }
+
     }
 
 }
