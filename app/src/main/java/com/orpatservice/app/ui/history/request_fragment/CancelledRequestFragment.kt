@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.requests_leads.pager.requests_fragment
+package com.orpatservice.app.ui.history.request_fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.orpatservice.app.R
-import com.orpatservice.app.databinding.FragmentAssignToTechnicianBinding
+import com.orpatservice.app.databinding.FragmentCancelledRequestBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
-import com.orpatservice.app.ui.requests_leads.customer.CustomerDetailsActivity
 import com.orpatservice.app.ui.requests_leads.RequestsLeadsAdapter
+import com.orpatservice.app.ui.requests_leads.customer.CustomerDetailsActivity
 import com.orpatservice.app.utils.Constants
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,15 +20,15 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [AssignToTechnicianFragment.newInstance] factory method to
+ * Use the [CancelledRequestFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AssignToTechnicianFragment : Fragment() {
+class CancelledRequestFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentAssignToTechnicianBinding
+    private lateinit var binding: FragmentCancelledRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
 
     private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
@@ -44,9 +44,8 @@ class AssignToTechnicianFragment : Fragment() {
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
         leadDataArrayList,
         itemClickListener = onItemClickListener,
-        Constants.ASSIGN_TECHNICIAN
+        Constants.CANCELLED_REQUEST
     )
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +58,11 @@ class AssignToTechnicianFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentAssignToTechnicianBinding.inflate(inflater, container, false)
+        binding = FragmentCancelledRequestBinding.inflate(inflater, container, false)
 
-        binding.rvAssignTechnician.apply {
+        binding.rvCancelledRequest.apply {
             adapter = requestsLeadsAdapter
         }
         tempData()
@@ -92,12 +91,12 @@ class AssignToTechnicianFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment AssignToTechnicianFragment.
+         * @return A new instance of fragment CancelledRequestFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AssignToTechnicianFragment().apply {
+            CancelledRequestFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

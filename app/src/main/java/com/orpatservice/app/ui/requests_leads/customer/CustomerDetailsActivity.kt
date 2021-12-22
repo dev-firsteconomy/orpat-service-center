@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.requests_leads
+package com.orpatservice.app.ui.requests_leads.customer
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +13,7 @@ class CustomerDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_details)
 
-        val intent: Intent = getIntent()
+        val intent: Intent = intent
         val leadData = intent.getSerializableExtra(Constants.LEAD_DATA) as LeadData
 
         Toast.makeText(this,"data: " + leadData.id, Toast.LENGTH_SHORT).show()

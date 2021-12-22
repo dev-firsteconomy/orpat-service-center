@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
+import com.orpatservice.app.ui.history.LeadHistoryActivity
 import com.orpatservice.app.ui.requests_leads.RequestsLeadsActivity
+import com.orpatservice.app.utils.Constants
 
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
@@ -35,13 +37,17 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.mcv_request -> {
-                startActivity(Intent(this, RequestsLeadsActivity::class.java))
+                val intent = Intent(this, RequestsLeadsActivity::class.java)
+                intent.putExtra(Constants.MODULE, Constants.REQUEST)
+                startActivity(intent)
             }
             R.id.mcv_add_technician -> {
                 startActivity(Intent(this, TechniciansActivity::class.java))
             }
             R.id.mcv_history -> {
-
+                val intent = Intent(this, LeadHistoryActivity::class.java)
+                intent.putExtra(Constants.MODULE, Constants.HISTORY)
+                startActivity(intent)
             }
             R.id.mcv_profile -> {
 

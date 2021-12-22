@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentNewRequestBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
-import com.orpatservice.app.ui.requests_leads.CustomerDetailsActivity
+import com.orpatservice.app.ui.requests_leads.customer.CustomerDetailsActivity
 import com.orpatservice.app.ui.requests_leads.RequestsLeadsAdapter
 import com.orpatservice.app.utils.Constants
 
@@ -39,9 +39,6 @@ class NewRequestsFragment : Fragment() {
 
                 intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
                 startActivity(intent)
-            }
-            R.id.btn_view_decline -> {
-
             }
         }
     }
