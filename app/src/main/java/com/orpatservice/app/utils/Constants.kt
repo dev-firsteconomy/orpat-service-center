@@ -2,6 +2,8 @@ package com.orpatservice.app.utils
 
 object Constants {
 
+    const val LEAD_DATA= "LEAD_DATA"
+
     //Constants for login session
     const val TOKEN = "TOKEN"
     const val NO_TOKEN = ""

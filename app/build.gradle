@@ -8,6 +8,7 @@ android {
     compileSdk 31
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.orpatservice.app"
         minSdk 21
         targetSdk 31
@@ -111,6 +112,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
 
     //Third party library
     implementation 'com.tapadoo.android:alerter:7.0.0'

@@ -74,13 +74,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
-
         <activity
             android:name=".ui.requests_leads.RequestsLeadsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.requests_leads.CustomerDetailsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".ui.technician.TechnicianDashboardActivity"
             android:exported="false"

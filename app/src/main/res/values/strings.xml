@@ -65,4 +65,7 @@
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
     <string name="requests">Requests</string>
+    <string name="btn_decline">Decline</string>
+    <string name="btn_view_details">View Details</string>
+    <string name="service_center">Service Center</string>
 </resources>

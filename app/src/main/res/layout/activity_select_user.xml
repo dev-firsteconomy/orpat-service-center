@@ -99,7 +99,7 @@
                 android:paddingTop="32dp"
                 android:paddingEnd="20dp"
                 android:paddingBottom="24dp"
-                android:text="@string/admin"
+                android:text="@string/service_center"
                 android:translationZ="2dp" />
 
             <RadioButton

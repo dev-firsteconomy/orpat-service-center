@@ -18,7 +18,7 @@
             style="@style/Theme.OrpatServiceCenter.MediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:padding="2dp"
             android:text="0000000012345"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,9 +28,9 @@
             style="@style/Theme.OrpatServiceCenter.RegularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:padding="2dp"
             android:text="Customer Name"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_request_id" />
 
@@ -39,10 +39,11 @@
             style="@style/Theme.OrpatServiceCenter.RegularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="4dp"
+            android:padding="2dp"
             android:text="Mumbai - 400023"
-            android:textSize="10sp"
+            android:textSize="12sp"
+            android:drawableStart="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_request_customer_name" />
 
@@ -51,9 +52,9 @@
             style="@style/Theme.OrpatServiceCenter.RegularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:padding="2dp"
             android:text="2 Dec, 01:00 Hr"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,35 +63,45 @@
             style="@style/Theme.OrpatServiceCenter.RegularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:padding="2dp"
             android:text="In-Progress"
             android:textColor="@color/orange"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_request_date_time" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_view_details"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="View Details"
-            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/btn_view_details"
+            app:icon="@drawable/ic_eye"
+            app:iconGravity="textStart"
+            app:iconPadding="2dp"
+            app:iconTint="@color/brown"
             app:layout_constraintEnd_toStartOf="@id/btn_view_decline"
-            app:layout_constraintTop_toBottomOf="@id/tv_request_location"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_request_location" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_view_decline"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite"
-            android:text="Decline"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/btn_view_details"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/btn_decline"
+            app:icon="@drawable/ic_close"
+            app:iconGravity="textStart"
+            app:iconPadding="2dp"
+            app:iconTint="@color/brown"
+            app:layout_constraintBaseline_toBaselineOf="@id/btn_view_details"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/btn_view_details"/>
+            app:layout_constraintStart_toEndOf="@id/btn_view_details" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

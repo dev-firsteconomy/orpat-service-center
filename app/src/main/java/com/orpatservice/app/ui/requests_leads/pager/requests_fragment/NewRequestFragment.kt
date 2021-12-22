@@ -1,11 +1,16 @@
 package com.orpatservice.app.ui.requests_leads.pager.requests_fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.orpatservice.app.R
+import com.orpatservice.app.databinding.FragmentNewRequestBinding
+import com.orpatservice.app.ui.data.model.requests_leads.LeadData
+import com.orpatservice.app.ui.requests_leads.CustomerDetailsActivity
+import com.orpatservice.app.ui.requests_leads.RequestsLeadsAdapter
+import com.orpatservice.app.utils.Constants
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +27,18 @@ class NewRequestsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding : FragmentNewRequestBinding
+    private var leadDataArrayList : ArrayList<LeadData> = ArrayList()
+
+    //Click listener for List Item
+    private val onItemClickListener: (Int) -> Unit = { position ->
+        val intent = Intent(activity, CustomerDetailsActivity::class.java)
+
+        intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+        startActivity(intent)
+    }
+    private val requestsLeadsAdapter = RequestsLeadsAdapter(leadDataArrayList, itemClickListener = onItemClickListener)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,7 +52,28 @@ class NewRequestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_requests, container, false)
+        binding = FragmentNewRequestBinding.inflate(inflater, container, false)
+
+        binding.rvNewRequest.apply {
+            adapter = requestsLeadsAdapter
+        }
+        tempData()
+
+        return binding.root
+    }
+
+    fun tempData() {
+        for (index in 1..10) {
+            val leadData = LeadData()
+            leadData.address = "Prayagraj"
+            leadData.name = "Ajay Yadav"
+            leadData.pincode = "211001"
+            leadData.status = "In-Progress"
+            leadData.id = index + 99990
+            leadData.createdAt = "02 Dec, 10:00 Hr"
+            leadDataArrayList.add(leadData)
+        }
+        requestsLeadsAdapter.notifyDataSetChanged()
     }
 
     companion object {

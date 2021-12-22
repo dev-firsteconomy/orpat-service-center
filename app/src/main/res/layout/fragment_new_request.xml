@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.requests_leads.pager.requests_fragment.AssignToTechnicianFragment">
+    tools:context=".ui.requests_leads.pager.requests_fragment.NewRequestsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_assign_technician"
+        android:id="@+id/rv_new_request"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -15,4 +15,5 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:listitem="@layout/item_request_lead_card" />
+
 </FrameLayout>
