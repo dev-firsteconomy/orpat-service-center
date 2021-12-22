@@ -11,4 +11,9 @@ object Constants {
     const val USER_TYPE = "USER_TYPE"
     const val ADMIN = "ADMIN"
     const val TECHNICIAN = "TECHNICIAN"
+
+    val requestsTabNameArray = arrayOf(
+        "New Request",
+        "Assign To Technician"
+    )
 }

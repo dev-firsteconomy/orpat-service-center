@@ -98,11 +98,12 @@
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/cpi_loading_resend"
-            android:layout_width="@dimen/fab_margin"
-            android:layout_height="@dimen/fab_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:indeterminate="true"
             android:visibility="gone"
             app:indicatorColor="@color/brown"
+            app:indicatorSize="24dp"
             app:layout_constraintBottom_toTopOf="@id/cl_otp_layout"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
@@ -165,18 +166,17 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_continue_otp"
             style="@style/Theme.OrpatServiceCenter.Buttons"
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="8dp"
-            android:drawableEnd="@drawable/ic_draw_arrow_right"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
+            app:icon="@drawable/ic_draw_arrow_right"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/off_white"
             android:text="@string/verify"
-            android:translationZ="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"

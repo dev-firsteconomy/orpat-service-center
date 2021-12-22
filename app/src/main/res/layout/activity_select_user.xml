@@ -120,18 +120,17 @@
                 android:translationZ="2dp" />
         </RadioGroup>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_continue_user"
             style="@style/Theme.OrpatServiceCenter.Buttons"
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="8dp"
-            android:drawableEnd="@drawable/ic_draw_arrow_right"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
+            app:icon="@drawable/ic_draw_arrow_right"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/off_white"
             android:text="@string/btn_continue"
-            android:translationZ="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
