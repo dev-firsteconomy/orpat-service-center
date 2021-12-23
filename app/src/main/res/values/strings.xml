@@ -67,4 +67,5 @@
     <string name="edit"><u>Edit</u></string>
     <string name="activate">Activate</string>
     <string name="deactivate">Deactivate</string>
+    <string name="service_center">Service Center</string>
 </resources>

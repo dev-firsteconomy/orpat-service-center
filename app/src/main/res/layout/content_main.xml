@@ -124,7 +124,7 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center"
                     app:layout_constraintVertical_chainStyle="packed"
-                    android:src="@drawable/ic_technician"
+                    android:src="@drawable/ic_add_technician"
                     app:layout_constraintBottom_toTopOf="@id/tv_add_tech"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

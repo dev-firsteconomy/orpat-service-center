@@ -95,7 +95,7 @@
         android:layout_height="45dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/ic_add_technician"
+        android:src="@drawable/ic_plus"
         app:tint="#3aac01"
         app:backgroundTint="@color/dim_white"
         app:fabCustomSize="45dp"

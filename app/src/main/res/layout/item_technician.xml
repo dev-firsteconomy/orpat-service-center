@@ -82,6 +82,7 @@
             android:layout_height="36dp"
             android:layout_marginEnd="20dp"
             android:text="@string/edit"
+            android:textColor="@color/orange"
             style="@style/Theme.OrpatServiceCenter.RegularText"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
