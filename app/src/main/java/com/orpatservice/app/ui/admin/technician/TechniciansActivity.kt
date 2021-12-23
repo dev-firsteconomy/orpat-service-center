@@ -1,12 +1,17 @@
 package com.orpatservice.app.ui.admin.technician
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
 import com.orpatservice.app.base.Callback
 import com.orpatservice.app.databinding.ActivityTechniciansBinding
@@ -16,12 +21,17 @@ import com.orpatservice.app.ui.data.model.TechnicianData
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.tapadoo.alerter.Alerter
 
-class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback {
+class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
     private lateinit var binding: ActivityTechniciansBinding
     private lateinit var viewModel: TechniciansViewModel
 
     private val techList: ArrayList<TechnicianData> = ArrayList()
     private var technicianAdapter = TechnicianAdapter(techList)
+
+
+    private var isLoading: Boolean = false
+    private lateinit var layoutManager : LinearLayoutManager
+    private var pageCount : Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +43,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
         setSupportActionBar(binding.toolbar)
 
         supportActionBar?.apply {
-            title = "Technician"
+            title = ""
             // show back button on toolbar
             // on back button press, it will navigate to parent activity
             setDisplayHomeAsUpEnabled(true)
@@ -42,6 +52,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
         viewModel = ViewModelProvider(this)[TechniciansViewModel::class.java]
 
+
+        layoutManager = LinearLayoutManager(this)
+        //attaches LinearLayoutManager with RecyclerView
+        binding.rvTechList.layoutManager = layoutManager
+
+
         binding.rvTechList.apply {
             adapter = technicianAdapter
         }
@@ -49,12 +65,37 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
         setObserver()
 
+        addScrollerListener()
+
+    }
+
+    private fun addScrollerListener()
+    {
+        //attaches scrollListener with RecyclerView
+        binding.rvTechList.addOnScrollListener(object : RecyclerView.OnScrollListener()
+        {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int)
+            {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!isLoading)
+                {
+                    //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
+                    ////It checks, fully visible view is the last one.
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == techList.size - 1 && !nextPage.isNullOrEmpty()){
+                        pageCount++
+                        viewModel.loadNextTechnician(pageCount).observe(this@TechniciansActivity, loadTechnician())
+                        isLoading = true
+                    }
+                }
+            }
+        })
     }
 
     private fun setObserver() {
         viewModel.loadTechnician().observe(this, loadTechnician())
     }
 
+    var nextPage : String ? = null
     private fun loadTechnician(): Observer<Resource<TechnicianResponse>> {
         return Observer { it ->
             when (it?.status) {
@@ -78,7 +119,13 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                     data?.let {
                         if (it.success) {
                             techList.addAll(it.data.data)
-                            technicianAdapter.notifyDataSetChanged()
+                            nextPage = it.data.pagination.next_page_url
+
+                            if (pageCount==1)
+                                technicianAdapter.notifyDataSetChanged()
+                            else
+                                technicianAdapter.notifyItemInserted(techList.size-1)
+
                         }
                     }?: run {
                         Alerter.create(this@TechniciansActivity)
@@ -91,6 +138,13 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                 }
             }
         }
+    }
+
+    private fun openCallDialPad(contactNumber : String){
+        val i = Intent(Intent.ACTION_DIAL)
+        val p = "tel:$contactNumber"
+        i.data = Uri.parse(p)
+        startActivity(i)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -116,11 +170,19 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
     }
 
     override fun onItemClick(view: View, position: Int) {
-        val intent = Intent(this, AddTechnicianActivity::class.java)
-        intent.putExtra(UPDATE, UPDATE)
-        intent.putExtra(PARCELABLE_TECHNICIAN,techList[position])
+        when (view.id) {
+            R.id.tv_edit -> {
+                val intent = Intent(this, AddTechnicianActivity::class.java)
+                intent.putExtra(UPDATE, UPDATE)
+                intent.putExtra(PARCELABLE_TECHNICIAN, techList[position])
 
-        startActivity(intent)
+                startActivity(intent)
+            }
+            R.id.iv_call -> {
+                openCallDialPad(techList[position].mobile)
+
+            }
+        }
+
     }
-
-}
+} 

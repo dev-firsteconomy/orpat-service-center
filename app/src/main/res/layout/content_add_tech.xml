@@ -107,32 +107,76 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_mobile_number" />
 
             <TextView
-                android:id="@+id/tv_area"
+                android:id="@+id/tv_pin_code"
                 style="@style/Theme.OrpatServiceCenter.RegularText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="26dp"
-                android:text="@string/area"
+                android:text="@string/pin_code"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
                 app:layout_constraintTop_toBottomOf="@id/et_mobile_no" />
 
             <EditText
-                android:id="@+id/et_area"
+                android:id="@+id/et_pin_code"
                 style="@style/Theme.OrpatServiceCenter.EditText"
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="top"
-                android:hint="@string/area"
-                android:inputType="textMultiLine"
-                android:maxLines="10"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
+                android:hint="@string/pin_code"
+                android:inputType="number"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-                app:layout_constraintTop_toBottomOf="@id/tv_area" />
+                app:layout_constraintTop_toBottomOf="@id/tv_pin_code" />
+
+            <RadioGroup
+                android:id="@+id/rg_is_active_tech"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/et_pin_code"
+                app:layout_constraintBottom_toTopOf="@id/tv_upload_image"
+                android:weightSum="1">
+
+                <RadioButton
+                    android:id="@+id/rb_activate"
+                    style="@style/UserTypeRadioButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:drawablePadding="12dp"
+                    android:elevation="2dp"
+                    android:paddingTop="6dp"
+                    android:checked="true"
+                    android:paddingBottom="6dp"
+                    android:text="@string/activate"
+                    android:translationZ="2dp" />
+
+                <RadioButton
+                    android:id="@+id/rb_de_activate"
+                    style="@style/UserTypeRadioButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:drawablePadding="12dp"
+                    android:elevation="2dp"
+                    android:layout_marginStart="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="@string/deactivate"
+                    android:translationZ="2dp" />
+            </RadioGroup>
 
             <TextView
                 android:id="@+id/tv_upload_image"
@@ -142,7 +186,7 @@
                 android:layout_marginTop="26dp"
                 android:text="@string/upload_image"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-                app:layout_constraintTop_toBottomOf="@id/et_area" />
+                app:layout_constraintTop_toBottomOf="@id/rg_is_active_tech" />
 
             <View
                 android:id="@+id/v_image"

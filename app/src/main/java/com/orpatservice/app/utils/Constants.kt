@@ -11,4 +11,7 @@ object Constants {
     const val USER_TYPE = "USER_TYPE"
     const val ADMIN = "ADMIN"
     const val TECHNICIAN = "TECHNICIAN"
+
+    const val AVILABLE = "Available"
+    const val NOT_AVILABLE = "Not available"
 }

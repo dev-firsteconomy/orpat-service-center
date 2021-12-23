@@ -12,6 +12,9 @@ class TechniciansViewModel : ViewModel() {
     fun loadTechnician(): LiveData<Resource<TechnicianResponse>> {
         return DataRepository.instance.loadTechnician()
     }
+    fun loadNextTechnician(nextPage : Int): LiveData<Resource<TechnicianResponse>> {
+        return DataRepository.instance.loadNextPageTechnician(nextPage)
+    }
 
     fun hitAPIAddTechnician(
         requestBody: MultipartBody

@@ -9,13 +9,15 @@ data class TechnicianData(
     val last_name: String,
     val email: String,
     val mobile: String,
+    val pincode: String,
     val area: String,
     val status: Int,
-    val profile: String,
+    val image: String,
     val location: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
+        parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -32,9 +34,10 @@ data class TechnicianData(
         parcel.writeString(last_name)
         parcel.writeString(email)
         parcel.writeString(mobile)
+        parcel.writeString(pincode)
         parcel.writeString(area)
         parcel.writeInt(status)
-        parcel.writeString(profile)
+        parcel.writeString(image)
         parcel.writeString(location)
     }
 
