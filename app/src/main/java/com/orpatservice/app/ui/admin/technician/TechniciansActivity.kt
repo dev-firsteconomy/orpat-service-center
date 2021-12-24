@@ -163,8 +163,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
             R.id.fab_add_technician -> {
                 val intent = Intent(this, AddTechnicianActivity::class.java)
                 intent.putExtra(ADD, ADD)
-
-                startActivity(intent)
+                addTechnicianLauncher.launch(intent)
 
             }
         }
@@ -201,10 +200,13 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                     technicianAdapter.notifyItemChanged(clickedPosition!!)
 
                 } else {
-                    techList.add(0,technicianData!!)
 
-                    technicianAdapter.notifyItemInserted(0)
-                    binding.rvTechList.scrollToPosition(0)
+                    binding.rvTechList.post(Runnable {
+                        techList.add(0, technicianData!!)
+                        technicianAdapter.notifyItemInserted(0)
+                        binding.rvTechList.scrollToPosition(0)
+
+                    })
 
 
                 }
