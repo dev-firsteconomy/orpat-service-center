@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.new_requests.pager.requests_fragment
+package com.orpatservice.app.ui.leads.new_requests.requests_fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.orpatservice.app.R
-import com.orpatservice.app.databinding.FragmentAssignToTechnicianBinding
+import com.orpatservice.app.databinding.FragmentNewRequestBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.leads.new_requests.customer.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
@@ -20,17 +20,18 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [AssignToTechnicianFragment.newInstance] factory method to
+ * Use the [NewRequestsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AssignToTechnicianFragment : Fragment() {
+class NewRequestsFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentAssignToTechnicianBinding
-    private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
+    private lateinit var binding : FragmentNewRequestBinding
+    private var leadDataArrayList : ArrayList<LeadData> = ArrayList()
 
+    //Click listener for List Item
     private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
         when (id) {
             R.id.btn_view_details -> {
@@ -41,12 +42,7 @@ class AssignToTechnicianFragment : Fragment() {
             }
         }
     }
-    private val requestsLeadsAdapter = RequestsLeadsAdapter(
-        leadDataArrayList,
-        itemClickListener = onItemClickListener,
-        Constants.ASSIGN_TECHNICIAN
-    )
-
+    private val requestsLeadsAdapter = RequestsLeadsAdapter(leadDataArrayList, itemClickListener = onItemClickListener, Constants.NEW_LEAD)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +55,11 @@ class AssignToTechnicianFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentAssignToTechnicianBinding.inflate(inflater, container, false)
+        binding = FragmentNewRequestBinding.inflate(inflater, container, false)
 
-        binding.rvAssignTechnician.apply {
+        binding.rvNewRequest.apply {
             adapter = requestsLeadsAdapter
         }
         tempData()
@@ -92,12 +88,12 @@ class AssignToTechnicianFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment AssignToTechnicianFragment.
+         * @return A new instance of fragment NewRequestsFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AssignToTechnicianFragment().apply {
+            NewRequestsFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
