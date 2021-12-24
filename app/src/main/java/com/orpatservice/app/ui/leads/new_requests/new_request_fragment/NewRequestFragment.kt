@@ -63,7 +63,7 @@ class NewRequestsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentNewRequestBinding.inflate(inflater, container, false)
 
@@ -74,6 +74,7 @@ class NewRequestsFragment : Fragment() {
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
+        binding.cpiLoading.visibility = View.VISIBLE
         requestLeadsViewModel.loadPendingLeads()
 
         return binding.root
