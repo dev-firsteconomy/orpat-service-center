@@ -3,10 +3,13 @@ package com.orpatservice.app.ui.leads.new_requests
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ItemRequestLeadCardBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.utils.Constants
+import java.text.SimpleDateFormat
 
 /**
  * Created by Ajay Yadav on 22/12/21.
@@ -40,21 +43,61 @@ class RequestsLeadsAdapter constructor(
     class RequestLeadViewHolder(private val binding: ItemRequestLeadCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(leadData: LeadData, itemClickListener:(Int, Int)->Unit, fragmentType: String) {
+        fun onBind(
+            leadData: LeadData,
+            itemClickListener: (Int, Int) -> Unit,
+            fragmentType: String
+        ) {
 
-            if(fragmentType.equals(Constants.LEAD_ASSIGN_TECHNICIAN) || fragmentType.equals(Constants.LEAD_COMPLETED_REQUEST) || fragmentType.equals(Constants.LEAD_CANCELLED_REQUEST)) {
+            binding.tvRequestStatus.text = leadData.status
+            binding.tvRequestId.text = leadData.id.toString()
+            binding.tvRequestCustomerName.text = leadData.name
+
+            if (fragmentType.equals(Constants.LEAD_ASSIGN_TECHNICIAN) || fragmentType.equals(
+                    Constants.LEAD_COMPLETED_REQUEST
+                ) || fragmentType.equals(Constants.LEAD_CANCELLED_REQUEST)
+            ) {
                 binding.btnViewDecline.visibility = View.GONE
             } else {
                 binding.btnViewDecline.visibility = View.VISIBLE
-                binding.btnViewDecline.setOnClickListener{ itemClickListener(adapterPosition, binding.btnViewDecline.id) }
+                binding.btnViewDecline.setOnClickListener {
+                    itemClickListener(
+                        adapterPosition,
+                        binding.btnViewDecline.id
+                    )
+                }
             }
-            binding.btnViewDetails.setOnClickListener{ itemClickListener(adapterPosition, binding.btnViewDecline.id) }
+            binding.btnViewDetails.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.btnViewDecline.id
+                )
+            }
 
-            binding.tvRequestId.text = leadData.id.toString()
-            binding.tvRequestCustomerName.text = leadData.name
-            (leadData.address + " - " + leadData.pincode).also { binding.tvRequestLocation.text = it }
-            binding.tvRequestStatus.text = leadData.status
-            binding.tvRequestDateTime.text = leadData.createdAt
+            (leadData.address + " - " + leadData.pincode).also {
+                binding.tvRequestLocation.text = it
+            }
+
+            if (leadData.status.equals(Constants.PENDING, ignoreCase = true)) {
+                binding.tvRequestStatus.setTextColor(
+                    ContextCompat.getColor(
+                        binding.tvRequestStatus.context,
+                        R.color.orange
+                    )
+                )
+            } else {
+                binding.tvRequestStatus.setTextColor(
+                    ContextCompat.getColor(
+                        binding.tvRequestStatus.context,
+                        R.color.brown
+                    )
+                )
+            }
+
+            val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val formatter = SimpleDateFormat("dd MMM HH:mm")
+            val formattedDate = formatter.format(parser.parse(leadData.created_at))
+            binding.tvRequestDateTime.text = formattedDate
         }
     }
 }

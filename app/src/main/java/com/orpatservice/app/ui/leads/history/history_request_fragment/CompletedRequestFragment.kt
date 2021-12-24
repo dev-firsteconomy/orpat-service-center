@@ -76,7 +76,7 @@ class CompletedRequestFragment : Fragment() {
             leadData.pincode = "211001"
             leadData.status = "In-Progress"
             leadData.id = index + 99990
-            leadData.createdAt = "02 Dec, 10:00 Hr"
+            leadData.created_at = "02 Dec, 10:00 Hr"
             leadDataArrayList.add(leadData)
         }
         requestsLeadsAdapter.notifyDataSetChanged()

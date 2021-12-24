@@ -16,13 +16,13 @@ class LeadData: Serializable {
     var status: String? = null
     var city: String? = null
     var state: String? = null
-    var modelNo: String? = null
-    var invoiceImage: String? = null
-    var qrImage: String? = null
-    var purchaseAt: String? = null
-    var serviceCenterAssignedAt: String? = null
-    var technicianAssignedAt: String? = null
-    var createdAt: String? = null
-    var natureOfComplain: String? = null
+    var model_no: String? = null
+    var invoice_image: String? = null
+    var qr_image: String? = null
+    var purchase_at: String? = null
+    var service_center_assigned_at: String? = null
+    var technician_assigned_at: String? = null
+    var created_at: String? = null
+    var nature_of_complain: String? = null
     var technician: String? = null
 }

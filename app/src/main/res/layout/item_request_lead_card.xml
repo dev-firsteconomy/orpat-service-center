@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:text="0000000012345"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:text="Customer Name"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_request_id" />
@@ -41,7 +39,6 @@
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
             android:padding="2dp"
-            android:text="Mumbai - 400023"
             android:textSize="12sp"
             android:drawableStart="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +50,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:text="2 Dec, 01:00 Hr"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +60,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:text="In-Progress"
             android:textColor="@color/orange"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"

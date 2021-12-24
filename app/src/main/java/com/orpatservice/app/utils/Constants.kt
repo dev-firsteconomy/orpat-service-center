@@ -36,4 +36,7 @@ object Constants {
 
     const val AVAILABLE = "Available"
     const val NOT_AVILABLE = "Not available"
+
+    //Leads status
+    const val PENDING = "Pending"
 }

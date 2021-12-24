@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     Alerter.create(this)
                         .setText(resources.error?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
-                        .setDuration(1000)
+                        .setDuration(1500)
                         .show()
                 }
                 else -> {

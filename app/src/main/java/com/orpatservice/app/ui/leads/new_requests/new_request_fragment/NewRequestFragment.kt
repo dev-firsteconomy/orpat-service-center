@@ -6,11 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentNewRequestBinding
+import com.orpatservice.app.ui.data.Resource
+import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
+import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
+import com.tapadoo.alerter.Alerter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,8 +33,9 @@ class NewRequestsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding : FragmentNewRequestBinding
-    private var leadDataArrayList : ArrayList<LeadData> = ArrayList()
+    private lateinit var binding: FragmentNewRequestBinding
+    private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
+    private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
 
     //Click listener for List Item
     private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
@@ -41,7 +48,9 @@ class NewRequestsFragment : Fragment() {
             }
         }
     }
-    private val requestsLeadsAdapter = RequestsLeadsAdapter(leadDataArrayList, itemClickListener = onItemClickListener, Constants.LEAD_NEW)
+    private val requestsLeadsAdapter = RequestsLeadsAdapter(
+        leadDataArrayList, itemClickListener = onItemClickListener, Constants.LEAD_NEW
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,23 +70,48 @@ class NewRequestsFragment : Fragment() {
         binding.rvNewRequest.apply {
             adapter = requestsLeadsAdapter
         }
-        tempData()
+
+        requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+
+        setObserver()
+        requestLeadsViewModel.loadPendingLeads()
 
         return binding.root
     }
 
-    fun tempData() {
-        for (index in 1..10) {
-            val leadData = LeadData()
-            leadData.address = "Prayagraj"
-            leadData.name = "Ajay Yadav"
-            leadData.pincode = "211001"
-            leadData.status = "In-Progress"
-            leadData.id = index + 99990
-            leadData.createdAt = "02 Dec, 10:00 Hr"
-            leadDataArrayList.add(leadData)
+    private fun setObserver() {
+        requestLeadsViewModel.pendingLeadsData.observe(viewLifecycleOwner, this::getPendingLeads)
+    }
+
+    private fun getPendingLeads(resources: Resource<RequestLeadResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                binding.cpiLoading.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                binding.cpiLoading.visibility = View.GONE
+                activity?.let {
+                    Alerter.create(it)
+                        .setText(resources.error?.message.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1500)
+                        .show()
+                }
+            }
+            else -> {
+                binding.cpiLoading.visibility = View.GONE
+
+                val data = resources.data
+
+                data?.let {
+                    if (it.success == true) {
+
+                        leadDataArrayList.addAll(data.data)
+                        requestsLeadsAdapter.notifyDataSetChanged()
+                    }
+                }
+            }
         }
-        requestsLeadsAdapter.notifyDataSetChanged()
     }
 
     companion object {

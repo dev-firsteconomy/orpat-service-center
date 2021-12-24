@@ -7,6 +7,7 @@ import com.orpatservice.app.ui.data.model.AddTechnicianResponse
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.orpatservice.app.ui.data.model.login.LoginResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
+import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.data.remote.ApiClient
 import com.orpatservice.app.ui.data.remote.ErrorUtils
 import okhttp3.MultipartBody
@@ -167,5 +168,9 @@ class DataRepository {
                 }
             })
         return mutableLiveData
+    }
+
+    fun hitGetPendingLeads(): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getPendingLeads()
     }
 }
