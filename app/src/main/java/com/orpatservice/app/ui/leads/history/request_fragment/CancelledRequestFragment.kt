@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.requests_leads.pager.requests_fragment
+package com.orpatservice.app.ui.leads.history.request_fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.orpatservice.app.R
-import com.orpatservice.app.databinding.FragmentNewRequestBinding
+import com.orpatservice.app.databinding.FragmentCancelledRequestBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
-import com.orpatservice.app.ui.requests_leads.customer.CustomerDetailsActivity
-import com.orpatservice.app.ui.requests_leads.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.new_requests.customer.CustomerDetailsActivity
 import com.orpatservice.app.utils.Constants
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,18 +20,17 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [NewRequestsFragment.newInstance] factory method to
+ * Use the [CancelledRequestFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NewRequestsFragment : Fragment() {
+class CancelledRequestFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding : FragmentNewRequestBinding
-    private var leadDataArrayList : ArrayList<LeadData> = ArrayList()
+    private lateinit var binding: FragmentCancelledRequestBinding
+    private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
 
-    //Click listener for List Item
     private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
         when (id) {
             R.id.btn_view_details -> {
@@ -42,7 +41,11 @@ class NewRequestsFragment : Fragment() {
             }
         }
     }
-    private val requestsLeadsAdapter = RequestsLeadsAdapter(leadDataArrayList, itemClickListener = onItemClickListener, Constants.NEW_LEAD)
+    private val requestsLeadsAdapter = RequestsLeadsAdapter(
+        leadDataArrayList,
+        itemClickListener = onItemClickListener,
+        Constants.CANCELLED_REQUEST
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +60,9 @@ class NewRequestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentNewRequestBinding.inflate(inflater, container, false)
+        binding = FragmentCancelledRequestBinding.inflate(inflater, container, false)
 
-        binding.rvNewRequest.apply {
+        binding.rvCancelledRequest.apply {
             adapter = requestsLeadsAdapter
         }
         tempData()
@@ -88,12 +91,12 @@ class NewRequestsFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment NewRequestsFragment.
+         * @return A new instance of fragment CancelledRequestFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            NewRequestsFragment().apply {
+            CancelledRequestFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

@@ -1,11 +1,9 @@
-package com.orpatservice.app.ui.requests_leads.pager
+package com.orpatservice.app.ui.leads.new_requests.pager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.orpatservice.app.ui.requests_leads.pager.requests_fragment.AssignToTechnicianFragment
-import com.orpatservice.app.ui.requests_leads.pager.requests_fragment.NewRequestsFragment
 
 /**
  * Created by Ajay Yadav on 22/12/21.

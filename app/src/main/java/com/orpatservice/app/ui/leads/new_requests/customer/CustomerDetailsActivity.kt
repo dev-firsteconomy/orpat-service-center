@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.requests_leads.customer
+package com.orpatservice.app.ui.leads.new_requests.customer
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

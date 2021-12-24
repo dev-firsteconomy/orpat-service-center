@@ -10,8 +10,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
-import com.orpatservice.app.ui.history.LeadHistoryActivity
-import com.orpatservice.app.ui.requests_leads.RequestsLeadsActivity
+import com.orpatservice.app.ui.leads.history.LeadHistoryActivity
+import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.SelectUserActivity

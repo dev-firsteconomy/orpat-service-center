@@ -75,19 +75,19 @@
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.requests_leads.RequestsLeadsActivity"
+            android:name="com.orpatservice.app.ui.leads.new_requests.RequestsLeadsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.history.LeadHistoryActivity"
+            android:name="com.orpatservice.app.ui.leads.history.LeadHistoryActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity"/>
         <activity
-            android:name=".ui.requests_leads.customer.CustomerDetailsActivity"
+            android:name="com.orpatservice.app.ui.leads.new_requests.customer.CustomerDetailsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
