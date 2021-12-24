@@ -63,7 +63,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         when (view?.id) {
             R.id.mcv_request -> {
                 val intent = Intent(this, RequestsLeadsActivity::class.java)
-                intent.putExtra(Constants.MODULE, Constants.REQUEST)
+                intent.putExtra(Constants.MODULE_TYPE, Constants.REQUEST)
                 startActivity(intent)
             }
             R.id.mcv_add_technician -> {
@@ -71,7 +71,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.mcv_history -> {
                 val intent = Intent(this, LeadHistoryActivity::class.java)
-                intent.putExtra(Constants.MODULE, Constants.HISTORY)
+                intent.putExtra(Constants.MODULE_TYPE, Constants.HISTORY)
                 startActivity(intent)
             }
             R.id.mcv_profile -> {

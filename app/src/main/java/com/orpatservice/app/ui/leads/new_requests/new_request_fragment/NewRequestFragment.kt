@@ -41,7 +41,7 @@ class NewRequestsFragment : Fragment() {
             }
         }
     }
-    private val requestsLeadsAdapter = RequestsLeadsAdapter(leadDataArrayList, itemClickListener = onItemClickListener, Constants.NEW_LEAD)
+    private val requestsLeadsAdapter = RequestsLeadsAdapter(leadDataArrayList, itemClickListener = onItemClickListener, Constants.LEAD_NEW)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

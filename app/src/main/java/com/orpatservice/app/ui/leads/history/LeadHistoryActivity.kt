@@ -11,7 +11,7 @@ import com.orpatservice.app.databinding.ActivityLeadHistoryBinding
 import com.orpatservice.app.ui.leads.history.history_request_fragment.CancelledRequestFragment
 import com.orpatservice.app.ui.leads.history.history_request_fragment.CompletedRequestFragment
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
-import com.orpatservice.app.ui.leads.new_requests.pager.ViewPagerAdapter
+import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
 
 class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {

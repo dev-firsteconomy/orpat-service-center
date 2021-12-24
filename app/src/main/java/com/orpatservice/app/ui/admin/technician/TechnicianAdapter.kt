@@ -59,7 +59,7 @@ class TechnicianAdapter(private val techList: ArrayList<TechnicianData>) :
             binding.tvTechName.text = technicianData.first_name + " " + technicianData.last_name
             binding.tvLocation.text = technicianData.pincode
             if (technicianData.status == 1) {
-                binding.tvIsAvailable.text = Constants.AVILABLE
+                binding.tvIsAvailable.text = Constants.AVAILABLE
 
             } else {
                 binding.tvIsAvailable.text = Constants.NOT_AVILABLE

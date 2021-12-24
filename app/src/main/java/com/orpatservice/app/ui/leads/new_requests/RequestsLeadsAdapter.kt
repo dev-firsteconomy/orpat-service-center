@@ -42,7 +42,7 @@ class RequestsLeadsAdapter constructor(
 
         fun onBind(leadData: LeadData, itemClickListener:(Int, Int)->Unit, fragmentType: String) {
 
-            if(fragmentType.equals(Constants.ASSIGN_TECHNICIAN) || fragmentType.equals(Constants.COMPLETED_REQUEST) || fragmentType.equals(Constants.CANCELLED_REQUEST)) {
+            if(fragmentType.equals(Constants.LEAD_ASSIGN_TECHNICIAN) || fragmentType.equals(Constants.LEAD_COMPLETED_REQUEST) || fragmentType.equals(Constants.LEAD_CANCELLED_REQUEST)) {
                 binding.btnViewDecline.visibility = View.GONE
             } else {
                 binding.btnViewDecline.visibility = View.VISIBLE
