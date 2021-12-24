@@ -15,6 +15,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -22,12 +23,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityAddTechnicianBinding
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
+import com.orpatservice.app.ui.data.model.AddTechnicianResponse
 import com.orpatservice.app.ui.data.model.TechnicianData
 import com.orpatservice.app.ui.data.model.TechnicianResponse
+import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 import com.tapadoo.alerter.Alerter
 import okhttp3.MediaType.Companion.toMediaType
@@ -76,8 +81,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
     }
 
-    private var imageUrl : String? = ""
-    private var technicianID : Int? = 0
+    private var technicianID: Int? = 0
     private fun bindUpdateTechnician() {
         val technicianData = intent.getParcelableExtra<TechnicianData>(
             PARCELABLE_TECHNICIAN
@@ -85,15 +89,21 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         binding.includedContent.etFirstName.setText(technicianData?.first_name)
         binding.includedContent.etLastName.setText(technicianData?.last_name)
         binding.includedContent.etMobileNo.setText(technicianData?.mobile)
-        binding.includedContent.etArea.setText(technicianData?.area)
-        imageUrl = technicianData?.profile
+        binding.includedContent.etPinCode.setText(technicianData?.pincode)
         technicianID = technicianData?.id
+        if (technicianData?.status==0){
+            binding.includedContent.rbDeActivate.isChecked = true
+        }
 
-        //binding.includedContent.ivUploadImage
+        Glide.with(binding.includedContent.ivUploadImage)
+            .load(technicianData?.image)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.avtar)
+            .into(binding.includedContent.ivUploadImage)
 
     }
 
-    private fun loadAddTechnician(): Observer<Resource<TechnicianResponse>> {
+    private fun loadAddTechnician(): Observer<Resource<AddTechnicianResponse>> {
         return Observer { it ->
             when (it?.status) {
                 Status.LOADING -> {
@@ -115,12 +125,10 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
                     data?.let {
                         if (it.success) {
-                            Alerter.create(this@AddTechnicianActivity)
-                                .setTitle("")
-                                .setText(it.message)
-                                .setBackgroundColorRes(R.color.orange)
-                                .setDuration(1000)
-                                .show()
+                            Toast.makeText(this, "" + it.message, Toast.LENGTH_LONG).show()
+                            val intent = Intent()
+                            intent.putExtra(PARCELABLE_TECHNICIAN, it.data)
+                            setResult(Activity.RESULT_OK,intent)
                             finish()
 
                         }
@@ -137,42 +145,67 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    private fun hitAPIAddTechnician(){
+    private fun hitAPIAddTechnician() {
         val params = MultipartBody.Builder().setType(MultipartBody.FORM)
 
-        params.addFormDataPart("first_name",binding.includedContent.etFirstName.text.toString())
-        params.addFormDataPart("last_name",binding.includedContent.etLastName.text.toString())
-        params.addFormDataPart("mobile",binding.includedContent.etMobileNo.text.toString())
-        params.addFormDataPart("area",binding.includedContent.etArea.text.toString())
+        params.addFormDataPart("first_name", binding.includedContent.etFirstName.text.toString().trim())
+        params.addFormDataPart("last_name", binding.includedContent.etLastName.text.toString().trim())
+        params.addFormDataPart("mobile", binding.includedContent.etMobileNo.text.toString().trim())
+        params.addFormDataPart("pincode", binding.includedContent.etPinCode.text.toString().trim())
 
-        val files = File(resultUri?.path ?: "")
-        val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
-        params.addFormDataPart("image", files.name, requestFile)
+        if (binding.includedContent.rbActivate.isChecked) {
+            params.addFormDataPart("status", "1")
 
-        viewModel.hitAPIAddTechnician(params.build()
+        } else if (binding.includedContent.rbDeActivate.isChecked) {
+            params.addFormDataPart("status", "0")
+
+        }
+
+        if (!resultUri?.path.isNullOrBlank()) {
+            val files = File(resultUri?.path ?: "")
+            val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
+            params.addFormDataPart("image", files.name, requestFile)
+        }
+
+        viewModel.hitAPIAddTechnician(
+            params.build()
         ).observe(this, loadAddTechnician())
     }
 
-    private fun hitAPIUpdateTechnician(){
+    private fun hitAPIUpdateTechnician() {
         val params = MultipartBody.Builder().setType(MultipartBody.FORM)
 
-        params.addFormDataPart("first_name",binding.includedContent.etFirstName.text.toString())
-        params.addFormDataPart("last_name",binding.includedContent.etLastName.text.toString())
-        params.addFormDataPart("mobile",binding.includedContent.etMobileNo.text.toString())
-        params.addFormDataPart("area",binding.includedContent.etArea.text.toString())
+        params.addFormDataPart("first_name", binding.includedContent.etFirstName.text.toString().trim())
+        params.addFormDataPart("last_name", binding.includedContent.etLastName.text.toString().trim())
+        params.addFormDataPart("mobile", binding.includedContent.etMobileNo.text.toString().trim())
+        params.addFormDataPart("pincode", binding.includedContent.etPinCode.text.toString().trim())
 
-        val files = File(resultUri?.path ?: "")
-        val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
-        params.addFormDataPart("image", files.name, requestFile)
+        if (binding.includedContent.rbActivate.isChecked) {
+            params.addFormDataPart("status", "1")
 
-        viewModel.hitAPIUpdateTechnician(params.build(),technicianID
+        } else if (binding.includedContent.rbDeActivate.isChecked) {
+            params.addFormDataPart("status", "0")
+
+        }
+
+        if (!resultUri?.path.isNullOrBlank()){
+            val files = File(resultUri?.path ?: "")
+            val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
+            params.addFormDataPart("image", files.name, requestFile)
+        }
+
+
+        viewModel.hitAPIUpdateTechnician(
+            params.build(), technicianID
         ).observe(this, loadAddTechnician())
+
     }
 
     private fun isValidAddTechnician(): Boolean {
         return (Utils.instance.validateFirstName(binding.includedContent.etFirstName)
                 && Utils.instance.validateLastName(binding.includedContent.etLastName)
-                && Utils.instance.validatePhoneNumber(binding.includedContent.etMobileNo))
+                && Utils.instance.validatePhoneNumber(binding.includedContent.etMobileNo)
+                && Utils.instance.validatePinCode(binding.includedContent.etPinCode))
 
     }
 
@@ -400,7 +433,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                 }
             }
 
-            R.id.v_image->{
+            R.id.v_image -> {
                 if (checkCameraPermission()) {
                     loadBottomSheetDialog()
                 }

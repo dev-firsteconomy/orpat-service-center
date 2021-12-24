@@ -32,4 +32,7 @@ object Constants {
     const val ASSIGN_TECHNICIAN = "ASSIGN_TECHNICIAN"
     const val COMPLETED_REQUEST = "COMPLETED_REQUEST"
     const val CANCELLED_REQUEST = "CANCELLED_REQUEST"
+
+    const val AVILABLE = "Available"
+    const val NOT_AVILABLE = "Not available"
 }

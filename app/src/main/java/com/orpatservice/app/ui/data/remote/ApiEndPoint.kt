@@ -1,5 +1,6 @@
 package com.orpatservice.app.ui.data.remote
 
+import com.orpatservice.app.ui.data.model.AddTechnicianResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.orpatservice.app.ui.data.model.login.LoginResponse
@@ -11,6 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Body
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiEndPoint {
 
@@ -29,15 +31,18 @@ interface ApiEndPoint {
     @GET("technicians")
     fun getTechnicianAPI(): Call<TechnicianResponse>
 
+    @GET("technicians")
+    fun getNextPageTechnicianAPI(@Query("page") page : Int?): Call<TechnicianResponse>
+
     // @FormUrlEncoded
     @POST("technicians")
     fun hitAPIAddTechnician(
         @Body requestBody: MultipartBody
-    ): Call<TechnicianResponse>
+    ): Call<AddTechnicianResponse>
 
     @POST("technicians/update_technician/{technician_id}")
     fun hitAPIUpdateTechnician(
         @Body requestBody: MultipartBody,
         @Path("technician_id") technician_id : Int?
-    ): Call<TechnicianResponse>
+    ): Call<AddTechnicianResponse>
 }

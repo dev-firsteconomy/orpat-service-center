@@ -140,4 +140,5 @@ dependencies {
 
     implementation "com.squareup.okhttp3:logging-interceptor:$retrofit_interceptor_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    
 }

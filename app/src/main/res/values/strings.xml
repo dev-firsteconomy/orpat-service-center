@@ -13,7 +13,7 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <!-- Login Module-->
-    <string name="are_you_admin_or_technician">Are you Admin \nor Technician?</string>
+    <string name="select_your_role">Select your Role</string>
     <string name="admin">Admin</string>
     <string name="technician">Technician</string>
     <string name="btn_continue">Continue</string>
@@ -52,14 +52,16 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="area">Area</string>
+    <string name="pin_code">Pin code</string>
     <string name="upload_image">Upload Image</string>
     <string name="image_title">Upload profile image here</string>
     <string name="btn_submit">Submit</string>
     <string name="first_name_required">First name is required</string>
     <string name="last_name_required">Last name is required</string>
     <string name="phone_number_required">Phone Number is required</string>
+    <string name="pin_code_required">Pin Code is required</string>
     <string name="number_invalid">"Invalid Phone Number "</string>
+    <string name="pin_code_invalid">"Invalid Pin code"</string>
     <string name="please_select">Please Select Image</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
@@ -69,4 +71,7 @@
     <string name="btn_view_details">View Details</string>
     <string name="service_center">Service Center</string>
     <string name="toolbar_title_history">History</string>
+    <string name="edit"><u>Edit</u></string>
+    <string name="activate">Activate</string>
+    <string name="deactivate">Deactivate</string>
 </resources>

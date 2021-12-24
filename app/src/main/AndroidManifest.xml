@@ -69,7 +69,7 @@
             android:windowSoftInputMode="stateVisible"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.dashboard.DashboardActivity"
+            android:name=".ui.admin.dashboard.DashboardActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
