@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.new_requests.pager
+package com.orpatservice.app.ui.leads.pager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

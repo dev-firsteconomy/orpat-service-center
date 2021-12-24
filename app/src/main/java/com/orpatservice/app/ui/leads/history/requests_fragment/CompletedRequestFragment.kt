@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.history.request_fragment
+package com.orpatservice.app.ui.leads.history.requests_fragment
 
 import android.content.Intent
 import android.os.Bundle
