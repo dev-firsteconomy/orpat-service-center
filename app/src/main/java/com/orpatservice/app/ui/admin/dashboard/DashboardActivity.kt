@@ -12,6 +12,7 @@ import com.orpatservice.app.databinding.ActivityDashboardBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.SelectUserActivity
+import com.orpatservice.app.ui.request.CustomerDetailsActivity
 
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
@@ -59,7 +60,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.mcv_request -> {
-
+                startActivity(Intent(this, CustomerDetailsActivity::class.java))
             }
             R.id.mcv_add_technician -> {
                 startActivity(Intent(this, TechniciansActivity::class.java))
