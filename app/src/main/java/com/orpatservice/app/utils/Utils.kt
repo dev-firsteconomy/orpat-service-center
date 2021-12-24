@@ -53,6 +53,22 @@ class Utils {
 
     }
 
+    fun validatePinCode(editText: EditText?): Boolean {
+        return when {
+            editText?.text?.isEmpty()!! -> {
+                editText.error = editText.context.getString(R.string.pin_code_required)
+                editText.requestFocus()
+                false
+            }
+            editText.text?.length != 6 -> {
+                editText.error = editText.context.getString(R.string.pin_code_invalid)
+                editText.requestFocus()
+                return false
+            }
+            else -> true
+        }
+    }
+
     fun reSizeImg(bm: Bitmap) : Uri {
         var imageFile : File?=null
         var bm: Bitmap? = bm

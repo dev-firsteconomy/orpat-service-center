@@ -59,7 +59,9 @@
     <string name="first_name_required">First name is required</string>
     <string name="last_name_required">Last name is required</string>
     <string name="phone_number_required">Phone Number is required</string>
+    <string name="pin_code_required">Pin Code is required</string>
     <string name="number_invalid">"Invalid Phone Number "</string>
+    <string name="pin_code_invalid">"Invalid Pin code"</string>
     <string name="please_select">Please Select Image</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>

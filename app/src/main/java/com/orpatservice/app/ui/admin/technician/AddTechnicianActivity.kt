@@ -204,7 +204,8 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
     private fun isValidAddTechnician(): Boolean {
         return (Utils.instance.validateFirstName(binding.includedContent.etFirstName)
                 && Utils.instance.validateLastName(binding.includedContent.etLastName)
-                && Utils.instance.validatePhoneNumber(binding.includedContent.etMobileNo))
+                && Utils.instance.validatePhoneNumber(binding.includedContent.etMobileNo)
+                && Utils.instance.validatePinCode(binding.includedContent.etPinCode))
 
     }
 
