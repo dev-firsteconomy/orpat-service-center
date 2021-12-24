@@ -123,6 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="top"
+                android:maxLength="6"
                 android:hint="@string/pin_code"
                 android:inputType="number"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"

@@ -1,11 +1,13 @@
 package com.orpatservice.app.ui.admin.technician
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -21,7 +23,7 @@ import com.orpatservice.app.ui.data.model.TechnicianData
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.tapadoo.alerter.Alerter
 
-class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
+class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback {
     private lateinit var binding: ActivityTechniciansBinding
     private lateinit var viewModel: TechniciansViewModel
 
@@ -30,8 +32,8 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
 
 
     private var isLoading: Boolean = false
-    private lateinit var layoutManager : LinearLayoutManager
-    private var pageCount : Int = 1
+    private lateinit var layoutManager: LinearLayoutManager
+    private var pageCount: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,21 +71,18 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
 
     }
 
-    private fun addScrollerListener()
-    {
+    private fun addScrollerListener() {
         //attaches scrollListener with RecyclerView
-        binding.rvTechList.addOnScrollListener(object : RecyclerView.OnScrollListener()
-        {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int)
-            {
+        binding.rvTechList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!isLoading)
-                {
+                if (!isLoading) {
                     //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
                     ////It checks, fully visible view is the last one.
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == techList.size - 1 && !nextPage.isNullOrEmpty()){
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == techList.size - 1 && !nextPage.isNullOrEmpty()) {
                         pageCount++
-                        viewModel.loadNextTechnician(pageCount).observe(this@TechniciansActivity, loadTechnician())
+                        viewModel.loadNextTechnician(pageCount)
+                            .observe(this@TechniciansActivity, loadTechnician())
                         isLoading = true
                     }
                 }
@@ -95,7 +94,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
         viewModel.loadTechnician().observe(this, loadTechnician())
     }
 
-    var nextPage : String ? = null
+    var nextPage: String? = null
     private fun loadTechnician(): Observer<Resource<TechnicianResponse>> {
         return Observer { it ->
             when (it?.status) {
@@ -107,7 +106,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
                     binding.cpiLoading.visibility = View.GONE
                     Alerter.create(this@TechniciansActivity)
                         .setTitle("")
-                        .setText(""+it.error?.message.toString())
+                        .setText("" + it.error?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1000)
                         .show()
@@ -121,13 +120,15 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
                             techList.addAll(it.data.data)
                             nextPage = it.data.pagination.next_page_url
 
-                            if (pageCount==1)
-                                technicianAdapter.notifyDataSetChanged()
-                            else
-                                technicianAdapter.notifyItemInserted(techList.size-1)
+                            technicianAdapter.notifyDataSetChanged()
+
+                            /* if (pageCount==1)
+                                 technicianAdapter.notifyDataSetChanged()
+                             else
+                                 technicianAdapter.notifyItemInserted(techList.size-1)*/
 
                         }
-                    }?: run {
+                    } ?: run {
                         Alerter.create(this@TechniciansActivity)
                             .setTitle("")
                             .setText(it.data?.message.toString())
@@ -140,7 +141,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
         }
     }
 
-    private fun openCallDialPad(contactNumber : String){
+    private fun openCallDialPad(contactNumber: String) {
         val i = Intent(Intent.ACTION_DIAL)
         val p = "tel:$contactNumber"
         i.data = Uri.parse(p)
@@ -169,14 +170,17 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
         }
     }
 
+    var clickedPosition: Int? = null
     override fun onItemClick(view: View, position: Int) {
         when (view.id) {
             R.id.tv_edit -> {
+                clickedPosition = position
+
                 val intent = Intent(this, AddTechnicianActivity::class.java)
                 intent.putExtra(UPDATE, UPDATE)
                 intent.putExtra(PARCELABLE_TECHNICIAN, techList[position])
 
-                startActivity(intent)
+                addTechnicianLauncher.launch(intent)
             }
             R.id.iv_call -> {
                 openCallDialPad(techList[position].mobile)
@@ -185,4 +189,25 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback{
         }
 
     }
+
+    private var addTechnicianLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                //setObserver()
+                val technicianData =
+                    result.data?.getParcelableExtra<TechnicianData>(PARCELABLE_TECHNICIAN)
+                if (clickedPosition != null) {
+                    techList[clickedPosition!!] = technicianData!!
+                    technicianAdapter.notifyItemChanged(clickedPosition!!)
+
+                } else {
+                    techList.add(0,technicianData!!)
+
+                    technicianAdapter.notifyItemInserted(0)
+                    binding.rvTechList.scrollToPosition(0)
+
+
+                }
+            }
+        }
 } 

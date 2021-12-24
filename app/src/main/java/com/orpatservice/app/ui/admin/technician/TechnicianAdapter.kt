@@ -70,8 +70,9 @@ class TechnicianAdapter(private val techList: ArrayList<TechnicianData>) :
                     )
                 )
             }
-            if (adapterPosition == techList.size - 1) {
+            if (adapterPosition == techList.size-1) {
                 binding.vDivider.visibility = View.GONE
+
             }
         }
 

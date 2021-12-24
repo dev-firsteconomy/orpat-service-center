@@ -15,6 +15,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -28,6 +29,7 @@ import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityAddTechnicianBinding
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
+import com.orpatservice.app.ui.data.model.AddTechnicianResponse
 import com.orpatservice.app.ui.data.model.TechnicianData
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.orpatservice.app.utils.Constants
@@ -101,7 +103,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
     }
 
-    private fun loadAddTechnician(): Observer<Resource<TechnicianResponse>> {
+    private fun loadAddTechnician(): Observer<Resource<AddTechnicianResponse>> {
         return Observer { it ->
             when (it?.status) {
                 Status.LOADING -> {
@@ -123,12 +125,10 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
                     data?.let {
                         if (it.success) {
-                            Alerter.create(this@AddTechnicianActivity)
-                                .setTitle("")
-                                .setText(it.message)
-                                .setBackgroundColorRes(R.color.orange)
-                                .setDuration(1000)
-                                .show()
+                            Toast.makeText(this, "" + it.message, Toast.LENGTH_LONG).show()
+                            val intent = Intent()
+                            intent.putExtra(PARCELABLE_TECHNICIAN, it.data)
+                            setResult(Activity.RESULT_OK,intent)
                             finish()
 
                         }
@@ -161,9 +161,11 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
         }
 
-        val files = File(resultUri?.path ?: "")
-        val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
-        params.addFormDataPart("image", files.name, requestFile)
+        if (!resultUri?.path.isNullOrBlank()) {
+            val files = File(resultUri?.path ?: "")
+            val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
+            params.addFormDataPart("image", files.name, requestFile)
+        }
 
         viewModel.hitAPIAddTechnician(
             params.build()

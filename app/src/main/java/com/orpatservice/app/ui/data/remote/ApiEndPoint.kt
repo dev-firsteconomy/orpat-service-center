@@ -1,5 +1,6 @@
 package com.orpatservice.app.ui.data.remote
 
+import com.orpatservice.app.ui.data.model.AddTechnicianResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.orpatservice.app.ui.data.model.login.LoginResponse
@@ -37,11 +38,11 @@ interface ApiEndPoint {
     @POST("technicians")
     fun hitAPIAddTechnician(
         @Body requestBody: MultipartBody
-    ): Call<TechnicianResponse>
+    ): Call<AddTechnicianResponse>
 
     @POST("technicians/update_technician/{technician_id}")
     fun hitAPIUpdateTechnician(
         @Body requestBody: MultipartBody,
         @Path("technician_id") technician_id : Int?
-    ): Call<TechnicianResponse>
+    ): Call<AddTechnicianResponse>
 }
