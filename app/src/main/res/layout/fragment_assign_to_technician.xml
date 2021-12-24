@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.leads.new_requests.requests_fragment.AssignToTechnicianFragment">
+    tools:context=".ui.leads.new_requests.new_request_fragment.AssignToTechnicianFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_assign_technician"

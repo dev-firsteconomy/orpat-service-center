@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.history.requests_fragment
+package com.orpatservice.app.ui.leads.history.history_request_fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,6 @@ import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentCancelledRequestBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
-import com.orpatservice.app.ui.leads.new_requests.customer.CustomerDetailsActivity
 import com.orpatservice.app.utils.Constants
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,10 +33,10 @@ class CancelledRequestFragment : Fragment() {
     private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
         when (id) {
             R.id.btn_view_details -> {
-                val intent = Intent(activity, CustomerDetailsActivity::class.java)
-
-                intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-                startActivity(intent)
+//                val intent = Intent(activity, CustomerDetailsActivity::class.java)
+//
+//                intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+//                startActivity(intent)
             }
         }
     }

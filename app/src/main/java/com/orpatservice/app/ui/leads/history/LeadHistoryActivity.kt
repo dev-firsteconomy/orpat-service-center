@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.orpatservice.app.databinding.ActivityLeadHistoryBinding
-import com.orpatservice.app.ui.leads.history.requests_fragment.CancelledRequestFragment
-import com.orpatservice.app.ui.leads.history.requests_fragment.CompletedRequestFragment
+import com.orpatservice.app.ui.leads.history.history_request_fragment.CancelledRequestFragment
+import com.orpatservice.app.ui.leads.history.history_request_fragment.CompletedRequestFragment
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
 import com.orpatservice.app.ui.leads.new_requests.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
