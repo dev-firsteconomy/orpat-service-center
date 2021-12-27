@@ -13,7 +13,7 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <!-- Login Module-->
-    <string name="are_you_admin_or_technician">Are you Admin \nor Technician?</string>
+    <string name="select_your_role">Select your Role</string>
     <string name="admin">Admin</string>
     <string name="technician">Technician</string>
     <string name="btn_continue">Continue</string>
