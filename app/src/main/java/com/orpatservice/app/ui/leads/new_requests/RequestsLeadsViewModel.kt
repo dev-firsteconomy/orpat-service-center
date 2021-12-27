@@ -16,6 +16,7 @@ import retrofit2.Response
 class RequestsLeadsViewModel: ViewModel() {
 
     val pendingLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
+    val assignedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
 
     fun loadPendingLeads() {
         DataRepository.instance.hitGetPendingLeads()
@@ -39,6 +40,32 @@ class RequestsLeadsViewModel: ViewModel() {
 
                 override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
                     pendingLeadsData.value = Resource.error(ErrorUtils.getError(t))
+                }
+            })
+    }
+
+    fun loadAssignedLeads() {
+        DataRepository.instance.hitGetAssignedLeads()
+            .enqueue(object : Callback<RequestLeadResponse> {
+                override fun onResponse(
+                    call: Call<RequestLeadResponse>,
+                    response: Response<RequestLeadResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        assignedLeadsData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        assignedLeadsData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+
+                override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
+                    assignedLeadsData.value = Resource.error(ErrorUtils.getError(t))
                 }
             })
     }

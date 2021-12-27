@@ -5,11 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentAssignToTechnicianBinding
+import com.orpatservice.app.ui.data.Resource
+import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
+import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
+import com.tapadoo.alerter.Alerter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +34,7 @@ class AssignToTechnicianFragment : Fragment() {
 
     private lateinit var binding: FragmentAssignToTechnicianBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
+    private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
 
     private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
         when (id) {
@@ -64,23 +71,48 @@ class AssignToTechnicianFragment : Fragment() {
         binding.rvAssignTechnician.apply {
             adapter = requestsLeadsAdapter
         }
-        tempData()
+        requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+
+        setObserver()
+        binding.cpiLoading.visibility = View.VISIBLE
+        requestLeadsViewModel.loadAssignedLeads()
 
         return binding.root
     }
 
-    fun tempData() {
-        for (index in 1..10) {
-            val leadData = LeadData()
-            leadData.address = "Prayagraj"
-            leadData.name = "Ajay Yadav"
-            leadData.pincode = "211001"
-            leadData.status = "In-Progress"
-            leadData.id = index + 99990
-            leadData.created_at = "2021-12-14 14:32:16"
-            leadDataArrayList.add(leadData)
+    private fun setObserver() {
+        requestLeadsViewModel.assignedLeadsData.observe(viewLifecycleOwner, this::getAssignedLeads)
+    }
+
+    private fun getAssignedLeads(resources: Resource<RequestLeadResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                binding.cpiLoading.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                binding.cpiLoading.visibility = View.GONE
+                activity?.let {
+                    Alerter.create(it)
+                        .setText(resources.error?.message.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1500)
+                        .show()
+                }
+            }
+            else -> {
+                binding.cpiLoading.visibility = View.GONE
+
+                val data = resources.data
+
+                data?.let {
+                    if (it.success == true) {
+
+                        leadDataArrayList.addAll(data.data)
+                        requestsLeadsAdapter.notifyDataSetChanged()
+                    }
+                }
+            }
         }
-        requestsLeadsAdapter.notifyDataSetChanged()
     }
 
     companion object {

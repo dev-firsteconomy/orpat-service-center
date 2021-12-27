@@ -49,4 +49,7 @@ interface ApiEndPoint {
 
     @GET("leads/pending")
     fun getPendingLeads(): Call<RequestLeadResponse>
+
+    @GET("leads/assigned")
+    fun getAssignedLeads(): Call<RequestLeadResponse>
 }

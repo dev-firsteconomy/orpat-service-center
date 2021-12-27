@@ -173,4 +173,8 @@ class DataRepository {
     fun hitGetPendingLeads(): Call<RequestLeadResponse> {
         return ApiClient.getAuthApi().getPendingLeads()
     }
+
+    fun hitGetAssignedLeads(): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getAssignedLeads()
+    }
 }
