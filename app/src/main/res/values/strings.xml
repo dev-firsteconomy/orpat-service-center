@@ -78,7 +78,7 @@
     <string name="contact_number">Contact Number</string>
     <string name="full_address">Full Address</string>
     <string name="model_name">Model Name</string>
-    <string name="date_of_purchase">Date_of Purchase</string>
+    <string name="date_of_purchase">Date of Purchase</string>
     <string name="invoice_image">Invoice Image</string>
     <string name="qr_code_image">QR Code Image</string>
     <string name="warranty_status">Warranty Status</string>
