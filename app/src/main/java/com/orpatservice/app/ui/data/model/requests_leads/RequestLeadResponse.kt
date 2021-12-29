@@ -12,6 +12,6 @@ class RequestLeadResponse(
 )
 
 data class ListData (
-    val leadData: ArrayList<LeadData> = arrayListOf(),
+    val data: ArrayList<LeadData> = arrayListOf(),
     val pagination : PaginationData
 )

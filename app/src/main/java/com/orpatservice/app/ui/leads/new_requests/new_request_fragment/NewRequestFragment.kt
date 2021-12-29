@@ -106,7 +106,7 @@ class NewRequestsFragment : Fragment() {
                 response?.let {
                     if (it.success) {
 
-                        leadDataArrayList.addAll(response.data.leadData)
+                        leadDataArrayList.addAll(response.data.data)
                         requestsLeadsAdapter.notifyDataSetChanged()
                     }
                 }
