@@ -39,12 +39,19 @@ class AssignToTechnicianFragment : Fragment() {
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
 
     private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
+        val intent = Intent(activity, CustomerDetailsActivity::class.java)
+
+        intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+        startActivity(intent)
         when (id) {
             R.id.btn_view_details -> {
                 val intent = Intent(activity, CustomerDetailsActivity::class.java)
 
                 intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
                 startActivity(intent)
+            }
+            R.id.btn_view_decline -> {
+
             }
         }
     }
