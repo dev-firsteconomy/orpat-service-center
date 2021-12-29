@@ -180,11 +180,12 @@ class DataRepository {
         return mutableLiveData
     }
 
-    fun hitGetPendingLeads(): Call<RequestLeadResponse> {
-        return ApiClient.getAuthApi().getPendingLeads()
+    //Lead API
+    fun hitGetServiceCenterPendingLeads(): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterPendingLeads()
     }
 
-    fun hitGetAssignedLeads(): Call<RequestLeadResponse> {
-        return ApiClient.getAuthApi().getAssignedLeads()
+    fun hitGetServiceCenterAssignedLeads(): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterAssignedLeads()
     }
 }

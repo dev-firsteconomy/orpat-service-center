@@ -25,7 +25,7 @@ class UserLoginViewModel : ViewModel() {
         if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitServiceCenterOTPApi(mobileNumber)
                 .enqueue(callbackGetOTP)
-        } else {
+        } else if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             DataRepository.instance.hitTechnicianOTPApi(mobileNumber)
                 .enqueue(callbackGetOTP)
         }
@@ -59,7 +59,9 @@ class UserLoginViewModel : ViewModel() {
         if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitVerifyServiceCenterOTPLoginApi(mobileNumber, otp)
                 .enqueue(callbackVerifyOTPLogin)
-        } else {
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
+                .equals(Constants.TECHNICIAN)
+        ){
             DataRepository.instance.hitVerifyTechnicianOTPLoginApi(mobileNumber, otp)
                 .enqueue(callbackVerifyOTPLogin)
         }

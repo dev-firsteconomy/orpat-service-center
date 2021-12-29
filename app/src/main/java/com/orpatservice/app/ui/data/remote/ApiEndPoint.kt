@@ -40,27 +40,27 @@ interface ApiEndPoint {
         @Field ("mobile") mobile: String,
         @Field ("otp") otp: String): Call<LoginResponse>
 
-    @GET("technicians")
+    @GET("service-center/technicians")
     fun getTechnicianAPI(): Call<TechnicianResponse>
 
-    @GET("technicians")
+    @GET("service-center/technicians")
     fun getNextPageTechnicianAPI(@Query("page") page : Int?): Call<TechnicianResponse>
 
     // @FormUrlEncoded
-    @POST("technicians")
+    @POST("service-center/technicians")
     fun hitAPIAddTechnician(
         @Body requestBody: MultipartBody
     ): Call<AddTechnicianResponse>
 
-    @POST("technicians/update_technician/{technician_id}")
+    @POST("service-center/technicians/update_technician/{technician_id}")
     fun hitAPIUpdateTechnician(
         @Body requestBody: MultipartBody,
         @Path("technician_id") technician_id : Int?
     ): Call<AddTechnicianResponse>
 
-    @GET("leads/pending")
-    fun getPendingLeads(): Call<RequestLeadResponse>
+    @GET("service-center/leads/pending")
+    fun getServiceCenterPendingLeads(): Call<RequestLeadResponse>
 
-    @GET("leads/assigned")
-    fun getAssignedLeads(): Call<RequestLeadResponse>
+    @GET("service-center/leads/assigned")
+    fun getServiceCenterAssignedLeads(): Call<RequestLeadResponse>
 }
