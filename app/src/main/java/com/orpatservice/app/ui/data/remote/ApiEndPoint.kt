@@ -19,13 +19,24 @@ interface ApiEndPoint {
 
     //To get OTP on entered mobile number
     @FormUrlEncoded
-    @POST("send-otp")
-    fun getOtpAPI(@Field ("mobile") mobile: String): Call<OTPSendResponse>
+    @POST("service-center/send-otp")
+    fun getServiceCenterOtpAPI(@Field ("mobile") mobile: String): Call<OTPSendResponse>
+
+    @FormUrlEncoded
+    @POST("technician/send-otp")
+    fun getTechnicianOtpAPI(@Field ("mobile") mobile: String): Call<OTPSendResponse>
 
     //To verify OTP and login
     @FormUrlEncoded
-    @POST("verify-otp-and-login")
-    fun verifyOTPandLoginAPI(
+    @POST("service-center/verify-otp-and-login")
+    fun verifyServiceCenterOTPLoginAPI(
+        @Field ("mobile") mobile: String,
+        @Field ("otp") otp: String): Call<LoginResponse>
+
+    //To verify OTP and login
+    @FormUrlEncoded
+    @POST("technician/verify-otp-and-login")
+    fun verifyTechnicianOTPLoginAPI(
         @Field ("mobile") mobile: String,
         @Field ("otp") otp: String): Call<LoginResponse>
 
