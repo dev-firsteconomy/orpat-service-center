@@ -24,13 +24,23 @@ class DataRepository {
     }
 
     //To get OTP on user register mobile number
-    fun hitOTPApi(mobileNumber: String): Call<OTPSendResponse> {
-        return ApiClient.getAuthApi().getOtpAPI(mobileNumber)
+    fun hitServiceCenterOTPApi(mobileNumber: String): Call<OTPSendResponse> {
+        return ApiClient.getAuthApi().getServiceCenterOtpAPI(mobileNumber)
+    }
+
+    //To get OTP on user register mobile number
+    fun hitTechnicianOTPApi(mobileNumber: String): Call<OTPSendResponse> {
+        return ApiClient.getAuthApi().getTechnicianOtpAPI(mobileNumber)
     }
 
     //To verify OTP and login
-    fun hitVerifyOTPLoginApi(mobileNumber: String, otp: String): Call<LoginResponse> {
-        return ApiClient.getAuthApi().verifyOTPandLoginAPI(mobileNumber, otp)
+    fun hitVerifyServiceCenterOTPLoginApi(mobileNumber: String, otp: String): Call<LoginResponse> {
+        return ApiClient.getAuthApi().verifyServiceCenterOTPLoginAPI(mobileNumber, otp)
+    }
+
+    //To verify OTP and login
+    fun hitVerifyTechnicianOTPLoginApi(mobileNumber: String, otp: String): Call<LoginResponse> {
+        return ApiClient.getAuthApi().verifyTechnicianOTPLoginAPI(mobileNumber, otp)
     }
 
     fun loadTechnician(): LiveData<Resource<TechnicianResponse>> {
