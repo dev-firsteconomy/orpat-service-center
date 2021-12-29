@@ -1,11 +1,9 @@
-package com.orpatservice.app.ui.request
+package com.orpatservice.app.ui.leads.customer_detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
-import com.orpatservice.app.databinding.ActivityTechniciansBinding
 
 class CustomerDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCustomerDetailsBinding

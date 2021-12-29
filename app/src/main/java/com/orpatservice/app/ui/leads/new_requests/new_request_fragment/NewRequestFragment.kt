@@ -1,5 +1,6 @@
 package com.orpatservice.app.ui.leads.new_requests.new_request_fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
@@ -40,10 +42,10 @@ class NewRequestsFragment : Fragment() {
     private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
         when (id) {
             R.id.btn_view_details -> {
-//                val intent = Intent(activity, CustomerDetailsActivity::class.java)
-//
-//                intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-//                startActivity(intent)
+                val intent = Intent(activity, CustomerDetailsActivity::class.java)
+
+                intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+                startActivity(intent)
             }
         }
     }
