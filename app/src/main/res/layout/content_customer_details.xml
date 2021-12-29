@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/sv_item"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/btn_submit_mobile"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_vertical_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_vertical_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+
+            <TextView
+                android:id="@+id/tv_request_id"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:text="@string/request_id"
+                app:layout_constraintEnd_toStartOf="@id/tv_in_progress"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/gl_horizontal" />
+
+            <TextView
+                android:id="@+id/tv_request_id_value"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="00000000000000012"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_request_id"
+                tools:text="00000000000000012" />
+
+            <TextView
+                android:id="@+id/tv_in_progress"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="In progress"
+                android:textAlignment="textEnd"
+                android:textColor="@color/orange"
+                app:layout_constraintBottom_toBottomOf="@id/tv_request_id"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/tv_request_id"
+                app:layout_constraintTop_toTopOf="@id/tv_request_id_value"
+                tools:text="in_progress" />
+
+            <TextView
+                android:id="@+id/tv_customer_name"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:drawablePadding="6dp"
+                android:includeFontPadding="false"
+                android:text="@string/customer_name"
+                app:drawableStartCompat="@drawable/ic_customer"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_request_id_value" />
+
+            <TextView
+                android:id="@+id/tv_customer_name_value"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Lorem Ipsum"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_customer_name"
+                tools:text="Lorem Ipsum" />
+
+            <TextView
+                android:id="@+id/tv_request_date"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/request_date"
+                app:drawableStartCompat="@drawable/ic_calender"
+                app:layout_constraintBottom_toBottomOf="@id/tv_customer_name"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintTop_toTopOf="@id/tv_customer_name" />
+
+            <TextView
+                android:id="@+id/tv_request_date_value"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="2 December 2021"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toEndOf="@id/tv_in_progress"
+                app:layout_constraintStart_toStartOf="@id/tv_in_progress"
+                app:layout_constraintTop_toBottomOf="@id/tv_customer_name"
+                tools:text="2 December 2021" />
+
+            <TextView
+                android:id="@+id/tv_contact_number"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:drawablePadding="6dp"
+                android:includeFontPadding="false"
+                android:text="@string/contact_number"
+                app:drawableStartCompat="@drawable/ic_call_mini"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_customer_name_value" />
+
+            <TextView
+                android:id="@+id/tv_contact_number_value"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="+91929292952"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_contact_number"
+                tools:text="+91929292952" />
+
+            <ImageView
+                android:id="@+id/iv_call"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/ic_call"
+                app:layout_constraintBottom_toBottomOf="@id/tv_contact_number_value"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintTop_toTopOf="@id/tv_contact_number" />
+
+            <TextView
+                android:id="@+id/tv_pin_code"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:drawablePadding="6dp"
+                android:includeFontPadding="false"
+                android:text="@string/pin_code"
+                app:drawableStartCompat="@drawable/ic_location"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_contact_number_value" />
+
+            <TextView
+                android:id="@+id/tv_pin_code_value"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="120123"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_pin_code"
+                tools:text="120123" />
+
+            <ImageView
+                android:id="@+id/iv_location"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/ic_locate"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/tv_pin_code_value"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintTop_toTopOf="@id/tv_pin_code" />
+
+            <TextView
+                android:id="@+id/tv_full_address"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/full_address"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_pin_code_value" />
+
+            <TextView
+                android:id="@+id/tv_full_address_value"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="In addition to setting the gravity, this can also help with alignment in some situations by reducing paddings on the top and bottom of the textview, which can be unequal:"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_full_address"
+                tools:text="In addition to setting the gravity, this can also help with alignment in some situations by reducing paddings on the top and bottom of the textview, which can be unequal:" />
+
+            <View
+                android:id="@+id/v_divider"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/off_white"
+                app:layout_constraintTop_toBottomOf="@id/tv_full_address_value" />
+
+            <TextView
+                android:id="@+id/tv_model_name"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/model_name"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/v_divider" />
+
+            <TextView
+                android:id="@+id/tv_model_name_value"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="In addition to setting the gravity"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_model_name"
+                tools:text="In addition to setting the gravity" />
+
+
+            <TextView
+                android:id="@+id/tv_date_of_purchase"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:drawablePadding="6dp"
+                android:includeFontPadding="false"
+                android:text="@string/date_of_purchase"
+                app:drawableStartCompat="@drawable/ic_calender"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
+
+            <TextView
+                android:id="@+id/tv_date_of_purchase_value"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="2 December 2021"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_date_of_purchase"
+                tools:text="2 December 2021" />
+
+            <TextView
+                android:id="@+id/tv_invoice_image"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/invoice_image"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_date_of_purchase_value" />
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:src="@color/orange"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_invoice_image"
+                android:id="@+id/iv_invoice_image"/>
+
+            <TextView
+                android:id="@+id/tv_qr_code_image"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/qr_code_image"
+                android:layout_marginStart="20dp"
+                app:layout_constraintTop_toTopOf="@id/tv_invoice_image"
+                app:layout_constraintStart_toEndOf="@id/tv_invoice_image"
+                app:layout_constraintBottom_toBottomOf="@id/tv_invoice_image" />
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:src="@color/orange"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="@id/tv_qr_code_image"
+                app:layout_constraintStart_toStartOf="@id/tv_qr_code_image"
+                app:layout_constraintTop_toBottomOf="@id/tv_invoice_image"
+                android:id="@+id/iv_qr_code_image"/>
+
+            <TextView
+                android:id="@+id/tv_warranty_status"
+                style="@style/Theme.OrpatServiceCenter.Poppins_RegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/warranty_status"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/iv_invoice_image" />
+
+            <TextView
+                android:id="@+id/tv_warranty_status_value"
+                style="@style/Theme.OrpatServiceCenter.Poppins_MediumText"
+                android:layout_width="0dp"
+                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="In addition to setting the gravity"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_warranty_status"
+                tools:text="In addition to setting the gravity" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit_mobile"
+        style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/btn_assign_to_technician"
+        app:cornerRadius="0dp"
+        app:icon="@drawable/ic_arrow_forward"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/dim_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sv_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -96,12 +96,26 @@
         <item name="android:textColor">@color/brown</item>
     </style>
 
+    <style name="Theme.OrpatServiceCenter.Poppins_MediumText">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+
     <style name="Theme.OrpatServiceCenter.MediumText.ResenOTP">
         <item name="android:textSize">@dimen/timer_text_size</item>
     </style>
 
     <style name="Theme.OrpatServiceCenter.MediumText.toolbarTittle">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.OrpatServiceCenter.Poppins_RegularText">
+    <item name="android:textSize">@dimen/text_size</item>
+    <item name="android:letterSpacing">0</item>
+    <item name="fontFamily">@font/poppins_regular</item>
+    <item name="android:textColor">@color/brown</item>
     </style>
 
     <style name="Theme.OrpatServiceCenter.EditText">

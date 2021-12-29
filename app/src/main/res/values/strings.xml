@@ -74,4 +74,16 @@
     <string name="edit"><u>Edit</u></string>
     <string name="activate">Activate</string>
     <string name="deactivate">Deactivate</string>
+    <string name="customer_details">Customer Details</string>
+    <string name="btn_assign_to_technician">Assign to Technician</string>
+    <string name="request_id">Request Id</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="request_date">Request Date</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="full_address">Full Address</string>
+    <string name="model_name">Model Name</string>
+    <string name="date_of_purchase">Date of Purchase</string>
+    <string name="invoice_image">Invoice Image</string>
+    <string name="qr_code_image">QR Code Image</string>
+    <string name="warranty_status">Warranty Status</string>
 </resources>
