@@ -1,6 +1,5 @@
 package com.orpatservice.app.ui.leads.new_requests.new_request_fragment
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -102,12 +101,12 @@ class NewRequestsFragment : Fragment() {
             else -> {
                 binding.cpiLoading.visibility = View.GONE
 
-                val data = resources.data
+                val response = resources.data
 
-                data?.let {
-                    if (it.success == true) {
+                response?.let {
+                    if (it.success) {
 
-                        leadDataArrayList.addAll(data.data)
+                        leadDataArrayList.addAll(response.data.leadData)
                         requestsLeadsAdapter.notifyDataSetChanged()
                     }
                 }

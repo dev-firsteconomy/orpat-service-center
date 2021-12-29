@@ -44,7 +44,7 @@ class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun selectUser() {
         if (binding.rbAdmin.isChecked) {
-            goToLogin(Constants.ADMIN)
+            goToLogin(Constants.SERVICE_CENTER)
         } else if (binding.rbTechnician.isChecked) {
             goToLogin(Constants.TECHNICIAN)
         } else {

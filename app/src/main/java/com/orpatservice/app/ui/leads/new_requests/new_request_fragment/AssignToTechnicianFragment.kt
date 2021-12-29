@@ -102,12 +102,12 @@ class AssignToTechnicianFragment : Fragment() {
             else -> {
                 binding.cpiLoading.visibility = View.GONE
 
-                val data = resources.data
+                val response = resources.data
 
-                data?.let {
-                    if (it.success == true) {
+                response?.let {
+                    if (it.success) {
 
-                        leadDataArrayList.addAll(data.data)
+                        leadDataArrayList.addAll(response.data.leadData)
                         requestsLeadsAdapter.notifyDataSetChanged()
                     }
                 }

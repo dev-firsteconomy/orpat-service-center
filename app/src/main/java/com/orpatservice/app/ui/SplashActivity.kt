@@ -41,7 +41,7 @@ class SplashActivity : AppCompatActivity() {
                 /**
                  * User navigation after login
                  */
-                if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.ADMIN)) {
+                if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
                     val intent = Intent(this, DashboardActivity::class.java)
                     startActivity(intent)
                 } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {

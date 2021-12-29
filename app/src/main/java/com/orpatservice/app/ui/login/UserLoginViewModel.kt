@@ -22,7 +22,7 @@ class UserLoginViewModel : ViewModel() {
 
     //API to get OTP on user register mobile number
     fun hitOTPApi(mobileNumber: String) {
-        if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.ADMIN)) {
+        if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitServiceCenterOTPApi(mobileNumber)
                 .enqueue(callbackGetOTP)
         } else {
@@ -56,7 +56,7 @@ class UserLoginViewModel : ViewModel() {
 
     //API to verify and login
     fun hitVerifyOTPLoginApi(mobileNumber: String, otp: String) {
-        if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.ADMIN)) {
+        if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitVerifyServiceCenterOTPLoginApi(mobileNumber, otp)
                 .enqueue(callbackVerifyOTPLogin)
         } else {
