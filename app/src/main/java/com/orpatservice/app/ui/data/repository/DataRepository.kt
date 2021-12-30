@@ -186,8 +186,16 @@ class DataRepository {
         return ApiClient.getAuthApi().getServiceCenterPendingLeads(pageNumber)
     }
 
+    fun hitServiceCenterSearchPendingLeads(keyword: String): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterSearchPendingLeads(keyword)
+    }
+
     fun hitGetServiceCenterAssignedLeads(pageNumber: Int): Call<RequestLeadResponse> {
         return ApiClient.getAuthApi().getServiceCenterAssignedLeads(pageNumber)
+    }
+
+    fun hitServiceCenterSearchAssignedLeads(keyword: String): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterSearchAssignedLeads(keyword)
     }
 
     fun hitGetServiceCenterCancelledLeads(pageNumber: Int): Call<RequestLeadResponse> {
