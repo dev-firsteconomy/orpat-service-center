@@ -12,6 +12,7 @@ import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentNewRequestBinding
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
+import com.orpatservice.app.ui.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
@@ -38,6 +39,7 @@ class NewRequestsFragment : Fragment() {
     private lateinit var binding: FragmentNewRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
+    private var removeIndex : Int = -1
 
     //Click listener for List Item
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
@@ -49,7 +51,14 @@ class NewRequestsFragment : Fragment() {
                 startActivity(intent)
             }
             R.id.btn_view_decline -> {
-                Toast.makeText(activity, "In-Progress", Toast.LENGTH_SHORT).show()
+                removeIndex = position
+                val id = leadDataArrayList[position].id
+                if(id != null) {
+                    requestLeadsViewModel.doCancelLead(id)
+                    binding.cpiLoading.visibility = View.VISIBLE
+                } else {
+                    Toast.makeText(activity, "Lead Id not found. Please try again!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -87,6 +96,7 @@ class NewRequestsFragment : Fragment() {
 
     private fun setObserver() {
         requestLeadsViewModel.pendingLeadsData.observe(viewLifecycleOwner, this::getPendingLeads)
+        requestLeadsViewModel.cancelLeadsData.observe(viewLifecycleOwner, this::doCancelLead)
     }
 
     private fun getPendingLeads(resources: Resource<RequestLeadResponse>) {
@@ -119,6 +129,48 @@ class NewRequestsFragment : Fragment() {
                             binding.tvNoLeads.visibility = View.VISIBLE
                         } else {
                             binding.tvNoLeads.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun doCancelLead(resources: Resource<CancelLeadResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                binding.cpiLoading.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                binding.cpiLoading.visibility = View.GONE
+                activity?.let {
+                    Alerter.create(it)
+                        .setText(resources.error?.message.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1500)
+                        .show()
+                }
+            }
+            else -> {
+                binding.cpiLoading.visibility = View.GONE
+
+                val response = resources.data
+
+                response?.let {
+                    if (it.success) {
+
+                        if (removeIndex != -1) {
+                            leadDataArrayList.removeAt(removeIndex)
+                            requestsLeadsAdapter.notifyItemRemoved(removeIndex)
+
+                        }
+                        activity?.let {
+                            Alerter.create(it)
+                                .setText(resources.data.message)
+                                .setBackgroundColorRes(R.color.orange)
+                                .setDuration(1500)
+                                .show()
                         }
                     }
                 }

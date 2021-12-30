@@ -7,6 +7,7 @@ import com.orpatservice.app.ui.data.model.AddTechnicianResponse
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.orpatservice.app.ui.data.model.login.LoginResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
+import com.orpatservice.app.ui.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.data.remote.ApiClient
 import com.orpatservice.app.ui.data.remote.ErrorUtils
@@ -191,5 +192,9 @@ class DataRepository {
 
     fun hitGetServiceCenterCancelledLeads(): Call<RequestLeadResponse> {
         return ApiClient.getAuthApi().getServiceCenterCancelledLeads()
+    }
+
+    fun hitServiceCenterCancelLeads(leadId: Int): Call<CancelLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterCancelLead(leadId)
     }
 }

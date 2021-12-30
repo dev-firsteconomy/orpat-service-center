@@ -3,6 +3,7 @@ package com.orpatservice.app.ui.leads.new_requests
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.orpatservice.app.ui.data.Resource
+import com.orpatservice.app.ui.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.data.remote.ErrorUtils
 import com.orpatservice.app.ui.data.repository.DataRepository
@@ -20,6 +21,7 @@ class RequestsLeadsViewModel : ViewModel() {
     val pendingLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val assignedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val cancelledLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
+    val cancelLeadsData = MutableLiveData<Resource<CancelLeadResponse>>()
 
     fun loadPendingLeads() {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
@@ -116,6 +118,36 @@ class RequestsLeadsViewModel : ViewModel() {
 
             override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
                 cancelledLeadsData.value = Resource.error(ErrorUtils.getError(t))
+            }
+        }
+
+    fun doCancelLead(leadId: Int)
+    {
+        DataRepository.instance.hitServiceCenterCancelLeads(leadId)
+            .enqueue(callbackCancelLeads)
+    }
+
+    private val callbackCancelLeads: Callback<CancelLeadResponse> =
+        object : Callback<CancelLeadResponse> {
+            override fun onResponse(
+                call: Call<CancelLeadResponse>,
+                response: Response<CancelLeadResponse>) {
+
+                if (response.isSuccessful) {
+                    cancelLeadsData.value = response.body().let { Resource.success(it) }
+                } else {
+                    cancelLeadsData.value =
+                        Resource.error(
+                            ErrorUtils.getError(
+                                response.errorBody(),
+                                response.code()
+                            )
+                        )
+                }
+            }
+
+            override fun onFailure(call: Call<CancelLeadResponse>, t: Throwable) {
+                cancelLeadsData.value = Resource.error(ErrorUtils.getError(t))
             }
         }
 }

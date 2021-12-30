@@ -4,6 +4,7 @@ import com.orpatservice.app.ui.data.model.AddTechnicianResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
 import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.orpatservice.app.ui.data.model.login.LoginResponse
+import com.orpatservice.app.ui.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -68,6 +69,5 @@ interface ApiEndPoint {
     fun getServiceCenterCancelledLeads(): Call<RequestLeadResponse>
 
     @POST("service-center/leads/cancel_lead/{lead_id}")
-    fun getServiceCenterCancelLead(@Body requestBody: MultipartBody,
-                                   @Path("lead_id") leadId : Int): Call<RequestLeadResponse>
+    fun getServiceCenterCancelLead(@Path("lead_id") leadId : Int): Call<CancelLeadResponse>
 }
