@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
  */
 class RequestsLeadsAdapter constructor(
     private val leadDataArrayList: ArrayList<LeadData>,
-    private val itemClickListener: (Int, Int) -> Unit,
+    private val itemClickListener: (Int, View) -> Unit,
     private val fragmentType: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -45,9 +45,8 @@ class RequestsLeadsAdapter constructor(
 
         fun onBind(
             leadData: LeadData,
-            itemClickListener: (Int, Int) -> Unit,
-            fragmentType: String
-        ) {
+            itemClickListener: (Int, View) -> Unit,
+            fragmentType: String) {
 
             binding.tvRequestStatus.text = leadData.status
             binding.tvRequestId.text = leadData.id.toString()
@@ -63,14 +62,14 @@ class RequestsLeadsAdapter constructor(
                 binding.btnViewDecline.setOnClickListener {
                     itemClickListener(
                         adapterPosition,
-                        binding.btnViewDecline.id
+                        binding.btnViewDecline
                     )
                 }
             }
             binding.btnViewDetails.setOnClickListener {
                 itemClickListener(
                     adapterPosition,
-                    binding.btnViewDecline.id
+                    binding.btnViewDetails
                 )
             }
 

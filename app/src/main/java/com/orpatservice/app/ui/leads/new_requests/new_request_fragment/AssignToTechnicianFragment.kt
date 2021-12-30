@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentAssignToTechnicianBinding
@@ -38,20 +39,17 @@ class AssignToTechnicianFragment : Fragment() {
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
 
-    private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
-        val intent = Intent(activity, CustomerDetailsActivity::class.java)
-
-        intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-        startActivity(intent)
-        when (id) {
+    private val onItemClickListener: (Int, View) -> Unit = { position, view ->
+        when (view.id) {
             R.id.btn_view_details -> {
-                val intent = Intent(activity, CustomerDetailsActivity::class.java)
+                Intent(activity, CustomerDetailsActivity::class.java).apply {
 
-                intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-                startActivity(intent)
+                    putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+                    startActivity(this)
+                }
             }
             R.id.btn_view_decline -> {
-
+                Toast.makeText(activity, "In-Progress", Toast.LENGTH_SHORT).show()
             }
         }
     }

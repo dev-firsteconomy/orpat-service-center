@@ -29,8 +29,8 @@ class CancelledRequestFragment : Fragment() {
     private lateinit var binding: FragmentCancelledRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
 
-    private val onItemClickListener: (Int, Int) -> Unit = { position, id ->
-        when (id) {
+    private val onItemClickListener: (Int, View) -> Unit = { position, view ->
+        when (view.id) {
             R.id.btn_view_details -> {
 //                val intent = Intent(activity, CustomerDetailsActivity::class.java)
 //
