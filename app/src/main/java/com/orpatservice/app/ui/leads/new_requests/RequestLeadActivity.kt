@@ -13,7 +13,7 @@ import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.NewReques
 import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
 
-class RequestsLeadsActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
+class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
     lateinit var binding: ActivityRequestsLeadsBinding
     lateinit var viewModel: RequestsLeadsViewModel

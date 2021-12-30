@@ -43,9 +43,6 @@
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.technician.TechnicianDashboardActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.admin.technician.AddTechnicianActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -84,17 +81,23 @@
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.orpatservice.app.ui.leads.new_requests.RequestsLeadsActivity"
+            android:name=".ui.leads.new_requests.RequestLeadActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.orpatservice.app.ui.leads.history.LeadHistoryActivity"
+            android:name=".ui.technician.TechnicianRequestLeadActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity"/>
+        <activity
+            android:name=".ui.leads.history.LeadHistoryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

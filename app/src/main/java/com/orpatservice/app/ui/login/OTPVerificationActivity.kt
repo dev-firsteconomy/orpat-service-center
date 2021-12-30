@@ -129,7 +129,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                 binding.cpiLoading.visibility = View.GONE
                 enableCodeEditTexts(true)
                 Alerter.create(this)
-                    .setText(resources.error.toString())
+                    .setText(resources.error?.message.toString())
                     .setBackgroundColorRes(R.color.orange)
                     .setDuration(1000)
                     .show()

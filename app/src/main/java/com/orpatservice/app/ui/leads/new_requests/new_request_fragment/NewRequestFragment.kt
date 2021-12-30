@@ -1,5 +1,6 @@
 package com.orpatservice.app.ui.leads.new_requests.new_request_fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentNewRequestBinding
 import com.orpatservice.app.ui.data.Resource
@@ -53,12 +55,8 @@ class NewRequestsFragment : Fragment() {
             R.id.btn_view_decline -> {
                 removeIndex = position
                 val id = leadDataArrayList[position].id
-                if(id != null) {
-                    requestLeadsViewModel.doCancelLead(id)
-                    binding.cpiLoading.visibility = View.VISIBLE
-                } else {
-                    Toast.makeText(activity, "Lead Id not found. Please try again!", Toast.LENGTH_SHORT).show()
-                }
+
+                confirmationDialog(activity as Context, id)
             }
         }
     }
@@ -176,6 +174,29 @@ class NewRequestsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun confirmationDialog(context: Context, id: Int?) {
+
+        MaterialAlertDialogBuilder(
+            context,
+            R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
+
+            .setTitle("Reject Lead!")
+            .setMessage("Are you sure, you want to reject this lead?")
+            .setPositiveButton("Reject Lead") { dialog, which ->
+                    if(id != null) {
+                        requestLeadsViewModel.doCancelLead(id)
+                        binding.cpiLoading.visibility = View.VISIBLE
+                    } else {
+                        Toast.makeText(activity, "Lead Id not found. Please try again!", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .setNegativeButton(
+                "Cancel"
+            ) { _, i -> }
+            .show()
+
     }
 
     companion object {

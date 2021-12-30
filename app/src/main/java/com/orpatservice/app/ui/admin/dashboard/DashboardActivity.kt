@@ -11,10 +11,11 @@ import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.ui.leads.history.LeadHistoryActivity
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsActivity
+import com.orpatservice.app.ui.leads.new_requests.RequestLeadActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.SelectUserActivity
+import com.orpatservice.app.ui.technician.TechnicianRequestLeadActivity
 
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
@@ -70,9 +71,15 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.mcv_request -> {
-                val intent = Intent(this, RequestsLeadsActivity::class.java)
-                intent.putExtra(Constants.MODULE_TYPE, Constants.REQUEST)
-                startActivity(intent)
+                if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+                    val intent = Intent(this, RequestLeadActivity::class.java)
+                    intent.putExtra(Constants.MODULE_TYPE, Constants.REQUEST)
+                    startActivity(intent)
+                } else {
+                    val intent = Intent(this, TechnicianRequestLeadActivity::class.java)
+                    intent.putExtra(Constants.MODULE_TYPE, Constants.REQUEST)
+                    startActivity(intent)
+                }
             }
             R.id.mcv_add_technician -> {
                 startActivity(Intent(this, TechniciansActivity::class.java))
@@ -95,7 +102,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 confirmationDialog()
             }
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
