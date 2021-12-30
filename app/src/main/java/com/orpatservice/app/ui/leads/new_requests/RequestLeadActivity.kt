@@ -2,6 +2,7 @@ package com.orpatservice.app.ui.leads.new_requests
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +13,15 @@ import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.AssignToT
 import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
+import android.R.menu
+
+import android.R
+
+import android.view.MenuInflater
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import androidx.appcompat.widget.SearchView
+
 
 class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
@@ -88,5 +98,31 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     }
 
     override fun onTabReselected(tab: TabLayout.Tab) {
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.search_menu, menu)
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
+        searchView.queryHint = "Search leads"
+
+        //This is where you find the edittext and set its background resource
+        val searchPlate: View = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
+        //searchPlate.setBackgroundResource(R.drawable.rounded_search)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                return false
+            }
+        })
+        return true
     }
 }
