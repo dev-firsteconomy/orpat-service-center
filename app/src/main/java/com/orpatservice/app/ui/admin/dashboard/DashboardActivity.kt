@@ -36,7 +36,15 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         binding.includedContent.mcvMore.setOnClickListener(this)
         binding.ivLogout.setOnClickListener(this)
 
+        updateUI()
     }
+
+    private fun updateUI() {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN, ignoreCase = true)) {
+            binding.includedContent.mcvAddTechnician.visibility = View.GONE
+        }
+    }
+
     private fun confirmationDialog() {
 
         MaterialAlertDialogBuilder(

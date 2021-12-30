@@ -12,9 +12,7 @@ import com.orpatservice.app.R
 import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.SelectUserActivity
-import com.orpatservice.app.ui.technician.TechnicianDashboardActivity
 import com.orpatservice.app.utils.Constants
-import com.tapadoo.alerter.Alerter
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,22 +36,8 @@ class SplashActivity : AppCompatActivity() {
                 val intent = Intent(this, SelectUserActivity::class.java)
                 startActivity(intent)
             } else {
-                /**
-                 * User navigation after login
-                 */
-                if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-                    val intent = Intent(this, DashboardActivity::class.java)
-                    startActivity(intent)
-                } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-                    val intent = Intent(this, TechnicianDashboardActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    Alerter.create(this)
-                        .setText("Something went wrong!!!")
-                        .setBackgroundColorRes(R.color.orange)
-                        .setDuration(1000)
-                        .show()
-                }
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
             }
 
             finish()

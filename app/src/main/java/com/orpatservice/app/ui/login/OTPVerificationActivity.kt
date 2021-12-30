@@ -23,7 +23,6 @@ import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.login.LoginResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
-import com.orpatservice.app.ui.technician.TechnicianDashboardActivity
 import com.tapadoo.alerter.Alerter
 
 
@@ -261,24 +260,9 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         val gson = Gson()
         SharedPrefs.getInstance().addString(Constants.SERVICE_CENTER_DATA, gson.toJson(loginResponse.data.serviceCenter))
 
-        /**
-         * User navigation after login
-         */
-        if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            val intent = Intent(this, DashboardActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-        } else if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-            val intent = Intent(this, TechnicianDashboardActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-        } else {
-            Alerter.create(this)
-                .setText("Something went wrong!!!")
-                .setBackgroundColorRes(R.color.orange)
-                .setDuration(1000)
-                .show()
-        }
+        val intent = Intent(this, DashboardActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
 
