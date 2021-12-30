@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentNewRequestBinding
@@ -40,8 +42,12 @@ class NewRequestsFragment : Fragment() {
 
     private lateinit var binding: FragmentNewRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
+    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
-    private var removeIndex : Int = -1
+    private var removeIndex = -1
+    private var isLoading: Boolean = false
+    private var pageNumber = 1
+    private var totalPage = 1
 
     //Click listener for List Item
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
@@ -79,6 +85,8 @@ class NewRequestsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentNewRequestBinding.inflate(inflater, container, false)
 
+        layoutManager = LinearLayoutManager(activity)
+        binding.rvNewRequest.layoutManager = layoutManager
         binding.rvNewRequest.apply {
             adapter = requestsLeadsAdapter
         }
@@ -87,9 +95,25 @@ class NewRequestsFragment : Fragment() {
 
         setObserver()
         binding.cpiLoading.visibility = View.VISIBLE
-        requestLeadsViewModel.loadPendingLeads()
+        requestLeadsViewModel.loadPendingLeads(pageNumber)
+
+        binding.rvNewRequest.addOnScrollListener(scrollListener)
 
         return binding.root
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (!isLoading) {
+                if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
+                    pageNumber++
+                    binding.cpiLoading.visibility = View.VISIBLE
+                    requestLeadsViewModel.loadPendingLeads(pageNumber)
+                    isLoading = true
+                }
+            }
+        }
     }
 
     private fun setObserver() {
@@ -104,6 +128,7 @@ class NewRequestsFragment : Fragment() {
             }
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
+                isLoading = false
                 activity?.let {
                     Alerter.create(it)
                         .setText(resources.error?.message.toString())
@@ -119,9 +144,11 @@ class NewRequestsFragment : Fragment() {
 
                 response?.let {
                     if (it.success) {
-
+                        totalPage = response.data.pagination.last_page
                         leadDataArrayList.addAll(response.data.data)
                         requestsLeadsAdapter.notifyDataSetChanged()
+
+                        isLoading = false
 
                         if(leadDataArrayList.isNullOrEmpty()){
                             binding.tvNoLeads.visibility = View.VISIBLE

@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentCancelledRequestBinding
 import com.orpatservice.app.ui.data.Resource
@@ -37,7 +39,11 @@ class CancelledRequestFragment : Fragment() {
 
     private lateinit var binding: FragmentCancelledRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
+    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
+    private var isLoading: Boolean = false
+    private var pageNumber = 1
+    private var totalPage = 1
 
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
@@ -77,6 +83,8 @@ class CancelledRequestFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentCancelledRequestBinding.inflate(inflater, container, false)
 
+        layoutManager = LinearLayoutManager(activity)
+        binding.rvCancelledRequest.layoutManager = layoutManager
         binding.rvCancelledRequest.apply {
             adapter = requestsLeadsAdapter
         }
@@ -85,9 +93,25 @@ class CancelledRequestFragment : Fragment() {
 
         setObserver()
         binding.cpiLoading.visibility = View.VISIBLE
-        requestLeadsViewModel.loadCancelledLeads()
+        requestLeadsViewModel.loadCancelledLeads(pageNumber)
+
+        binding.rvCancelledRequest.addOnScrollListener(scrollListener)
 
         return binding.root
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (!isLoading) {
+                if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
+                    pageNumber++
+                    binding.cpiLoading.visibility = View.VISIBLE
+                    requestLeadsViewModel.loadPendingLeads(pageNumber)
+                    isLoading = true
+                }
+            }
+        }
     }
 
     private fun setObserver() {
@@ -101,6 +125,7 @@ class CancelledRequestFragment : Fragment() {
             }
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
+                isLoading = false
                 activity?.let {
                     Alerter.create(it)
                         .setText(resources.error?.message.toString())
@@ -116,9 +141,11 @@ class CancelledRequestFragment : Fragment() {
 
                 response?.let {
                     if (it.success) {
-
+                        totalPage = response.data.pagination.last_page
                         leadDataArrayList.addAll(response.data.data)
                         requestsLeadsAdapter.notifyDataSetChanged()
+
+                        isLoading = false
 
                         if(leadDataArrayList.isNullOrEmpty()){
                             binding.tvNoLeads.visibility = View.VISIBLE

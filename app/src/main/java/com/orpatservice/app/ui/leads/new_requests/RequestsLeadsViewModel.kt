@@ -18,14 +18,14 @@ import retrofit2.Response
  */
 class RequestsLeadsViewModel : ViewModel() {
 
-    val pendingLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
+    var pendingLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val assignedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val cancelledLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val cancelLeadsData = MutableLiveData<Resource<CancelLeadResponse>>()
 
-    fun loadPendingLeads() {
+    fun loadPendingLeads(pageNumber: Int) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitGetServiceCenterPendingLeads().enqueue(callbackPendingLeads)
+            DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
             //In-Progress APIs
         }
@@ -38,26 +38,25 @@ class RequestsLeadsViewModel : ViewModel() {
                 response: Response<RequestLeadResponse>) {
 
                 if (response.isSuccessful) {
-                    pendingLeadsData.value = response.body().let { Resource.success(it) }
+                    pendingLeadsData.postValue(response.body().let { Resource.success(it) }) // = response.body().let { Resource.success(it) }
                 } else {
-                    pendingLeadsData.value =
-                        Resource.error(
-                            ErrorUtils.getError(
-                                response.errorBody(),
-                                response.code()
-                            )
+                    pendingLeadsData.postValue(Resource.error(
+                        ErrorUtils.getError(
+                            response.errorBody(),
+                            response.code()
                         )
+                    ))
                 }
             }
 
             override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
-                pendingLeadsData.value = Resource.error(ErrorUtils.getError(t))
+                pendingLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
 
-    fun loadAssignedLeads() {
+    fun loadAssignedLeads(pageNumber: Int) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitGetServiceCenterAssignedLeads()
+            DataRepository.instance.hitGetServiceCenterAssignedLeads(pageNumber)
                 .enqueue(callbackAssignedLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             //In-progress APIs
@@ -71,26 +70,26 @@ class RequestsLeadsViewModel : ViewModel() {
                 response: Response<RequestLeadResponse>) {
 
                 if (response.isSuccessful) {
-                    assignedLeadsData.value = response.body().let { Resource.success(it) }
+                    assignedLeadsData.postValue(response.body().let { Resource.success(it) } )
                 } else {
-                    assignedLeadsData.value =
+                    assignedLeadsData.postValue(
                         Resource.error(
                             ErrorUtils.getError(
                                 response.errorBody(),
                                 response.code()
                             )
-                        )
+                        ))
                 }
             }
 
             override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
-                assignedLeadsData.value = Resource.error(ErrorUtils.getError(t))
+                assignedLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
 
-    fun loadCancelledLeads() {
+    fun loadCancelledLeads(pageNumber: Int) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitGetServiceCenterCancelledLeads()
+            DataRepository.instance.hitGetServiceCenterCancelledLeads(pageNumber)
                 .enqueue(callbackCancelledLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             //In-progress APIs
@@ -104,20 +103,20 @@ class RequestsLeadsViewModel : ViewModel() {
                 response: Response<RequestLeadResponse>) {
 
                 if (response.isSuccessful) {
-                    cancelledLeadsData.value = response.body().let { Resource.success(it) }
+                    cancelledLeadsData.postValue(response.body().let { Resource.success(it) })
                 } else {
-                    cancelledLeadsData.value =
+                    cancelledLeadsData.postValue(
                         Resource.error(
                             ErrorUtils.getError(
                                 response.errorBody(),
                                 response.code()
                             )
-                        )
+                        ))
                 }
             }
 
             override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
-                cancelledLeadsData.value = Resource.error(ErrorUtils.getError(t))
+                cancelledLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
 
@@ -134,20 +133,20 @@ class RequestsLeadsViewModel : ViewModel() {
                 response: Response<CancelLeadResponse>) {
 
                 if (response.isSuccessful) {
-                    cancelLeadsData.value = response.body().let { Resource.success(it) }
+                    cancelLeadsData.postValue(response.body().let { Resource.success(it) })
                 } else {
-                    cancelLeadsData.value =
+                    cancelLeadsData.postValue(
                         Resource.error(
                             ErrorUtils.getError(
                                 response.errorBody(),
                                 response.code()
                             )
-                        )
+                        ))
                 }
             }
 
             override fun onFailure(call: Call<CancelLeadResponse>, t: Throwable) {
-                cancelLeadsData.value = Resource.error(ErrorUtils.getError(t))
+                cancelLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
 }

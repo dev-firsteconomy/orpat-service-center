@@ -60,13 +60,13 @@ interface ApiEndPoint {
     ): Call<AddTechnicianResponse>
 
     @GET("service-center/leads/pending")
-    fun getServiceCenterPendingLeads(): Call<RequestLeadResponse>
+    fun getServiceCenterPendingLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 
     @GET("service-center/leads/assigned")
-    fun getServiceCenterAssignedLeads(): Call<RequestLeadResponse>
+    fun getServiceCenterAssignedLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 
     @GET("service-center/leads/cancelled")
-    fun getServiceCenterCancelledLeads(): Call<RequestLeadResponse>
+    fun getServiceCenterCancelledLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 
     @POST("service-center/leads/cancel_lead/{lead_id}")
     fun getServiceCenterCancelLead(@Path("lead_id") leadId : Int): Call<CancelLeadResponse>

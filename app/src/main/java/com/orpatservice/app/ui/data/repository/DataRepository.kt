@@ -182,16 +182,16 @@ class DataRepository {
     }
 
     //Lead API
-    fun hitGetServiceCenterPendingLeads(): Call<RequestLeadResponse> {
-        return ApiClient.getAuthApi().getServiceCenterPendingLeads()
+    fun hitGetServiceCenterPendingLeads(pageNumber: Int): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterPendingLeads(pageNumber)
     }
 
-    fun hitGetServiceCenterAssignedLeads(): Call<RequestLeadResponse> {
-        return ApiClient.getAuthApi().getServiceCenterAssignedLeads()
+    fun hitGetServiceCenterAssignedLeads(pageNumber: Int): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterAssignedLeads(pageNumber)
     }
 
-    fun hitGetServiceCenterCancelledLeads(): Call<RequestLeadResponse> {
-        return ApiClient.getAuthApi().getServiceCenterCancelledLeads()
+    fun hitGetServiceCenterCancelledLeads(pageNumber: Int): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterCancelledLeads(pageNumber)
     }
 
     fun hitServiceCenterCancelLeads(leadId: Int): Call<CancelLeadResponse> {

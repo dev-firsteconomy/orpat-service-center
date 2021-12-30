@@ -7,11 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentCompletedRequestBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,6 +35,11 @@ class CompletedRequestFragment : Fragment() {
 
     private lateinit var binding: FragmentCompletedRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
+    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
+    private var isLoading: Boolean = false
+    private var pageNumber = 1
+    private var totalPage = 1
 
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
@@ -49,6 +58,7 @@ class CompletedRequestFragment : Fragment() {
             }
         }
     }
+
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
         leadDataArrayList,
         itemClickListener = onItemClickListener,
@@ -66,16 +76,42 @@ class CompletedRequestFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentCompletedRequestBinding.inflate(inflater, container, false)
 
+        layoutManager = LinearLayoutManager(activity)
+        binding.rvCompletedRequest.layoutManager = layoutManager
         binding.rvCompletedRequest.apply {
             adapter = requestsLeadsAdapter
         }
+
+        requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+
+        setObserver()
         tempData()
 
+        binding.rvCompletedRequest.addOnScrollListener(scrollListener)
+
         return binding.root
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (!isLoading) {
+                if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
+                    pageNumber++
+                    binding.cpiLoading.visibility = View.VISIBLE
+                    requestLeadsViewModel.loadPendingLeads(pageNumber)
+                    isLoading = true
+                }
+            }
+        }
+    }
+
+    private fun setObserver() {
+
     }
 
     fun tempData() {
