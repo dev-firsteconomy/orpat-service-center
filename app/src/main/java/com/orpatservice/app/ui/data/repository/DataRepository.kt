@@ -188,4 +188,8 @@ class DataRepository {
     fun hitGetServiceCenterAssignedLeads(): Call<RequestLeadResponse> {
         return ApiClient.getAuthApi().getServiceCenterAssignedLeads()
     }
+
+    fun hitGetServiceCenterCancelledLeads(): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterCancelledLeads()
+    }
 }

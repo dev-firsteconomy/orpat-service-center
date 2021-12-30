@@ -114,6 +114,12 @@ class NewRequestsFragment : Fragment() {
 
                         leadDataArrayList.addAll(response.data.data)
                         requestsLeadsAdapter.notifyDataSetChanged()
+
+                        if(leadDataArrayList.isNullOrEmpty()){
+                            binding.tvNoLeads.visibility = View.VISIBLE
+                        } else {
+                            binding.tvNoLeads.visibility = View.GONE
+                        }
                     }
                 }
             }

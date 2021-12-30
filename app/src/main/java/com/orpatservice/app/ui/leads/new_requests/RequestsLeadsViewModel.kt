@@ -19,6 +19,7 @@ class RequestsLeadsViewModel : ViewModel() {
 
     val pendingLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val assignedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
+    val cancelledLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
 
     fun loadPendingLeads() {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
@@ -82,6 +83,39 @@ class RequestsLeadsViewModel : ViewModel() {
 
             override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
                 assignedLeadsData.value = Resource.error(ErrorUtils.getError(t))
+            }
+        }
+
+    fun loadCancelledLeads() {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            DataRepository.instance.hitGetServiceCenterCancelledLeads()
+                .enqueue(callbackCancelledLeads)
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
+            //In-progress APIs
+        }
+    }
+
+    private val callbackCancelledLeads: Callback<RequestLeadResponse> =
+        object : Callback<RequestLeadResponse> {
+            override fun onResponse(
+                call: Call<RequestLeadResponse>,
+                response: Response<RequestLeadResponse>) {
+
+                if (response.isSuccessful) {
+                    cancelledLeadsData.value = response.body().let { Resource.success(it) }
+                } else {
+                    cancelledLeadsData.value =
+                        Resource.error(
+                            ErrorUtils.getError(
+                                response.errorBody(),
+                                response.code()
+                            )
+                        )
+                }
+            }
+
+            override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
+                cancelledLeadsData.value = Resource.error(ErrorUtils.getError(t))
             }
         }
 }

@@ -63,4 +63,11 @@ interface ApiEndPoint {
 
     @GET("service-center/leads/assigned")
     fun getServiceCenterAssignedLeads(): Call<RequestLeadResponse>
+
+    @GET("service-center/leads/cancelled")
+    fun getServiceCenterCancelledLeads(): Call<RequestLeadResponse>
+
+    @POST("service-center/leads/cancel_lead/{lead_id}")
+    fun getServiceCenterCancelLead(@Body requestBody: MultipartBody,
+                                   @Path("lead_id") leadId : Int): Call<RequestLeadResponse>
 }

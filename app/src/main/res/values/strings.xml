@@ -86,4 +86,5 @@
     <string name="invoice_image">Invoice Image</string>
     <string name="qr_code_image">QR Code Image</string>
     <string name="warranty_status">Warranty Status</string>
+    <string name="no_leads">No leads</string>
 </resources>
