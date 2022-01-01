@@ -18,7 +18,7 @@ import retrofit2.Response
  */
 class RequestsLeadsViewModel : ViewModel() {
 
-    var pendingLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
+    val pendingLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val assignedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val cancelledLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val cancelLeadsData = MutableLiveData<Resource<CancelLeadResponse>>()
