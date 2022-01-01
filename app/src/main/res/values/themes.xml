@@ -96,7 +96,7 @@
         <item name="android:textColor">@color/brown</item>
     </style>
 
-    <style name="Theme.OrpatServiceCenter.Poppins_MediumText">
+    <style name="Theme.OrpatServiceCenter.SmallText">
         <item name="android:textSize">@dimen/text_size</item>
         <item name="android:letterSpacing">0</item>
         <item name="fontFamily">@font/poppins_medium</item>
@@ -111,7 +111,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Theme.OrpatServiceCenter.Poppins_RegularText">
+    <style name="Theme.OrpatServiceCenter.SmallRegularText">
     <item name="android:textSize">@dimen/text_size</item>
     <item name="android:letterSpacing">0</item>
     <item name="fontFamily">@font/poppins_regular</item>
