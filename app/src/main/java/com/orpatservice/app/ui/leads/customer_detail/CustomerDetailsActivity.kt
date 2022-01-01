@@ -3,15 +3,24 @@ package com.orpatservice.app.ui.leads.customer_detail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
+import com.orpatservice.app.ui.data.model.requests_leads.LeadData
+import com.orpatservice.app.utils.Constants
 
 class CustomerDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCustomerDetailsBinding
+    private lateinit var leadData : LeadData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomerDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // set toolbar as support action bar
+        setSupportActionBar(binding.toolbar)
 
         supportActionBar?.apply {
             title = ""
@@ -21,6 +30,37 @@ class CustomerDetailsActivity : AppCompatActivity() {
             setDisplayShowHomeEnabled(true)
         }
 
+        leadData  = intent?.getParcelableExtra<LeadData>(Constants.LEAD_DATA) as LeadData
+
+        bindUserDetails(leadData)
+
+
+    }
+    private fun bindUserDetails(leadData : LeadData){
+        binding.includedContent.tvRequestDateValue.text = leadData.id?.toString()
+        binding.includedContent.tvInProgress.text = leadData.status
+        binding.includedContent.tvCustomerNameValue.text = leadData.name
+        binding.includedContent.tvRequestDateValue.text = leadData.created_at
+        binding.includedContent.tvContactNumberValue.text = leadData.mobile
+        binding.includedContent.tvPinCodeValue.text = leadData.pincode
+        binding.includedContent.tvFullAddressValue.text = leadData.address
+        binding.includedContent.tvModelNameValue.text = leadData.model_no
+        binding.includedContent.tvDateOfPurchaseValue.text = leadData.purchase_at
+        binding.includedContent.tvWarrantyStatusValue.text = leadData.nature_of_complain
+
+        Glide.with(this)
+            .load(leadData.invoice_image)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            //.circleCrop() // .error(R.drawable.active_dot)
+            .placeholder(R.color.gray)
+            .into(binding.includedContent.ivInvoiceImage)
+
+        Glide.with(this)
+            .load(leadData.qr_image)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            //.circleCrop() // .error(R.drawable.active_dot)
+            .placeholder(R.color.gray)
+            .into(binding.includedContent.ivQrCodeImage)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
