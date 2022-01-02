@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
+import com.orpatservice.app.ui.ProfileActivity
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.ui.leads.history.LeadHistoryActivity
 import com.orpatservice.app.ui.leads.new_requests.RequestLeadActivity
@@ -94,7 +95,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(intent)
             }
             R.id.mcv_profile -> {
-
+                startActivity(Intent(this, ProfileActivity::class.java))
             }
             R.id.mcv_payment -> {
 
