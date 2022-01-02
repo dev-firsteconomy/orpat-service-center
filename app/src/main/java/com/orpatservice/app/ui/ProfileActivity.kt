@@ -44,7 +44,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setUserDetails(userDetails: LoginBaseData) {
-        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.ADMIN)) {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             binding.tvName.text = userDetails.serviceCenter?.name
             binding.tvMobile.text = userDetails.serviceCenter?.mobile
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
