@@ -12,6 +12,8 @@ import com.google.gson.Gson
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityProfileBinding
 import com.orpatservice.app.ui.data.model.login.LoginBaseData
+import com.orpatservice.app.ui.data.model.login.ServiceCenter
+import com.orpatservice.app.ui.data.model.login.Technician
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.SelectUserActivity
 import com.orpatservice.app.utils.Constants
@@ -46,14 +48,19 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setUserDetails(userDetails: LoginBaseData) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            binding.tvName.text = userDetails.serviceCenter?.name
-            binding.tvMobile.text = userDetails.serviceCenter?.mobile
+            val serviceCenter = userDetails.serviceCenter as ServiceCenter
+            binding.tvName.text = serviceCenter.name
+            binding.tvMobile.text = serviceCenter.mobile
+
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-            (userDetails.technician?.firstName + " " + userDetails.technician?.lastName).also { binding.tvName.text = it }
-            binding.tvMobile.text = userDetails.technician?.mobile
+            val technician = userDetails.technician as Technician
+            (technician.firstName + " " + technician.lastName).also { binding.tvName.text = it }
+            binding.tvMobile.text = technician.mobile
+            binding.tvPincode.visibility = View.VISIBLE
+            ("Pin code: " + technician.pincode).also { binding.tvPincode.text = it }
 
             Glide.with(binding.ivProfileImage)
-                .load(userDetails.technician?.image)
+                .load(technician.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop() // .error(R.drawable.active_dot)
                 .placeholder(R.drawable.avtar)
