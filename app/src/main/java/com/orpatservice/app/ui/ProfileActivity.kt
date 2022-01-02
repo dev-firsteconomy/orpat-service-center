@@ -7,6 +7,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityProfileBinding
 import com.orpatservice.app.ui.data.model.login.LoginBaseData
@@ -34,24 +35,24 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
             setDisplayShowHomeEnabled(true)
         }
 
-//        val gson = Gson()
-//        val jsonUserDetails = SharedPrefs.getInstance().getString(Constants.SERVICE_CENTER, "")
-//        val userDetails = gson.fromJson(jsonUserDetails, LoginBaseData::class.java)
-//        setUserDetails(userDetails)
+        val gson = Gson()
+        val jsonUserDetails = SharedPrefs.getInstance().getString(Constants.SERVICE_CENTER, "")
+        val userDetails = gson.fromJson(jsonUserDetails, LoginBaseData::class.java) as LoginBaseData
+        setUserDetails(userDetails)
 
         binding.mcvLogout.setOnClickListener(this)
     }
 
     private fun setUserDetails(userDetails: LoginBaseData) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.ADMIN)) {
-            binding.tvName.text = userDetails.serviceCenter.name
-            binding.tvMobile.text = userDetails.serviceCenter.mobile
+            binding.tvName.text = userDetails.serviceCenter?.name
+            binding.tvMobile.text = userDetails.serviceCenter?.mobile
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-            (userDetails.technician.firstName + " " + userDetails.technician.lastName).also { binding.tvName.text = it }
-            binding.tvMobile.text = userDetails.serviceCenter.mobile
+            (userDetails.technician?.firstName + " " + userDetails.technician?.lastName).also { binding.tvName.text = it }
+            binding.tvMobile.text = userDetails.serviceCenter?.mobile
 
             Glide.with(binding.ivProfileImage)
-                .load(userDetails.technician.image)
+                .load(userDetails.technician?.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop() // .error(R.drawable.active_dot)
                 .error(R.drawable.avtar)

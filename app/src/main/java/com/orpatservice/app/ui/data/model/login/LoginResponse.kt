@@ -9,15 +9,15 @@ data class LoginResponse(val success: Boolean, val data: LoginBaseData, val mess
 
 data class LoginBaseData(
     @SerializedName("token") val token: String,
-    @SerializedName("serviceCenter") val serviceCenter: ServiceCenter,
-    @SerializedName("technician") val technician: Technician
+    @SerializedName("service_center") val serviceCenter: ServiceCenter? = null,
+    @SerializedName("technician") val technician: Technician? = null
 )
 
 data class ServiceCenter(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("email") val email: String,
-    @SerializedName("mobile") val mobile: String
+    @SerializedName("id") val id: Int? = null,
+    @SerializedName("name") val name: String? = null,
+    @SerializedName("email") val email: String? = null,
+    @SerializedName("mobile") val mobile: String? = null
 )
 
 data class Technician(

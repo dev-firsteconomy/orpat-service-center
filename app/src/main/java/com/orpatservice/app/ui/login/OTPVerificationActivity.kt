@@ -259,7 +259,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         SharedPrefs.getInstance().addString(Constants.TOKEN, loginResponse.data.token)
         //Storing service center data in form of JSON
         val gson = Gson()
-        SharedPrefs.getInstance().addString(Constants.SERVICE_CENTER, gson.toJson(loginResponse.data.serviceCenter))
+        SharedPrefs.getInstance().addString(Constants.SERVICE_CENTER, gson.toJson(loginResponse.data))
 
         /**
          * User navigation after login
