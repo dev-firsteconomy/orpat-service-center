@@ -3,6 +3,7 @@ package com.orpatservice.app.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -49,13 +50,12 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
             binding.tvMobile.text = userDetails.serviceCenter?.mobile
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
             (userDetails.technician?.firstName + " " + userDetails.technician?.lastName).also { binding.tvName.text = it }
-            binding.tvMobile.text = userDetails.serviceCenter?.mobile
+            binding.tvMobile.text = userDetails.technician?.mobile
 
             Glide.with(binding.ivProfileImage)
                 .load(userDetails.technician?.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop() // .error(R.drawable.active_dot)
-                .error(R.drawable.avtar)
                 .placeholder(R.drawable.avtar)
                 .into(binding.ivProfileImage)
         }
@@ -100,5 +100,15 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 "CANCEL"
             ) { _, i -> }
             .show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
