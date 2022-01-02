@@ -23,17 +23,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrpatServiceCenter"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".ui.technician.TechnicianDashboardActivity"
             android:exported="false" />
         <activity
-            android:name="com.orpatservice.app.ui.admin.technician.AddTechnicianActivity"
+            android:name=".ui.admin.technician.AddTechnicianActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.orpatservice.app.ui.admin.technician.TechniciansActivity"
+            android:name=".ui.admin.technician.TechniciansActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
@@ -77,6 +78,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

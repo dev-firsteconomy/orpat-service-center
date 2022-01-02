@@ -70,4 +70,9 @@
     <string name="activate">Activate</string>
     <string name="deactivate">Deactivate</string>
     <string name="service_center">Service Center</string>
+    <string name="user_profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="setting">Setting</string>
+    <string name="notifications">Notifications</string>
+    <string name="supports">Supports</string>
 </resources>
