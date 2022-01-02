@@ -62,14 +62,14 @@ interface ApiEndPoint {
     @GET("service-center/leads/pending")
     fun getServiceCenterPendingLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 
-    @GET("service-center/leads/pending?search={keyword}")
-    fun getServiceCenterSearchPendingLeads(@Query("keyword") keyword : String): Call<RequestLeadResponse>
+    @GET("service-center/leads/pending")
+    fun getServiceCenterSearchPendingLeads(@Query ("search") keyword : String): Call<RequestLeadResponse>
 
     @GET("service-center/leads/assigned")
     fun getServiceCenterAssignedLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 
-    @GET("service-center/leads/assigned?search={keyword}")
-    fun getServiceCenterSearchAssignedLeads(@Query("keyword") keyword : String): Call<RequestLeadResponse>
+    @GET("service-center/leads/assigned")
+    fun getServiceCenterSearchAssignedLeads(@Query ("search") keyword: String): Call<RequestLeadResponse>
 
     @GET("service-center/leads/cancelled")
     fun getServiceCenterCancelledLeads(@Query("page") page : Int): Call<RequestLeadResponse>

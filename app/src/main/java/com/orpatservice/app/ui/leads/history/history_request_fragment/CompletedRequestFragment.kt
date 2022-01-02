@@ -89,6 +89,7 @@ class CompletedRequestFragment : Fragment() {
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
+        loadUI()
         tempData()
 
         binding.rvCompletedRequest.addOnScrollListener(scrollListener)
@@ -127,6 +128,12 @@ class CompletedRequestFragment : Fragment() {
         }
         requestsLeadsAdapter.notifyDataSetChanged()
     }
+
+    private fun loadUI () {
+        binding.tvNoLeads.visibility = View.GONE
+        binding.cpiLoading.visibility = View.VISIBLE
+    }
+
 
     companion object {
         /**

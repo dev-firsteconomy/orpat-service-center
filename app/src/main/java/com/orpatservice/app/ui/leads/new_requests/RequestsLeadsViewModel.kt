@@ -33,41 +33,7 @@ class RequestsLeadsViewModel : ViewModel() {
 
     fun searchPendingLeads(keyword: String) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitServiceCenterSearchPendingLeads(keyword).enqueue(callbackSearchPendingLeads)
-        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-            //In-Progress APIs
-        }
-    }
-
-    //todo: need to work on this
-    private val callbackSearchPendingLeads: Callback<RequestLeadResponse> =
-        object : Callback<RequestLeadResponse> {
-            override fun onResponse(
-                call: Call<RequestLeadResponse>,
-                response: Response<RequestLeadResponse>) {
-
-                if (response.isSuccessful) {
-                    pendingLeadsData.postValue(response.body().let { Resource.success(it) }) // = response.body().let { Resource.success(it) }
-                } else {
-                    pendingLeadsData.postValue(Resource.error(
-                        ErrorUtils.getError(
-                            response.errorBody(),
-                            response.code()
-                        )
-                    ))
-                }
-            }
-
-            override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
-                pendingLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
-            }
-        }
-
-
-
-    fun searchAssignedLeads(keyword: String) {
-        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitServiceCenterSearchAssignedLeads(keyword).enqueue(callbackSearchPendingLeads)
+            DataRepository.instance.hitServiceCenterSearchPendingLeads(keyword).enqueue(callbackPendingLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
             //In-Progress APIs
         }
@@ -102,6 +68,14 @@ class RequestsLeadsViewModel : ViewModel() {
                 .enqueue(callbackAssignedLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             //In-progress APIs
+        }
+    }
+
+    fun searchAssignedLeads(keyword: String) {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            DataRepository.instance.hitServiceCenterSearchAssignedLeads(keyword).enqueue(callbackAssignedLeads)
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            //In-Progress APIs
         }
     }
 

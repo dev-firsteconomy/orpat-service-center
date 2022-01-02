@@ -96,29 +96,4 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
     override fun onTabReselected(tab: TabLayout.Tab) {
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_search, menu)
-
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView: SearchView = searchItem.actionView as SearchView
-        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
-        searchView.queryHint = "Search leads"
-
-        //This is where you find the edittext and set its background resource
-        val searchPlate: View = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
-        //searchPlate.setBackgroundResource(R.drawable.rounded_search)
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
-        return true
-    }
 }
