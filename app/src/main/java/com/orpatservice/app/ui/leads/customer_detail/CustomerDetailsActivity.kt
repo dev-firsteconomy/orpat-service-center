@@ -26,6 +26,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(binding.toolbar)
 
         binding.includedContent.btnAssignTechnician.setOnClickListener(this)
+        binding.includedContent.ivInvoiceImage.setOnClickListener(this)
+        binding.includedContent.ivQrCodeImage.setOnClickListener(this)
 
         supportActionBar?.apply {
             title = ""
@@ -69,6 +71,13 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
             .into(binding.includedContent.ivQrCodeImage)
     }
 
+    private fun goToFullScreenImageActivity(invoiceImage: String?) {
+        val intent = Intent(this, FullScreenImageActivity::class.java)
+
+        intent.putExtra(Constants.IMAGE_URL, invoiceImage)
+        startActivity(intent)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -87,6 +96,12 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
                 intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
                 intent.putExtra(Constants.CUSTOMER_ID, leadData.id)
                 startActivity(intent)
+            }
+            R.id.iv_invoice_image ->{
+                goToFullScreenImageActivity(leadData.invoice_image)
+            }
+            R.id.iv_qr_code_image ->{
+                goToFullScreenImageActivity(leadData.invoice_image)
             }
         }
     }
