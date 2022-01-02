@@ -45,45 +45,12 @@ class DataRepository {
         return ApiClient.getAuthApi().verifyTechnicianOTPLoginAPI(mobileNumber, otp)
     }
 
-    fun loadTechnician(): LiveData<Resource<TechnicianResponse>> {
+    fun loadTechnician(nextPage : Int): LiveData<Resource<TechnicianResponse>> {
         val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
 
         mutableTestData.value = (Resource.loading(null))
 
-        ApiClient.getAuthApi().getTechnicianAPI()
-            .enqueue(object : Callback<TechnicianResponse> {
-
-                override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
-                    mutableTestData.value = Resource.error(ErrorUtils.getError(t))
-                }
-
-                override fun onResponse(
-                    call: Call<TechnicianResponse>,
-                    response: Response<TechnicianResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        mutableTestData.value = response.body()?.let { Resource.success(it) }
-                    } else {
-                        mutableTestData.value =
-                            Resource.error(
-                                ErrorUtils.getError(
-                                    response.errorBody(),
-                                    response.code()
-                                )
-                            )
-                    }
-                }
-            })
-        return mutableTestData
-
-    }
-
-    fun loadNextPageTechnician(nextPage : Int): LiveData<Resource<TechnicianResponse>> {
-        val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
-
-        mutableTestData.value = (Resource.loading(null))
-
-        ApiClient.getAuthApi().getNextPageTechnicianAPI(nextPage)
+        ApiClient.getAuthApi().getTechnicianAPI(nextPage)
             .enqueue(object : Callback<TechnicianResponse> {
 
                 override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {

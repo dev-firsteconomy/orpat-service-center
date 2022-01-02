@@ -8,13 +8,13 @@ import com.orpatservice.app.ui.data.model.TechnicianResponse
 import com.orpatservice.app.ui.data.repository.DataRepository
 import okhttp3.MultipartBody
 
+/**
+ * Created by Vikas Singh on 16/12/21.
+ */
 class TechniciansViewModel : ViewModel() {
 
-    fun loadTechnician(): LiveData<Resource<TechnicianResponse>> {
-        return DataRepository.instance.loadTechnician()
-    }
-    fun loadNextTechnician(nextPage : Int): LiveData<Resource<TechnicianResponse>> {
-        return DataRepository.instance.loadNextPageTechnician(nextPage)
+    fun loadTechnician(nextPage : Int): LiveData<Resource<TechnicianResponse>> {
+        return DataRepository.instance.loadTechnician(nextPage)
     }
 
     fun hitAPIAddTechnician(

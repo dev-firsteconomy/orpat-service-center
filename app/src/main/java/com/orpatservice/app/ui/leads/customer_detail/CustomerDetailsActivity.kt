@@ -1,16 +1,19 @@
 package com.orpatservice.app.ui.leads.customer_detail
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
+import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.utils.Constants
 
-class CustomerDetailsActivity : AppCompatActivity() {
+class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityCustomerDetailsBinding
     private lateinit var leadData : LeadData
 
@@ -21,6 +24,8 @@ class CustomerDetailsActivity : AppCompatActivity() {
 
         // set toolbar as support action bar
         setSupportActionBar(binding.toolbar)
+
+        binding.includedContent.btnAssignTechnician.setOnClickListener(this)
 
         supportActionBar?.apply {
             title = ""
@@ -36,6 +41,7 @@ class CustomerDetailsActivity : AppCompatActivity() {
 
 
     }
+
     private fun bindUserDetails(leadData : LeadData){
         binding.includedContent.tvRequestDateValue.text = leadData.id?.toString()
         binding.includedContent.tvInProgress.text = leadData.status
@@ -71,5 +77,17 @@ class CustomerDetailsActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(view: View?) {
+        when(view?.id){
+            R.id.btn_assign_technician->{
+                val intent = Intent(this, TechniciansActivity::class.java)
+
+                intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
+                intent.putExtra(Constants.CUSTOMER_ID, leadData.id)
+                startActivity(intent)
+            }
+        }
     }
 }

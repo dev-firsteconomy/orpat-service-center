@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@id/btn_submit_mobile"
+        app:layout_constraintBottom_toTopOf="@id/btn_assign_technician"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -349,10 +349,10 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_submit_mobile"
+        android:id="@+id/btn_assign_technician"
         style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
+        android:layout_height="@dimen/Medium_button_height"
         android:text="@string/btn_assign_to_technician"
         app:cornerRadius="0dp"
         app:icon="@drawable/ic_arrow_forward"

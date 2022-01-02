@@ -39,4 +39,16 @@ object Constants {
 
     //Leads status
     const val PENDING = "Pending"
+
+    // Technician
+    const val IS_NAV = "IS_NAV"
+    const val CUSTOMER_ID = "CUSTOMER_ID"
+
+    object ComingFrom {
+
+        val CUSTOMER_DETAILS = "CUSTOMER_DETAILS"
+        val DASHBOARD = "DASHBOARD"
+
+    }
+
 }

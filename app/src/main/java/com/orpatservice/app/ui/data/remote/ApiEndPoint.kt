@@ -42,10 +42,7 @@ interface ApiEndPoint {
         @Field ("otp") otp: String): Call<LoginResponse>
 
     @GET("service-center/technicians")
-    fun getTechnicianAPI(): Call<TechnicianResponse>
-
-    @GET("service-center/technicians")
-    fun getNextPageTechnicianAPI(@Query("page") page : Int?): Call<TechnicianResponse>
+    fun getTechnicianAPI(@Query("page") page : Int?): Call<TechnicianResponse>
 
     // @FormUrlEncoded
     @POST("service-center/technicians")

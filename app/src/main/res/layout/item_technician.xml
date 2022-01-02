@@ -24,11 +24,11 @@
 
         <TextView
             android:id="@+id/tv_tech_name"
-            android:layout_width="0dp"
-            android:layout_marginTop="4dp"
             style="@style/Theme.OrpatServiceCenter.MediumText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toTopOf="@id/tv_location"
             app:layout_constraintEnd_toStartOf="@id/iv_call"
@@ -53,11 +53,11 @@
 
         <TextView
             android:id="@+id/tv_is_available"
+            style="@style/Theme.OrpatServiceCenter.RegularText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            style="@style/Theme.OrpatServiceCenter.RegularText"
             android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toStartOf="@id/iv_call"
@@ -78,28 +78,41 @@
 
         <TextView
             android:id="@+id/tv_edit"
+            style="@style/Theme.OrpatServiceCenter.RegularText"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="20dp"
             android:text="@string/edit"
             android:textColor="@color/orange"
-            style="@style/Theme.OrpatServiceCenter.RegularText"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+            app:layout_constraintEnd_toStartOf="@id/rb_select_technician"
+            app:layout_constraintStart_toEndOf="@id/iv_call"
+            app:layout_constraintTop_toTopOf="@id/iv_profile" />
+
+        <RadioButton
+            android:id="@+id/rb_select_technician"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:checked="false"
+            style="@style/TechnicianRadioButtonStyle"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_call"
-            app:layout_constraintTop_toTopOf="@id/iv_profile"  />
+            app:layout_constraintStart_toEndOf="@id/tv_edit"
+            app:layout_constraintTop_toTopOf="@id/iv_profile" />
 
         <View
             android:id="@+id/v_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="12dp"
+            android:visibility="gone"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="20dp"
             android:background="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/tv_edit"
-            app:layout_constraintStart_toStartOf="@id/iv_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_is_available" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

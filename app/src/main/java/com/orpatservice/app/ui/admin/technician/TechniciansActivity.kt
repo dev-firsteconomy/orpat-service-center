@@ -3,12 +3,10 @@ package com.orpatservice.app.ui.admin.technician
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,19 +19,29 @@ import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.TechnicianData
 import com.orpatservice.app.ui.data.model.TechnicianResponse
+import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+
+import com.orpatservice.app.utils.DividerItemDecorator
+
+
+
 
 class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback {
     private lateinit var binding: ActivityTechniciansBinding
     private lateinit var viewModel: TechniciansViewModel
 
     private val techList: ArrayList<TechnicianData> = ArrayList()
-    private var technicianAdapter = TechnicianAdapter(techList)
+    private lateinit var technicianAdapter : TechnicianAdapter
 
 
     private var isLoading: Boolean = false
-    private lateinit var layoutManager: LinearLayoutManager
-    private var pageCount: Int = 1
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private var pageNumber: Int = 1
+    private var totalPage = 1
+    private var isNave = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +49,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
         setContentView(binding.root)
 
         binding.fabAddTechnician.setOnClickListener(this)
+        binding.btnSubmitTechnician.setOnClickListener(this)
 
         setSupportActionBar(binding.toolbar)
 
@@ -54,14 +63,31 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
         viewModel = ViewModelProvider(this)[TechniciansViewModel::class.java]
 
+        isNave = intent.getStringExtra(Constants.IS_NAV).toString()
 
-        layoutManager = LinearLayoutManager(this)
-        //attaches LinearLayoutManager with RecyclerView
-        binding.rvTechList.layoutManager = layoutManager
+        if (Constants.ComingFrom.CUSTOMER_DETAILS.equals(isNave,ignoreCase = true)){
+            binding.fabAddTechnician.visibility = View.GONE
+            binding.btnSubmitTechnician.visibility = View.VISIBLE
 
+        }else{
+            binding.btnSubmitTechnician.visibility = View.GONE
+            binding.fabAddTechnician.visibility = View.VISIBLE
+
+        }
+
+        technicianAdapter = TechnicianAdapter(techList,isNave)
+
+
+        linearLayoutManager = LinearLayoutManager(this)
+
+        val dividerItemDecoration: ItemDecoration =
+            DividerItemDecorator(ContextCompat.getDrawable(this, R.drawable.rv_divider))
 
         binding.rvTechList.apply {
             adapter = technicianAdapter
+            addItemDecoration(dividerItemDecoration)
+            layoutManager = linearLayoutManager
+
         }
         technicianAdapter.callback = this
 
@@ -77,12 +103,9 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (!isLoading) {
-                    //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
-                    ////It checks, fully visible view is the last one.
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == techList.size - 1 && !nextPage.isNullOrEmpty()) {
-                        pageCount++
-                        viewModel.loadNextTechnician(pageCount)
-                            .observe(this@TechniciansActivity, loadTechnician())
+                    if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == techList.size - 1 && totalPage > pageNumber) {
+                        pageNumber++
+                        setObserver()
                         isLoading = true
                     }
                 }
@@ -91,7 +114,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
     }
 
     private fun setObserver() {
-        viewModel.loadTechnician().observe(this, loadTechnician())
+        viewModel.loadTechnician(pageNumber).observe(this, loadTechnician())
     }
 
     var nextPage: String? = null
@@ -103,6 +126,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
                 }
                 Status.ERROR -> {
+                    isLoading = false
                     binding.cpiLoading.visibility = View.GONE
                     Alerter.create(this@TechniciansActivity)
                         .setTitle("")
@@ -117,15 +141,17 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
                     data?.let {
                         if (it.success) {
+                            totalPage = it.data.pagination.last_page
                             techList.addAll(it.data.data)
                             nextPage = it.data.pagination.next_page_url
 
-                            technicianAdapter.notifyDataSetChanged()
+                            //technicianAdapter.notifyDataSetChanged()
+                            isLoading = false
 
-                            /* if (pageCount==1)
+                             if (pageNumber==1)
                                  technicianAdapter.notifyDataSetChanged()
                              else
-                                 technicianAdapter.notifyItemInserted(techList.size-1)*/
+                                 technicianAdapter.notifyItemInserted(techList.size-1)
 
                         }
                     } ?: run {
@@ -180,6 +206,9 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                 intent.putExtra(PARCELABLE_TECHNICIAN, techList[position])
 
                 addTechnicianLauncher.launch(intent)
+            }
+            R.id.btn_submit_technician ->{
+
             }
             R.id.iv_call -> {
                 openCallDialPad(techList[position].mobile)
