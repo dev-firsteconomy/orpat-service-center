@@ -13,6 +13,9 @@ import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.utils.Constants
 
+/**
+ * Created by Vikas Singh on 26/12/21.
+ */
 class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityCustomerDetailsBinding
     private lateinit var leadData : LeadData

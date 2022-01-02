@@ -8,6 +8,10 @@ import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityFullScreenImageBinding
 import com.orpatservice.app.utils.Constants
 
+/**
+ * Created by Vikas Singh on 01/01/22.
+ */
+
 class FullScreenImageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFullScreenImageBinding
 
@@ -22,7 +26,6 @@ class FullScreenImageActivity : AppCompatActivity() {
         Glide.with(this)
             .load(intent.getStringExtra(Constants.IMAGE_URL))
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            //.circleCrop() // .error(R.drawable.active_dot)
             .placeholder(R.color.gray)
             .into(binding.ivFullScreenImage)
     }
