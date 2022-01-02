@@ -258,7 +258,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         SharedPrefs.getInstance().addString(Constants.TOKEN, loginResponse.data.token)
         //Storing service center data in form of JSON
         val gson = Gson()
-        SharedPrefs.getInstance().addString(Constants.SERVICE_CENTER_DATA, gson.toJson(loginResponse.data.serviceCenter))
+        SharedPrefs.getInstance().addString(Constants.SERVICE_CENTER_DATA, gson.toJson(loginResponse.data))
 
         val intent = Intent(this, DashboardActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
