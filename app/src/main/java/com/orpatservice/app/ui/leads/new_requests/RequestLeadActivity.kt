@@ -13,14 +13,11 @@ import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.AssignToT
 import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
-import android.R.menu
 
-import android.R
-
-import android.view.MenuInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
+import com.orpatservice.app.R
 
 
 class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
@@ -102,11 +99,11 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
-        inflater.inflate(R.menu.search_menu, menu)
+        inflater.inflate(R.menu.menu_search, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.actionView as SearchView
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
         searchView.queryHint = "Search leads"
 
         //This is where you find the edittext and set its background resource
@@ -119,7 +116,6 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-
                 return false
             }
         })
