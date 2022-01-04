@@ -24,6 +24,8 @@
                 style="@style/Theme.OrpatServiceCenter.MediumText.toolbarTittle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:lines="1"
                 android:text="@string/requests"
                 android:textColor="@color/brown" />
         </androidx.appcompat.widget.Toolbar>

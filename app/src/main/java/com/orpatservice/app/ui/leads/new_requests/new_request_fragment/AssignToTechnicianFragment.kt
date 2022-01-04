@@ -2,11 +2,15 @@ package com.orpatservice.app.ui.leads.new_requests.new_request_fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -86,10 +90,11 @@ class AssignToTechnicianFragment : Fragment() {
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
-        binding.cpiLoading.visibility = View.VISIBLE
+        loadUI()
         requestLeadsViewModel.loadAssignedLeads(pageNumber)
 
         binding.rvAssignTechnician.addOnScrollListener(scrollListener)
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -150,6 +155,41 @@ class AssignToTechnicianFragment : Fragment() {
                 }
             }
         }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_search, menu)
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+        searchView.queryHint = "Search leads"
+
+        //This is where you find the edittext and set its background resource
+        val searchPlate: View = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
+        //searchPlate.setBackgroundResource(R.drawable.rounded_search)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                requestLeadsViewModel.searchAssignedLeads(query)
+                leadDataArrayList.clear()
+                requestsLeadsAdapter.notifyDataSetChanged()
+                isLoading = true
+                loadUI()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun loadUI () {
+        binding.tvNoLeads.visibility = View.GONE
+        binding.cpiLoading.visibility = View.VISIBLE
     }
 
     companion object {

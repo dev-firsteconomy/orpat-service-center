@@ -92,7 +92,7 @@ class CancelledRequestFragment : Fragment() {
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
-        binding.cpiLoading.visibility = View.VISIBLE
+        loadUI()
         requestLeadsViewModel.loadCancelledLeads(pageNumber)
 
         binding.rvCancelledRequest.addOnScrollListener(scrollListener)
@@ -156,6 +156,11 @@ class CancelledRequestFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun loadUI () {
+        binding.tvNoLeads.visibility = View.GONE
+        binding.cpiLoading.visibility = View.VISIBLE
     }
 
     companion object {

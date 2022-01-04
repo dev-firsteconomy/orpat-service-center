@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -90,7 +89,7 @@ class CompletedRequestFragment : Fragment() {
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
-        binding.cpiLoading.visibility = View.VISIBLE
+        loadUI()
         requestLeadsViewModel.loadCompletedLeads(pageNumber)
 
         binding.rvCompletedRequest.addOnScrollListener(scrollListener)
@@ -156,6 +155,10 @@ class CompletedRequestFragment : Fragment() {
         }
     }
 
+    private fun loadUI () {
+        binding.tvNoLeads.visibility = View.GONE
+        binding.cpiLoading.visibility = View.VISIBLE
+    }
 
     companion object {
         /**

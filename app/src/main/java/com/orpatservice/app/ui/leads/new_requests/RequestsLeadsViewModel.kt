@@ -32,6 +32,14 @@ class RequestsLeadsViewModel : ViewModel() {
         }
     }
 
+    fun searchPendingLeads(keyword: String) {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            DataRepository.instance.hitServiceCenterSearchPendingLeads(keyword).enqueue(callbackPendingLeads)
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            //In-Progress APIs
+        }
+    }
+
     private val callbackPendingLeads: Callback<RequestLeadResponse> =
         object : Callback<RequestLeadResponse> {
             override fun onResponse(
@@ -61,6 +69,14 @@ class RequestsLeadsViewModel : ViewModel() {
                 .enqueue(callbackAssignedLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             //In-progress APIs
+        }
+    }
+
+    fun searchAssignedLeads(keyword: String) {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            DataRepository.instance.hitServiceCenterSearchAssignedLeads(keyword).enqueue(callbackAssignedLeads)
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            //In-Progress APIs
         }
     }
 
