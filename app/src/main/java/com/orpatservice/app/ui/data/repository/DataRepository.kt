@@ -25,6 +25,10 @@ class DataRepository {
         val instance = DataRepository()
     }
 
+    //Service Center login by email and password
+    fun hitServiceCenterLoginApi(email: String, password: String): Call<LoginResponse> {
+        return ApiClient.getAuthApi().getServiceCenterLogin(email, password)
+    }
     //To get OTP on user register mobile number
     fun hitServiceCenterOTPApi(mobileNumber: String): Call<OTPSendResponse> {
         return ApiClient.getAuthApi().getServiceCenterOtpAPI(mobileNumber)
@@ -153,8 +157,20 @@ class DataRepository {
         return ApiClient.getAuthApi().getServiceCenterPendingLeads(pageNumber)
     }
 
+    fun hitServiceCenterSearchPendingLeads(keyword: String): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterSearchPendingLeads(keyword)
+    }
+
     fun hitGetServiceCenterAssignedLeads(pageNumber: Int): Call<RequestLeadResponse> {
         return ApiClient.getAuthApi().getServiceCenterAssignedLeads(pageNumber)
+    }
+
+    fun hitServiceCenterSearchAssignedLeads(keyword: String): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterSearchAssignedLeads(keyword)
+    }
+
+    fun hitGetServiceCenterCompletedLeads(pageNumber: Int): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterCompletedLeads(pageNumber)
     }
 
     fun hitGetServiceCenterCancelledLeads(pageNumber: Int): Call<RequestLeadResponse> {
@@ -163,5 +179,17 @@ class DataRepository {
 
     fun hitServiceCenterCancelLeads(leadId: Int): Call<CancelLeadResponse> {
         return ApiClient.getAuthApi().getServiceCenterCancelLead(leadId)
+    }
+
+    fun hitGetTechnicianPendingLeads(pageNumber: Int): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getTechnicianPendingLeads(pageNumber)
+    }
+
+    fun hitTechnicianSearchPendingLeads(keyword: String): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getTechnicianSearchPendingLeads(keyword)
+    }
+
+    fun hitGetTechnicianCompletedLeads(pageNumber: Int): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getTechnicianCompletedLeads(pageNumber)
     }
 }

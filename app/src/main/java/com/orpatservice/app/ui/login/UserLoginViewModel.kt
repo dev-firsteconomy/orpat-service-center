@@ -20,11 +20,14 @@ class UserLoginViewModel : ViewModel() {
     val OTPData = MutableLiveData<Resource<OTPSendResponse>>()
     val loginData = MutableLiveData<Resource<LoginResponse>>()
 
+    fun hitServiceCenterLoginApi(email: String, password: String) {
+        DataRepository.instance.hitServiceCenterLoginApi(email, password).enqueue(callbackLogin)
+    }
     //API to get OTP on user register mobile number
     fun hitOTPApi(mobileNumber: String) {
         if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitServiceCenterOTPApi(mobileNumber)
-                .enqueue(callbackGetOTP)
+        //No need for now, as per discussion Service Center have login by email and password
+        //DataRepository.instance.hitServiceCenterOTPApi(mobileNumber).enqueue(callbackGetOTP)
         } else if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             DataRepository.instance.hitTechnicianOTPApi(mobileNumber)
                 .enqueue(callbackGetOTP)
@@ -57,17 +60,15 @@ class UserLoginViewModel : ViewModel() {
     //API to verify and login
     fun hitVerifyOTPLoginApi(mobileNumber: String, otp: String) {
         if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitVerifyServiceCenterOTPLoginApi(mobileNumber, otp)
-                .enqueue(callbackVerifyOTPLogin)
-        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
-                .equals(Constants.TECHNICIAN)
-        ){
+        //No need for now, as per discussion Service Center have login by email and password
+        //DataRepository.instance.hitVerifyServiceCenterOTPLoginApi(mobileNumber, otp).enqueue(callbackVerifyOTPLogin)
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             DataRepository.instance.hitVerifyTechnicianOTPLoginApi(mobileNumber, otp)
-                .enqueue(callbackVerifyOTPLogin)
+                .enqueue(callbackLogin)
         }
     }
 
-    private val callbackVerifyOTPLogin: Callback<LoginResponse> = object : Callback<LoginResponse> {
+    private val callbackLogin: Callback<LoginResponse> = object : Callback<LoginResponse> {
         override fun onResponse(
             call: Call<LoginResponse>,
             response: Response<LoginResponse>

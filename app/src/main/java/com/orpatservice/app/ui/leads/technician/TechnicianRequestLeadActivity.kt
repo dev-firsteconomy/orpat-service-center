@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.technician
+package com.orpatservice.app.ui.leads.technician
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

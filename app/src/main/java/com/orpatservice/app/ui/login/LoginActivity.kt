@@ -4,21 +4,29 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityLoginBinding
+import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
+import com.orpatservice.app.ui.data.model.login.LoginResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
+import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.login.service_center.ServiceCenterLoginFragment
+import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
+import com.orpatservice.app.ui.login.technician.TechnicianLoginFragment
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
+class LoginActivity : AppCompatActivity(){
 
     private lateinit var binding : ActivityLoginBinding
     private lateinit var viewModel : UserLoginViewModel
+    private var fragmentLoginUI = Fragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,24 +45,41 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         viewModel = ViewModelProvider(this)[UserLoginViewModel::class.java]
-        //Listeners
-        binding.btnContinueMobile.setOnClickListener(this)
+
+        if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            fragmentLoginUI = ServiceCenterLoginFragment()
+            loadFragment(fragmentLoginUI)
+        } else if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            fragmentLoginUI = TechnicianLoginFragment()
+            loadFragment(fragmentLoginUI)
+        }
 
         setObserver()
     }
 
     private fun setObserver() {
         viewModel.OTPData.observe(this, this::onGetOTP)
+        viewModel.loginData.observe(this, this::onLogin)
+    }
+
+    private fun loadFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fl_login_container, fragment)
+        transaction.disallowAddToBackStack()
+        transaction.commit()
     }
 
     private fun onGetOTP(resources: Resource<OTPSendResponse>) {
         when (resources.status) {
                 Status.LOADING -> {
-                    binding.cpiLoading.visibility = View.VISIBLE
+                    if(fragmentLoginUI is TechnicianLoginFragment) {
+                        (fragmentLoginUI as TechnicianLoginFragment).showLoadingUI()
+                    }
                 }
                 Status.ERROR -> {
-                    binding.cpiLoading.visibility = View.GONE
-                    binding.btnContinueMobile.visibility = View.VISIBLE
+                    if(fragmentLoginUI is TechnicianLoginFragment) {
+                        (fragmentLoginUI as TechnicianLoginFragment).hideLoadingUI()
+                    }
 
                     Alerter.create(this)
                         .setText(resources.error?.message.toString())
@@ -63,14 +88,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         .show()
                 }
                 else -> {
-                    binding.cpiLoading.visibility = View.GONE
+                    if(fragmentLoginUI is TechnicianLoginFragment) {
+                        (fragmentLoginUI as TechnicianLoginFragment).hideLoadingUI()
+                    }
 
                     val data = resources.data
 
                     data.let {
                         if(it?.success == true){
                             val intent = Intent(this, OTPVerificationActivity::class.java)
-                            intent.putExtra(Constants.MOBILE_NUMBER, binding.edtMobile.text.toString())
+                            intent.putExtra(Constants.MOBILE_NUMBER, it.data.mobile)
 
                             startActivity(intent)
                         }
@@ -79,34 +106,69 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
     }
 
-    override fun onResume() {
-        super.onResume()
-        //After getting user to next screen send OTP button should be visible
-        binding.btnContinueMobile.visibility = View.VISIBLE
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.btn_continue_mobile -> {
-                val mobileNumber = binding.edtMobile.text ?: ""
-                if (mobileNumber.length < 10) {
-                    Alerter.create(this)
-                        .setText(getString(R.string.warning_mobile_number))
-                        .setBackgroundColorRes(R.color.orange)
-                        .setDuration(1000)
-                        .show()
-                } else {
-                    signUp()
+    //Login response handling for service center
+    private fun onLogin(resources: Resource<LoginResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                if(fragmentLoginUI is ServiceCenterLoginFragment) {
+                    (fragmentLoginUI as ServiceCenterLoginFragment).showLoadingUI()
                 }
+            }
+            Status.ERROR -> {
+                if(fragmentLoginUI is ServiceCenterLoginFragment) {
+                    (fragmentLoginUI as ServiceCenterLoginFragment).hideLoadingUI()
+                }
+                Alerter.create(this)
+                    .setText(resources.error?.message.toString())
+                    .setBackgroundColorRes(R.color.orange)
+                    .setDuration(1000)
+                    .show()
+            }
+            else -> {
+                if(fragmentLoginUI is ServiceCenterLoginFragment) {
+                    (fragmentLoginUI as ServiceCenterLoginFragment).hideLoadingUI()
+                }
+
+                val data = resources.data
+
+                data.let {
+                    if(it?.success == true){
+                        //go to dashboard
+                        dashboardLanding(it)
+                    }
+                }.run {  }
             }
         }
     }
 
-    private fun signUp() {
-        binding.btnContinueMobile.visibility = View.INVISIBLE
-        binding.cpiLoading.visibility = View.VISIBLE
-        val mobileNumber = binding.edtMobile.text.toString()
+    override fun onResume() {
+        super.onResume()
+        //After getting user to next screen send OTP button should be visible
+        if(fragmentLoginUI is TechnicianLoginFragment) {
+            (fragmentLoginUI as TechnicianLoginFragment).hideLoadingUI()
+        }
+    }
+
+    fun signUpTechnician(mobileNumber: String) {
         viewModel.hitOTPApi(mobileNumber)
+    }
+
+    fun signUpServiceCenter(email: String, password: String) {
+        viewModel.hitServiceCenterLoginApi(email, password)
+    }
+
+    //After successful login user get land on dashboard activity
+    private fun dashboardLanding(loginResponse: LoginResponse) {
+
+        //Now save token and basic details in shared pref
+        SharedPrefs.getInstance().addString(Constants.TOKEN, loginResponse.data.token)
+        //Storing service center data in form of JSON
+        val gson = Gson()
+        SharedPrefs.getInstance().addString(Constants.SERVICE_CENTER_DATA, gson.toJson(loginResponse.data))
+
+        val intent = Intent(this, DashboardActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

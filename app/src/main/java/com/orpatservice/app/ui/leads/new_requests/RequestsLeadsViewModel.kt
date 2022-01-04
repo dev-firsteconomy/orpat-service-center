@@ -22,12 +22,21 @@ class RequestsLeadsViewModel : ViewModel() {
     val assignedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val cancelledLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val cancelLeadsData = MutableLiveData<Resource<CancelLeadResponse>>()
+    val completedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
 
     fun loadPendingLeads(pageNumber: Int) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-            //In-Progress APIs
+            DataRepository.instance.hitGetTechnicianPendingLeads(pageNumber).enqueue(callbackPendingLeads)
+        }
+    }
+
+    fun searchPendingLeads(keyword: String) {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            DataRepository.instance.hitServiceCenterSearchPendingLeads(keyword).enqueue(callbackPendingLeads)
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            DataRepository.instance.hitTechnicianSearchPendingLeads(keyword).enqueue(callbackPendingLeads)
         }
     }
 
@@ -60,6 +69,14 @@ class RequestsLeadsViewModel : ViewModel() {
                 .enqueue(callbackAssignedLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             //In-progress APIs
+        }
+    }
+
+    fun searchAssignedLeads(keyword: String) {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            DataRepository.instance.hitServiceCenterSearchAssignedLeads(keyword).enqueue(callbackAssignedLeads)
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            //In-Progress APIs
         }
     }
 
@@ -147,6 +164,40 @@ class RequestsLeadsViewModel : ViewModel() {
 
             override fun onFailure(call: Call<CancelLeadResponse>, t: Throwable) {
                 cancelLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
+            }
+        }
+
+    fun loadCompletedLeads(pageNumber: Int) {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            DataRepository.instance.hitGetServiceCenterCompletedLeads(pageNumber)
+                .enqueue(callbackCompletedLeads)
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
+            DataRepository.instance.hitGetTechnicianCompletedLeads(pageNumber)
+                .enqueue(callbackCompletedLeads)
+        }
+    }
+
+    private val callbackCompletedLeads: Callback<RequestLeadResponse> =
+        object : Callback<RequestLeadResponse> {
+            override fun onResponse(
+                call: Call<RequestLeadResponse>,
+                response: Response<RequestLeadResponse>) {
+
+                if (response.isSuccessful) {
+                    completedLeadsData.postValue(response.body().let { Resource.success(it) })
+                } else {
+                    completedLeadsData.postValue(
+                        Resource.error(
+                            ErrorUtils.getError(
+                                response.errorBody(),
+                                response.code()
+                            )
+                        ))
+                }
+            }
+
+            override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
+                completedLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
 }

@@ -18,6 +18,10 @@ import retrofit2.http.Query
 
 interface ApiEndPoint {
 
+    @FormUrlEncoded
+    @POST("service-center/login")
+    fun getServiceCenterLogin(@Field ("email") email: String, @Field("password") password: String): Call<LoginResponse>
+
     //To get OTP on entered mobile number
     @FormUrlEncoded
     @POST("service-center/send-otp")
@@ -59,12 +63,30 @@ interface ApiEndPoint {
     @GET("service-center/leads/pending")
     fun getServiceCenterPendingLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 
+    @GET("service-center/leads/pending")
+    fun getServiceCenterSearchPendingLeads(@Query ("search") keyword : String): Call<RequestLeadResponse>
+
     @GET("service-center/leads/assigned")
     fun getServiceCenterAssignedLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+
+    @GET("service-center/leads/assigned")
+    fun getServiceCenterSearchAssignedLeads(@Query ("search") keyword: String): Call<RequestLeadResponse>
+
+    @GET("service-center/leads/completed")
+    fun getServiceCenterCompletedLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 
     @GET("service-center/leads/cancelled")
     fun getServiceCenterCancelledLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 
     @POST("service-center/leads/cancel_lead/{lead_id}")
     fun getServiceCenterCancelLead(@Path("lead_id") leadId : Int): Call<CancelLeadResponse>
+
+    @GET("technician/leads/pending")
+    fun getTechnicianPendingLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+
+    @GET("technician/leads/pending")
+    fun getTechnicianSearchPendingLeads(@Query ("search") keyword : String): Call<RequestLeadResponse>
+
+    @GET("technician/leads/completed")
+    fun getTechnicianCompletedLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 }

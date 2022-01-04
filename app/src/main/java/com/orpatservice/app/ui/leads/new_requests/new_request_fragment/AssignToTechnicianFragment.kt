@@ -2,11 +2,15 @@ package com.orpatservice.app.ui.leads.new_requests.new_request_fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,20 +26,7 @@ import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AssignToTechnicianFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AssignToTechnicianFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     private lateinit var binding: FragmentAssignToTechnicianBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
@@ -54,9 +45,6 @@ class AssignToTechnicianFragment : Fragment() {
                     startActivity(this)
                 }
             }
-            R.id.btn_view_decline -> {
-                Toast.makeText(activity, "In-Progress", Toast.LENGTH_SHORT).show()
-            }
         }
     }
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
@@ -69,8 +57,6 @@ class AssignToTechnicianFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -89,10 +75,11 @@ class AssignToTechnicianFragment : Fragment() {
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
-        binding.cpiLoading.visibility = View.VISIBLE
+        loadUI()
         requestLeadsViewModel.loadAssignedLeads(pageNumber)
 
         binding.rvAssignTechnician.addOnScrollListener(scrollListener)
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -104,7 +91,7 @@ class AssignToTechnicianFragment : Fragment() {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
                     pageNumber++
                     binding.cpiLoading.visibility = View.VISIBLE
-                    requestLeadsViewModel.loadPendingLeads(pageNumber)
+                    requestLeadsViewModel.loadAssignedLeads(pageNumber)
                     isLoading = true
                 }
             }
@@ -155,22 +142,46 @@ class AssignToTechnicianFragment : Fragment() {
         }
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_search, menu)
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+        searchView.queryHint = "Search leads"
+
+        //This is where you find the edittext and set its background resource
+        val searchPlate: View = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
+        //searchPlate.setBackgroundResource(R.drawable.rounded_search)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                requestLeadsViewModel.searchAssignedLeads(query)
+                leadDataArrayList.clear()
+                requestsLeadsAdapter.notifyDataSetChanged()
+                isLoading = true
+                loadUI()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun loadUI () {
+        binding.tvNoLeads.visibility = View.GONE
+        binding.cpiLoading.visibility = View.VISIBLE
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AssignToTechnicianFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             AssignToTechnicianFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }

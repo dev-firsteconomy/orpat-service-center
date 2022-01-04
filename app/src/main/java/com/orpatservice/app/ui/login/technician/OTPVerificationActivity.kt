@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.login
+package com.orpatservice.app.ui.login.technician
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +23,7 @@ import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.login.LoginResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.login.UserLoginViewModel
 import com.tapadoo.alerter.Alerter
 
 
@@ -224,17 +225,6 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         }.start()
     }
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.btn_continue_otp -> {
-                validateOTP()
-            }
-            R.id.tv_resend_otp_timer -> {
-                requestOTP()
-            }
-        }
-    }
-
     private fun validateOTP() {
 
         (0 until editTextArray.size)
@@ -265,7 +255,6 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         startActivity(intent)
     }
 
-
     /**
      * API to get OTP
      */
@@ -278,6 +267,30 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         binding.tvResendOtpTimer.text = ""
 
         signUp()
+    }
+
+    /**
+     * Verify the code - you take it from here
+     */
+    private fun verifyOTPCode(verificationCode: String) {
+        if (verificationCode.isNotEmpty()) {
+            enableCodeEditTexts(false)
+            //API trigger
+            binding.btnContinueOtp.visibility = View.INVISIBLE
+            binding.cpiLoading.visibility = View.VISIBLE
+            viewModel.hitVerifyOTPLoginApi(mobileNumber, verificationCode)
+        }
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.btn_continue_otp -> {
+                validateOTP()
+            }
+            R.id.tv_resend_otp_timer -> {
+                requestOTP()
+            }
+        }
     }
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -355,18 +368,5 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
             return verificationCode
         }
         return ""
-    }
-
-    /**
-     * Verify the code - you take it from here
-     */
-    private fun verifyOTPCode(verificationCode: String) {
-        if (verificationCode.isNotEmpty()) {
-            enableCodeEditTexts(false)
-            //API trigger
-            binding.btnContinueOtp.visibility = View.INVISIBLE
-            binding.cpiLoading.visibility = View.VISIBLE
-            viewModel.hitVerifyOTPLoginApi(mobileNumber, verificationCode)
-        }
     }
 }
