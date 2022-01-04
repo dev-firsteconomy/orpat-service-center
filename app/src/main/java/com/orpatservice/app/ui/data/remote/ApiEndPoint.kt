@@ -48,6 +48,9 @@ interface ApiEndPoint {
     @GET("service-center/technicians")
     fun getTechnicianAPI(@Query("page") page : Int?): Call<TechnicianResponse>
 
+    @POST("service-center/leads/{leadsId}/technician/{technicianId}")
+    fun hitAPIAssignTechnician(@Path("leadsId") leadsId : Int?,@Path("technicianId") technicianId : Int?): Call<TechnicianResponse>
+
     // @FormUrlEncoded
     @POST("service-center/technicians")
     fun hitAPIAddTechnician(

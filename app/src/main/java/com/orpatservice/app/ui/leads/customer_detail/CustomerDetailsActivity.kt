@@ -112,7 +112,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
                     val intent = Intent(this, TechniciansActivity::class.java)
 
                     intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
-                    intent.putExtra(Constants.CUSTOMER_ID, leadData.id)
+                    intent.putExtra(Constants.LEADS_ID, leadData.id)
                     startActivity(intent)
 
                 } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {

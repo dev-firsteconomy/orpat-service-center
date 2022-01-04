@@ -103,6 +103,8 @@ class TechnicianAdapter(
                     notifyItemChanged(copyOfLastCheckedPosition)
                     notifyItemChanged(lastCheckedPosition)
 
+                    view.let { callback?.onItemClick(it, adapterPosition) }
+
 
                 }
                 else -> {

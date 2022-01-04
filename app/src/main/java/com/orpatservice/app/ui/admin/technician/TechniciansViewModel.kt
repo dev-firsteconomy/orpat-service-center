@@ -30,4 +30,9 @@ class TechniciansViewModel : ViewModel() {
         return DataRepository.instance.hitAPIUpdateTechnician(requestBody,technicianID)
     }
 
+
+    fun hitAPIAssignTechnician(leadsId : Int,technicianId : Int): LiveData<Resource<TechnicianResponse>> {
+        return DataRepository.instance.hitAPIAssignTechnician(leadsId,technicianId)
+    }
+
 }

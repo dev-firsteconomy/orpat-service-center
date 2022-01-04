@@ -42,7 +42,7 @@ object Constants {
 
     // Technician
     const val IS_NAV = "IS_NAV"
-    const val CUSTOMER_ID = "CUSTOMER_ID"
+    const val LEADS_ID = "LEADS_ID"
     const val IMAGE_URL = "IMAGE_URL"
 
     object ComingFrom {

@@ -152,6 +152,40 @@ class DataRepository {
         return mutableLiveData
     }
 
+    //Lead API assign to tech
+    fun hitAPIAssignTechnician(leadsId : Int,technicianId : Int): LiveData<Resource<TechnicianResponse>> {
+        val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
+
+        mutableTestData.value = (Resource.loading(null))
+
+        ApiClient.getAuthApi().hitAPIAssignTechnician(leadsId,technicianId)
+            .enqueue(object : Callback<TechnicianResponse> {
+
+                override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
+                    mutableTestData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<TechnicianResponse>,
+                    response: Response<TechnicianResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableTestData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableTestData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableTestData
+
+    }
+
     //Lead API
     fun hitGetServiceCenterPendingLeads(pageNumber: Int): Call<RequestLeadResponse> {
         return ApiClient.getAuthApi().getServiceCenterPendingLeads(pageNumber)

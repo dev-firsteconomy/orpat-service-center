@@ -2,6 +2,7 @@ package com.orpatservice.app.ui.admin.technician
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
@@ -23,10 +24,12 @@ import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
+import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.login.SelectUserActivity
 
 import com.orpatservice.app.utils.DividerItemDecorator
-
-
 
 
 class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback {
@@ -34,7 +37,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
     private lateinit var viewModel: TechniciansViewModel
 
     private val techList: ArrayList<TechnicianData> = ArrayList()
-    private lateinit var technicianAdapter : TechnicianAdapter
+    private lateinit var technicianAdapter: TechnicianAdapter
 
 
     private var isLoading: Boolean = false
@@ -65,17 +68,17 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
         isNave = intent.getStringExtra(Constants.IS_NAV).toString()
 
-        if (Constants.ComingFrom.CUSTOMER_DETAILS.equals(isNave,ignoreCase = true)){
+        if (Constants.ComingFrom.CUSTOMER_DETAILS.equals(isNave, ignoreCase = true)) {
             binding.fabAddTechnician.visibility = View.GONE
             binding.btnSubmitTechnician.visibility = View.VISIBLE
 
-        }else{
+        } else {
             binding.btnSubmitTechnician.visibility = View.GONE
             binding.fabAddTechnician.visibility = View.VISIBLE
 
         }
 
-        technicianAdapter = TechnicianAdapter(techList,isNave)
+        technicianAdapter = TechnicianAdapter(techList, isNave)
 
 
         linearLayoutManager = LinearLayoutManager(this)
@@ -117,7 +120,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
         viewModel.loadTechnician(pageNumber).observe(this, loadTechnician())
     }
 
-    var nextPage: String? = null
+    private var nextPage: String? = null
     private fun loadTechnician(): Observer<Resource<TechnicianResponse>> {
         return Observer { it ->
             when (it?.status) {
@@ -148,10 +151,10 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                             //technicianAdapter.notifyDataSetChanged()
                             isLoading = false
 
-                             if (pageNumber==1)
-                                 technicianAdapter.notifyDataSetChanged()
-                             else
-                                 technicianAdapter.notifyItemInserted(techList.size-1)
+                            if (pageNumber == 1)
+                                technicianAdapter.notifyDataSetChanged()
+                            else
+                                technicianAdapter.notifyItemInserted(techList.size - 1)
 
                         }
                     } ?: run {
@@ -165,6 +168,84 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                 }
             }
         }
+    }
+
+    private fun hitAPIAssignTechnician(leadsId: Int, technicianId: Int) {
+        viewModel.hitAPIAssignTechnician(leadsId, technicianId)
+            .observe(this, loadAssignTechnician())
+
+    }
+
+    private fun loadAssignTechnician(): Observer<Resource<TechnicianResponse>> {
+        return Observer { it ->
+            when (it?.status) {
+                Status.LOADING -> {
+                    binding.cpiLoading.visibility = View.VISIBLE
+
+                }
+                Status.ERROR -> {
+                    isLoading = false
+                    binding.cpiLoading.visibility = View.GONE
+
+                    binding.btnSubmitTechnician.isClickable = true
+                    binding.btnSubmitTechnician.isCheckable = true
+                    binding.btnSubmitTechnician.backgroundTintList = null
+
+                    Alerter.create(this@TechniciansActivity)
+                        .setTitle("")
+                        .setText("" + it.error?.message.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
+
+                }
+                else -> {
+                    binding.cpiLoading.visibility = View.GONE
+                    val data = it?.data
+
+                    data?.let {
+                        if (it.success) {
+                            confirmationDialog(it.message)
+
+                        }
+                    } ?: run {
+                        binding.btnSubmitTechnician.isClickable = true
+                        binding.btnSubmitTechnician.isCheckable = true
+                        binding.btnSubmitTechnician.backgroundTintList = null
+
+                        Alerter.create(this@TechniciansActivity)
+                            .setTitle("")
+                            .setText(it.data?.message.toString())
+                            .setBackgroundColorRes(R.color.orange)
+                            .setDuration(1000)
+                            .show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun confirmationDialog(message: String) {
+
+        MaterialAlertDialogBuilder(
+            this,
+            R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog
+        )
+            .setTitle("Leads Assigned Technician")
+            .setCancelable(false)
+            .setMessage("" + message)
+            .setPositiveButton(
+                "OK"
+
+            ) { _, i ->
+                val intent = Intent(this, DashboardActivity::class.java)
+                // set the new task and clear flags
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+
+                finish()
+
+            }.show()
     }
 
     private fun openCallDialPad(contactNumber: String) {
@@ -192,9 +273,33 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                 addTechnicianLauncher.launch(intent)
 
             }
+            R.id.btn_submit_technician -> {
+                if (technicianId != null) {
+                    binding.btnSubmitTechnician.isClickable = false
+                    binding.btnSubmitTechnician.isCheckable = false
+
+                    binding.btnSubmitTechnician.backgroundTintList =
+                        ColorStateList.valueOf(ContextCompat.getColor(this, R.color.gray))
+
+                    hitAPIAssignTechnician(
+                        intent.getIntExtra(Constants.LEADS_ID, 0),
+                        technicianId!!
+                    )
+
+                } else {
+                    Alerter.create(this@TechniciansActivity)
+                        .setTitle("")
+                        .setText("" + resources.getString(R.string.select_technician))
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
+
+                }
+            }
         }
     }
 
+    var technicianId: Int? = null
     var clickedPosition: Int? = null
     override fun onItemClick(view: View, position: Int) {
         when (view.id) {
@@ -207,7 +312,8 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
                 addTechnicianLauncher.launch(intent)
             }
-            R.id.btn_submit_technician ->{
+            R.id.rb_select_technician -> {
+                technicianId = techList[position].id
 
             }
             R.id.iv_call -> {
