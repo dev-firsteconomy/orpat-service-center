@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ItemRequestLeadCardBinding
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
+import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.utils.Constants
 import java.text.SimpleDateFormat
 
@@ -52,10 +53,10 @@ class RequestsLeadsAdapter constructor(
             binding.tvRequestId.text = leadData.id.toString()
             binding.tvRequestCustomerName.text = leadData.name
 
-            if (fragmentType.equals(Constants.LEAD_ASSIGN_TECHNICIAN) || fragmentType.equals(
-                    Constants.LEAD_COMPLETED_REQUEST
-                ) || fragmentType.equals(Constants.LEAD_CANCELLED_REQUEST)
-            ) {
+            if (fragmentType.equals(Constants.LEAD_ASSIGN_TECHNICIAN) ||
+                fragmentType.equals(Constants.LEAD_COMPLETED_REQUEST) ||
+                fragmentType.equals(Constants.LEAD_CANCELLED_REQUEST) ||
+                    SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
                 binding.btnViewDecline.visibility = View.GONE
             } else {
                 binding.btnViewDecline.visibility = View.VISIBLE
