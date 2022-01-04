@@ -32,6 +32,14 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         // set toolbar as support action bar
         setSupportActionBar(binding.toolbar)
 
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            binding.includedContent.btnAssignTechnician.text = resources.getString(R.string.btn_assign_to_technician)
+
+        }else{
+            binding.includedContent.btnAssignTechnician.text = resources.getString(R.string.btn_close_complaint)
+
+        }
+
         binding.includedContent.btnAssignTechnician.setOnClickListener(this)
         binding.includedContent.ivInvoiceImage.setOnClickListener(this)
         binding.includedContent.ivQrCodeImage.setOnClickListener(this)
