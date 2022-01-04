@@ -18,6 +18,10 @@ import retrofit2.http.Query
 
 interface ApiEndPoint {
 
+    @FormUrlEncoded
+    @POST("service-center/send-otp")
+    fun getServiceCenterLogin(@Field ("email") email: String, @Field("password") password: String): Call<LoginResponse>
+
     //To get OTP on entered mobile number
     @FormUrlEncoded
     @POST("service-center/send-otp")
@@ -79,6 +83,9 @@ interface ApiEndPoint {
 
     @GET("technician/leads/pending")
     fun getTechnicianPendingLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+
+    @GET("technician/leads/pending")
+    fun getTechnicianSearchPendingLeads(@Query ("search") keyword : String): Call<RequestLeadResponse>
 
     @GET("technician/leads/completed")
     fun getTechnicianCompletedLeads(@Query("page") page : Int): Call<RequestLeadResponse>

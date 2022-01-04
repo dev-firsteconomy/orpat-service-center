@@ -16,7 +16,7 @@ import com.orpatservice.app.ui.leads.new_requests.RequestLeadActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.SelectUserActivity
-import com.orpatservice.app.ui.technician.TechnicianRequestLeadActivity
+import com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity
 
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {

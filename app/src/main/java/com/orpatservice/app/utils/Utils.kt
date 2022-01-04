@@ -4,11 +4,13 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
+import android.util.Patterns
 import android.widget.EditText
 import com.orpatservice.app.R
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
+import java.util.regex.Pattern.matches
 import kotlin.system.exitProcess
 
 class Utils {
@@ -50,7 +52,6 @@ class Utils {
             }
             else -> true
         }
-
     }
 
     fun validatePinCode(editText: EditText?): Boolean {
@@ -64,6 +65,34 @@ class Utils {
                 editText.error = editText.context.getString(R.string.pin_code_invalid)
                 editText.requestFocus()
                 return false
+            }
+            else -> true
+        }
+    }
+
+    fun validateEmail(editText: EditText?): Boolean {
+        return when {
+            editText?.text?.isEmpty()!! -> {
+                editText.error = editText.context.getString(R.string.error_email)
+                editText.requestFocus()
+                false
+            }
+            !Patterns.EMAIL_ADDRESS.matcher(editText.text).matches() -> {
+                editText.error = editText.context.getString(R.string.error_email)
+                editText.requestFocus()
+                return false
+            }
+            else -> true
+        }
+    }
+
+
+    fun validatePassword(editText: EditText?): Boolean {
+        return when {
+            editText?.text?.isEmpty()!! -> {
+                editText.error = editText.context.getString(R.string.error_password)
+                editText.requestFocus()
+                false
             }
             else -> true
         }

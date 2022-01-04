@@ -92,7 +92,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.technician.TechnicianRequestLeadActivity"
+            android:name="com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"

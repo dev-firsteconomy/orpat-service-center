@@ -25,6 +25,10 @@ class DataRepository {
         val instance = DataRepository()
     }
 
+    //Service Center login by email and password
+    fun hitServiceCenterLoginApi(email: String, password: String): Call<LoginResponse> {
+        return ApiClient.getAuthApi().getServiceCenterLogin(email, password)
+    }
     //To get OTP on user register mobile number
     fun hitServiceCenterOTPApi(mobileNumber: String): Call<OTPSendResponse> {
         return ApiClient.getAuthApi().getServiceCenterOtpAPI(mobileNumber)
@@ -208,6 +212,10 @@ class DataRepository {
 
     fun hitGetTechnicianPendingLeads(pageNumber: Int): Call<RequestLeadResponse> {
         return ApiClient.getAuthApi().getTechnicianPendingLeads(pageNumber)
+    }
+
+    fun hitTechnicianSearchPendingLeads(keyword: String): Call<RequestLeadResponse> {
+        return ApiClient.getAuthApi().getTechnicianSearchPendingLeads(keyword)
     }
 
     fun hitGetTechnicianCompletedLeads(pageNumber: Int): Call<RequestLeadResponse> {
