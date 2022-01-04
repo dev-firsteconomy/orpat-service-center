@@ -30,8 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
-        app:contentPadding="@dimen/fab_margin"
         app:cardBackgroundColor="@color/off_white"
+        app:contentPadding="@dimen/fab_margin"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,37 +45,37 @@
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/avtar" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_name"
+                style="@style/Theme.OrpatServiceCenter.MediumText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Theme.OrpatServiceCenter.MediumText"
-                app:layout_constraintTop_toBottomOf="@id/iv_profile_image"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_profile_image" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_mobile"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Theme.OrpatServiceCenter.RegularText"
-                app:layout_constraintTop_toBottomOf="@id/tv_name"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_pincode"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="gone"
-                style="@style/Theme.OrpatServiceCenter.RegularText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_mobile">
 
             </com.google.android.material.textview.MaterialTextView>
@@ -86,8 +86,8 @@
         android:id="@+id/mcv_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentPadding="@dimen/fab_margin"
         android:layout_marginTop="2dp"
+        app:contentPadding="@dimen/fab_margin"
         app:layout_constraintTop_toBottomOf="@id/mcv_user_details">
 
         <com.google.android.material.textview.MaterialTextView
@@ -104,8 +104,9 @@
         android:id="@+id/mcv_payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentPadding="@dimen/fab_margin"
         android:layout_marginTop="2dp"
+        android:visibility="gone"
+        app:contentPadding="@dimen/fab_margin"
         app:layout_constraintTop_toBottomOf="@id/mcv_setting">
 
         <com.google.android.material.textview.MaterialTextView
@@ -122,8 +123,9 @@
         android:id="@+id/mcv_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentPadding="@dimen/fab_margin"
         android:layout_marginTop="2dp"
+        android:visibility="gone"
+        app:contentPadding="@dimen/fab_margin"
         app:layout_constraintTop_toBottomOf="@id/mcv_payment">
 
         <com.google.android.material.textview.MaterialTextView
@@ -140,8 +142,8 @@
         android:id="@+id/mcv_supports"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentPadding="@dimen/fab_margin"
         android:layout_marginTop="2dp"
+        app:contentPadding="@dimen/fab_margin"
         app:layout_constraintTop_toBottomOf="@id/mcv_notification">
 
         <com.google.android.material.textview.MaterialTextView
@@ -158,8 +160,8 @@
         android:id="@+id/mcv_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentPadding="@dimen/fab_margin"
         android:layout_marginTop="2dp"
+        app:contentPadding="@dimen/fab_margin"
         app:layout_constraintTop_toBottomOf="@id/mcv_supports">
 
         <com.google.android.material.textview.MaterialTextView

@@ -25,6 +25,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/requests"
+                android:maxLines="1"
+                android:lines="1"
                 android:textColor="@color/brown" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
