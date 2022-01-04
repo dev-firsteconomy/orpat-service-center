@@ -3,6 +3,7 @@ package com.orpatservice.app.ui.leads.customer_detail
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
@@ -11,6 +12,8 @@ import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
+import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 
 /**
@@ -40,6 +43,14 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
             setDisplayShowHomeEnabled(true)
         }
 
+        if (intent.getStringExtra(Constants.LEAD_TYPE).equals(Constants.LEAD_NEW)){
+            binding.includedContent.btnAssignTechnician.visibility = View.VISIBLE
+
+        }else{
+            binding.includedContent.btnAssignTechnician.visibility = View.GONE
+
+        }
+
         leadData  = intent?.getParcelableExtra<LeadData>(Constants.LEAD_DATA) as LeadData
 
         bindUserDetails(leadData)
@@ -48,16 +59,19 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun bindUserDetails(leadData : LeadData){
-        binding.includedContent.tvRequestDateValue.text = leadData.id?.toString()
+        binding.includedContent.tvRequestIdValue.text = leadData.id?.toString()
         binding.includedContent.tvInProgress.text = leadData.status
         binding.includedContent.tvCustomerNameValue.text = leadData.name
-        binding.includedContent.tvRequestDateValue.text = leadData.created_at
+        binding.includedContent.tvRequestDateValue.text = CommonUtils.dateFormat(leadData.created_at)
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
         binding.includedContent.tvFullAddressValue.text = leadData.address
         binding.includedContent.tvModelNameValue.text = leadData.model_no
-        binding.includedContent.tvDateOfPurchaseValue.text = leadData.purchase_at
+        binding.includedContent.tvDateOfPurchaseValue.text = CommonUtils.dateFormat(leadData.purchase_at)
         binding.includedContent.tvWarrantyStatusValue.text = leadData.nature_of_complain
+
+        Log.d("invoice_image",""+leadData.invoice_image)
+        Log.d("qr_image",""+leadData.qr_image)
 
         Glide.with(this)
             .load(leadData.invoice_image)
@@ -94,17 +108,23 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.btn_assign_technician->{
-                val intent = Intent(this, TechniciansActivity::class.java)
+                if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+                    val intent = Intent(this, TechniciansActivity::class.java)
 
-                intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
-                intent.putExtra(Constants.CUSTOMER_ID, leadData.id)
-                startActivity(intent)
+                    intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
+                    intent.putExtra(Constants.CUSTOMER_ID, leadData.id)
+                    startActivity(intent)
+
+                } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+
+                }
+
             }
             R.id.iv_invoice_image ->{
                 goToFullScreenImageActivity(leadData.invoice_image)
             }
             R.id.iv_qr_code_image ->{
-                goToFullScreenImageActivity(leadData.invoice_image)
+                goToFullScreenImageActivity(leadData.qr_image)
             }
         }
     }
