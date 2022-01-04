@@ -1,6 +1,7 @@
 package com.orpatservice.app.ui.leads.customer_detail
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -34,6 +35,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.includedContent.btnAssignTechnician.setOnClickListener(this)
         binding.includedContent.ivInvoiceImage.setOnClickListener(this)
         binding.includedContent.ivQrCodeImage.setOnClickListener(this)
+        binding.includedContent.ivCall.setOnClickListener(this)
 
         supportActionBar?.apply {
             title = ""
@@ -88,6 +90,13 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
             .into(binding.includedContent.ivQrCodeImage)
     }
 
+    private fun openCallDialPad(contactNumber: String) {
+        val i = Intent(Intent.ACTION_DIAL)
+        val p = "tel:$contactNumber"
+        i.data = Uri.parse(p)
+        startActivity(i)
+    }
+
     private fun goToFullScreenImageActivity(invoiceImage: String?) {
         val intent = Intent(this, FullScreenImageActivity::class.java)
 
@@ -119,6 +128,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
 
                 }
 
+            }
+            R.id.iv_call ->{
+                openCallDialPad(leadData.mobile.toString())
             }
             R.id.iv_invoice_image ->{
                 goToFullScreenImageActivity(leadData.invoice_image)
