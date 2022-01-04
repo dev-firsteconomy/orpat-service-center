@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.login
+package com.orpatservice.app.ui.login.technician
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +23,7 @@ import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.login.LoginResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.login.UserLoginViewModel
 import com.tapadoo.alerter.Alerter
 
 

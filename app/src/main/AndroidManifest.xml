@@ -69,7 +69,7 @@
             android:windowSoftInputMode="stateVisible"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.login.OTPVerificationActivity"
+            android:name=".ui.login.technician.OTPVerificationActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"

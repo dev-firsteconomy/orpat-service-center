@@ -169,7 +169,8 @@ class RequestsLeadsViewModel : ViewModel() {
 
     fun loadCompletedLeads(pageNumber: Int) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-
+            DataRepository.instance.hitGetServiceCenterCompletedLeads(pageNumber)
+                .enqueue(callbackCompletedLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             DataRepository.instance.hitGetTechnicianCompletedLeads(pageNumber)
                 .enqueue(callbackCompletedLeads)

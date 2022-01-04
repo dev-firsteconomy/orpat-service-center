@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
@@ -17,6 +16,7 @@ import com.orpatservice.app.ui.data.model.login.LoginResponse
 import com.orpatservice.app.ui.data.model.login.OTPSendResponse
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.service_center.ServiceCenterLoginFragment
+import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
 import com.orpatservice.app.ui.login.technician.TechnicianLoginFragment
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
