@@ -70,4 +70,10 @@ interface ApiEndPoint {
 
     @POST("service-center/leads/cancel_lead/{lead_id}")
     fun getServiceCenterCancelLead(@Path("lead_id") leadId : Int): Call<CancelLeadResponse>
+
+    @GET("technician/leads/pending")
+    fun getTechnicianPendingLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+
+    @GET("technician/leads/completed")
+    fun getTechnicianCompletedLeads(@Query("page") page : Int): Call<RequestLeadResponse>
 }

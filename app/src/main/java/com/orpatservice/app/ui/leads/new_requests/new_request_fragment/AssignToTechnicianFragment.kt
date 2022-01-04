@@ -54,9 +54,6 @@ class AssignToTechnicianFragment : Fragment() {
                     startActivity(this)
                 }
             }
-            R.id.btn_view_decline -> {
-                Toast.makeText(activity, "In-Progress", Toast.LENGTH_SHORT).show()
-            }
         }
     }
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
@@ -104,7 +101,7 @@ class AssignToTechnicianFragment : Fragment() {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
                     pageNumber++
                     binding.cpiLoading.visibility = View.VISIBLE
-                    requestLeadsViewModel.loadPendingLeads(pageNumber)
+                    requestLeadsViewModel.loadAssignedLeads(pageNumber)
                     isLoading = true
                 }
             }

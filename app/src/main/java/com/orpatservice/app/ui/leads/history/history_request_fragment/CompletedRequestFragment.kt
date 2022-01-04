@@ -12,11 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentCompletedRequestBinding
+import com.orpatservice.app.ui.data.Resource
+import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
+import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
+import com.tapadoo.alerter.Alerter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,9 +54,6 @@ class CompletedRequestFragment : Fragment() {
 
                         intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
                         startActivity(intent)
-                    }
-                    R.id.btn_view_decline -> {
-                        Toast.makeText(activity, "In-Progress", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -89,7 +90,8 @@ class CompletedRequestFragment : Fragment() {
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
-        tempData()
+        binding.cpiLoading.visibility = View.VISIBLE
+        requestLeadsViewModel.loadCompletedLeads(pageNumber)
 
         binding.rvCompletedRequest.addOnScrollListener(scrollListener)
 
@@ -103,7 +105,7 @@ class CompletedRequestFragment : Fragment() {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
                     pageNumber++
                     binding.cpiLoading.visibility = View.VISIBLE
-                    requestLeadsViewModel.loadPendingLeads(pageNumber)
+                    requestLeadsViewModel.loadCompletedLeads(pageNumber)
                     isLoading = true
                 }
             }
@@ -111,22 +113,49 @@ class CompletedRequestFragment : Fragment() {
     }
 
     private fun setObserver() {
-
+        requestLeadsViewModel.completedLeadsData.observe(viewLifecycleOwner, this::getCompletedLeads)
     }
 
-    fun tempData() {
-        for (index in 1..10) {
-            val leadData = LeadData()
-            leadData.address = "Prayagraj"
-            leadData.name = "Ajay Yadav"
-            leadData.pincode = "211001"
-            leadData.status = "In-Progress"
-            leadData.id = index + 99990
-            leadData.created_at = "2021-12-14 14:32:16"
-            leadDataArrayList.add(leadData)
+    private fun getCompletedLeads(resources: Resource<RequestLeadResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                binding.cpiLoading.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                binding.cpiLoading.visibility = View.GONE
+                isLoading = true
+                activity?.let {
+                    Alerter.create(it)
+                        .setText(resources.error?.message.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1500)
+                        .show()
+                }
+            }
+            else -> {
+                binding.cpiLoading.visibility = View.GONE
+
+                val response = resources.data
+
+                response?.let {
+                    if (it.success) {
+                        totalPage = response.data.pagination.last_page
+                        leadDataArrayList.addAll(response.data.data)
+                        requestsLeadsAdapter.notifyDataSetChanged()
+
+                        isLoading = false
+
+                        if(leadDataArrayList.isNullOrEmpty()){
+                            binding.tvNoLeads.visibility = View.VISIBLE
+                        } else {
+                            binding.tvNoLeads.visibility = View.GONE
+                        }
+                    }
+                }
+            }
         }
-        requestsLeadsAdapter.notifyDataSetChanged()
     }
+
 
     companion object {
         /**
