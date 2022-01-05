@@ -53,7 +53,7 @@ class TechnicianAdapter(private val techList: ArrayList<TechnicianData>) :
                 .load(technicianData.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop() // .error(R.drawable.active_dot)
-                .placeholder(R.drawable.avtar)
+                .placeholder(R.drawable.ic_tech_avatar)
                 .into(binding.ivProfile)
 
             binding.tvTechName.text = technicianData.first_name + " " + technicianData.last_name
