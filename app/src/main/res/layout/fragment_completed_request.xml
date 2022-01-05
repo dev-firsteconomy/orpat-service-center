@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.leads.history.history_request_fragment.CompletedRequestFragment">
+    tools:context=".ui.leads.history_lead_fragment.CompletedRequestFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_completed_request"

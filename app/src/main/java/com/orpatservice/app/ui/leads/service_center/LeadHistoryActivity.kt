@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.history
+package com.orpatservice.app.ui.leads.service_center
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.orpatservice.app.databinding.ActivityLeadHistoryBinding
-import com.orpatservice.app.ui.leads.history.history_request_fragment.CancelledRequestFragment
-import com.orpatservice.app.ui.leads.history.history_request_fragment.CompletedRequestFragment
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
+import com.orpatservice.app.ui.leads.history_lead_fragment.CancelledRequestFragment
+import com.orpatservice.app.ui.leads.history_lead_fragment.CompletedRequestFragment
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
 

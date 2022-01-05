@@ -11,7 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityTechnicianRequestLeadBinding
-import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.NewRequestsFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
 
 class TechnicianRequestLeadActivity : AppCompatActivity() {
 

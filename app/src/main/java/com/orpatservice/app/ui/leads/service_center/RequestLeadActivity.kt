@@ -1,23 +1,19 @@
-package com.orpatservice.app.ui.leads.new_requests
+package com.orpatservice.app.ui.leads.service_center
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.orpatservice.app.databinding.ActivityRequestsLeadsBinding
-import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.AssignToTechnicianFragment
-import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.NewRequestsFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.AssignToTechnicianFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
 
-import android.view.View
-import android.view.inputmethod.EditorInfo
-import androidx.appcompat.widget.SearchView
-import com.orpatservice.app.R
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 
 
 class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {

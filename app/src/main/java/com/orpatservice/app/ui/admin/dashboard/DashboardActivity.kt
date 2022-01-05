@@ -11,10 +11,11 @@ import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityDashboardBinding
 import com.orpatservice.app.ui.ProfileActivity
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
-import com.orpatservice.app.ui.leads.history.LeadHistoryActivity
-import com.orpatservice.app.ui.leads.new_requests.RequestLeadActivity
+import com.orpatservice.app.ui.leads.service_center.LeadHistoryActivity
+import com.orpatservice.app.ui.leads.service_center.RequestLeadActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.leads.technician.TechnicianHistoryLeadActivity
 import com.orpatservice.app.ui.login.SelectUserActivity
 import com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity
 
@@ -76,7 +77,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                     val intent = Intent(this, RequestLeadActivity::class.java)
                     intent.putExtra(Constants.MODULE_TYPE, Constants.REQUEST)
                     startActivity(intent)
-                } else {
+                } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
                     val intent = Intent(this, TechnicianRequestLeadActivity::class.java)
                     intent.putExtra(Constants.MODULE_TYPE, Constants.REQUEST)
                     startActivity(intent)
@@ -86,9 +87,16 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(Intent(this, TechniciansActivity::class.java))
             }
             R.id.mcv_history -> {
-                val intent = Intent(this, LeadHistoryActivity::class.java)
-                intent.putExtra(Constants.MODULE_TYPE, Constants.HISTORY)
-                startActivity(intent)
+
+                if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+                    val intent = Intent(this, LeadHistoryActivity::class.java)
+                    intent.putExtra(Constants.MODULE_TYPE, Constants.HISTORY)
+                    startActivity(intent)
+                } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+                    val intent = Intent(this, TechnicianHistoryLeadActivity::class.java)
+                    intent.putExtra(Constants.MODULE_TYPE, Constants.HISTORY)
+                    startActivity(intent)
+                }
             }
             R.id.mcv_profile -> {
                 startActivity(Intent(this, ProfileActivity::class.java))
