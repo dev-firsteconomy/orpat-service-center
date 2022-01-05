@@ -85,6 +85,13 @@ class RequestsLeadsAdapter constructor(
                         R.color.orange
                     )
                 )
+            } else if(leadData.status.equals(Constants.TECHNICIAN_ASSIGNED, ignoreCase = true )) {
+                binding.tvRequestStatus.setTextColor(
+                    ContextCompat.getColor(
+                        binding.tvRequestStatus.context,
+                        R.color.green
+                    )
+                )
             } else {
                 binding.tvRequestStatus.setTextColor(
                     ContextCompat.getColor(

@@ -39,6 +39,7 @@ object Constants {
 
     //Leads status
     const val PENDING = "Pending"
+    const val TECHNICIAN_ASSIGNED = "Technician Assined"
 
     // Technician
     const val IS_NAV = "IS_NAV"
