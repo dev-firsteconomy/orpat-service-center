@@ -2,6 +2,7 @@ package com.orpatservice.app.ui.data.model.requests_leads
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.orpatservice.app.ui.data.model.TechnicianData
 import java.io.Serializable
 
 /**
@@ -25,7 +26,7 @@ class LeadData() : Parcelable {
     var technician_assigned_at: String? = null
     var created_at: String? = null
     var nature_of_complain: String? = null
-    var technician: String? = null
+    var technician: TechnicianData? = null
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -45,7 +46,7 @@ class LeadData() : Parcelable {
         technician_assigned_at = parcel.readString()
         created_at = parcel.readString()
         nature_of_complain = parcel.readString()
-        technician = parcel.readString()
+        technician = parcel.readParcelable(TechnicianData::class.java.classLoader)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -66,7 +67,7 @@ class LeadData() : Parcelable {
         parcel.writeString(technician_assigned_at)
         parcel.writeString(created_at)
         parcel.writeString(nature_of_complain)
-        parcel.writeString(technician)
+        parcel.writeParcelable(technician, flags)
     }
 
     override fun describeContents(): Int {
