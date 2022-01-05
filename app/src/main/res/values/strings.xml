@@ -76,6 +76,7 @@
     <string name="deactivate">Deactivate</string>
     <string name="customer_details">Customer Details</string>
     <string name="btn_assign_to_technician">Assign to Technician</string>
+    <string name="btn_close_complaint">Close Complaint</string>
     <string name="request_id">Request Id</string>
     <string name="customer_name">Customer Name</string>
     <string name="request_date">Request Date</string>
@@ -98,5 +99,6 @@
     <string name="password">Password</string>
     <string name="error_email">Enter valid email address</string>
     <string name="error_password">Enter valid password</string>
+    <string name="select_technician">Please Select Technician</string>
     <string name="search_leads">Search leads</string>
 </resources>

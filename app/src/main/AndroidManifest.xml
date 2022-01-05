@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrpatServiceCenter"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
@@ -106,6 +107,12 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.leads.customer_detail.FullScreenImageActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"

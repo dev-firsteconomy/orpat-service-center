@@ -84,7 +84,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.mcv_add_technician -> {
-                startActivity(Intent(this, TechniciansActivity::class.java))
+                val intent = Intent(this, TechniciansActivity::class.java)
+
+                intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.DASHBOARD)
+                startActivity(intent)
+
             }
             R.id.mcv_history -> {
 

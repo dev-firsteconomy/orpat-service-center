@@ -82,7 +82,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/rv_tech_list"
-        android:paddingBottom="50dp"
+        android:paddingBottom="60dp"
         android:clipToPadding="false"
         tools:listitem="@layout/item_technician"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -101,6 +101,18 @@
         app:fabCustomSize="45dp"
         android:layout_gravity="bottom|end"
         android:contentDescription="Add" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit_technician"
+        style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/Medium_button_height"
+        android:text="@string/btn_submit"
+        app:cornerRadius="0dp"
+        app:icon="@drawable/ic_arrow_forward"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/dim_white"
+        android:layout_gravity="bottom"  />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/cpi_loading"
