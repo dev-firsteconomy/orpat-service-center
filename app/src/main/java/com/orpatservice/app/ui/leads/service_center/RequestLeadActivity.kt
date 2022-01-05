@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.history
+package com.orpatservice.app.ui.leads.service_center
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,21 +7,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.orpatservice.app.databinding.ActivityLeadHistoryBinding
-import com.orpatservice.app.ui.leads.history.history_request_fragment.CancelledRequestFragment
-import com.orpatservice.app.ui.leads.history.history_request_fragment.CompletedRequestFragment
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
+import com.orpatservice.app.databinding.ActivityRequestsLeadsBinding
+import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.AssignToTechnicianFragment
+import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
 
-class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 
-    lateinit var binding: ActivityLeadHistoryBinding
+
+class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
+
+    lateinit var binding: ActivityRequestsLeadsBinding
     lateinit var viewModel: RequestsLeadsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLeadHistoryBinding.inflate(layoutInflater)
+        binding = ActivityRequestsLeadsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // set toolbar as support action bar
@@ -43,15 +45,15 @@ class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         tabLayout.addOnTabSelectedListener(this)
 
         val fragmentArrayList: ArrayList<Fragment> = ArrayList()
-        fragmentArrayList.add(CompletedRequestFragment())
-        fragmentArrayList.add(CancelledRequestFragment())
+        fragmentArrayList.add(NewRequestsFragment())
+        fragmentArrayList.add(AssignToTechnicianFragment())
 
         val adapter = ViewPagerAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
 
         //Tab name
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = Constants.requestsHistoryTabNameArray[position]
+            tab.text = Constants.requestsTabNameArray[position]
         }.attach()
         ////////////////////////////////////
 

@@ -25,7 +25,7 @@ import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 

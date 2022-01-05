@@ -9,7 +9,6 @@ import android.view.MenuInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +20,7 @@ import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter

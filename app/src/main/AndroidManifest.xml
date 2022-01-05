@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrpatServiceCenter"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".ui.leads.technician.TechnicianHistoryLeadActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
@@ -82,23 +84,23 @@
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.leads.new_requests.RequestLeadActivity"
+            android:name=".ui.leads.service_center.RequestLeadActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
-            tools:ignore="LockedOrientationActivity" >
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity"
+            android:name=".ui.leads.technician.TechnicianRequestLeadActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.leads.history.LeadHistoryActivity"
+            android:name=".ui.leads.service_center.LeadHistoryActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
@@ -108,7 +110,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

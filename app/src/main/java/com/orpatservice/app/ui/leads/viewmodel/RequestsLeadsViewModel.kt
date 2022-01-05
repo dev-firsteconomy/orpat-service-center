@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.new_requests
+package com.orpatservice.app.ui.leads.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
