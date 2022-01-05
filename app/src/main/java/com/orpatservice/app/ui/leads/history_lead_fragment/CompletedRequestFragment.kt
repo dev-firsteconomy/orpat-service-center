@@ -1,33 +1,29 @@
-package com.orpatservice.app.ui.leads.new_requests.new_request_fragment
+package com.orpatservice.app.ui.leads.history_lead_fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.SearchView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
-import com.orpatservice.app.databinding.FragmentAssignToTechnicianBinding
+import com.orpatservice.app.databinding.FragmentCompletedRequestBinding
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
-import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
+import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
-class AssignToTechnicianFragment : Fragment() {
+class CompletedRequestFragment : Fragment() {
 
-    private lateinit var binding: FragmentAssignToTechnicianBinding
+    private lateinit var binding: FragmentCompletedRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
@@ -38,20 +34,23 @@ class AssignToTechnicianFragment : Fragment() {
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
             R.id.btn_view_details -> {
-                Intent(activity, CustomerDetailsActivity::class.java).apply {
+                when (view.id) {
+                    R.id.btn_view_details -> {
+                        val intent = Intent(activity, CustomerDetailsActivity::class.java)
 
-                    putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-                    startActivity(this)
+                        intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+                        startActivity(intent)
+                    }
                 }
             }
         }
     }
+
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
         leadDataArrayList,
         itemClickListener = onItemClickListener,
-        Constants.LEAD_ASSIGN_TECHNICIAN
+        Constants.LEAD_COMPLETED_REQUEST
     )
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,21 +63,21 @@ class AssignToTechnicianFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentAssignToTechnicianBinding.inflate(inflater, container, false)
+        binding = FragmentCompletedRequestBinding.inflate(inflater, container, false)
 
         layoutManager = LinearLayoutManager(activity)
-        binding.rvAssignTechnician.layoutManager = layoutManager
-        binding.rvAssignTechnician.apply {
+        binding.rvCompletedRequest.layoutManager = layoutManager
+        binding.rvCompletedRequest.apply {
             adapter = requestsLeadsAdapter
         }
+
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
         loadUI()
-        requestLeadsViewModel.loadAssignedLeads(pageNumber)
+        requestLeadsViewModel.loadCompletedLeads(pageNumber)
 
-        binding.rvAssignTechnician.addOnScrollListener(scrollListener)
-        setHasOptionsMenu(true)
+        binding.rvCompletedRequest.addOnScrollListener(scrollListener)
 
         return binding.root
     }
@@ -90,7 +89,7 @@ class AssignToTechnicianFragment : Fragment() {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
                     pageNumber++
                     binding.cpiLoading.visibility = View.VISIBLE
-                    requestLeadsViewModel.loadAssignedLeads(pageNumber)
+                    requestLeadsViewModel.loadCompletedLeads(pageNumber)
                     isLoading = true
                 }
             }
@@ -98,17 +97,17 @@ class AssignToTechnicianFragment : Fragment() {
     }
 
     private fun setObserver() {
-        requestLeadsViewModel.assignedLeadsData.observe(viewLifecycleOwner, this::getAssignedLeads)
+        requestLeadsViewModel.completedLeadsData.observe(viewLifecycleOwner, this::getCompletedLeads)
     }
 
-    private fun getAssignedLeads(resources: Resource<RequestLeadResponse>) {
+    private fun getCompletedLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {
                 binding.cpiLoading.visibility = View.VISIBLE
             }
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
-                isLoading = false
+                isLoading = true
                 activity?.let {
                     Alerter.create(it)
                         .setText(resources.error?.message.toString())
@@ -141,36 +140,6 @@ class AssignToTechnicianFragment : Fragment() {
         }
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_search, menu)
-
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView: SearchView = searchItem.actionView as SearchView
-        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
-        searchView.queryHint = "Search leads"
-
-        //This is where you find the edittext and set its background resource
-        val searchPlate: View = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
-        //searchPlate.setBackgroundResource(R.drawable.rounded_search)
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                requestLeadsViewModel.searchAssignedLeads(query)
-                leadDataArrayList.clear()
-                requestsLeadsAdapter.notifyDataSetChanged()
-                isLoading = true
-                loadUI()
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
-    }
-
     private fun loadUI () {
         binding.tvNoLeads.visibility = View.GONE
         binding.cpiLoading.visibility = View.VISIBLE
@@ -179,7 +148,7 @@ class AssignToTechnicianFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AssignToTechnicianFragment().apply {
+            CompletedRequestFragment().apply {
                 arguments = Bundle().apply {
                 }
             }

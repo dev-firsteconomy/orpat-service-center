@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.new_requests.new_request_fragment
+package com.orpatservice.app.ui.leads.new_lead_fragment
 
 import android.content.Context
 import android.content.Intent
@@ -24,7 +24,7 @@ import com.orpatservice.app.ui.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter

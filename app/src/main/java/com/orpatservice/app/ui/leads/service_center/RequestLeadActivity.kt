@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.orpatservice.app.databinding.ActivityRequestsLeadsBinding
-import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.AssignToTechnicianFragment
-import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.NewRequestsFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.AssignToTechnicianFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
 

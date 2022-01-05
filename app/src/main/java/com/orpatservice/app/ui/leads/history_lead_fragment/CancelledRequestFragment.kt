@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.history
+package com.orpatservice.app.ui.leads.history_lead_fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,24 +6,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
-import com.orpatservice.app.databinding.FragmentCompletedRequestBinding
+import com.orpatservice.app.databinding.FragmentCancelledRequestBinding
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
-class CompletedRequestFragment : Fragment() {
+class CancelledRequestFragment : Fragment() {
 
-    private lateinit var binding: FragmentCompletedRequestBinding
+    private lateinit var binding: FragmentCancelledRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
@@ -41,15 +42,17 @@ class CompletedRequestFragment : Fragment() {
                         intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
                         startActivity(intent)
                     }
+                    R.id.btn_view_decline -> {
+                        Toast.makeText(activity, "In-Progress", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
-
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
         leadDataArrayList,
         itemClickListener = onItemClickListener,
-        Constants.LEAD_COMPLETED_REQUEST
+        Constants.LEAD_CANCELLED_REQUEST
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,11 +66,11 @@ class CompletedRequestFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentCompletedRequestBinding.inflate(inflater, container, false)
+        binding = FragmentCancelledRequestBinding.inflate(inflater, container, false)
 
         layoutManager = LinearLayoutManager(activity)
-        binding.rvCompletedRequest.layoutManager = layoutManager
-        binding.rvCompletedRequest.apply {
+        binding.rvCancelledRequest.layoutManager = layoutManager
+        binding.rvCancelledRequest.apply {
             adapter = requestsLeadsAdapter
         }
 
@@ -75,9 +78,9 @@ class CompletedRequestFragment : Fragment() {
 
         setObserver()
         loadUI()
-        requestLeadsViewModel.loadCompletedLeads(pageNumber)
+        requestLeadsViewModel.loadCancelledLeads(pageNumber)
 
-        binding.rvCompletedRequest.addOnScrollListener(scrollListener)
+        binding.rvCancelledRequest.addOnScrollListener(scrollListener)
 
         return binding.root
     }
@@ -89,7 +92,7 @@ class CompletedRequestFragment : Fragment() {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
                     pageNumber++
                     binding.cpiLoading.visibility = View.VISIBLE
-                    requestLeadsViewModel.loadCompletedLeads(pageNumber)
+                    requestLeadsViewModel.loadCancelledLeads(pageNumber)
                     isLoading = true
                 }
             }
@@ -97,17 +100,17 @@ class CompletedRequestFragment : Fragment() {
     }
 
     private fun setObserver() {
-        requestLeadsViewModel.completedLeadsData.observe(viewLifecycleOwner, this::getCompletedLeads)
+        requestLeadsViewModel.cancelledLeadsData.observe(viewLifecycleOwner, this::getCancelledLeads)
     }
 
-    private fun getCompletedLeads(resources: Resource<RequestLeadResponse>) {
+    private fun getCancelledLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {
                 binding.cpiLoading.visibility = View.VISIBLE
             }
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
-                isLoading = true
+                isLoading = false
                 activity?.let {
                     Alerter.create(it)
                         .setText(resources.error?.message.toString())
@@ -148,7 +151,7 @@ class CompletedRequestFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            CompletedRequestFragment().apply {
+            CancelledRequestFragment().apply {
                 arguments = Bundle().apply {
                 }
             }
