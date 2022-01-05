@@ -15,6 +15,7 @@ import com.orpatservice.app.ui.leads.service_center.LeadHistoryActivity
 import com.orpatservice.app.ui.leads.service_center.RequestLeadActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.leads.technician.TechnicianHistoryLeadActivity
 import com.orpatservice.app.ui.login.SelectUserActivity
 import com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity
 
@@ -92,7 +93,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                     intent.putExtra(Constants.MODULE_TYPE, Constants.HISTORY)
                     startActivity(intent)
                 } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-                    val intent = Intent(this, TechnicianRequestLeadActivity::class.java)
+                    val intent = Intent(this, TechnicianHistoryLeadActivity::class.java)
                     intent.putExtra(Constants.MODULE_TYPE, Constants.HISTORY)
                     startActivity(intent)
                 }
