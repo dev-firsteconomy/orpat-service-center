@@ -1,6 +1,7 @@
 package com.orpatservice.app.ui.data.model.requests_leads
 
 import android.os.Parcelable
+import com.orpatservice.app.ui.data.model.TechnicianData
 import java.io.Serializable
 
 /**
@@ -24,5 +25,5 @@ class LeadData: Serializable {
     var technician_assigned_at: String? = null
     var created_at: String? = null
     var nature_of_complain: String? = null
-    var technician: String? = null
+    var technician: TechnicianData? = null
 }
