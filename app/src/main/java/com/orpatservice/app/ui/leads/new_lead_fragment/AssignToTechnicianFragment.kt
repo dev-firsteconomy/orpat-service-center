@@ -1,31 +1,35 @@
-package com.orpatservice.app.ui.leads.history.history_request_fragment
+package com.orpatservice.app.ui.leads.new_lead_fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
-import com.orpatservice.app.databinding.FragmentCancelledRequestBinding
+import com.orpatservice.app.databinding.FragmentAssignToTechnicianBinding
 import com.orpatservice.app.ui.data.Resource
 import com.orpatservice.app.ui.data.Status
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
-class CancelledRequestFragment : Fragment() {
+class AssignToTechnicianFragment : Fragment() {
 
-    private lateinit var binding: FragmentCancelledRequestBinding
+    private lateinit var binding: FragmentAssignToTechnicianBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
+    private var tempDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
     private var isLoading: Boolean = false
@@ -35,16 +39,10 @@ class CancelledRequestFragment : Fragment() {
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
             R.id.btn_view_details -> {
-                when (view.id) {
-                    R.id.btn_view_details -> {
-                        val intent = Intent(activity, CustomerDetailsActivity::class.java)
+                Intent(activity, CustomerDetailsActivity::class.java).apply {
 
-                        intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-                        startActivity(intent)
-                    }
-                    R.id.btn_view_decline -> {
-                        Toast.makeText(activity, "In-Progress", Toast.LENGTH_SHORT).show()
-                    }
+                    putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+                    startActivity(this)
                 }
             }
         }
@@ -52,8 +50,9 @@ class CancelledRequestFragment : Fragment() {
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
         leadDataArrayList,
         itemClickListener = onItemClickListener,
-        Constants.LEAD_CANCELLED_REQUEST
+        Constants.LEAD_ASSIGN_TECHNICIAN
     )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,21 +65,20 @@ class CancelledRequestFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentCancelledRequestBinding.inflate(inflater, container, false)
+        binding = FragmentAssignToTechnicianBinding.inflate(inflater, container, false)
 
         layoutManager = LinearLayoutManager(activity)
-        binding.rvCancelledRequest.layoutManager = layoutManager
-        binding.rvCancelledRequest.apply {
+        binding.rvAssignTechnician.layoutManager = layoutManager
+        binding.rvAssignTechnician.apply {
             adapter = requestsLeadsAdapter
         }
-
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
         loadUI()
-        requestLeadsViewModel.loadCancelledLeads(pageNumber)
+        requestLeadsViewModel.loadAssignedLeads(pageNumber)
 
-        binding.rvCancelledRequest.addOnScrollListener(scrollListener)
+        binding.rvAssignTechnician.addOnScrollListener(scrollListener)
 
         return binding.root
     }
@@ -92,7 +90,7 @@ class CancelledRequestFragment : Fragment() {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
                     pageNumber++
                     binding.cpiLoading.visibility = View.VISIBLE
-                    requestLeadsViewModel.loadCancelledLeads(pageNumber)
+                    requestLeadsViewModel.loadAssignedLeads(pageNumber)
                     isLoading = true
                 }
             }
@@ -100,10 +98,10 @@ class CancelledRequestFragment : Fragment() {
     }
 
     private fun setObserver() {
-        requestLeadsViewModel.cancelledLeadsData.observe(viewLifecycleOwner, this::getCancelledLeads)
+        requestLeadsViewModel.assignedLeadsData.observe(viewLifecycleOwner, this::getAssignedLeads)
     }
 
-    private fun getCancelledLeads(resources: Resource<RequestLeadResponse>) {
+    private fun getAssignedLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {
                 binding.cpiLoading.visibility = View.VISIBLE
@@ -143,6 +141,23 @@ class CancelledRequestFragment : Fragment() {
         }
     }
 
+
+    fun loadSearchLead(query: String) {
+        requestLeadsViewModel.searchPendingLeads(query)
+        tempDataArrayList.clear()
+        tempDataArrayList.addAll(leadDataArrayList)
+        leadDataArrayList.clear()
+        requestsLeadsAdapter.notifyDataSetChanged()
+        isLoading = true
+        loadUI()
+    }
+
+    fun loadOldLeadData() {
+        leadDataArrayList.clear()
+        leadDataArrayList.addAll(tempDataArrayList)
+        requestsLeadsAdapter.notifyDataSetChanged()
+    }
+
     private fun loadUI () {
         binding.tvNoLeads.visibility = View.GONE
         binding.cpiLoading.visibility = View.VISIBLE
@@ -151,7 +166,7 @@ class CancelledRequestFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            CancelledRequestFragment().apply {
+            AssignToTechnicianFragment().apply {
                 arguments = Bundle().apply {
                 }
             }

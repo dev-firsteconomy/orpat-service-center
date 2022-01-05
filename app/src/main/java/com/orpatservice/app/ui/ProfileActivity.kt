@@ -63,7 +63,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 .load(technician.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop() // .error(R.drawable.active_dot)
-                .placeholder(R.drawable.avtar)
+                .placeholder(R.drawable.ic_avatar)
                 .into(binding.ivProfileImage)
         }
     }

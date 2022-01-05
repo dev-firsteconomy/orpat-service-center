@@ -42,13 +42,13 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_profile_image"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/avtar" />
+                app:srcCompat="@drawable/ic_avatar" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_name"

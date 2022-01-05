@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.new_requests
+package com.orpatservice.app.ui.leads.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -64,20 +64,13 @@ class RequestsLeadsViewModel : ViewModel() {
         }
 
     fun loadAssignedLeads(pageNumber: Int) {
-        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitGetServiceCenterAssignedLeads(pageNumber)
+        DataRepository.instance.hitGetServiceCenterAssignedLeads(pageNumber)
                 .enqueue(callbackAssignedLeads)
-        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
-            //In-progress APIs
-        }
     }
 
     fun searchAssignedLeads(keyword: String) {
-        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitServiceCenterSearchAssignedLeads(keyword).enqueue(callbackAssignedLeads)
-        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-            //In-Progress APIs
-        }
+        DataRepository.instance.hitServiceCenterSearchAssignedLeads(keyword)
+            .enqueue(callbackAssignedLeads)
     }
 
     private val callbackAssignedLeads: Callback<RequestLeadResponse> =
@@ -105,12 +98,8 @@ class RequestsLeadsViewModel : ViewModel() {
         }
 
     fun loadCancelledLeads(pageNumber: Int) {
-        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitGetServiceCenterCancelledLeads(pageNumber)
                 .enqueue(callbackCancelledLeads)
-        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
-            //In-progress APIs
-        }
     }
 
     private val callbackCancelledLeads: Callback<RequestLeadResponse> =

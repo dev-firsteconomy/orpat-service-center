@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.leads.service_center.RequestLeadActivity">
+    tools:context=".ui.leads.technician.TechnicianHistoryLeadActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -24,34 +24,17 @@
                 style="@style/Theme.OrpatServiceCenter.MediumText.toolbarTittle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/history"
                 android:maxLines="1"
                 android:lines="1"
-                android:text="@string/requests"
                 android:textColor="@color/brown" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/fl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            style="@style/Theme.OrpatServiceCenter.MediumText.TabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="@dimen/fab_margin"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabRippleColor="@color/off_white"
-            app:tabTextAppearance="@style/Theme.OrpatServiceCenter.RegularText.TabLayoutTextAppearance" />
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_requests"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tab_layout" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,16 +1,22 @@
 package com.orpatservice.app.ui.leads.technician
 
+import android.app.SearchManager
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityTechnicianRequestLeadBinding
-import com.orpatservice.app.ui.leads.new_requests.new_request_fragment.NewRequestsFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
 
-class TechnicianRequestLeadActivity : AppCompatActivity() {
+class TechnicianRequestLeadActivity : AppCompatActivity(){
 
     private lateinit var binding : ActivityTechnicianRequestLeadBinding
+    private val newRequestFragment = NewRequestsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +34,6 @@ class TechnicianRequestLeadActivity : AppCompatActivity() {
             setDisplayShowHomeEnabled(true)
         }
 
-        val newRequestFragment = NewRequestsFragment()
         loadFragment(newRequestFragment)
     }
 
@@ -47,5 +52,42 @@ class TechnicianRequestLeadActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private lateinit var searchView : SearchView
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_search, menu)
+
+        // Associate searchable configuration with the SearchView
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+        (searchView).apply {
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                newRequestFragment.loadSearchLead(query)
+                searchView.clearFocus()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+        return true
+    }
+
+    override fun onBackPressed() {
+        if (!searchView.isIconified) {
+            searchView.onActionViewCollapsed()
+            searchView.isIconified = true
+
+            newRequestFragment.loadOldLeadData()
+            return
+        }
+        super.onBackPressed()
     }
 }

@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.new_requests
+package com.orpatservice.app.ui.leads.adapter
 
 import android.view.LayoutInflater
 import android.view.View

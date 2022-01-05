@@ -98,7 +98,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         Glide.with(binding.includedContent.ivUploadImage)
             .load(technicianData?.image)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .placeholder(R.drawable.avtar)
+            .placeholder(R.drawable.ic_tech_avatar)
             .into(binding.includedContent.ivUploadImage)
 
     }

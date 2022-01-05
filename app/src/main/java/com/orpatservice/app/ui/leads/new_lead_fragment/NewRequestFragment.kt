@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.new_requests.new_request_fragment
+package com.orpatservice.app.ui.leads.new_lead_fragment
 
 import android.content.Context
 import android.content.Intent
@@ -24,8 +24,8 @@ import com.orpatservice.app.ui.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.ui.data.model.requests_leads.LeadData
 import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsAdapter
-import com.orpatservice.app.ui.leads.new_requests.RequestsLeadsViewModel
+import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
@@ -33,6 +33,7 @@ class NewRequestsFragment : Fragment() {
 
     private lateinit var binding: FragmentNewRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
+    private var tempDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
     private var removeIndex = -1
@@ -88,7 +89,6 @@ class NewRequestsFragment : Fragment() {
         requestLeadsViewModel.loadPendingLeads(pageNumber)
 
         binding.rvNewRequest.addOnScrollListener(scrollListener)
-        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -194,33 +194,20 @@ class NewRequestsFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_search, menu)
+    fun loadSearchLead(query: String) {
+        requestLeadsViewModel.searchPendingLeads(query)
+        tempDataArrayList.clear()
+        tempDataArrayList.addAll(leadDataArrayList)
+        leadDataArrayList.clear()
+        requestsLeadsAdapter.notifyDataSetChanged()
+        isLoading = true
+        loadUI()
+    }
 
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView: SearchView = searchItem.actionView as SearchView
-        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
-        searchView.queryHint = "Search leads"
-
-        //This is where you find the edittext and set its background resource
-        val searchPlate: View = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
-        //searchPlate.setBackgroundResource(R.drawable.rounded_search)
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                requestLeadsViewModel.searchPendingLeads(query)
-                leadDataArrayList.clear()
-                requestsLeadsAdapter.notifyDataSetChanged()
-                isLoading = true
-                loadUI()
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
+    fun loadOldLeadData() {
+        leadDataArrayList.clear()
+        leadDataArrayList.addAll(tempDataArrayList)
+        requestsLeadsAdapter.notifyDataSetChanged()
     }
 
     private fun confirmationDialog(context: Context, id: Int?) {
