@@ -83,13 +83,18 @@ class NewRequestsFragment : Fragment() {
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
-        loadUI()
-        requestLeadsViewModel.loadPendingLeads(pageNumber)
+        initialAPICall()
 
         binding.rvNewRequest.addOnScrollListener(scrollListener)
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    fun initialAPICall() {
+        loadUI()
+        leadDataArrayList.clear()
+        requestLeadsViewModel.loadPendingLeads(pageNumber)
     }
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -193,12 +198,22 @@ class NewRequestsFragment : Fragment() {
         }
     }
 
+    fun closeSearchView(): Boolean {
+        if (!searchView.isIconified) {
+            searchView.onActionViewCollapsed()
+            searchView.isIconified = true
+            return true
+        }
+        return false
+    }
+
+    private lateinit var searchView : SearchView
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_search, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView: SearchView = searchItem.actionView as SearchView
+        searchView = searchItem.actionView as SearchView
         searchView.imeOptions = EditorInfo.IME_ACTION_DONE
         searchView.queryHint = "Search leads"
 
