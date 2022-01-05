@@ -33,6 +33,7 @@ class NewRequestsFragment : Fragment() {
 
     private lateinit var binding: FragmentNewRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
+    private var tempDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
     private var removeIndex = -1
@@ -83,18 +84,12 @@ class NewRequestsFragment : Fragment() {
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         setObserver()
-        initialAPICall()
+        loadUI()
+        requestLeadsViewModel.loadPendingLeads(pageNumber)
 
         binding.rvNewRequest.addOnScrollListener(scrollListener)
-        setHasOptionsMenu(true)
 
         return binding.root
-    }
-
-    fun initialAPICall() {
-        loadUI()
-        leadDataArrayList.clear()
-        requestLeadsViewModel.loadPendingLeads(pageNumber)
     }
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -198,43 +193,20 @@ class NewRequestsFragment : Fragment() {
         }
     }
 
-    fun closeSearchView(): Boolean {
-        if (!searchView.isIconified) {
-            searchView.onActionViewCollapsed()
-            searchView.isIconified = true
-            return true
-        }
-        return false
+    fun loadSearchLead(query: String) {
+        requestLeadsViewModel.searchPendingLeads(query)
+        tempDataArrayList.clear()
+        tempDataArrayList.addAll(leadDataArrayList)
+        leadDataArrayList.clear()
+        requestsLeadsAdapter.notifyDataSetChanged()
+        isLoading = true
+        loadUI()
     }
 
-    private lateinit var searchView : SearchView
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_search, menu)
-
-        val searchItem = menu.findItem(R.id.action_search)
-        searchView = searchItem.actionView as SearchView
-        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
-        searchView.queryHint = "Search leads"
-
-        //This is where you find the edittext and set its background resource
-        val searchPlate: View = searchView.findViewById(androidx.appcompat.R.id.search_src_text)
-        //searchPlate.setBackgroundResource(R.drawable.rounded_search)
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                requestLeadsViewModel.searchPendingLeads(query)
-                leadDataArrayList.clear()
-                requestsLeadsAdapter.notifyDataSetChanged()
-                isLoading = true
-                loadUI()
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
+    fun loadOldLeadData() {
+        leadDataArrayList.clear()
+        leadDataArrayList.addAll(tempDataArrayList)
+        requestsLeadsAdapter.notifyDataSetChanged()
     }
 
     private fun confirmationDialog(context: Context, id: Int?) {

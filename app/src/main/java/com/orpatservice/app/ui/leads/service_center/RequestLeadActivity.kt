@@ -1,25 +1,30 @@
 package com.orpatservice.app.ui.leads.service_center
 
+import android.app.SearchManager
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityRequestsLeadsBinding
 import com.orpatservice.app.ui.leads.new_lead_fragment.AssignToTechnicianFragment
 import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
 
-import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
-
-
 class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
-    lateinit var binding: ActivityRequestsLeadsBinding
-    lateinit var viewModel: RequestsLeadsViewModel
+    private lateinit var binding: ActivityRequestsLeadsBinding
+    private lateinit var viewPager: ViewPager2
+    private val newRequestFragment = NewRequestsFragment()
+    private val assignToTechnicianFragment = AssignToTechnicianFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +42,14 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
             setDisplayShowHomeEnabled(true)
         }
 
-        viewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
-
         //View pager with tab layout
-        val viewPager = binding.vpRequests
+        viewPager = binding.vpRequests
         val tabLayout = binding.tabLayout
         tabLayout.addOnTabSelectedListener(this)
 
         val fragmentArrayList: ArrayList<Fragment> = ArrayList()
-        fragmentArrayList.add(NewRequestsFragment())
-        fragmentArrayList.add(AssignToTechnicianFragment())
+        fragmentArrayList.add(newRequestFragment)
+        fragmentArrayList.add(assignToTechnicianFragment)
 
         val adapter = ViewPagerAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
@@ -71,6 +74,50 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private lateinit var searchView : SearchView
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_search, menu)
+
+        // Associate searchable configuration with the SearchView
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+        (searchView).apply {
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if(supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
+                    newRequestFragment.loadSearchLead(query)
+                } else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
+                    assignToTechnicianFragment.loadSearchLead(query)
+                }
+                searchView.clearFocus()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+        return true
+    }
+
+    override fun onBackPressed() {
+        if (!searchView.isIconified) {
+            searchView.onActionViewCollapsed()
+            searchView.isIconified = true
+            if(supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
+                newRequestFragment.loadOldLeadData()
+            } else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
+                assignToTechnicianFragment.loadOldLeadData()
+            }
+            return
+        }
+        super.onBackPressed()
     }
 
     /**
