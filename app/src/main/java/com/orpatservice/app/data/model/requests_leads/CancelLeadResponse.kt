@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data.model.requests_leads
+package com.orpatservice.app.data.model.requests_leads
 
 /**
  * Created by Ajay Yadav on 30/12/21.

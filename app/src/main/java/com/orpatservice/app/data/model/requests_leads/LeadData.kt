@@ -1,9 +1,8 @@
-package com.orpatservice.app.ui.data.model.requests_leads
+package com.orpatservice.app.data.model.requests_leads
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.orpatservice.app.ui.data.model.TechnicianData
-import java.io.Serializable
+import com.orpatservice.app.data.model.TechnicianData
 
 /**
  * Created by Ajay Yadav on 22/12/21.

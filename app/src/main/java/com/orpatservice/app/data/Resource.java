@@ -1,5 +1,5 @@
-package com.orpatservice.app.ui.data;
-import com.orpatservice.app.ui.data.remote.Error;
+package com.orpatservice.app.data;
+import com.orpatservice.app.data.remote.Error;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

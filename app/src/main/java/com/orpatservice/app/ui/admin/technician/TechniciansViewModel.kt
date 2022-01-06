@@ -2,10 +2,10 @@ package com.orpatservice.app.ui.admin.technician
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.orpatservice.app.ui.data.Resource
-import com.orpatservice.app.ui.data.model.AddTechnicianResponse
-import com.orpatservice.app.ui.data.model.TechnicianResponse
-import com.orpatservice.app.ui.data.repository.DataRepository
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.model.AddTechnicianResponse
+import com.orpatservice.app.data.model.TechnicianResponse
+import com.orpatservice.app.data.repository.DataRepository
 import okhttp3.MultipartBody
 
 /**

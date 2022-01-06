@@ -12,8 +12,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
-import com.orpatservice.app.ui.data.model.requests_leads.LeadData
-import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.data.model.requests_leads.LeadData
+import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 

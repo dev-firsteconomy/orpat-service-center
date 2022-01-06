@@ -7,8 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ItemRequestLeadCardBinding
-import com.orpatservice.app.ui.data.model.requests_leads.LeadData
-import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.data.model.requests_leads.LeadData
+import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.utils.Constants
 import java.text.SimpleDateFormat
 

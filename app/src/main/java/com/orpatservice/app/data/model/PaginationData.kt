@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data.model
+package com.orpatservice.app.data.model
 
 /**
  * Created by Ajay Yadav on 29/12/21.

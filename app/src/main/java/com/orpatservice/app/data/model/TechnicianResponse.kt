@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data.model
+package com.orpatservice.app.data.model
 
 data class TechnicianResponse(
     val success: Boolean,

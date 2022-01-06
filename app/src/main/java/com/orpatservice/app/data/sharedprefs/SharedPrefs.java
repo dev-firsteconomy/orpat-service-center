@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data.sharedprefs;
+package com.orpatservice.app.data.sharedprefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;

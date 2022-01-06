@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentCompletedRequestBinding
-import com.orpatservice.app.ui.data.Resource
-import com.orpatservice.app.ui.data.Status
-import com.orpatservice.app.ui.data.model.requests_leads.LeadData
-import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.Status
+import com.orpatservice.app.data.model.requests_leads.LeadData
+import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
