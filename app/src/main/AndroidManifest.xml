@@ -86,13 +86,13 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.leads.technician.TechnicianRequestLeadActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.leads.technician.TechnicianHistoryLeadActivity"
             android:exported="false"
@@ -117,6 +117,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.admin.technician.HappyCodeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent"
+            tools:ignore="LockedOrientationActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

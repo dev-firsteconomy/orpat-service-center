@@ -256,7 +256,6 @@
             app:cardCornerRadius="@dimen/corner_radius"
             app:cardElevation="14dp"
             app:cardMaxElevation="36dp"
-            android:visibility="gone"
             app:contentPadding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/mcv_more"
