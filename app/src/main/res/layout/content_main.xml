@@ -255,6 +255,7 @@
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/corner_radius"
             app:cardElevation="14dp"
+            android:visibility="gone"
             app:cardMaxElevation="36dp"
             app:contentPadding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
