@@ -118,7 +118,7 @@
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.admin.technician.HappyCodeActivity"
+            android:name=".ui.technician.HappyCodeActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent"

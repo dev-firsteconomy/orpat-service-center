@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/corner_radius"
-    tools:context=".ui.admin.technician.HappyCodeActivity">
+    tools:context=".ui.technician.HappyCodeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="350dp"
