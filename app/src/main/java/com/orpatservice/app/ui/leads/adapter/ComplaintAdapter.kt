@@ -10,7 +10,6 @@ import com.orpatservice.app.R
 import com.orpatservice.app.data.model.requests_leads.Enquiry
 import com.orpatservice.app.databinding.ItemComplaintBinding
 import com.orpatservice.app.utils.CommonUtils
-import java.text.SimpleDateFormat
 
 /**
  * Created by Ajay Yadav on 22/12/21.
