@@ -51,6 +51,9 @@ interface ApiEndPoint {
     @POST("service-center/leads/{leadsId}/technician/{technicianId}")
     fun hitAPIAssignTechnician(@Path("leadsId") leadsId : Int?,@Path("technicianId") technicianId : Int?): Call<TechnicianResponse>
 
+    @POST("technician/get_parts")
+    fun hitAPIParts(@Query("search") search : String?): Call<TechnicianResponse>
+
     // @FormUrlEncoded
     @POST("service-center/technicians")
     fun hitAPIAddTechnician(

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/sv_item"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/btn_assign_technician"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_vertical_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_vertical_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+
+            <TextView
+                android:id="@+id/tv_select_parts"
+                style="@style/Theme.OrpatServiceCenter.MediumText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:text="@string/select_parts"
+                app:layout_constraintBottom_toTopOf="@id/mtv_parts"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/gl_horizontal" />
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/mtv_parts"
+                app:layout_constraintTop_toBottomOf="@id/tv_select_parts"
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_assign_technician"
+        style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/Medium_button_height"
+        android:text="@string/btn_assign_to_technician"
+        app:cornerRadius="0dp"
+        app:icon="@drawable/ic_arrow_forward"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/dim_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sv_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+

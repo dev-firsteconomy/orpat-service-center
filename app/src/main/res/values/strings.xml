@@ -101,4 +101,5 @@
     <string name="error_password">Enter valid password</string>
     <string name="select_technician">Please Select Technician</string>
     <string name="search_leads">Search leads</string>
+    <string name="select_parts">Select Parts</string>
 </resources>

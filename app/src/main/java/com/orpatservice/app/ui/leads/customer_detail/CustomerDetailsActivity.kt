@@ -133,7 +133,11 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
                     startActivity(intent)
 
                 } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+                    val intent = Intent(this, CloseComplaintActivity::class.java)
 
+                    intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
+                    intent.putExtra(Constants.LEADS_ID, leadData.id)
+                    startActivity(intent)
                 }
 
             }

@@ -23,7 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrpatServiceCenter"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".ui.leads.customer_detail.CloseComplaintActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
@@ -86,13 +91,13 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.leads.technician.TechnicianRequestLeadActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.leads.technician.TechnicianHistoryLeadActivity"
             android:exported="false"
