@@ -102,4 +102,5 @@
     <string name="select_technician">Please Select Technician</string>
     <string name="search_leads">Search leads</string>
     <string name="select_parts">Select Parts</string>
+    <string name="description">Description</string>
 </resources>
