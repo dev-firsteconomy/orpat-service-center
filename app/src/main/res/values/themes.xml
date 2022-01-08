@@ -128,6 +128,17 @@
         <item name="android:background">@drawable/bg_edit_text_border</item>
     </style>
 
+    <style name="Theme.OrpatServiceCenter.TextInputLayout">
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius</item>
+        <item name="boxStrokeColor">@color/gray</item>
+        <item name="boxStrokeWidth">1dp</item>
+    </style>
+
     <!--Tab layout button theme-->
     <style name="Theme.OrpatServiceCenter.MediumText.TabLayout" parent="android:Widget">
         <item name="tabBackground">@drawable/selector_requests_tab</item>

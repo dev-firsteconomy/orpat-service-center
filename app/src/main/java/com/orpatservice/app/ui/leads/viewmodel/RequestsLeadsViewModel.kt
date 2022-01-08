@@ -126,9 +126,9 @@ class RequestsLeadsViewModel : ViewModel() {
             }
         }
 
-    fun doCancelLead(leadId: Int)
+    fun doCancelLead(leadId: Int, cancelReason: String)
     {
-        DataRepository.instance.hitServiceCenterCancelLeads(leadId)
+        DataRepository.instance.hitServiceCenterCancelLeads(leadId, cancelReason)
             .enqueue(callbackCancelLeads)
     }
 
