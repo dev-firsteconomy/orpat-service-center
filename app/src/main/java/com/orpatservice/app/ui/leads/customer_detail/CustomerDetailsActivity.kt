@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.orpatservice.app.R
 import com.orpatservice.app.data.model.requests_leads.LeadData
@@ -64,7 +65,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
 
         leadData = intent?.getParcelableExtra<LeadData>(Constants.LEAD_DATA) as LeadData
 
-        complaintAdapter = ComplaintAdapter(leadData.enquiries)
+        complaintAdapter = ComplaintAdapter(leadData.enquiries,itemClickListener = onItemClickListener,)
 
         binding.includedContent.rvComplaint.apply {
             adapter = complaintAdapter
@@ -84,26 +85,6 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
         binding.includedContent.tvFullAddressValue.text = leadData.address
-//        binding.includedContent.tvModelNameValue.text = leadData.model_no
-//        binding.includedContent.tvDateOfPurchaseValue.text = CommonUtils.dateFormat(leadData.purchase_at)
-//        binding.includedContent.tvWarrantyStatusValue.text = leadData.nature_of_complain
-
-//        Log.d("invoice_image",""+leadData.invoice_image)
-//        Log.d("qr_image",""+leadData.qr_image)
-//
-//        Glide.with(this)
-//            .load(leadData.invoice_image)
-//            .diskCacheStrategy(DiskCacheStrategy.ALL)
-//            //.circleCrop() // .error(R.drawable.active_dot)
-//            .placeholder(R.color.gray)
-//            .into(binding.includedContent.ivInvoiceImage)
-
-//        Glide.with(this)
-//            .load(leadData.qr_image)
-//            .diskCacheStrategy(DiskCacheStrategy.ALL)
-//            //.circleCrop() // .error(R.drawable.active_dot)
-//            .placeholder(R.color.gray)
-//            .into(binding.includedContent.ivQrCodeImage)
     }
 
     private fun openCallDialPad(contactNumber: String) {
@@ -128,6 +109,17 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private val onItemClickListener: (Int, View) -> Unit = { position, view ->
+        when (view.id) {
+            R.id.iv_invoice_image -> {
+                goToFullScreenImageActivity(leadData.enquiries[position].invoice_image)
+            }
+            R.id.iv_qr_code_image -> {
+                goToFullScreenImageActivity(leadData.enquiries[position].qr_image)
+            }
+        }
     }
 
     override fun onClick(view: View?) {
@@ -155,12 +147,6 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.iv_call -> {
                 openCallDialPad(leadData.mobile.toString())
-            }
-            R.id.iv_invoice_image -> {
-                //goToFullScreenImageActivity(leadData.invoice_image)
-            }
-            R.id.iv_qr_code_image -> {
-                //goToFullScreenImageActivity(leadData.qr_image)
             }
         }
     }

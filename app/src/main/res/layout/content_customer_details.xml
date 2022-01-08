@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:fitsSystemWindows="true" >
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/sv_item"
@@ -244,122 +244,6 @@
                 app:layout_constraintTop_toBottomOf="@id/v_divider"
                 tools:itemCount="4"
                 tools:listitem="@layout/item_complaint" />
-
-            <!--<TextView
-                android:id="@+id/tv_model_name"
-                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/model_name"
-                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
-                app:layout_constraintStart_toStartOf="@id/tv_request_id"
-                app:layout_constraintTop_toBottomOf="@id/v_divider" />
-
-            <TextView
-                android:id="@+id/tv_model_name_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="In addition to setting the gravity"
-                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
-                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-                app:layout_constraintTop_toBottomOf="@id/tv_model_name"
-                tools:text="In addition to setting the gravity" />
-
-
-            <TextView
-                android:id="@+id/tv_date_of_purchase"
-                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:drawablePadding="6dp"
-                android:includeFontPadding="false"
-                android:text="@string/date_of_purchase"
-                app:drawableStartCompat="@drawable/ic_calender"
-                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
-                app:layout_constraintStart_toStartOf="@id/tv_request_id"
-                app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
-
-            <TextView
-                android:id="@+id/tv_date_of_purchase_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="2 December 2021"
-                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
-                app:layout_constraintStart_toStartOf="@id/tv_request_id"
-                app:layout_constraintTop_toBottomOf="@id/tv_date_of_purchase"
-                tools:text="2 December 2021" />
-
-            <TextView
-                android:id="@+id/tv_invoice_image"
-                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/invoice_image"
-                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
-                app:layout_constraintStart_toStartOf="@id/tv_request_id"
-                app:layout_constraintTop_toBottomOf="@id/tv_date_of_purchase_value" />
-
-            <ImageView
-                android:id="@+id/iv_invoice_image"
-                android:layout_width="120dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="10dp"
-                android:src="@color/orange"
-                android:scaleType="fitXY"
-                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-                app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" />
-
-            <TextView
-                android:id="@+id/tv_qr_code_image"
-                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/qr_code_image"
-                app:layout_constraintBottom_toBottomOf="@id/tv_invoice_image"
-                app:layout_constraintStart_toEndOf="@id/tv_invoice_image"
-                app:layout_constraintTop_toTopOf="@id/tv_invoice_image" />
-
-            <ImageView
-                android:id="@+id/iv_qr_code_image"
-                android:layout_width="120dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitXY"
-                android:src="@color/orange"
-                app:layout_constraintEnd_toEndOf="@id/tv_qr_code_image"
-                app:layout_constraintStart_toStartOf="@id/tv_qr_code_image"
-                app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" />
-
-            <TextView
-                android:id="@+id/tv_warranty_status"
-                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/warranty_status"
-                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
-                app:layout_constraintStart_toStartOf="@id/tv_request_id"
-                app:layout_constraintTop_toBottomOf="@id/iv_invoice_image" />
-
-            <TextView
-                android:id="@+id/tv_warranty_status_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:text="In addition to setting the gravity"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
-                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-                app:layout_constraintTop_toBottomOf="@id/tv_warranty_status"
-                tools:text="In addition to setting the gravity" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
