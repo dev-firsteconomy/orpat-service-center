@@ -36,9 +36,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-
-
     <include layout="@layout/content_customer_details"
         android:id="@+id/included_content"/>
 
@@ -51,9 +48,6 @@
         android:indeterminate="true"
         app:indicatorColor="@color/red"
         app:trackThickness="4dp" />
-
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
