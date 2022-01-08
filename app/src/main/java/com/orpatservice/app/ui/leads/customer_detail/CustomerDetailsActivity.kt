@@ -2,18 +2,16 @@ package com.orpatservice.app.ui.leads.customer_detail
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import androidx.appcompat.app.AppCompatActivity
 import com.orpatservice.app.R
-import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
-import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
+import com.orpatservice.app.ui.admin.technician.TechniciansActivity
+import com.orpatservice.app.ui.leads.adapter.ComplaintAdapter
 import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 
@@ -22,7 +20,8 @@ import com.orpatservice.app.utils.Constants
  */
 class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityCustomerDetailsBinding
-    private lateinit var leadData : LeadData
+    private lateinit var leadData: LeadData
+    private lateinit var complaintAdapter: ComplaintAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +31,19 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         // set toolbar as support action bar
         setSupportActionBar(binding.toolbar)
 
-        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            binding.includedContent.btnAssignTechnician.text = resources.getString(R.string.btn_assign_to_technician)
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
+                .equals(Constants.SERVICE_CENTER)
+        ) {
+            binding.includedContent.btnAssignTechnician.text =
+                resources.getString(R.string.btn_assign_to_technician)
 
-        }else{
-            binding.includedContent.btnAssignTechnician.text = resources.getString(R.string.btn_close_complaint)
+        } else {
+            binding.includedContent.btnAssignTechnician.text =
+                resources.getString(R.string.btn_close_complaint)
 
         }
 
         binding.includedContent.btnAssignTechnician.setOnClickListener(this)
-        binding.includedContent.ivInvoiceImage.setOnClickListener(this)
-        binding.includedContent.ivQrCodeImage.setOnClickListener(this)
         binding.includedContent.ivCall.setOnClickListener(this)
 
         supportActionBar?.apply {
@@ -53,26 +54,33 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
             setDisplayShowHomeEnabled(true)
         }
 
-        if (intent.getStringExtra(Constants.LEAD_TYPE).equals(Constants.LEAD_NEW)){
+        if (intent.getStringExtra(Constants.LEAD_TYPE).equals(Constants.LEAD_NEW)) {
             binding.includedContent.btnAssignTechnician.visibility = View.VISIBLE
 
-        }else{
+        } else {
             binding.includedContent.btnAssignTechnician.visibility = View.GONE
 
         }
 
-        leadData  = intent?.getParcelableExtra<LeadData>(Constants.LEAD_DATA) as LeadData
+        leadData = intent?.getParcelableExtra<LeadData>(Constants.LEAD_DATA) as LeadData
+
+        complaintAdapter = ComplaintAdapter(leadData.enquiries)
+
+        binding.includedContent.rvComplaint.apply {
+            adapter = complaintAdapter
+        }
 
         bindUserDetails(leadData)
 
 
     }
 
-    private fun bindUserDetails(leadData : LeadData){
+    private fun bindUserDetails(leadData: LeadData) {
         binding.includedContent.tvRequestIdValue.text = leadData.id?.toString()
         binding.includedContent.tvInProgress.text = leadData.status
         binding.includedContent.tvCustomerNameValue.text = leadData.name
-        binding.includedContent.tvRequestDateValue.text = CommonUtils.dateFormat(leadData.created_at)
+        binding.includedContent.tvRequestDateValue.text =
+            CommonUtils.dateFormat(leadData.created_at)
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
         binding.includedContent.tvFullAddressValue.text = leadData.address
@@ -123,16 +131,20 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        when(view?.id){
-            R.id.btn_assign_technician->{
-                if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+        when (view?.id) {
+            R.id.btn_assign_technician -> {
+                if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
+                        .equals(Constants.SERVICE_CENTER)
+                ) {
                     val intent = Intent(this, TechniciansActivity::class.java)
 
                     intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
                     intent.putExtra(Constants.LEADS_ID, leadData.id)
                     startActivity(intent)
 
-                } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+                } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
+                        .equals(Constants.TECHNICIAN)
+                ) {
                     val intent = Intent(this, CloseComplaintActivity::class.java)
 
                     intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
@@ -141,13 +153,13 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
             }
-            R.id.iv_call ->{
+            R.id.iv_call -> {
                 openCallDialPad(leadData.mobile.toString())
             }
-            R.id.iv_invoice_image ->{
+            R.id.iv_invoice_image -> {
                 //goToFullScreenImageActivity(leadData.invoice_image)
             }
-            R.id.iv_qr_code_image ->{
+            R.id.iv_qr_code_image -> {
                 //goToFullScreenImageActivity(leadData.qr_image)
             }
         }

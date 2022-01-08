@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/fab_margin">
+        android:padding="@dimen/corner_radius">
 
         <TextView
             android:id="@+id/tv_model_name"
@@ -145,8 +145,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
             android:text="@string/date_of_purchase"
-            android:textAlignment="textStart"
+            app:drawableStartCompat="@drawable/ic_calender"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_invoice_image" />
 
@@ -159,8 +162,8 @@
             android:text="@string/description"
             android:textAlignment="textStart"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/tv_purchase"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_purchase"
             tools:text="12-JAN-2021" />
 

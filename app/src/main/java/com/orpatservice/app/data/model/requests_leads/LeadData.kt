@@ -39,9 +39,11 @@ class LeadData() : Parcelable {
         created_at = parcel.readString()
         technician = parcel.readParcelable(TechnicianData::class.java.classLoader)
         lead_cancelled_reason = parcel.readString()
-        arrayListOf<Enquiry>().apply {
+        parcel.readTypedList(enquiries,Enquiry.CREATOR)
+
+        /*arrayListOf<Enquiry>().apply {
             parcel.readList(this, Enquiry::class.java.classLoader)
-        }
+        }*/
     }
 
     override fun writeToParcel(parcel: Parcel?, flags: Int) {
@@ -59,9 +61,7 @@ class LeadData() : Parcelable {
         parcel?.writeString(created_at)
         parcel?.writeParcelable(technician, flags)
         parcel?.writeString(lead_cancelled_reason)
-        arrayListOf<Enquiry>().apply {
-            parcel?.writeTypedList(enquiries)
-        }
+        parcel?.writeTypedList(enquiries)
     }
 
 
