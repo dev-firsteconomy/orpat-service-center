@@ -2,12 +2,12 @@ package com.orpatservice.app.ui.leads.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.orpatservice.app.ui.data.Resource
-import com.orpatservice.app.ui.data.model.requests_leads.CancelLeadResponse
-import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
-import com.orpatservice.app.ui.data.remote.ErrorUtils
-import com.orpatservice.app.ui.data.repository.DataRepository
-import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
+import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.data.remote.ErrorUtils
+import com.orpatservice.app.data.repository.DataRepository
+import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback

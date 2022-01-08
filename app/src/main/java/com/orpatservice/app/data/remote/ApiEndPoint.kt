@@ -1,11 +1,11 @@
-package com.orpatservice.app.ui.data.remote
+package com.orpatservice.app.data.remote
 
-import com.orpatservice.app.ui.data.model.AddTechnicianResponse
-import com.orpatservice.app.ui.data.model.login.OTPSendResponse
-import com.orpatservice.app.ui.data.model.TechnicianResponse
-import com.orpatservice.app.ui.data.model.login.LoginResponse
-import com.orpatservice.app.ui.data.model.requests_leads.CancelLeadResponse
-import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.data.model.AddTechnicianResponse
+import com.orpatservice.app.data.model.login.OTPSendResponse
+import com.orpatservice.app.data.model.TechnicianResponse
+import com.orpatservice.app.data.model.login.LoginResponse
+import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
+import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Field

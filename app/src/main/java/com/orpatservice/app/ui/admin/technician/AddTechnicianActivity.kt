@@ -27,12 +27,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityAddTechnicianBinding
-import com.orpatservice.app.ui.data.Resource
-import com.orpatservice.app.ui.data.Status
-import com.orpatservice.app.ui.data.model.AddTechnicianResponse
-import com.orpatservice.app.ui.data.model.TechnicianData
-import com.orpatservice.app.ui.data.model.TechnicianResponse
-import com.orpatservice.app.utils.Constants
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.Status
+import com.orpatservice.app.data.model.AddTechnicianResponse
+import com.orpatservice.app.data.model.TechnicianData
 import com.orpatservice.app.utils.Utils
 import com.tapadoo.alerter.Alerter
 import okhttp3.MediaType.Companion.toMediaType

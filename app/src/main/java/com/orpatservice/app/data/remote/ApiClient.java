@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data.remote;
+package com.orpatservice.app.data.remote;
 
 
 import androidx.annotation.NonNull;
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orpatservice.app.BuildConfig;
-import com.orpatservice.app.ui.data.repository.SessionRepository;
+import com.orpatservice.app.data.repository.SessionRepository;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;

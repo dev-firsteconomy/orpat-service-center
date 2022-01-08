@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/corner_radius"
+    tools:context=".ui.technician.HappyCodeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:padding="16dp"
+        android:layout_margin="16dp"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_start_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_end_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <TextView
+            android:id="@+id/tv_heading"
+            style="@style/Theme.OrpatServiceCenter.MediumText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Enter Happy Code"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/tv_resend_otp_timer"
+            app:layout_constraintEnd_toEndOf="@id/gl_vertical_end_one"
+            app:layout_constraintStart_toStartOf="@id/gl_vertical_start_one"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/tv_resend_otp_timer"
+            style="@style/Theme.OrpatServiceCenter.MediumText.ResenOTP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@id/cl_otp_layout"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
+            app:layout_constraintTop_toBottomOf="@id/tv_heading" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/cpi_loading_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:indicatorColor="@color/brown"
+            app:indicatorSize="24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tv_resend_otp_timer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_resend_otp_timer"
+            app:trackThickness="4dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_otp_layout"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_continue_otp"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
+            app:layout_constraintTop_toBottomOf="@id/tv_resend_otp_timer">
+
+            <EditText
+                android:id="@+id/edt_digit1"
+                style="@style/Theme.OrpatServiceCenter.OTPEditText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/edt_digit2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edt_digit2"
+                style="@style/Theme.OrpatServiceCenter.OTPEditText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/edt_digit3"
+                app:layout_constraintStart_toEndOf="@id/edt_digit1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edt_digit3"
+                style="@style/Theme.OrpatServiceCenter.OTPEditText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/edt_digit4"
+                app:layout_constraintStart_toEndOf="@id/edt_digit2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edt_digit4"
+                style="@style/Theme.OrpatServiceCenter.OTPEditText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/edt_digit3"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_continue_otp"
+            style="@style/Theme.OrpatServiceCenter.Buttons"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/submit"
+            app:icon="@drawable/ic_draw_arrow_right"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/off_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
+            app:layout_constraintTop_toBottomOf="@id/cl_otp_layout" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/cpi_loading"
+            android:layout_width="@dimen/progressbar_height"
+            android:layout_height="@dimen/progressbar_height"
+            android:layout_marginTop="32dp"
+            android:indeterminate="true"
+            app:indicatorColor="@color/brown"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/btn_continue_otp"
+            app:layout_constraintEnd_toEndOf="@id/btn_continue_otp"
+            app:layout_constraintStart_toStartOf="@id/btn_continue_otp"
+            app:layout_constraintTop_toTopOf="@id/btn_continue_otp"
+            app:trackThickness="4dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

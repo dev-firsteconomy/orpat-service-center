@@ -18,11 +18,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.orpatservice.app.databinding.ActivityOtpverificationBinding
 import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
-import com.orpatservice.app.ui.data.Resource
-import com.orpatservice.app.ui.data.Status
-import com.orpatservice.app.ui.data.model.login.LoginResponse
-import com.orpatservice.app.ui.data.model.login.OTPSendResponse
-import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.Status
+import com.orpatservice.app.data.model.login.LoginResponse
+import com.orpatservice.app.data.model.login.OTPSendResponse
+import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.UserLoginViewModel
 import com.tapadoo.alerter.Alerter
 

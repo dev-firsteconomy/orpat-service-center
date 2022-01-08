@@ -1,6 +1,6 @@
-package com.orpatservice.app.ui.data.repository
+package com.orpatservice.app.data.repository
 
-import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.utils.Constants
 
 /**

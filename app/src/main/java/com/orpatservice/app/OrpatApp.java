@@ -2,7 +2,7 @@ package com.orpatservice.app;
 
 import android.app.Application;
 
-import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs;
+import com.orpatservice.app.data.sharedprefs.SharedPrefs;
 
 public class OrpatApp extends Application {
     public static OrpatApp applicationInstance;

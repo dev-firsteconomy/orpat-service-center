@@ -1,16 +1,16 @@
-package com.orpatservice.app.ui.data.repository
+package com.orpatservice.app.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.orpatservice.app.ui.data.Resource
-import com.orpatservice.app.ui.data.model.AddTechnicianResponse
-import com.orpatservice.app.ui.data.model.TechnicianResponse
-import com.orpatservice.app.ui.data.model.login.LoginResponse
-import com.orpatservice.app.ui.data.model.login.OTPSendResponse
-import com.orpatservice.app.ui.data.model.requests_leads.CancelLeadResponse
-import com.orpatservice.app.ui.data.model.requests_leads.RequestLeadResponse
-import com.orpatservice.app.ui.data.remote.ApiClient
-import com.orpatservice.app.ui.data.remote.ErrorUtils
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.model.AddTechnicianResponse
+import com.orpatservice.app.data.model.TechnicianResponse
+import com.orpatservice.app.data.model.login.LoginResponse
+import com.orpatservice.app.data.model.login.OTPSendResponse
+import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
+import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.data.remote.ApiClient
+import com.orpatservice.app.data.remote.ErrorUtils
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback

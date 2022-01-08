@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data.remote;
+package com.orpatservice.app.data.remote;
 
 /**
  * Created by Vikas Singh on 13/Dec/2020

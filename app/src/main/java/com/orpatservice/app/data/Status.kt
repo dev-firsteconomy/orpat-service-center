@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data
+package com.orpatservice.app.data
 
 enum class Status {
     SUCCESS,

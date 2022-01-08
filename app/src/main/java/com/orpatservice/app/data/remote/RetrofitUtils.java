@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data.remote;
+package com.orpatservice.app.data.remote;
 
 import android.util.Log;
 

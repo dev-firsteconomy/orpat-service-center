@@ -7,7 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivitySelectUserBinding
-import com.orpatservice.app.ui.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 

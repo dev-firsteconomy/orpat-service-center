@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data.model
+package com.orpatservice.app.data.model
 
 import android.os.Parcel
 import android.os.Parcelable

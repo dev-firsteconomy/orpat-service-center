@@ -1,6 +1,6 @@
-package com.orpatservice.app.ui.data.model.requests_leads
+package com.orpatservice.app.data.model.requests_leads
 
-import com.orpatservice.app.ui.data.model.PaginationData
+import com.orpatservice.app.data.model.PaginationData
 
 /**
  * Created by Ajay Yadav on 24/12/21.

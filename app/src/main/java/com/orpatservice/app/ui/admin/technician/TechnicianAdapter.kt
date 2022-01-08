@@ -1,10 +1,8 @@
 package com.orpatservice.app.ui.admin.technician
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.orpatservice.app.R
 import com.orpatservice.app.base.Callback
 import com.orpatservice.app.databinding.ItemTechnicianBinding
-import com.orpatservice.app.ui.data.model.TechnicianData
+import com.orpatservice.app.data.model.TechnicianData
 import com.orpatservice.app.utils.Constants
 
 class TechnicianAdapter(

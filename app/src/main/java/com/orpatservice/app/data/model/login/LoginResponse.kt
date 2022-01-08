@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.data.model.login
+package com.orpatservice.app.data.model.login
 
 import com.google.gson.annotations.SerializedName
 
