@@ -17,15 +17,12 @@ class LeadData() : Parcelable {
     var status: String? = null
     var city: String? = null
     var state: String? = null
-    var model_no: String? = null
-    var invoice_image: String? = null
-    var qr_image: String? = null
-    var purchase_at: String? = null
     var service_center_assigned_at: String? = null
     var technician_assigned_at: String? = null
     var created_at: String? = null
-    var nature_of_complain: String? = null
     var technician: TechnicianData? = null
+    var lead_cancelled_reason: String? = null
+    var enquiries: ArrayList<Enquiry> = arrayListOf()
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -37,37 +34,36 @@ class LeadData() : Parcelable {
         status = parcel.readString()
         city = parcel.readString()
         state = parcel.readString()
-        model_no = parcel.readString()
-        invoice_image = parcel.readString()
-        qr_image = parcel.readString()
-        purchase_at = parcel.readString()
         service_center_assigned_at = parcel.readString()
         technician_assigned_at = parcel.readString()
         created_at = parcel.readString()
-        nature_of_complain = parcel.readString()
         technician = parcel.readParcelable(TechnicianData::class.java.classLoader)
+        lead_cancelled_reason = parcel.readString()
+        arrayListOf<Enquiry>().apply {
+            parcel.readList(this, Enquiry::class.java.classLoader)
+        }
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeValue(id)
-        parcel.writeString(name)
-        parcel.writeString(email)
-        parcel.writeString(mobile)
-        parcel.writeString(pincode)
-        parcel.writeString(address)
-        parcel.writeString(status)
-        parcel.writeString(city)
-        parcel.writeString(state)
-        parcel.writeString(model_no)
-        parcel.writeString(invoice_image)
-        parcel.writeString(qr_image)
-        parcel.writeString(purchase_at)
-        parcel.writeString(service_center_assigned_at)
-        parcel.writeString(technician_assigned_at)
-        parcel.writeString(created_at)
-        parcel.writeString(nature_of_complain)
-        parcel.writeParcelable(technician, flags)
+    override fun writeToParcel(parcel: Parcel?, flags: Int) {
+        parcel?.writeValue(id)
+        parcel?.writeString(name)
+        parcel?.writeString(email)
+        parcel?.writeString(mobile)
+        parcel?.writeString(pincode)
+        parcel?.writeString(address)
+        parcel?.writeString(status)
+        parcel?.writeString(city)
+        parcel?.writeString(state)
+        parcel?.writeString(service_center_assigned_at)
+        parcel?.writeString(technician_assigned_at)
+        parcel?.writeString(created_at)
+        parcel?.writeParcelable(technician, flags)
+        parcel?.writeString(lead_cancelled_reason)
+        arrayListOf<Enquiry>().apply {
+            parcel?.writeTypedList(enquiries)
+        }
     }
+
 
     override fun describeContents(): Int {
         return 0

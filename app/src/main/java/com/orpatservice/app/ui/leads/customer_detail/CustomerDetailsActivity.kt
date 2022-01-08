@@ -76,26 +76,26 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
         binding.includedContent.tvFullAddressValue.text = leadData.address
-        binding.includedContent.tvModelNameValue.text = leadData.model_no
-        binding.includedContent.tvDateOfPurchaseValue.text = CommonUtils.dateFormat(leadData.purchase_at)
-        binding.includedContent.tvWarrantyStatusValue.text = leadData.nature_of_complain
+//        binding.includedContent.tvModelNameValue.text = leadData.model_no
+//        binding.includedContent.tvDateOfPurchaseValue.text = CommonUtils.dateFormat(leadData.purchase_at)
+//        binding.includedContent.tvWarrantyStatusValue.text = leadData.nature_of_complain
 
-        Log.d("invoice_image",""+leadData.invoice_image)
-        Log.d("qr_image",""+leadData.qr_image)
+//        Log.d("invoice_image",""+leadData.invoice_image)
+//        Log.d("qr_image",""+leadData.qr_image)
+//
+//        Glide.with(this)
+//            .load(leadData.invoice_image)
+//            .diskCacheStrategy(DiskCacheStrategy.ALL)
+//            //.circleCrop() // .error(R.drawable.active_dot)
+//            .placeholder(R.color.gray)
+//            .into(binding.includedContent.ivInvoiceImage)
 
-        Glide.with(this)
-            .load(leadData.invoice_image)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            //.circleCrop() // .error(R.drawable.active_dot)
-            .placeholder(R.color.gray)
-            .into(binding.includedContent.ivInvoiceImage)
-
-        Glide.with(this)
-            .load(leadData.qr_image)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            //.circleCrop() // .error(R.drawable.active_dot)
-            .placeholder(R.color.gray)
-            .into(binding.includedContent.ivQrCodeImage)
+//        Glide.with(this)
+//            .load(leadData.qr_image)
+//            .diskCacheStrategy(DiskCacheStrategy.ALL)
+//            //.circleCrop() // .error(R.drawable.active_dot)
+//            .placeholder(R.color.gray)
+//            .into(binding.includedContent.ivQrCodeImage)
     }
 
     private fun openCallDialPad(contactNumber: String) {
@@ -141,10 +141,10 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
                 openCallDialPad(leadData.mobile.toString())
             }
             R.id.iv_invoice_image ->{
-                goToFullScreenImageActivity(leadData.invoice_image)
+                //goToFullScreenImageActivity(leadData.invoice_image)
             }
             R.id.iv_qr_code_image ->{
-                goToFullScreenImageActivity(leadData.qr_image)
+                //goToFullScreenImageActivity(leadData.qr_image)
             }
         }
     }
