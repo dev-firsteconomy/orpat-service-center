@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +20,12 @@ import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.databinding.LayoutDialogCancelLeadBinding
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
+import com.orpatservice.app.utils.Utils
 import com.tapadoo.alerter.Alerter
 
 class NewRequestsFragment : Fragment() {
@@ -208,25 +211,26 @@ class NewRequestsFragment : Fragment() {
 
     private fun confirmationDialog(context: Context, id: Int?) {
 
-        MaterialAlertDialogBuilder(
-            context,
-            R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
+        val dialogBinding = LayoutDialogCancelLeadBinding.inflate(layoutInflater)
+        val dialog = MaterialAlertDialogBuilder(context)
+            .setView(dialogBinding.root)
+        dialog.setCancelable(false)
+        val alertDialog = dialog.show() as AlertDialog
 
-            .setTitle("Reject Lead!")
-            .setMessage("Are you sure, you want to reject this lead?")
-            .setPositiveButton("Reject Lead") { dialog, which ->
-                    if(id != null) {
-                        requestLeadsViewModel.doCancelLead(id)
-                        binding.cpiLoading.visibility = View.VISIBLE
-                    } else {
-                        Toast.makeText(activity, "Lead Id not found. Please try again!", Toast.LENGTH_SHORT).show()
-                    }
+        dialogBinding.btnReject.setOnClickListener {
+            if (id != null && Utils.instance.validateEditText(dialogBinding.edtRejectionReason)) {
+                requestLeadsViewModel.doCancelLead(id, dialogBinding.edtRejectionReason.text.toString())
+                binding.cpiLoading.visibility = View.VISIBLE
+                alertDialog.dismiss()
+            } else {
+                Toast.makeText(activity, "Lead Id not found. Please try again!", Toast.LENGTH_SHORT)
+                    .show()
+                alertDialog.dismiss()
             }
-            .setNegativeButton(
-                "Cancel"
-            ) { _, i -> }
-            .show()
-
+        }
+        dialogBinding.btnCancel.setOnClickListener{
+            alertDialog.dismiss()
+        }
     }
 
     private fun loadUI () {

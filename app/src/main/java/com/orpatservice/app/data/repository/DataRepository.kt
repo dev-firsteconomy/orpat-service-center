@@ -211,8 +211,8 @@ class DataRepository {
         return ApiClient.getAuthApi().getServiceCenterCancelledLeads(pageNumber)
     }
 
-    fun hitServiceCenterCancelLeads(leadId: Int): Call<CancelLeadResponse> {
-        return ApiClient.getAuthApi().getServiceCenterCancelLead(leadId)
+    fun hitServiceCenterCancelLeads(leadId: Int, cancelReason: String): Call<CancelLeadResponse> {
+        return ApiClient.getAuthApi().getServiceCenterCancelLead(leadId, cancelReason)
     }
 
     fun hitGetTechnicianPendingLeads(pageNumber: Int): Call<RequestLeadResponse> {

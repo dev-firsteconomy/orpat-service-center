@@ -86,6 +86,17 @@ class Utils {
         }
     }
 
+    fun validateEditText(editText: EditText?): Boolean {
+        return when {
+            editText?.text?.isEmpty()!! -> {
+                editText.error = editText.context.getString(R.string.error_reason_rejection)
+                editText.requestFocus()
+                false
+            }
+            else -> true
+        }
+    }
+
 
     fun validatePassword(editText: EditText?): Boolean {
         return when {

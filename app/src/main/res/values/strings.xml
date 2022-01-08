@@ -67,7 +67,7 @@
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
     <string name="requests">Requests</string>
-    <string name="btn_decline">Decline</string>
+    <string name="btn_reject">Reject</string>
     <string name="btn_view_details">View Details</string>
     <string name="service_center">Service Center</string>
     <string name="toolbar_title_history">History</string>
@@ -99,7 +99,12 @@
     <string name="password">Password</string>
     <string name="error_email">Enter valid email address</string>
     <string name="error_password">Enter valid password</string>
+    <string name="error_reason_rejection">Enter valid rejection reason</string>
     <string name="select_technician">Please Select Technician</string>
     <string name="search_leads">Search leads</string>
     <string name="submit">Submit</string>
+    <string name="reject_lead">Reject Lead!</string>
+    <string name="reject">Reject Lead</string>
+    <string name="reason_for_rejection">Reason for rejection</string>
+    <string name="please_enter_reason_for_rejection">Please enter reason for rejection.</string>
 </resources>
