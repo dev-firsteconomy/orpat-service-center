@@ -65,6 +65,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
 
         leadData = intent?.getParcelableExtra<LeadData>(Constants.LEAD_DATA) as LeadData
 
+        if (leadData.enquiries.isNullOrEmpty()){
+            binding.includedContent.tvEnquiryHeading.visibility = View.GONE
+        }
         complaintAdapter = ComplaintAdapter(leadData.enquiries,itemClickListener = onItemClickListener,)
 
         binding.includedContent.rvComplaint.apply {
