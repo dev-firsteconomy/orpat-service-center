@@ -45,6 +45,7 @@ object Constants {
     const val IS_NAV = "IS_NAV"
     const val LEADS_ID = "LEADS_ID"
     const val IMAGE_URL = "IMAGE_URL"
+    const val SELECTED_PARTS = "SELECTED_PARTS"
 
     object ComingFrom {
 
