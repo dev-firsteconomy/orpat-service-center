@@ -10,12 +10,16 @@ import android.view.View
 import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityHappyCodeBinding
+import com.orpatservice.app.ui.admin.technician.TechniciansViewModel
 import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
 import com.tapadoo.alerter.Alerter
 
 class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher {
+
+    private lateinit var viewModel: TechniciansViewModel
 
     private val editTextArray: ArrayList<EditText> = ArrayList(NUM_OF_DIGITS)
     private var numTemp = ""
@@ -30,6 +34,8 @@ class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher
         super.onCreate(savedInstanceState)
         binding = ActivityHappyCodeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this)[TechniciansViewModel::class.java]
 
         createOTPUI()
         resendOTPTimer()

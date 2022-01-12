@@ -28,8 +28,6 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
     private lateinit var binding: ActivityCloseComplaintBinding
     private lateinit var viewModel: TechniciansViewModel
 
-    private lateinit var partsArrayAdapter: ArrayAdapter<RepairParts>
-
     private lateinit var repairPartAdapter: RepairPartAdapter
 
     private val repairPartsList: ArrayList<RepairParts> = ArrayList()
@@ -145,12 +143,12 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                             suggestPartsList.addAll(it.data)
 
                             this.runOnUiThread{
-                              val  partsArrayAdapters =
+                              val  partsArrayAdapter =
                                     ArrayAdapter(this, android.R.layout.simple_list_item_1, suggestPartsList)
-                                binding.includedContent.mtvParts.setAdapter(partsArrayAdapters)
+                                binding.includedContent.mtvParts.setAdapter(partsArrayAdapter)
                                 binding.includedContent.mtvParts.showDropDown()
 
-                               // partsArrayAdapters.notifyDataSetChanged()
+
                             }
 
                         }
