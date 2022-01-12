@@ -48,7 +48,7 @@ class ComplaintAdapter constructor(
             binding.tvWarrantyStatusValue.text = enquiry.in_warranty
             binding.tvDescriptionValue.text = enquiry.nature_pf_complain
 
-            binding.tvPurchaseAt.text = CommonUtils.dateFormat(enquiry.purchase_at)
+            enquiry.purchase_at?.let { binding.tvPurchaseAt.text = CommonUtils.dateFormat(it) }
 
             Glide.with(binding.ivInvoiceImage.context)
                 .load(enquiry.invoice_image)

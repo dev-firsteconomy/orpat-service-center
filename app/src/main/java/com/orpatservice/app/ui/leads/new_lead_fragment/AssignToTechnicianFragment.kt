@@ -139,7 +139,7 @@ class AssignToTechnicianFragment : Fragment() {
 
 
     fun loadSearchLead(query: String) {
-        requestLeadsViewModel.searchPendingLeads(query)
+        requestLeadsViewModel.searchAssignedLeads(query)
         tempDataArrayList.clear()
         tempDataArrayList.addAll(leadDataArrayList)
         leadDataArrayList.clear()
