@@ -2,37 +2,38 @@ package com.orpatservice.app.ui.leads.customer_detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.MultiAutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.Status
+import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.RepairParts
 import com.orpatservice.app.databinding.ActivityCloseComplaintBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansViewModel
-import com.orpatservice.app.ui.leads.customer_detail.adapter.AutoSuggestAdapter
 import com.orpatservice.app.ui.leads.customer_detail.adapter.RepairPartAdapter
 import com.orpatservice.app.ui.technician.HappyCodeActivity
 import com.orpatservice.app.utils.Constants
+import com.tapadoo.alerter.Alerter
 
 
 class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private lateinit var binding: ActivityCloseComplaintBinding
     private lateinit var viewModel: TechniciansViewModel
 
-    private val TRIGGER_AUTO_COMPLETE = 100
-    private val AUTO_COMPLETE_DELAY: Long = 300
-    private var handler: Handler? = null
-    private val autoSuggestAdapter: AutoSuggestAdapter? = null
+    private lateinit var partsArrayAdapter: ArrayAdapter<RepairParts>
+
     private lateinit var repairPartAdapter: RepairPartAdapter
 
     private val repairPartsList: ArrayList<RepairParts> = ArrayList()
+    private val suggestPartsList: ArrayList<RepairParts> = ArrayList()
 
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
@@ -76,31 +77,14 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             setDisplayShowHomeEnabled(true)
         }
 
-
-        repairPartsList.add(RepairParts(1, "Wire"))
-        repairPartsList.add(RepairParts(1, "Wire"))
-        repairPartsList.add(RepairParts(1, "Wire"))
-        repairPartsList.add(RepairParts(1, "Wire"))
-
         repairPartAdapter = RepairPartAdapter(repairPartsList, onItemClickListener)
 
         binding.includedContent.rvRepairParts.apply {
             adapter = repairPartAdapter
         }
 
-        val fewRandomSuggestedText = arrayOf(
-            "a", "ant", "apple", "asp", "android", "animation", "adobe",
-            "chrome", "chromium", "firefox", "freeware", "fedora"
-        )
-
-        val randomArrayAdapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fewRandomSuggestedText)
-        binding.includedContent.mtvParts.setAdapter(randomArrayAdapter)
-
         binding.includedContent.mtvParts.threshold = 2
         binding.includedContent.mtvParts.onItemClickListener = this
-
-        binding.includedContent.mtvParts.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
 
         binding.includedContent.mtvParts.addTextChangedListener(textWatcher)
 
@@ -116,14 +100,81 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         }
 
-        override fun afterTextChanged(p0: Editable?) {
+        override fun afterTextChanged(text: Editable?) {
+            if (binding.includedContent.mtvParts.isPerformingCompletion){
+
+            }else{
+                if (text.toString().isNotEmpty() && text.toString().trim().length > 2){
+                    hitAPIPartsData(text.toString().trim())
+                }
+
+            }
 
         }
 
     }
 
-    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        TODO("Not yet implemented")
+    private fun hitAPIPartsData(partsText : String){
+        viewModel.hitAPIParts(partsText).observe(this,loadPartsData())
+    }
+    private fun loadPartsData(): Observer<Resource<RepairPartResponse>> {
+        return Observer { it ->
+            when (it?.status) {
+                Status.LOADING -> {
+                    binding.cpiLoading.visibility = View.VISIBLE
+
+                }
+                Status.ERROR -> {
+                    binding.cpiLoading.visibility = View.GONE
+
+                    Alerter.create(this@CloseComplaintActivity)
+                        .setTitle("")
+                        .setText("" + it.error?.message.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
+
+                }
+                else -> {
+                    binding.cpiLoading.visibility = View.GONE
+                    val data = it?.data
+
+                    data?.let {
+                        if (it.success) {
+                            suggestPartsList.clear()
+                            suggestPartsList.addAll(it.data)
+
+                            this.runOnUiThread{
+                              val  partsArrayAdapters =
+                                    ArrayAdapter(this, android.R.layout.simple_list_item_1, suggestPartsList)
+                                binding.includedContent.mtvParts.setAdapter(partsArrayAdapters)
+                                binding.includedContent.mtvParts.showDropDown()
+
+                               // partsArrayAdapters.notifyDataSetChanged()
+                            }
+
+                        }
+                    } ?: run {
+
+
+                        Alerter.create(this@CloseComplaintActivity)
+                            .setTitle("")
+                            .setText("it.data?.message.toString()")
+                            .setBackgroundColorRes(R.color.orange)
+                            .setDuration(1000)
+                            .show()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onItemClick(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        repairPartsList.add(suggestPartsList[position])
+        repairPartAdapter.notifyItemInserted(position)
+
+        binding.includedContent.mtvParts.setText("")
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

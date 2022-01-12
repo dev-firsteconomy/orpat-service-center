@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.model.AddTechnicianResponse
+import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.repository.DataRepository
 import okhttp3.MultipartBody
@@ -35,7 +36,7 @@ class TechniciansViewModel : ViewModel() {
         return DataRepository.instance.hitAPIAssignTechnician(leadsId,technicianId)
     }
 
-    fun hitAPIParts(search : String): LiveData<Resource<TechnicianResponse>> {
+    fun hitAPIParts(search : String): LiveData<Resource<RepairPartResponse>> {
         return DataRepository.instance.hitAPIParts(search)
     }
 

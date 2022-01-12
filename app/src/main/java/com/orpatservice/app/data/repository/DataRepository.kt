@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.model.AddTechnicianResponse
+import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
@@ -186,21 +187,21 @@ class DataRepository {
 
     }
 
-    fun hitAPIParts(search : String): LiveData<Resource<TechnicianResponse>> {
-        val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
+    fun hitAPIParts(search : String): LiveData<Resource<RepairPartResponse>> {
+        val mutableTestData = MutableLiveData<Resource<RepairPartResponse>>()
 
         mutableTestData.value = (Resource.loading(null))
 
         ApiClient.getAuthApi().hitAPIParts(search)
-            .enqueue(object : Callback<TechnicianResponse> {
+            .enqueue(object : Callback<RepairPartResponse> {
 
-                override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
+                override fun onFailure(call: Call<RepairPartResponse>, t: Throwable) {
                     mutableTestData.value = Resource.error(ErrorUtils.getError(t))
                 }
 
                 override fun onResponse(
-                    call: Call<TechnicianResponse>,
-                    response: Response<TechnicianResponse>
+                    call: Call<RepairPartResponse>,
+                    response: Response<RepairPartResponse>
                 ) {
                     if (response.isSuccessful) {
                         mutableTestData.value = response.body()?.let { Resource.success(it) }

@@ -1,6 +1,7 @@
 package com.orpatservice.app.data.remote
 
 import com.orpatservice.app.data.model.AddTechnicianResponse
+import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
 import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.model.login.LoginResponse
@@ -51,8 +52,8 @@ interface ApiEndPoint {
     @POST("service-center/leads/{leadsId}/technician/{technicianId}")
     fun hitAPIAssignTechnician(@Path("leadsId") leadsId : Int?,@Path("technicianId") technicianId : Int?): Call<TechnicianResponse>
 
-    @POST("technician/get_parts")
-    fun hitAPIParts(@Query("search") search : String?): Call<TechnicianResponse>
+    @GET("technician/get_parts")
+    fun hitAPIParts(@Query("search") search : String?): Call<RepairPartResponse>
 
     // @FormUrlEncoded
     @POST("service-center/technicians")
