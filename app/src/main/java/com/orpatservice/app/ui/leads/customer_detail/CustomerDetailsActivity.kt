@@ -1,16 +1,22 @@
 package com.orpatservice.app.ui.leads.customer_detail
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.orpatservice.app.R
+import com.orpatservice.app.data.model.TechnicianData
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
+import com.orpatservice.app.ui.admin.technician.ADD
+import com.orpatservice.app.ui.admin.technician.AddTechnicianActivity
+import com.orpatservice.app.ui.admin.technician.PARCELABLE_TECHNICIAN
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.ui.leads.adapter.ComplaintAdapter
 import com.orpatservice.app.utils.CommonUtils
@@ -122,6 +128,13 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
             R.id.iv_qr_code_image -> {
                 goToFullScreenImageActivity(leadData.enquiries[position].qr_image)
             }
+            R.id.btn_close_complaint -> {
+                val intent = Intent(this, CloseComplaintActivity::class.java)
+                intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
+                intent.putExtra(Constants.COMPLAINT_ID, leadData.id)
+                intent.putExtra(Constants.TOTAL_ENQUIRY, leadData.enquiries.count())
+                closeComplaintLauncher.launch(intent)
+            }
         }
     }
 
@@ -141,10 +154,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
                         .equals(Constants.TECHNICIAN)
                 ) {
                     val intent = Intent(this, CloseComplaintActivity::class.java)
-
                     intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
-                    intent.putExtra(Constants.LEADS_ID, leadData.id)
-                    startActivity(intent)
+                    intent.putExtra(Constants.COMPLAINT_ID, leadData.id)
+                    closeComplaintLauncher.launch(intent)
                 }
 
             }
@@ -153,4 +165,12 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+    private var closeComplaintLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                //setObserver()
+
+            }
+        }
 }

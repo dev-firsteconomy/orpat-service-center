@@ -46,6 +46,8 @@ object Constants {
     const val LEADS_ID = "LEADS_ID"
     const val IMAGE_URL = "IMAGE_URL"
     const val SELECTED_PARTS = "SELECTED_PARTS"
+    const val COMPLAINT_ID = "COMPLAINT_ID"
+    const val TOTAL_ENQUIRY = "TOTAL_ENQUIRY"
 
     object ComingFrom {
 

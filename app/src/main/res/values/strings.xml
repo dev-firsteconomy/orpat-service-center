@@ -55,6 +55,7 @@
     <string name="pin_code">Pin code</string>
     <string name="upload_image">Upload Image</string>
     <string name="image_title">Upload profile image here</string>
+    <string name="part_image_title">Upload part image here</string>
     <string name="btn_submit">Submit</string>
     <string name="first_name_required">First name is required</string>
     <string name="last_name_required">Last name is required</string>

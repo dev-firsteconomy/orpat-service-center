@@ -118,6 +118,43 @@ class DataRepository {
 
     }
 
+    fun hitAPIRepairPartTechnician(
+        requestBody: MultipartBody,
+        complaint_id : String,
+        technician_id : String
+    ): LiveData<Resource<AddTechnicianResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<AddTechnicianResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+
+        ApiClient.getAuthApi().hitAPIRepairPartTechnician(requestBody,complaint_id,technician_id)
+            .enqueue(object : Callback<AddTechnicianResponse> {
+
+                override fun onFailure(call: Call<AddTechnicianResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<AddTechnicianResponse>,
+                    response: Response<AddTechnicianResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+
+    }
+
     fun hitAPIUpdateTechnician(
         requestBody: MultipartBody,
         technicianID: Int?

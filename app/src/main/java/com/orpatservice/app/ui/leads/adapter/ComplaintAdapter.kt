@@ -76,6 +76,12 @@ class ComplaintAdapter constructor(
                     binding.ivQrCodeImage
                 )
             }
+            binding.btnCloseComplaint.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.btnCloseComplaint
+                )
+            }
 
         }
     }

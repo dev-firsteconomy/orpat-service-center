@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/corner_radius"
-        app:layout_constraintBottom_toTopOf="@id/et_remark"
+        app:layout_constraintBottom_toTopOf="@id/v_image"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.Guideline
@@ -77,8 +77,44 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <EditText
-        android:id="@+id/et_remark"
+
+    <View
+        android:id="@+id/v_image"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/bg_otp_edittext"
+        app:layout_constraintBottom_toTopOf="@id/btn_submit"
+        app:layout_constraintTop_toBottomOf="@id/cl_content"/>
+
+    <ImageView
+        android:id="@+id/iv_upload_image"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@drawable/ic_upload"
+        app:layout_constraintBottom_toTopOf="@id/tv_image_title"
+        app:layout_constraintEnd_toEndOf="@id/v_image"
+        app:layout_constraintStart_toStartOf="@id/v_image"
+        app:layout_constraintTop_toTopOf="@id/v_image"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tv_image_title"
+        style="@style/Theme.OrpatServiceCenter.RegularText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/part_image_title"
+        app:layout_constraintBottom_toBottomOf="@id/v_image"
+        app:layout_constraintEnd_toEndOf="@id/v_image"
+        app:layout_constraintStart_toStartOf="@id/v_image"
+        app:layout_constraintTop_toBottomOf="@id/iv_upload_image" />
+
+    <!--<Button
+        android:id="@+id/v_image"
         style="@style/Theme.OrpatServiceCenter.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,7 +124,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@id/btn_submit"
-        app:layout_constraintTop_toBottomOf="@id/cl_content" />
+        app:layout_constraintTop_toBottomOf="@id/cl_content" />-->
 
 
     <com.google.android.material.button.MaterialButton
@@ -102,7 +138,7 @@
         app:iconGravity="textEnd"
         app:iconTint="@color/dim_white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_remark" />
+        app:layout_constraintTop_toBottomOf="@id/v_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

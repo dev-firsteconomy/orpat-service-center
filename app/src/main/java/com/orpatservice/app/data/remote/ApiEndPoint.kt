@@ -61,6 +61,14 @@ interface ApiEndPoint {
         @Body requestBody: MultipartBody
     ): Call<AddTechnicianResponse>
 
+    // @FormUrlEncoded
+    @POST("leads/save-enquiry-detail/{complaint_id}/{technician_id}")
+    fun hitAPIRepairPartTechnician(
+        @Body requestBody: MultipartBody,
+        @Path("complaint_id") complaint_id : String,
+        @Path("technician_id") technician_id : String
+    ): Call<AddTechnicianResponse>
+
     @POST("service-center/technicians/update_technician/{technician_id}")
     fun hitAPIUpdateTechnician(
         @Body requestBody: MultipartBody,

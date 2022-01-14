@@ -40,4 +40,12 @@ class TechniciansViewModel : ViewModel() {
         return DataRepository.instance.hitAPIParts(search)
     }
 
+    fun hitAPIRepairPartTechnician(
+        requestBody: MultipartBody,
+        complaint_id : String,
+        technician_id : String
+    ): LiveData<Resource<AddTechnicianResponse>> {
+        return DataRepository.instance.hitAPIRepairPartTechnician(requestBody,complaint_id,technician_id)
+    }
+
 }
