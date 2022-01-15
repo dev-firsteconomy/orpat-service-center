@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_content"
         android:layout_width="match_parent"
@@ -53,8 +53,8 @@
         <AutoCompleteTextView
             android:id="@+id/mtv_parts"
             android:layout_width="0dp"
-            android:hint="@string/search"
             android:layout_height="wrap_content"
+            android:hint="@string/search"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
             app:layout_constraintTop_toBottomOf="@id/tv_select_parts" />
@@ -84,11 +84,11 @@
         android:layout_height="120dp"
         android:layout_marginTop="14dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/bg_otp_edittext"
         app:layout_constraintBottom_toTopOf="@id/btn_submit"
-        app:layout_constraintTop_toBottomOf="@id/cl_content"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_content" />
 
     <ImageView
         android:id="@+id/iv_upload_image"
@@ -112,19 +112,6 @@
         app:layout_constraintEnd_toEndOf="@id/v_image"
         app:layout_constraintStart_toStartOf="@id/v_image"
         app:layout_constraintTop_toBottomOf="@id/iv_upload_image" />
-
-    <!--<Button
-        android:id="@+id/v_image"
-        style="@style/Theme.OrpatServiceCenter.EditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:hint="@string/remark"
-        android:inputType="text"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_submit"
-        app:layout_constraintTop_toBottomOf="@id/cl_content" />-->
 
 
     <com.google.android.material.button.MaterialButton

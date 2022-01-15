@@ -17,6 +17,7 @@ class LeadData() : Parcelable {
     var status: String? = null
     var city: String? = null
     var state: String? = null
+    var pending_lead_enquiries: String? = null
     var service_center_assigned_at: String? = null
     var technician_assigned_at: String? = null
     var created_at: String? = null
@@ -34,6 +35,7 @@ class LeadData() : Parcelable {
         status = parcel.readString()
         city = parcel.readString()
         state = parcel.readString()
+        pending_lead_enquiries = parcel.readString()
         service_center_assigned_at = parcel.readString()
         technician_assigned_at = parcel.readString()
         created_at = parcel.readString()
@@ -56,6 +58,7 @@ class LeadData() : Parcelable {
         parcel?.writeString(status)
         parcel?.writeString(city)
         parcel?.writeString(state)
+        parcel?.writeString(pending_lead_enquiries)
         parcel?.writeString(service_center_assigned_at)
         parcel?.writeString(technician_assigned_at)
         parcel?.writeString(created_at)

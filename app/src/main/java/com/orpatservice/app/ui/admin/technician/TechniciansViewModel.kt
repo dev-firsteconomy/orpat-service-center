@@ -48,4 +48,8 @@ class TechniciansViewModel : ViewModel() {
         return DataRepository.instance.hitAPIRepairPartTechnician(requestBody,complaint_id,technician_id)
     }
 
+    fun hitAPISendHappyCode(leadId : String): LiveData<Resource<TechnicianResponse>> {
+        return DataRepository.instance.hitAPISendHappyCode(leadId)
+    }
+
 }

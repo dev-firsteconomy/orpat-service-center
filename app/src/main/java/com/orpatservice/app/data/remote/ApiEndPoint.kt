@@ -55,6 +55,9 @@ interface ApiEndPoint {
     @GET("technician/get_parts")
     fun hitAPIParts(@Query("search") search : String?): Call<RepairPartResponse>
 
+    @POST("technician/send-happy-code/{leadId}")
+    fun hitAPISendHappyCode(@Path("leadId") leadId : String?): Call<TechnicianResponse>
+
     // @FormUrlEncoded
     @POST("service-center/technicians")
     fun hitAPIAddTechnician(

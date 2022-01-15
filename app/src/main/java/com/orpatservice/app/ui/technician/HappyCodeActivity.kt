@@ -7,14 +7,21 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.Status
+import com.orpatservice.app.data.model.RepairPartResponse
+import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.databinding.ActivityHappyCodeBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansViewModel
 import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
+import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
 class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher {
@@ -47,6 +54,57 @@ class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher
     private fun setObserver() {
     }
 
+    private fun hitAPISendHappyCode(){
+        viewModel.hitAPISendHappyCode(intent.getIntExtra(Constants.LEADS_ID,0).toString()).observe(this,loadHappyCodeData())
+    }
+
+    private fun loadHappyCodeData(): Observer<Resource<TechnicianResponse>> {
+        return Observer { it ->
+            when (it?.status) {
+                Status.LOADING -> {
+                    binding.cpiLoadingResend.visibility = View.VISIBLE
+
+                }
+                Status.ERROR -> {
+                    binding.cpiLoadingResend.visibility = View.GONE
+
+                    Alerter.create(this@HappyCodeActivity)
+                        .setTitle("")
+                        .setText("" + it.error?.message.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
+
+                }
+                else -> {
+                    binding.cpiLoadingResend.visibility = View.GONE
+                    val data = it?.data
+
+                    data?.let {
+                        if (it.success) {
+                            Alerter.create(this@HappyCodeActivity)
+                                .setTitle("")
+                                .setText(""+it.message)
+                                .setBackgroundColorRes(R.color.orange)
+                                .setDuration(1000)
+                                .show()
+
+                        }
+                    } ?: run {
+
+
+                        Alerter.create(this@HappyCodeActivity)
+                            .setTitle("")
+                            .setText("it.data?.message.toString()")
+                            .setBackgroundColorRes(R.color.orange)
+                            .setDuration(1000)
+                            .show()
+                    }
+                }
+            }
+        }
+    }
+
     override fun onClick(v: View) {
         when(v.id) {
             R.id.btn_continue_otp -> {
@@ -64,6 +122,8 @@ class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher
 
         resendOTPTimer()
         // Write code to get Happy Code
+
+        hitAPISendHappyCode()
     }
 
     private fun createOTPUI() {

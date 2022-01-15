@@ -39,7 +39,6 @@ import com.orpatservice.app.data.model.login.Technician
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.ActivityCloseComplaintBinding
 import com.orpatservice.app.ui.admin.technician.MY_PERMISSIONS_WRITE_READ_REQUEST_CODE
-import com.orpatservice.app.ui.admin.technician.PARCELABLE_TECHNICIAN
 import com.orpatservice.app.ui.admin.technician.TechniciansViewModel
 import com.orpatservice.app.ui.leads.customer_detail.adapter.RepairPartAdapter
 import com.orpatservice.app.ui.technician.HappyCodeActivity
@@ -73,11 +72,12 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 repairPartAdapter.notifyItemRemoved(position)
             }
             R.id.btn_submit -> {
-                Intent(this, HappyCodeActivity::class.java).apply {
-                    putExtra(Constants.LEADS_ID,intent.getStringExtra(Constants.LEADS_ID))
-                    putExtra(Constants.SELECTED_PARTS,"1")
+                hitAPIAddTechnician()
+                /*Intent(this, HappyCodeActivity::class.java).apply {
+                    putExtra(Constants.LEADS_ID,intent.getIntExtra(Constants.LEADS_ID,0))
+                    putExtra(Constants.COMPLAINT_ID,intent.getStringExtra(Constants.COMPLAINT_ID))
                     startActivity(this)
-                }
+                }*/
             }
             R.id.v_image -> {
                 if (checkCameraPermission()) {
@@ -226,7 +226,7 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         viewModel.hitAPIRepairPartTechnician(
             params.build(),
-            "complaint_id",
+            intent.getIntExtra(Constants.COMPLAINT_ID,0).toString(),
             technician.id.toString()
         ).observe(this, loadAddTechnicianRepairPart())
     }
@@ -254,10 +254,21 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     data?.let {
                         if (it.success) {
                             Toast.makeText(this, "" + it.message, Toast.LENGTH_LONG).show()
-                            val intent = Intent()
-                            intent.putExtra(PARCELABLE_TECHNICIAN, it.data)
-                            setResult(Activity.RESULT_OK,intent)
-                            finish()
+                            //Check if total enquiry count is one then navigate to happy code screen or previous activity
+                            if (intent.getIntExtra(Constants.TOTAL_ENQUIRY,0)==1){
+                                val intent = Intent()
+                                intent.putExtra(Constants.TOTAL_ENQUIRY, 1)
+                                setResult(Activity.RESULT_OK,intent)
+                                finish()
+
+                            }else{
+                                Intent(this, HappyCodeActivity::class.java).apply {
+                                    putExtra(Constants.LEADS_ID,intent.getIntExtra(Constants.LEADS_ID,0))
+                                    //putExtra(Constants.COMPLAINT_ID,intent.getStringExtra(Constants.COMPLAINT_ID))
+                                    startActivity(this)
+                                }
+
+                            }
 
                         }
                     } ?: run {

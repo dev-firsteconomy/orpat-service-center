@@ -47,7 +47,8 @@ class NewRequestsFragment : Fragment() {
                 val intent = Intent(activity, CustomerDetailsActivity::class.java)
 
                 intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-                intent.putExtra(Constants.LEAD_TYPE, Constants.LEAD_NEW)
+                //No need to send new lead data because closing complaint perform through adapter
+                //intent.putExtra(Constants.LEAD_TYPE, Constants.LEAD_NEW)
                 startActivity(intent)
             }
             R.id.btn_view_decline -> {

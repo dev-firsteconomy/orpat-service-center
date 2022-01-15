@@ -6,17 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.orpatservice.app.R
-import com.orpatservice.app.data.model.TechnicianData
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
-import com.orpatservice.app.ui.admin.technician.ADD
-import com.orpatservice.app.ui.admin.technician.AddTechnicianActivity
-import com.orpatservice.app.ui.admin.technician.PARCELABLE_TECHNICIAN
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.ui.leads.adapter.ComplaintAdapter
 import com.orpatservice.app.utils.CommonUtils
@@ -120,6 +115,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
+    private var lastClickedPos : Int = 0
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
             R.id.iv_invoice_image -> {
@@ -129,11 +125,17 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
                 goToFullScreenImageActivity(leadData.enquiries[position].qr_image)
             }
             R.id.btn_close_complaint -> {
-                val intent = Intent(this, CloseComplaintActivity::class.java)
-                intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
-                intent.putExtra(Constants.COMPLAINT_ID, leadData.id)
-                intent.putExtra(Constants.TOTAL_ENQUIRY, leadData.enquiries.count())
-                closeComplaintLauncher.launch(intent)
+                //Check if enquiries status false it means not closed
+                if (leadData.enquiries[position].status==false){
+                    lastClickedPos = position
+                    val intent = Intent(this, CloseComplaintActivity::class.java)
+                    intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
+                    intent.putExtra(Constants.LEADS_ID, leadData.id)
+                    intent.putExtra(Constants.COMPLAINT_ID, leadData.enquiries[position].id)
+                    intent.putExtra(Constants.TOTAL_ENQUIRY, leadData.pending_lead_enquiries?.toInt())
+                    closeComplaintLauncher.launch(intent)
+
+                }
             }
         }
     }
@@ -170,6 +172,10 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 //setObserver()
+                leadData.pending_lead_enquiries = leadData.pending_lead_enquiries?.toInt()?.minus(1).toString()
+                leadData.enquiries[lastClickedPos].status = true
+
+                complaintAdapter.notifyItemChanged(lastClickedPos)
 
             }
         }

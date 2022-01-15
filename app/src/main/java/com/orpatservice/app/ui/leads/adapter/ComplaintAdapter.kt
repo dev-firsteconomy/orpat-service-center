@@ -1,8 +1,10 @@
 package com.orpatservice.app.ui.leads.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -69,6 +71,13 @@ class ComplaintAdapter constructor(
                     adapterPosition,
                     binding.ivInvoiceImage
                 )
+            }
+            if (enquiry.status==false){
+                binding.btnCloseComplaint.backgroundTintList = null
+
+            }else{binding.btnCloseComplaint.backgroundTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(binding.btnCloseComplaint.context, R.color.gray))
+
             }
             binding.ivQrCodeImage.setOnClickListener {
                 itemClickListener(

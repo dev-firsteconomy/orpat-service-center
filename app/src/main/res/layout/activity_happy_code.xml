@@ -10,11 +10,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="350dp"
-        android:layout_height="300dp"
-        android:padding="16dp"
-        android:layout_margin="16dp"
+        android:layout_height="380dp"
         android:layout_gravity="center"
-        android:background="@android:color/transparent">
+        android:layout_margin="16dp"
+        android:background="@android:color/transparent"
+        android:padding="16dp">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_vertical_start_one"
@@ -59,10 +59,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
+            android:visibility="gone"
             app:indicatorColor="@color/brown"
             app:indicatorSize="24dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/tv_resend_otp_timer"
+            app:layout_constraintBottom_toBottomOf="@id/et_remarks"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_resend_otp_timer"
@@ -73,7 +73,7 @@
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_marginTop="24dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_continue_otp"
+            app:layout_constraintBottom_toTopOf="@id/et_remarks"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
             app:layout_constraintTop_toBottomOf="@id/tv_resend_otp_timer">
@@ -124,6 +124,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <EditText
+            android:id="@+id/et_remarks"
+            style="@style/Theme.OrpatServiceCenter.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/remark"
+            android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@id/btn_continue_otp"
+            app:layout_constraintTop_toBottomOf="@id/cl_otp_layout" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_continue_otp"
             style="@style/Theme.OrpatServiceCenter.Buttons"
@@ -138,7 +151,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end_one"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start_one"
-            app:layout_constraintTop_toBottomOf="@id/cl_otp_layout" />
+            app:layout_constraintTop_toBottomOf="@id/et_remarks" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/cpi_loading"
@@ -146,8 +159,8 @@
             android:layout_height="@dimen/progressbar_height"
             android:layout_marginTop="32dp"
             android:indeterminate="true"
-            app:indicatorColor="@color/brown"
             android:visibility="gone"
+            app:indicatorColor="@color/brown"
             app:layout_constraintBottom_toBottomOf="@id/btn_continue_otp"
             app:layout_constraintEnd_toEndOf="@id/btn_continue_otp"
             app:layout_constraintStart_toStartOf="@id/btn_continue_otp"

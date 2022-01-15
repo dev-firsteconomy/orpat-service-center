@@ -14,6 +14,7 @@ class Enquiry() : Parcelable {
     var purchase_at: String? = null
     var nature_pf_complain: String? = null
     var in_warranty: String? = null
+    var status: Boolean? = null
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -23,6 +24,7 @@ class Enquiry() : Parcelable {
         purchase_at = parcel.readString()
         nature_pf_complain = parcel.readString()
         in_warranty = parcel.readString()
+        status = parcel.readValue(Boolean::class.java.classLoader) as Boolean
     }
 
 
@@ -38,6 +40,7 @@ class Enquiry() : Parcelable {
         dest?.writeString(purchase_at)
         dest?.writeString(nature_pf_complain)
         dest?.writeString(in_warranty)
+        dest?.writeValue(status)
     }
 
     companion object CREATOR : Parcelable.Creator<Enquiry> {
