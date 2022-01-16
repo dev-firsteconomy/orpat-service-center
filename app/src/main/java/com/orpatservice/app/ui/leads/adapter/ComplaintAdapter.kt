@@ -10,8 +10,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.orpatservice.app.R
 import com.orpatservice.app.data.model.requests_leads.Enquiry
+import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.ItemComplaintBinding
 import com.orpatservice.app.utils.CommonUtils
+import com.orpatservice.app.utils.Constants
 
 /**
  * Created by Ajay Yadav on 22/12/21.
@@ -32,7 +34,7 @@ class ComplaintAdapter constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ComplaintViewHolder -> {
-                holder.onBind(enquiryArrayList[position],itemClickListener)
+                holder.onBind(enquiryArrayList[position], itemClickListener)
             }
         }
     }
@@ -44,7 +46,7 @@ class ComplaintAdapter constructor(
     class ComplaintViewHolder(private val binding: ItemComplaintBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(enquiry: Enquiry,itemClickListener: (Int, View) -> Unit, ) {
+        fun onBind(enquiry: Enquiry, itemClickListener: (Int, View) -> Unit) {
 
             binding.tvModelNameValue.text = enquiry.model_no
             binding.tvWarrantyStatusValue.text = enquiry.in_warranty
@@ -72,11 +74,24 @@ class ComplaintAdapter constructor(
                     binding.ivInvoiceImage
                 )
             }
-            if (enquiry.status==false){
+            if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
+                    .equals(Constants.SERVICE_CENTER)
+            ) {
+                binding.btnCloseComplaint.visibility = View.GONE
+
+            }
+
+            if (!enquiry.status) {
                 binding.btnCloseComplaint.backgroundTintList = null
 
-            }else{binding.btnCloseComplaint.backgroundTintList =
-                ColorStateList.valueOf(ContextCompat.getColor(binding.btnCloseComplaint.context, R.color.gray))
+            } else {
+                binding.btnCloseComplaint.backgroundTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            binding.btnCloseComplaint.context,
+                            R.color.gray
+                        )
+                    )
 
             }
             binding.ivQrCodeImage.setOnClickListener {

@@ -14,6 +14,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -34,6 +35,7 @@ import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.AddTechnicianResponse
 import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.RepairParts
+import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.login.LoginBaseData
 import com.orpatservice.app.data.model.login.Technician
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
@@ -72,7 +74,17 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 repairPartAdapter.notifyItemRemoved(position)
             }
             R.id.btn_submit -> {
-                hitAPIAddTechnician()
+                if (repairPartsList.isNotEmpty()){
+                    hitAPIAddTechnician()
+
+                }else{
+                    Alerter.create(this@CloseComplaintActivity)
+                        .setTitle("")
+                        .setText("Select Parts")
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
+                }
                 /*Intent(this, HappyCodeActivity::class.java).apply {
                     putExtra(Constants.LEADS_ID,intent.getIntExtra(Constants.LEADS_ID,0))
                     putExtra(Constants.COMPLAINT_ID,intent.getStringExtra(Constants.COMPLAINT_ID))
@@ -93,6 +105,8 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         super.onCreate(savedInstanceState)
         binding = ActivityCloseComplaintBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        Log.d("TOTAL_ENQUIRY",""+intent.getIntExtra(Constants.TOTAL_ENQUIRY,0))
 
         viewModel = ViewModelProvider(this)[TechniciansViewModel::class.java]
 
@@ -226,12 +240,12 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         viewModel.hitAPIRepairPartTechnician(
             params.build(),
-            intent.getIntExtra(Constants.COMPLAINT_ID,0).toString(),
-            technician.id.toString()
+            intent.getIntExtra(Constants.LEADS_ID,0).toString(),
+            intent.getIntExtra(Constants.COMPLAINT_ID,0).toString()
         ).observe(this, loadAddTechnicianRepairPart())
     }
 
-    private fun loadAddTechnicianRepairPart(): Observer<Resource<AddTechnicianResponse>> {
+    private fun loadAddTechnicianRepairPart(): Observer<Resource<SaveEnquiryResponse>> {
         return Observer { it ->
             when (it?.status) {
                 Status.LOADING -> {
@@ -255,7 +269,7 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         if (it.success) {
                             Toast.makeText(this, "" + it.message, Toast.LENGTH_LONG).show()
                             //Check if total enquiry count is one then navigate to happy code screen or previous activity
-                            if (intent.getIntExtra(Constants.TOTAL_ENQUIRY,0)==1){
+                            if (intent.getIntExtra(Constants.TOTAL_ENQUIRY,0) !=1){
                                 val intent = Intent()
                                 intent.putExtra(Constants.TOTAL_ENQUIRY, 1)
                                 setResult(Activity.RESULT_OK,intent)

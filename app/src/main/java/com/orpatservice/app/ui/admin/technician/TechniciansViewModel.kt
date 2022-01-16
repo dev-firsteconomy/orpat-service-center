@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.model.AddTechnicianResponse
 import com.orpatservice.app.data.model.RepairPartResponse
+import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.repository.DataRepository
 import okhttp3.MultipartBody
@@ -44,12 +45,16 @@ class TechniciansViewModel : ViewModel() {
         requestBody: MultipartBody,
         complaint_id : String,
         technician_id : String
-    ): LiveData<Resource<AddTechnicianResponse>> {
+    ): LiveData<Resource<SaveEnquiryResponse>> {
         return DataRepository.instance.hitAPIRepairPartTechnician(requestBody,complaint_id,technician_id)
     }
 
     fun hitAPISendHappyCode(leadId : String): LiveData<Resource<TechnicianResponse>> {
         return DataRepository.instance.hitAPISendHappyCode(leadId)
+    }
+
+    fun hitAPIMarkAsComplete(leadId : String,remark : String,verificationCode : String): LiveData<Resource<SaveEnquiryResponse>> {
+        return DataRepository.instance.hitAPIMarkAsComplete(leadId,remark,verificationCode)
     }
 
 }

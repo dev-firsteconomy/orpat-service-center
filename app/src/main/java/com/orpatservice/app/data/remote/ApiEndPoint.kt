@@ -2,6 +2,7 @@ package com.orpatservice.app.data.remote
 
 import com.orpatservice.app.data.model.AddTechnicianResponse
 import com.orpatservice.app.data.model.RepairPartResponse
+import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
 import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.model.login.LoginResponse
@@ -21,42 +22,58 @@ interface ApiEndPoint {
 
     @FormUrlEncoded
     @POST("service-center/login")
-    fun getServiceCenterLogin(@Field ("email") email: String, @Field("password") password: String): Call<LoginResponse>
+    fun getServiceCenterLogin(
+        @Field("email") email: String,
+        @Field("password") password: String
+    ): Call<LoginResponse>
 
     //To get OTP on entered mobile number
     @FormUrlEncoded
     @POST("service-center/send-otp")
-    fun getServiceCenterOtpAPI(@Field ("mobile") mobile: String): Call<OTPSendResponse>
+    fun getServiceCenterOtpAPI(@Field("mobile") mobile: String): Call<OTPSendResponse>
 
     @FormUrlEncoded
     @POST("technician/send-otp")
-    fun getTechnicianOtpAPI(@Field ("mobile") mobile: String): Call<OTPSendResponse>
+    fun getTechnicianOtpAPI(@Field("mobile") mobile: String): Call<OTPSendResponse>
 
     //To verify OTP and login
     @FormUrlEncoded
     @POST("service-center/verify-otp-and-login")
     fun verifyServiceCenterOTPLoginAPI(
-        @Field ("mobile") mobile: String,
-        @Field ("otp") otp: String): Call<LoginResponse>
+        @Field("mobile") mobile: String,
+        @Field("otp") otp: String
+    ): Call<LoginResponse>
 
     //To verify OTP and login
     @FormUrlEncoded
     @POST("technician/verify-otp-and-login")
     fun verifyTechnicianOTPLoginAPI(
-        @Field ("mobile") mobile: String,
-        @Field ("otp") otp: String): Call<LoginResponse>
+        @Field("mobile") mobile: String,
+        @Field("otp") otp: String
+    ): Call<LoginResponse>
 
     @GET("service-center/technicians")
-    fun getTechnicianAPI(@Query("page") page : Int?): Call<TechnicianResponse>
+    fun getTechnicianAPI(@Query("page") page: Int?): Call<TechnicianResponse>
 
     @POST("service-center/leads/{leadsId}/technician/{technicianId}")
-    fun hitAPIAssignTechnician(@Path("leadsId") leadsId : Int?,@Path("technicianId") technicianId : Int?): Call<TechnicianResponse>
+    fun hitAPIAssignTechnician(
+        @Path("leadsId") leadsId: Int?,
+        @Path("technicianId") technicianId: Int?
+    ): Call<TechnicianResponse>
 
     @GET("technician/get_parts")
-    fun hitAPIParts(@Query("search") search : String?): Call<RepairPartResponse>
+    fun hitAPIParts(@Query("search") search: String?): Call<RepairPartResponse>
 
     @POST("technician/send-happy-code/{leadId}")
-    fun hitAPISendHappyCode(@Path("leadId") leadId : String?): Call<TechnicianResponse>
+    fun hitAPISendHappyCode(@Path("leadId") leadId: String?): Call<TechnicianResponse>
+
+    @FormUrlEncoded
+    @POST("technician/leads/mark-as-complete/{leadId}")
+    fun hitAPIMarkAsComplete(
+        @Path("leadId") leadId: String?,
+        @Field("remark") remark: String?,
+        @Field("happy_code") happy_code: String?
+    ): Call<SaveEnquiryResponse>
 
     // @FormUrlEncoded
     @POST("service-center/technicians")
@@ -65,46 +82,49 @@ interface ApiEndPoint {
     ): Call<AddTechnicianResponse>
 
     // @FormUrlEncoded
-    @POST("leads/save-enquiry-detail/{complaint_id}/{technician_id}")
+    @POST("technician/leads/save-enquiry-detail/{complaint_id}/{technician_id}")
     fun hitAPIRepairPartTechnician(
         @Body requestBody: MultipartBody,
-        @Path("complaint_id") complaint_id : String,
-        @Path("technician_id") technician_id : String
-    ): Call<AddTechnicianResponse>
+        @Path("complaint_id") complaint_id: String,
+        @Path("technician_id") technician_id: String
+    ): Call<SaveEnquiryResponse>
 
     @POST("service-center/technicians/update_technician/{technician_id}")
     fun hitAPIUpdateTechnician(
         @Body requestBody: MultipartBody,
-        @Path("technician_id") technician_id : Int?
+        @Path("technician_id") technician_id: Int?
     ): Call<AddTechnicianResponse>
 
     @GET("service-center/leads/pending")
-    fun getServiceCenterPendingLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+    fun getServiceCenterPendingLeads(@Query("page") page: Int): Call<RequestLeadResponse>
 
     @GET("service-center/leads/pending")
-    fun getServiceCenterSearchPendingLeads(@Query ("search") keyword : String): Call<RequestLeadResponse>
+    fun getServiceCenterSearchPendingLeads(@Query("search") keyword: String): Call<RequestLeadResponse>
 
     @GET("service-center/leads/assigned")
-    fun getServiceCenterAssignedLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+    fun getServiceCenterAssignedLeads(@Query("page") page: Int): Call<RequestLeadResponse>
 
     @GET("service-center/leads/assigned")
-    fun getServiceCenterSearchAssignedLeads(@Query ("search") keyword: String): Call<RequestLeadResponse>
+    fun getServiceCenterSearchAssignedLeads(@Query("search") keyword: String): Call<RequestLeadResponse>
 
     @GET("service-center/leads/completed")
-    fun getServiceCenterCompletedLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+    fun getServiceCenterCompletedLeads(@Query("page") page: Int): Call<RequestLeadResponse>
 
     @GET("service-center/leads/cancelled")
-    fun getServiceCenterCancelledLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+    fun getServiceCenterCancelledLeads(@Query("page") page: Int): Call<RequestLeadResponse>
 
     @POST("service-center/leads/cancel_lead/{lead_id}")
-    fun getServiceCenterCancelLead(@Path("lead_id") leadId : Int, @Query("lead_cancelled_reason") cancelReason: String): Call<CancelLeadResponse>
+    fun getServiceCenterCancelLead(
+        @Path("lead_id") leadId: Int,
+        @Query("lead_cancelled_reason") cancelReason: String
+    ): Call<CancelLeadResponse>
 
     @GET("technician/leads/pending")
-    fun getTechnicianPendingLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+    fun getTechnicianPendingLeads(@Query("page") page: Int): Call<RequestLeadResponse>
 
     @GET("technician/leads/pending")
-    fun getTechnicianSearchPendingLeads(@Query ("search") keyword : String): Call<RequestLeadResponse>
+    fun getTechnicianSearchPendingLeads(@Query("search") keyword: String): Call<RequestLeadResponse>
 
     @GET("technician/leads/completed")
-    fun getTechnicianCompletedLeads(@Query("page") page : Int): Call<RequestLeadResponse>
+    fun getTechnicianCompletedLeads(@Query("page") page: Int): Call<RequestLeadResponse>
 }

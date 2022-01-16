@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.model.AddTechnicianResponse
 import com.orpatservice.app.data.model.RepairPartResponse
+import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
@@ -122,21 +123,21 @@ class DataRepository {
         requestBody: MultipartBody,
         complaint_id : String,
         technician_id : String
-    ): LiveData<Resource<AddTechnicianResponse>> {
-        val mutableLiveData = MutableLiveData<Resource<AddTechnicianResponse>>()
+    ): LiveData<Resource<SaveEnquiryResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<SaveEnquiryResponse>>()
 
         mutableLiveData.value = (Resource.loading(null))
 
         ApiClient.getAuthApi().hitAPIRepairPartTechnician(requestBody,complaint_id,technician_id)
-            .enqueue(object : Callback<AddTechnicianResponse> {
+            .enqueue(object : Callback<SaveEnquiryResponse> {
 
-                override fun onFailure(call: Call<AddTechnicianResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SaveEnquiryResponse>, t: Throwable) {
                     mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
                 }
 
                 override fun onResponse(
-                    call: Call<AddTechnicianResponse>,
-                    response: Response<AddTechnicianResponse>
+                    call: Call<SaveEnquiryResponse>,
+                    response: Response<SaveEnquiryResponse>
                 ) {
                     if (response.isSuccessful) {
                         mutableLiveData.value = response.body()?.let { Resource.success(it) }
@@ -272,6 +273,39 @@ class DataRepository {
                 override fun onResponse(
                     call: Call<TechnicianResponse>,
                     response: Response<TechnicianResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableTestData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableTestData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableTestData
+
+    }
+
+    fun hitAPIMarkAsComplete(leadId : String,remark : String,verificationCode : String): LiveData<Resource<SaveEnquiryResponse>> {
+        val mutableTestData = MutableLiveData<Resource<SaveEnquiryResponse>>()
+
+        mutableTestData.value = (Resource.loading(null))
+
+        ApiClient.getAuthApi().hitAPIMarkAsComplete(leadId,remark,verificationCode)
+            .enqueue(object : Callback<SaveEnquiryResponse> {
+
+                override fun onFailure(call: Call<SaveEnquiryResponse>, t: Throwable) {
+                    mutableTestData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<SaveEnquiryResponse>,
+                    response: Response<SaveEnquiryResponse>
                 ) {
                     if (response.isSuccessful) {
                         mutableTestData.value = response.body()?.let { Resource.success(it) }

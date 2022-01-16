@@ -14,6 +14,7 @@ import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
 import com.orpatservice.app.ui.leads.adapter.ComplaintAdapter
+import com.orpatservice.app.ui.technician.HappyCodeActivity
 import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 
@@ -32,18 +33,6 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
 
         // set toolbar as support action bar
         setSupportActionBar(binding.toolbar)
-
-        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
-                .equals(Constants.SERVICE_CENTER)
-        ) {
-            binding.includedContent.btnAssignTechnician.text =
-                resources.getString(R.string.btn_assign_to_technician)
-
-        } else {
-            binding.includedContent.btnAssignTechnician.text =
-                resources.getString(R.string.btn_close_complaint)
-
-        }
 
         binding.includedContent.btnAssignTechnician.setOnClickListener(this)
         binding.includedContent.ivCall.setOnClickListener(this)
@@ -64,12 +53,26 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
 
         }
 
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
+                .equals(Constants.SERVICE_CENTER)
+        ) {
+            binding.includedContent.btnAssignTechnician.text =
+                resources.getString(R.string.btn_assign_to_technician)
+
+        } else {
+            binding.includedContent.btnAssignTechnician.visibility = View.GONE
+            binding.includedContent.btnAssignTechnician.text =
+                resources.getString(R.string.btn_close_complaint)
+
+        }
+
         leadData = intent?.getParcelableExtra<LeadData>(Constants.LEAD_DATA) as LeadData
 
-        if (leadData.enquiries.isNullOrEmpty()){
+        if (leadData.enquiries.isNullOrEmpty()) {
             binding.includedContent.tvEnquiryHeading.visibility = View.GONE
         }
-        complaintAdapter = ComplaintAdapter(leadData.enquiries,itemClickListener = onItemClickListener,)
+        complaintAdapter =
+            ComplaintAdapter(leadData.enquiries, itemClickListener = onItemClickListener)
 
         binding.includedContent.rvComplaint.apply {
             adapter = complaintAdapter
@@ -115,7 +118,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-    private var lastClickedPos : Int = 0
+    private var lastClickedPos: Int = 0
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
             R.id.iv_invoice_image -> {
@@ -126,13 +129,16 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_close_complaint -> {
                 //Check if enquiries status false it means not closed
-                if (leadData.enquiries[position].status==false){
+                if (!leadData.enquiries[position].status) {
                     lastClickedPos = position
                     val intent = Intent(this, CloseComplaintActivity::class.java)
                     intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.CUSTOMER_DETAILS)
                     intent.putExtra(Constants.LEADS_ID, leadData.id)
                     intent.putExtra(Constants.COMPLAINT_ID, leadData.enquiries[position].id)
-                    intent.putExtra(Constants.TOTAL_ENQUIRY, leadData.pending_lead_enquiries?.toInt())
+                    intent.putExtra(
+                        Constants.TOTAL_ENQUIRY,
+                        leadData.pending_lead_enquiries?.toInt()
+                    )
                     closeComplaintLauncher.launch(intent)
 
                 }
@@ -172,7 +178,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 //setObserver()
-                leadData.pending_lead_enquiries = leadData.pending_lead_enquiries?.toInt()?.minus(1).toString()
+                leadData.pending_lead_enquiries =
+                    leadData.pending_lead_enquiries?.toInt()?.minus(1).toString()
                 leadData.enquiries[lastClickedPos].status = true
 
                 complaintAdapter.notifyItemChanged(lastClickedPos)

@@ -1,5 +1,6 @@
 package com.orpatservice.app.ui.technician
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -7,8 +8,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -16,9 +17,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
-import com.orpatservice.app.data.model.RepairPartResponse
+import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.databinding.ActivityHappyCodeBinding
+import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
 import com.orpatservice.app.ui.admin.technician.TechniciansViewModel
 import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
 import com.orpatservice.app.utils.Constants
@@ -54,8 +56,9 @@ class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher
     private fun setObserver() {
     }
 
-    private fun hitAPISendHappyCode(){
-        viewModel.hitAPISendHappyCode(intent.getIntExtra(Constants.LEADS_ID,0).toString()).observe(this,loadHappyCodeData())
+    private fun hitAPISendHappyCode() {
+        viewModel.hitAPISendHappyCode(intent.getIntExtra(Constants.LEADS_ID, 0).toString())
+            .observe(this, loadHappyCodeData())
     }
 
     private fun loadHappyCodeData(): Observer<Resource<TechnicianResponse>> {
@@ -84,7 +87,7 @@ class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher
                         if (it.success) {
                             Alerter.create(this@HappyCodeActivity)
                                 .setTitle("")
-                                .setText(""+it.message)
+                                .setText("" + it.message)
                                 .setBackgroundColorRes(R.color.orange)
                                 .setDuration(1000)
                                 .show()
@@ -105,8 +108,62 @@ class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher
         }
     }
 
+    private fun hitAPIMarkAsComplete(verificationCode: String) {
+        viewModel.hitAPIMarkAsComplete(
+            intent.getIntExtra(Constants.LEADS_ID, 0).toString(),
+            binding.etRemarks.text.toString(),
+                    verificationCode
+        ).observe(this, loadMarkAsCompleteData())
+
+    }
+
+    private fun loadMarkAsCompleteData(): Observer<Resource<SaveEnquiryResponse>> {
+        return Observer { it ->
+            when (it?.status) {
+                Status.LOADING -> {
+                    binding.cpiLoadingResend.visibility = View.VISIBLE
+
+                }
+                Status.ERROR -> {
+                    binding.cpiLoadingResend.visibility = View.GONE
+
+                    Alerter.create(this@HappyCodeActivity)
+                        .setTitle("")
+                        .setText("" + it.error?.message.toString())
+                        .setBackgroundColorRes(R.color.orange)
+                        .setDuration(1000)
+                        .show()
+
+                }
+                else -> {
+                    binding.cpiLoadingResend.visibility = View.GONE
+                    val data = it?.data
+
+                    data?.let {
+                        if (it.success) {
+                            Toast.makeText(this,"" + it.message,Toast.LENGTH_LONG).show()
+                            val intent = Intent(this, DashboardActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+
+                        }
+                    } ?: run {
+
+
+                        Alerter.create(this@HappyCodeActivity)
+                            .setTitle("")
+                            .setText("it.data?.message.toString()")
+                            .setBackgroundColorRes(R.color.orange)
+                            .setDuration(1000)
+                            .show()
+                    }
+                }
+            }
+        }
+    }
+
     override fun onClick(v: View) {
-        when(v.id) {
+        when (v.id) {
             R.id.btn_continue_otp -> {
                 validateOTP()
             }
@@ -170,7 +227,8 @@ class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher
 
         object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                binding.tvResendOtpTimer.text = String.format("%02d:%02d", 0, millisUntilFinished / 1000)
+                binding.tvResendOtpTimer.text =
+                    String.format("%02d:%02d", 0, millisUntilFinished / 1000)
             }
 
             override fun onFinish() {
@@ -213,6 +271,7 @@ class HappyCodeActivity : AppCompatActivity(), View.OnClickListener, TextWatcher
             binding.cpiLoading.visibility = View.VISIBLE
 
             //Write API call here
+            hitAPIMarkAsComplete(verificationCode)
         }
     }
 

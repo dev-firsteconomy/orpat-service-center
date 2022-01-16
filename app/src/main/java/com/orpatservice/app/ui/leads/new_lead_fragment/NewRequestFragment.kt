@@ -48,7 +48,7 @@ class NewRequestsFragment : Fragment() {
 
                 intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
                 //No need to send new lead data because closing complaint perform through adapter
-                //intent.putExtra(Constants.LEAD_TYPE, Constants.LEAD_NEW)
+                intent.putExtra(Constants.LEAD_TYPE, Constants.LEAD_NEW)
                 startActivity(intent)
             }
             R.id.btn_view_decline -> {

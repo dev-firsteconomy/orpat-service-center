@@ -14,7 +14,7 @@ class Enquiry() : Parcelable {
     var purchase_at: String? = null
     var nature_pf_complain: String? = null
     var in_warranty: String? = null
-    var status: Boolean? = null
+    var status: Boolean = false
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readValue(Int::class.java.classLoader) as? Int
