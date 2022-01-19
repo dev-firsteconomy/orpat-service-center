@@ -446,6 +446,7 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         } catch (ex: java.lang.Exception) {
             ex.printStackTrace()
         }
+        //Glide.with(this).load(resultUri).into(binding.includedContent.ivUploadImage)
         binding.includedContent.ivUploadImage.setImageURI(resultUri)
         //binding.ivSelectedImage.setImageURI(resultUri)
     }
