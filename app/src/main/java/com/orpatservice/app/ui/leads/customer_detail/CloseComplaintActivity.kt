@@ -465,6 +465,8 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
     }
 
     override fun onItemClick(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        repairPartsList.clear()
+
         repairPartsList.add(suggestPartsList[position])
         repairPartAdapter.notifyItemInserted(position)
 
