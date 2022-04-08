@@ -14,58 +14,72 @@
         android:padding="@dimen/fab_margin">
 
         <TextView
-            android:id="@+id/tv_request_id"
-            style="@style/Theme.OrpatServiceCenter.MediumText"
+            android:id="@+id/tv_task_completed_request_id"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
+            android:hint="12856465636"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_request_customer_name"
-            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:id="@+id/tv_task_completed_request_customer_name"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:textSize="14sp"
-            android:textStyle="bold"
+            android:hint="Customer Name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_request_id" />
+            app:layout_constraintTop_toBottomOf="@id/tv_task_completed_request_id" />
 
         <TextView
-            android:id="@+id/tv_request_location"
-            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:id="@+id/tv_task_completed_request_location"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
             android:padding="2dp"
             android:textSize="12sp"
+            android:hint="Location"
             android:drawableStart="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_request_customer_name" />
+            app:layout_constraintTop_toBottomOf="@id/tv_task_completed_request_customer_name" />
 
         <TextView
-            android:id="@+id/tv_request_date_time"
-            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:id="@+id/tv_task_completed_request_date_time"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:textSize="14sp"
+            android:hint="2nd Dec 16:00PM"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_request_status"
-            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:id="@+id/tv_task_completed_request_status"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:visibility="gone"
-            android:textColor="@color/orange"
             android:textSize="14sp"
+            android:hint="Technician Name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_request_date_time" />
+            app:layout_constraintTop_toBottomOf="@id/tv_task_completed_request_date_time" />
+
+        <TextView
+            android:id="@+id/tv_full_address_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Task Complete on 5th Dec 06:30PM"
+            android:gravity="center"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_task_completed_request_location" />
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_view_details"
@@ -76,13 +90,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/btn_view_details"
-            app:icon="@drawable/ic_eye"
             app:iconGravity="textStart"
             app:iconPadding="2dp"
             app:iconTint="@color/brown"
-
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_request_location" />
+            app:layout_constraintTop_toBottomOf="@id/tv_full_address_value" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

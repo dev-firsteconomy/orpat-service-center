@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.orpatservice.app"
         minSdk 21
-        targetSdk 28
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -33,8 +33,8 @@ android {
 
     productFlavors {
         Prod {
-            buildConfigField("String", "DOMAIN", baseUrl_Prod)
-            buildConfigField("String", "SSL_HOST", baseUrl_Prod)
+            buildConfigField("String", "DOMAIN", "\"http://service.orpatdistributors.com/api/\"")
+            buildConfigField("String", "SSL_HOST", "\"http://service.orpatdistributors.com/api/\"")
             buildConfigField("String", "CERT_FILE_NAME", '""')
 
             buildConfigField("String", "AUTH_SCOPE", authScope)
@@ -47,8 +47,8 @@ android {
         }
 
         Dev {
-            buildConfigField("String", "DOMAIN", baseUrl_Dev)
-            buildConfigField("String", "SSL_HOST", baseUrl_Dev)
+            buildConfigField("String", "DOMAIN", "\"http://service.orpatdistributors.com/api/\"")
+            buildConfigField("String", "SSL_HOST", "\"http://service.orpatdistributors.com/api/\"")
             buildConfigField("String", "CERT_FILE_NAME", '""')
 
             buildConfigField("String", "AUTH_SCOPE", authScope)

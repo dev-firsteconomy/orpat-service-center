@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:translationZ="2dp"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/corner_radius">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Task 01/04"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/tv_warranty"
+            app:layout_constraintHorizontal_bias="0.091"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_model_number"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:padding="2dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/model_number"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toStartOf="@id/tv_warranty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_task"/>
+
+        <TextView
+            android:id="@+id/tv_model_name_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_model_number"
+            app:layout_constraintStart_toStartOf="@id/tv_model_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_number"
+            tools:text="0000000122" />
+
+        <TextView
+            android:id="@+id/tv_warranty"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="36dp"
+            android:padding="2dp"
+            android:text="@string/warranty"
+            android:textAlignment="textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_model_number"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_warranty_date_year"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_warranty"
+            app:layout_constraintStart_toStartOf="@id/tv_warranty"
+            app:layout_constraintTop_toBottomOf="@id/tv_warranty"
+            tools:text="2nd Dec 2021" />
+
+        <TextView
+            android:id="@+id/tv_under_warranty"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="2dp"
+            android:text="@string/under_warranty"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_model_name_value"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tv_model_name_value"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
+
+        <RadioGroup
+            android:id="@+id/radio_btn_under_warranty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/tv_under_warranty"
+            app:layout_constraintStart_toStartOf="@id/tv_under_warranty"
+            app:layout_constraintTop_toBottomOf="@+id/tv_under_warranty">
+
+            <RadioButton
+                android:id="@+id/radiobtn_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Yes"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF" />
+
+            <RadioButton
+                android:id="@+id/radiobtn_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:padding="5dp"
+                android:text="No"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tv_change_part"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="2dp"
+            android:text="@string/have_you_change_any_part"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/radio_btn_under_warranty"
+            app:layout_constraintStart_toStartOf="@id/radio_btn_under_warranty"
+            app:layout_constraintTop_toBottomOf="@id/radio_btn_under_warranty" />
+
+        <RadioGroup
+            android:id="@+id/radio_btn_change_part"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/tv_change_part"
+            app:layout_constraintStart_toStartOf="@id/tv_change_part"
+            app:layout_constraintTop_toBottomOf="@+id/tv_change_part">
+
+            <RadioButton
+                android:id="@+id/radiobtn_change_part_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Yes"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF" />
+
+            <RadioButton
+                android:id="@+id/radiobtn_change_part_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:padding="5dp"
+                android:text="No"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tv_select_change_part"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingLeft="5dp"
+            android:text="@string/select_parts_covered_under_warranty"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/radio_btn_change_part"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/radio_btn_change_part"
+            app:layout_constraintTop_toBottomOf="@id/radio_btn_change_part" />
+
+
+        <CheckBox
+            android:id="@+id/cb_capacitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="Capacitor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_select_change_part" />
+
+        <CheckBox
+            android:id="@+id/cb_motor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="Motor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cb_capacitor" />
+
+        <CheckBox
+            android:id="@+id/cb_blades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="Blades"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cb_motor" />
+
+        <CheckBox
+            android:id="@+id/cb_canopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="Canopy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cb_blades" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -9,4 +9,7 @@
     <color name="orange">#FF9800</color>
     <color name="red">#F6062E</color>
     <color name="green">#009688</color>
+    <color name="light_grey">#C9C9C9</color>
+    <color name="success_green">#2C8D10</color>
+    <color name="failure_red">#EA2D2D</color>
 </resources>

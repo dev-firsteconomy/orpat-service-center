@@ -18,7 +18,8 @@ object Constants {
     const val REQUEST = "Requests"
     val requestsTabNameArray = arrayOf(
         "New Request",
-        "Assign To Technician"
+        "Assign To Technician",
+        "Task Completed"
     )
 
     const val HISTORY = "History"

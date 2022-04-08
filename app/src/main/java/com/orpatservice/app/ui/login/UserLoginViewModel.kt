@@ -1,14 +1,19 @@
 package com.orpatservice.app.ui.login
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
+import com.orpatservice.app.data.remote.ApiEndPoint
 import com.orpatservice.app.data.remote.ErrorUtils
 import com.orpatservice.app.data.repository.DataRepository
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.utils.Constants
+import org.json.JSONException
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,10 +33,12 @@ class UserLoginViewModel : ViewModel() {
         if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
         //No need for now, as per discussion Service Center have login by email and password
         //DataRepository.instance.hitServiceCenterOTPApi(mobileNumber).enqueue(callbackGetOTP)
-        } else if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
-            DataRepository.instance.hitTechnicianOTPApi(mobileNumber)
-                .enqueue(callbackGetOTP)
+        } else if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+
+           DataRepository.instance.hitTechnicianOTPApi(mobileNumber).
+           enqueue(callbackGetOTP)
         }
+
     }
 
     private val callbackGetOTP: Callback<OTPSendResponse> =
@@ -90,3 +97,40 @@ class UserLoginViewModel : ViewModel() {
         }
     }
 }
+
+
+
+/* .enqueue(object : Callback<OTPSendResponse> {
+                    override fun onSuccess(
+                        call: Callback<OTPSendResponse>,
+                        response: Response<OTPSendResponse>
+                    ) {
+
+                        response.body()?.success?.let {
+
+                            if (it) {
+                                response.body()?.data?.let {
+
+                                }
+
+                            }
+
+                            override fun onError(
+                                call: Call<OTPSendResponse>,
+                                t: Throwable,
+                                response: Response<OTPSendResponse>?
+                            ) {
+                                response?.let {
+//                        verifyOtpMessage.postValue(
+//                            DefaultDataModel(
+//                            response.isSuccessful,
+//                            response.message())
+//                        )
+                                }
+                            }
+                        }
+
+                    }
+                })
+        }
+        }*/

@@ -1,5 +1,6 @@
 package com.orpatservice.app.data.remote
 
+import com.google.gson.JsonObject
 import com.orpatservice.app.data.model.AddTechnicianResponse
 import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.SaveEnquiryResponse
@@ -8,15 +9,13 @@ import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.ui.leads.customer_detail.CancelRequestResponse
+import com.orpatservice.app.ui.leads.customer_detail.UpdateRequestResponse
+import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Body
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiEndPoint {
 
@@ -35,6 +34,10 @@ interface ApiEndPoint {
     @FormUrlEncoded
     @POST("technician/send-otp")
     fun getTechnicianOtpAPI(@Field("mobile") mobile: String): Call<OTPSendResponse>
+
+    //@POST("technician/send-otp")
+   // fun getTechnicianOtpAPI(@Body params: JsonObject): Call<OTPSendResponse>
+
 
     //To verify OTP and login
     @FormUrlEncoded
@@ -95,14 +98,48 @@ interface ApiEndPoint {
         @Path("technician_id") technician_id: Int?
     ): Call<AddTechnicianResponse>
 
+    @POST("service-center/upload-file")
+    fun hitAPIUploadFile(
+        @Header("Authorization") token : String,
+        @Body requestBody: MultipartBody
+    ): Call<UploadFileResponse>
+
+    @POST("service-center/leads/{leadsId}/task/{taskId}")
+    fun hitUpdateRequestLead(
+        @Path("leadsId") leadsId: Int?,
+        @Path("taskId") taskId: Int?,
+        @Header("Authorization") token : String,
+        @Body body : JsonObject
+
+    )
+    : Call<UpdateRequestResponse>
+
+    @POST("service-center/leads/cancel_lead/{leadsId}")
+    fun hitCancelRequestLead(
+        @Header("Authorization") token : String,
+        @Body body : JsonObject,
+        @Path("leadsId") leadsId: Int?,
+    )
+    : Call<CancelRequestResponse>
+
+
     @GET("service-center/leads/pending")
-    fun getServiceCenterPendingLeads(@Query("page") page: Int): Call<RequestLeadResponse>
+    fun getServiceCenterPendingLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<RequestLeadResponse>
+
+
+    @GET("service-center/leads/assigned")
+    fun getAssignTechnicianLeads(@Header("Authorization") token : String): Call<RequestLeadResponse>
+
 
     @GET("service-center/leads/pending")
     fun getServiceCenterSearchPendingLeads(@Query("search") keyword: String): Call<RequestLeadResponse>
 
     @GET("service-center/leads/assigned")
     fun getServiceCenterAssignedLeads(@Query("page") page: Int): Call<RequestLeadResponse>
+
+    @GET("service-center/technicians")
+    fun getServiceCenterAssignedTechnicianLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<NewRequestResponse>
+
 
     @GET("service-center/leads/assigned")
     fun getServiceCenterSearchAssignedLeads(@Query("search") keyword: String): Call<RequestLeadResponse>

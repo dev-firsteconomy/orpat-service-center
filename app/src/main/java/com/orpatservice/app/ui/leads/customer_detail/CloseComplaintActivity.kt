@@ -227,7 +227,7 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         val gson = Gson()
         val jsonUserDetails = SharedPrefs.getInstance().getString(Constants.SERVICE_CENTER, "")
         val userDetails = gson.fromJson(jsonUserDetails, LoginBaseData::class.java) as LoginBaseData
-        val technician = userDetails.technician as Technician
+   //     val technician = userDetails.technician as Technician
 
         val params = MultipartBody.Builder().setType(MultipartBody.FORM)
         params.addFormDataPart("replacement_part_id", repairPartsList[0].id.toString())

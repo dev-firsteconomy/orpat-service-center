@@ -53,7 +53,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
             binding.tvMobile.text = serviceCenter.mobile
 
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-            val technician = userDetails.technician as Technician
+           /* val technician = userDetails.technician as Technician
             (technician.firstName + " " + technician.lastName).also { binding.tvName.text = it }
             binding.tvMobile.text = technician.mobile
             binding.tvPincode.visibility = View.VISIBLE
@@ -64,7 +64,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop() // .error(R.drawable.active_dot)
                 .placeholder(R.drawable.ic_avatar)
-                .into(binding.ivProfileImage)
+                .into(binding.ivProfileImage)*/
         }
     }
 

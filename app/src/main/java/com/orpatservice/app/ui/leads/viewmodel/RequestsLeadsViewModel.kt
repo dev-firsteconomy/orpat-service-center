@@ -8,6 +8,7 @@ import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.data.remote.ErrorUtils
 import com.orpatservice.app.data.repository.DataRepository
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,24 +21,26 @@ class RequestsLeadsViewModel : ViewModel() {
 
     val pendingLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val assignedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
+    val assignedTechnicianLeadsData = MutableLiveData<Resource<NewRequestResponse>>()
     val cancelledLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val cancelLeadsData = MutableLiveData<Resource<CancelLeadResponse>>()
     val completedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
 
     fun loadPendingLeads(pageNumber: Int) {
-        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+        DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
+        /*if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
             DataRepository.instance.hitGetTechnicianPendingLeads(pageNumber).enqueue(callbackPendingLeads)
-        }
+        }*/
     }
 
     fun searchPendingLeads(keyword: String) {
-        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+        /*if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitServiceCenterSearchPendingLeads(keyword).enqueue(callbackPendingLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
             DataRepository.instance.hitTechnicianSearchPendingLeads(keyword).enqueue(callbackPendingLeads)
-        }
+        }*/
     }
 
     private val callbackPendingLeads: Callback<RequestLeadResponse> =
@@ -67,11 +70,38 @@ class RequestsLeadsViewModel : ViewModel() {
         DataRepository.instance.hitGetServiceCenterAssignedLeads(pageNumber)
                 .enqueue(callbackAssignedLeads)
     }
+    fun loadAssignedTechnicianLeads(pageNumber: Int) {
+        DataRepository.instance.hitGetServiceCenterAssignedTechnicianLeads(pageNumber)
+            .enqueue(callbackAssignedTechnicianLeads)
+    }
 
     fun searchAssignedLeads(keyword: String) {
         DataRepository.instance.hitServiceCenterSearchAssignedLeads(keyword)
             .enqueue(callbackAssignedLeads)
     }
+    private val callbackAssignedTechnicianLeads: Callback<NewRequestResponse> =
+        object : Callback<NewRequestResponse> {
+            override fun onResponse(
+                call: Call<NewRequestResponse>,
+                response: Response<NewRequestResponse>) {
+
+                if (response.isSuccessful) {
+                    assignedTechnicianLeadsData.postValue(response.body().let { Resource.success(it) } )
+                } else {
+                    assignedTechnicianLeadsData.postValue(
+                        Resource.error(
+                            ErrorUtils.getError(
+                                response.errorBody(),
+                                response.code()
+                            )
+                        ))
+                }
+            }
+
+            override fun onFailure(call: Call<NewRequestResponse>, t: Throwable) {
+                assignedTechnicianLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
+            }
+        }
 
     private val callbackAssignedLeads: Callback<RequestLeadResponse> =
         object : Callback<RequestLeadResponse> {

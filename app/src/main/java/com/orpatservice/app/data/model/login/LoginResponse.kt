@@ -10,7 +10,7 @@ data class LoginResponse(val success: Boolean, val data: LoginBaseData, val mess
 data class LoginBaseData(
     @SerializedName("token") val token: String,
     @SerializedName("service_center") val serviceCenter: ServiceCenter? = null,
-    @SerializedName("technician") val technician: Technician? = null
+    //@SerializedName("technician") val technician: Technician? = null
 )
 
 data class ServiceCenter(

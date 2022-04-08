@@ -44,7 +44,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun updateUI() {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN, ignoreCase = true)) {
-            binding.includedContent.mcvAddTechnician.visibility = View.GONE
+            binding.includedContent.mcvAddTechnician.visibility = View.VISIBLE
         }
     }
 

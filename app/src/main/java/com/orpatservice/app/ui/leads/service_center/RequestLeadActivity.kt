@@ -16,7 +16,8 @@ import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityRequestsLeadsBinding
 import com.orpatservice.app.ui.leads.new_lead_fragment.AssignToTechnicianFragment
 import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
-import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
+import com.orpatservice.app.ui.leads.new_lead_fragment.TaskCompletedFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.NewRequestViewPagerAdapter
 import com.orpatservice.app.utils.Constants
 
 class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
@@ -25,6 +26,7 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     private lateinit var viewPager: ViewPager2
     private val newRequestFragment = NewRequestsFragment()
     private val assignToTechnicianFragment = AssignToTechnicianFragment()
+    private val taskCompletedFragment = TaskCompletedFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +52,9 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         val fragmentArrayList: ArrayList<Fragment> = ArrayList()
         fragmentArrayList.add(newRequestFragment)
         fragmentArrayList.add(assignToTechnicianFragment)
+        fragmentArrayList.add(taskCompletedFragment)
 
-        val adapter = ViewPagerAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
+        val adapter = NewRequestViewPagerAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
 
         //Tab name
@@ -64,6 +67,8 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     }
 
     private fun setObserver() {
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -93,6 +98,8 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
                     newRequestFragment.loadSearchLead(query)
                 } else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
                     assignToTechnicianFragment.loadSearchLead(query)
+                }else if(supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment){
+                   // assignToTechnicianFragment.loadSearchLead(query)
                 }
                 searchView.clearFocus()
                 return false
@@ -114,6 +121,8 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
                 newRequestFragment.loadOldLeadData()
             } else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
                 assignToTechnicianFragment.loadOldLeadData()
+            }else if(supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment){
+               // taskCompletedFragment.loadOldLeadData()
             }
             return
         }

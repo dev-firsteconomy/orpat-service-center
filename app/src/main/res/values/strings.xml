@@ -113,4 +113,26 @@
     <string name="enquiries"><u>Enquiries</u></string>
     <string name="remark">Remarks</string>
     <string name="search">Search</string>
+    <string name="model_number">Model Number</string>
+    <string name="invoice_date">Invoice Date</string>
+    <string name="customer_description">Customer Description</string>
+    <string name="service_center_description">Service Center Description</string>
+    <string name="type_here">Type here</string>
+    <string name="invoice_number">Invoice Number</string>
+    <string name="upload_invoice">Upload Invoice</string>
+    <string name="upload">Upload</string>
+    <string name="warranty_end_date">Warranty End Date:</string>
+    <string name="under_warranty">Under Warranty</string>
+    <string name="cancel_lead"><u><b><i>Cancel Lead</i></b></u></string>
+    <string name="technician_name">Technician Name</string>
+    <string name="btn_complete_task">Complete Task</string>
+    <string name="warranty">Warranty</string>
+    <string name="have_you_change_any_part">Have You Change Any Part</string>
+    <string name="select_parts_covered_under_warranty">Select parts covered under warranty</string>
+    <string name="btn_update">Update</string>
+    <string name="select_date">Select Date</string>
+    <string name="service_center_discription">Please Enter Description</string>
+    <string name="invoicenumber">Please Enter Invoice Number</string>
+    <string name="service_center_cancel_reason">Please Enter Cancel Reason</string>
+
 </resources>

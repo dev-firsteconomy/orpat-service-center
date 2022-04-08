@@ -59,6 +59,37 @@
         <item name="android:textColor">@color/brown</item>
     </style>
 
+    <!-- Button Theme-->
+    <style name="Theme.OrpatServiceCenter.Buttons_OffWhite_Flat">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/corner_radius_small_round</item>
+        <item name="backgroundTint">@color/light_grey</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+
+
+
+    <style name="Theme.OrpatServiceCenter.AppBarText">
+        <item name="android:textSize">@dimen/app_bar_text_size</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+
+
+    <style name="Theme.OrpatServiceCenter.Buttons_OffGray">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/corner_radius_small_round</item>
+        <item name="backgroundTint">@color/light_grey</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+
     <!-- User Type Radio Button selection theme-->
     <style name="UserTypeRadioButtonStyle" parent="@android:style/Widget.CompoundButton">
         <item name="android:background">@drawable/selector_user_type</item>

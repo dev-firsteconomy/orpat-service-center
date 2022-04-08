@@ -13,12 +13,14 @@ class LeadData() : Parcelable {
     var email: String? = null
     var mobile: String? = null
     var pincode: String? = null
-    var address: String? = null
+    var address1: String? = null
     var status: String? = null
     var city: String? = null
     var state: String? = null
-    var pending_lead_enquiries: String? = null
+   // var pending_lead_enquiries: String? = null
+    var pending_lead_enqury_detail_count: String? = null
     var service_center_assigned_at: String? = null
+    var in_warranty_enquiries_count: String? = null
     var technician_assigned_at: String? = null
     var created_at: String? = null
     var technician: TechnicianData? = null
@@ -31,11 +33,13 @@ class LeadData() : Parcelable {
         email = parcel.readString()
         mobile = parcel.readString()
         pincode = parcel.readString()
-        address = parcel.readString()
+        address1 = parcel.readString()
         status = parcel.readString()
         city = parcel.readString()
         state = parcel.readString()
-        pending_lead_enquiries = parcel.readString()
+        pending_lead_enqury_detail_count = parcel.readString()
+        in_warranty_enquiries_count = parcel.readString()
+     //   pending_lead_enquiries = parcel.readString()
         service_center_assigned_at = parcel.readString()
         technician_assigned_at = parcel.readString()
         created_at = parcel.readString()
@@ -54,11 +58,13 @@ class LeadData() : Parcelable {
         parcel?.writeString(email)
         parcel?.writeString(mobile)
         parcel?.writeString(pincode)
-        parcel?.writeString(address)
+        parcel?.writeString(address1)
         parcel?.writeString(status)
         parcel?.writeString(city)
         parcel?.writeString(state)
-        parcel?.writeString(pending_lead_enquiries)
+        parcel?.writeString(pending_lead_enqury_detail_count)
+        parcel?.writeString(in_warranty_enquiries_count)
+   //     parcel?.writeString(pending_lead_enquiries)
         parcel?.writeString(service_center_assigned_at)
         parcel?.writeString(technician_assigned_at)
         parcel?.writeString(created_at)

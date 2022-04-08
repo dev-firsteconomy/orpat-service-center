@@ -101,12 +101,10 @@ public class ApiClient {
                 .build();
     }
 
-
     @NonNull
     private static Retrofit getNormalRetrofitInstance(boolean hasSSLPinning) {
         /* String baseUrl = SharedPrefs.getInstance().getString(SharedPrefsConstant.BASE_URL, BuildConfig.DOMAIN);*/
         String baseUrl = BuildConfig.DOMAIN;
-
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -151,8 +149,8 @@ public class ApiClient {
                 Request.Builder requestBuilder = original.newBuilder()
                         .header("Authorization", SessionRepository.Companion.getInstance().getHeaderToken())
                         .header("Accept", "application/json")
-                        // .header("Device-Id", SessionRepository.Companion.getInstance().getDeviceId())
-                        // .header("Device-Type", "ANDROID")
+                         .header("Device-Id", SessionRepository.Companion.getInstance().getDeviceId())
+                         .header("Device-Type", "ANDROID")
                         .header("Content-Type", "application/json");
 
                 Request request = requestBuilder.build();
@@ -165,8 +163,8 @@ public class ApiClient {
                 Request.Builder requestBuilder = original.newBuilder()
                         .header("Authorization", SessionRepository.Companion.getInstance().getHeaderToken())
                         .header("Accept", "application/json")
-                        // .header("Device-Id", SessionRepository.Companion.getInstance().getDeviceId())
-                        // .header("Device-Type", "ANDROID")
+                         .header("Device-Id", SessionRepository.Companion.getInstance().getDeviceId())
+                         .header("Device-Type", "ANDROID")
                         .header("Content-Type", "application/json");
 
                 Request request = requestBuilder.build();
@@ -198,8 +196,8 @@ public class ApiClient {
                         .header("Authorization", SessionRepository.Companion.getInstance().getHeaderToken())
                         .header("Accept", "application/json")
                         /*.header("Cookie", "PHPSESSID=lgt43ahhkppsmea6r5jc6rt67l"+ SharedPrefs.getInstance().getString(Constant.COOKIES_ID,""))*/
-                        // .header("Device-Id", SessionRepository.Companion.getInstance().getDeviceId())
-                        // .header("Device-Type", "ANDROID")
+                         .header("Device-Id", SessionRepository.Companion.getInstance().getDeviceId())
+                         .header("Device-Type", "ANDROID")
                         .header("Content-Type", "application/json");
 
                 Request request = requestBuilder.build();
@@ -212,8 +210,8 @@ public class ApiClient {
                 Request.Builder requestBuilder = original.newBuilder()
                         .header("Authorization", SessionRepository.Companion.getInstance().getHeaderToken())
                         .header("Accept", "application/json")
-                        // .header("Device-Id", SessionRepository.Companion.getInstance().getDeviceId())
-                        // .header("Device-Type", "ANDROID")
+                         .header("Device-Id", SessionRepository.Companion.getInstance().getDeviceId())
+                         .header("Device-Type", "ANDROID")
                         .header("Content-Type", "application/json");
 
                 Request request = requestBuilder.build();
@@ -236,7 +234,8 @@ public class ApiClient {
 
                         @Override
                         public X509Certificate[] getAcceptedIssuers() {
-                            return new X509Certificate[]{};
+                            X509Certificate[] cArrr = new X509Certificate[0];
+                            return cArrr;
                         }
                     }
             };
@@ -244,23 +243,23 @@ public class ApiClient {
             // Install the all-trusting trust manager
             final SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-
             // Create an ssl socket factory with our all-trusting manager
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-            okHttpClientBuilder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-            okHttpClientBuilder.hostnameVerifier(new HostnameVerifier() {
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+            builder.hostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
                     return true;
                 }
             });
 
+            OkHttpClient okHttpClient = builder.build();
+            return okHttpClient;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        return okHttpClientBuilder.build();
     }
 
 }

@@ -59,6 +59,8 @@ class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     }
 
     private fun setObserver() {
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -79,6 +81,7 @@ class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
             0 -> {
                 tab.select()
             }
+
             else -> {
                 tab.select()
             }

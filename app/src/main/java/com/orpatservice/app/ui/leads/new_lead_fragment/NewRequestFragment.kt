@@ -152,7 +152,6 @@ class NewRequestsFragment : Fragment() {
         }
     }
 
-
     private fun doCancelLead(resources: Resource<CancelLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {

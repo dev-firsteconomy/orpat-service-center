@@ -1,22 +1,31 @@
 package com.orpatservice.app.utils
 
+import android.app.Dialog
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import android.util.Patterns
-import android.widget.EditText
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.*
+import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.orpatservice.app.R
+import com.orpatservice.app.databinding.ItemComplaintBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
-import java.util.regex.Pattern.matches
 import kotlin.system.exitProcess
+
 
 class Utils {
     companion object {
         val instance = Utils()
     }
+
     fun validateFirstName(editText: EditText?): Boolean {
         return if (editText?.text?.isEmpty()!!) {
             editText.error = editText.context.getString(R.string.first_name_required)
@@ -24,7 +33,6 @@ class Utils {
             false
 
         } else true
-
     }
 
     fun validateLastName(editText: EditText?): Boolean {
@@ -36,6 +44,7 @@ class Utils {
         } else true
 
     }
+
     fun validatePhoneNumber(editText: EditText?): Boolean {
         return when {
             editText?.text?.isEmpty()!! -> {
@@ -109,6 +118,59 @@ class Utils {
         }
     }
 
+    fun validateDate(txt: TextView?): Boolean {
+        return if (txt?.text?.isEmpty()!!) {
+            txt.error = txt.context.getString(R.string.select_date)
+            txt.requestFocus()
+            false
+
+        } else true
+    }
+
+    fun validateWarranty(binding: ItemComplaintBinding?, view: View): Boolean {
+
+        return if(binding?.rbGroup!!.getCheckedRadioButtonId() == -1){
+            Toast.makeText(view.context.getApplicationContext(), "Please select Warranty", Toast.LENGTH_SHORT).show();
+            false
+        } else true
+    }
+
+   /* fun validateImage(img: ImageView?, view: View): Boolean {
+
+       return if(img.is){
+           Toast.makeText(view.context.getApplicationContext(), "Please upload invoice", Toast.LENGTH_SHORT).show();
+           false
+       }else true
+    }*/
+   fun validateReason(editText: EditText?): Boolean {
+       return if (editText?.text?.isEmpty()!!) {
+           editText.error = editText.context.getString(R.string.service_center_cancel_reason)
+           editText.requestFocus()
+           false
+
+       } else true
+   }
+
+
+    fun validateDescription(editText: EditText?): Boolean {
+        return if (editText?.text?.isEmpty()!!) {
+            editText.error = editText.context.getString(R.string.service_center_discription)
+            editText.requestFocus()
+            false
+
+        } else true
+    }
+
+    fun validateInvoice(editText: EditText?): Boolean {
+        return if (editText?.text?.isEmpty()!!) {
+            editText.error = editText.context.getString(R.string.invoicenumber)
+            editText.requestFocus()
+            false
+
+        } else true
+    }
+
+
     fun reSizeImg(bm: Bitmap) : Uri {
         var imageFile : File?=null
         var bm: Bitmap? = bm
@@ -151,5 +213,39 @@ class Utils {
             ex.printStackTrace()
         }
         return Uri.fromFile(imageFile)
+    }
+
+    public fun popupUtil(context: Context, title : String, desc :String?, isSuccessPopup: Boolean) {
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view: View = inflater.inflate(R.layout.popup_layout, null)
+        val popupIcon = view.findViewById<ImageView>(R.id.popup_icon)
+        var popupTitle = view.findViewById<TextView>(R.id.popup_tv_heading)
+        val popupDesc = view.findViewById<TextView>(R.id.popup_tv_desc)
+        val alertDialogBuilder = Dialog(context)
+        alertDialogBuilder.setContentView(view)
+        alertDialogBuilder.show()
+
+        popupTitle.text = title
+
+        desc?.let {
+            popupDesc.text = it
+        }
+
+        if(isSuccessPopup){
+
+            popupTitle.setTextColor(ContextCompat.getColor(context, R.color.success_green))
+           /* Glide.with(context)
+                .load(R.drawable.ic_verified_icon)
+                .into(popupIcon)*/
+
+        }else{
+            popupTitle.setTextColor(ContextCompat.getColor(context, R.color.failure_red))
+           /* Glide.with(context)
+                .load(R.drawable.ic_error_icon)
+                .into(popupIcon)*/
+
+
+        }
+
     }
 }

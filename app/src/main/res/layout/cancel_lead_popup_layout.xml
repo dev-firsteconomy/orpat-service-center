@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tv_reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Reason"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+        android:id="@+id/et_cancel_lead_reason"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/bg_edit_text_border"
+        app:layout_constraintTop_toBottomOf="@+id/tv_reason"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_cancel_lead_reason">
+
+            <TextView
+                android:id="@+id/tv_cancel_lead_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/bg_edit_text_border"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_cancel_lead_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ok"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:background="@drawable/bg_edit_text_border"
+                android:textSize="12sp"
+                android:layout_margin="10dp"/>
+
+        </LinearLayout>
+
+        <!--<androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/popup_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/popup_tv_heading"
+            style="@style/Theme.OrpatServiceCenter.AppBarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="product"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/popup_icon"/>
+        <TextView
+            android:id="@+id/popup_tv_desc"
+            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/popup_tv_heading"
+            app:layout_constraintStart_toStartOf="parent"/>-->
+    </LinearLayout>
+</LinearLayout>
