@@ -1,0 +1,120 @@
+<resources>
+    <!-- App-->
+    <string name="app_name">Orpat Service Center</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <!-- Login Module-->
+    <string name="select_your_role">Select your Role</string>
+    <string name="admin">Admin</string>
+    <string name="technician">Technician</string>
+    <string name="btn_continue">Continue</string>
+    <string name="step_1">STEP 1</string>
+    <string name="step_2">STEP 2</string>
+    <string name="step_3">STEP 3</string>
+    <string name="welcome_to_orpat_service_center">Welcome to Orpat\nService Center</string>
+    <string name="enter_your_mobile_no_to_continue">Enter your mobile no. to continue</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="please_verify_the_code_sent_to_your_mobile_number">Please verify the code sent to your\nmobile number +91</string>
+    <string name="verification">Verification</string>
+    <string name="verify">Verify</string>
+    <string name="warning_select_admin_technician">Please select user Admin or Technician!</string>
+    <string name="warning_mobile_number">Mobile number should be 10 digit!</string>
+    <string name="warning_enter_OTP">Please enter 4-digit OTP, received by sms.</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="otp_resend">OTP Resend!</string>
+    <string name="message_resend_otp">You will receive your OTP Code on your registered contact details shortly.</string>
+    <!-- -->
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="request">Request</string>
+    <string name="add_technician">Add Technician</string>
+    <string name="history">History</string>
+    <string name="profile">Profile</string>
+    <string name="payment">Payment</string>
+    <string name="more">More</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="pin_code">Pin code</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="image_title">Upload profile image here</string>
+    <string name="part_image_title">Upload part image here</string>
+    <string name="btn_submit">Submit</string>
+    <string name="first_name_required">First name is required</string>
+    <string name="last_name_required">Last name is required</string>
+    <string name="phone_number_required">Phone Number is required</string>
+    <string name="pin_code_required">Pin Code is required</string>
+    <string name="number_invalid">"Invalid Phone Number "</string>
+    <string name="pin_code_invalid">"Invalid Pin code"</string>
+    <string name="please_select">Please Select Image</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="requests">Requests</string>
+    <string name="btn_reject">Reject</string>
+    <string name="btn_view_details">View Details</string>
+    <string name="service_center">Service Center</string>
+    <string name="toolbar_title_history">History</string>
+    <string name="edit"><u>Edit</u></string>
+    <string name="activate">Activate</string>
+    <string name="deactivate">Deactivate</string>
+    <string name="customer_details">Customer Details</string>
+    <string name="btn_assign_to_technician">Assign to Technician</string>
+    <string name="btn_close_complaint">Close Complaint</string>
+    <string name="request_id">Request Id</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="request_date">Request Date</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="full_address">Full Address</string>
+    <string name="model_name">Model Name</string>
+    <string name="date_of_purchase">Date of Purchase</string>
+    <string name="invoice_image">Invoice Image</string>
+    <string name="qr_code_image">QR Code Image</string>
+    <string name="warranty_status">Warranty Status</string>
+    <string name="no_leads">No leads</string>
+    <string name="menu_search">Search</string>
+    <string name="user_profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="setting">Setting</string>
+    <string name="notifications">Notifications</string>
+    <string name="supports">Supports</string>
+    <string name="enter_your_email_and_password_to_continue">Enter your Email and Password to continue</string>
+    <string name="email">Email Id</string>
+    <string name="password">Password</string>
+    <string name="error_email">Enter valid email address</string>
+    <string name="error_password">Enter valid password</string>
+    <string name="error_reason_rejection">Enter valid rejection reason</string>
+    <string name="select_technician">Please Select Technician</string>
+    <string name="search_leads">Search leads</string>
+    <string name="select_parts">Select Parts</string>
+    <string name="description">Description</string>
+    <string name="submit">Submit</string>
+    <string name="reject_lead">Reject Lead!</string>
+    <string name="reject">Reject Lead</string>
+    <string name="reason_for_rejection">Reason for rejection</string>
+    <string name="please_enter_reason_for_rejection">Please enter reason for rejection.</string>
+    <string name="enquiries"><u>Enquiries</u></string>
+    <string name="remark">Remarks</string>
+    <string name="search">Search</string>
+
+    <string name="raise_a_complaint_string">Raise a Complaint</string>
+    <string name="complaint_history_string">Complaint History</string>
+
+</resources>
