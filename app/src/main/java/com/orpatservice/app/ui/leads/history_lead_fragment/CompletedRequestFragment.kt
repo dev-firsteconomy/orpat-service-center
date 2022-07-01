@@ -36,10 +36,10 @@ class CompletedRequestFragment : Fragment() {
             R.id.btn_view_details -> {
                 when (view.id) {
                     R.id.btn_view_details -> {
-                        val intent = Intent(activity, CustomerDetailsActivity::class.java)
+                        /*val intent = Intent(activity, CustomerDetailsActivity::class.java)
 
                         intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-                        startActivity(intent)
+                        startActivity(intent)*/
                     }
                 }
             }
@@ -66,8 +66,8 @@ class CompletedRequestFragment : Fragment() {
         binding = FragmentCompletedRequestBinding.inflate(inflater, container, false)
 
         layoutManager = LinearLayoutManager(activity)
-        binding.rvCompletedRequest.layoutManager = layoutManager
-        binding.rvCompletedRequest.apply {
+        binding.rvAssignTechnician.layoutManager = layoutManager
+        binding.rvAssignTechnician.apply {
             adapter = requestsLeadsAdapter
         }
 
@@ -77,7 +77,7 @@ class CompletedRequestFragment : Fragment() {
         loadUI()
         requestLeadsViewModel.loadCompletedLeads(pageNumber)
 
-        binding.rvCompletedRequest.addOnScrollListener(scrollListener)
+        binding.rvAssignTechnician.addOnScrollListener(scrollListener)
 
         return binding.root
     }

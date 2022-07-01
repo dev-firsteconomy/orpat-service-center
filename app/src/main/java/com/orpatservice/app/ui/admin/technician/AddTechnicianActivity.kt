@@ -25,6 +25,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.journeyapps.barcodescanner.BarcodeCallback
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityAddTechnicianBinding
 import com.orpatservice.app.data.Resource
@@ -47,7 +48,7 @@ const val PARCELABLE_TECHNICIAN = "PARCELABLE_TECHNICIAN"
 const val MY_PERMISSIONS_WRITE_READ_REQUEST_CODE = 1000
 
 class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
-    CameraBottomSheetDialogFragment.BottomSheetItemClick {
+    CameraBottomSheetDialogFragment.BottomSheetItemClick{
     private lateinit var binding: ActivityAddTechnicianBinding
     private lateinit var viewModel: TechniciansViewModel
 
@@ -224,7 +225,6 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
             CANCEL -> {
             }
         }
-
     }
 
     private var mCurrentCaptureImage: String? = null

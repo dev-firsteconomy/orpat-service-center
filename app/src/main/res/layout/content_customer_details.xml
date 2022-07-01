@@ -86,6 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="2nd Dec 2021"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@id/tv_request_date"
                 app:layout_constraintStart_toStartOf="@id/tv_request_date"
                 app:layout_constraintTop_toBottomOf="@id/tv_customer_name"
@@ -143,6 +144,31 @@
                 app:layout_constraintStart_toStartOf="@id/tv_request_id"
                 app:layout_constraintTop_toBottomOf="@id/tv_request_id"
                 tools:text="+91929292952" />
+
+
+            <TextView
+                android:id="@+id/tv_timer"
+                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:drawablePadding="6dp"
+                android:includeFontPadding="false"
+                android:text="@string/timer"
+                app:layout_constraintEnd_toEndOf="@id/tv_pin_code"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/tv_pin_code"
+                app:layout_constraintTop_toBottomOf="@id/tv_pin_code" />
+
+            <TextView
+                android:id="@+id/tv_timer_value"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/tv_timer"
+                app:layout_constraintStart_toStartOf="@id/tv_timer"
+                app:layout_constraintTop_toBottomOf="@id/tv_timer"
+                tools:text="120123" />
 
 
             <TextView
@@ -254,10 +280,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:weightSum="2"
+        android:weightSum="3"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sv_item">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_task"
+            style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/Medium_button_height"
+            android:text="@string/btn_add_task"
+            app:cornerRadius="0dp"
+            android:layout_weight="1"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconGravity="textEnd"
+            android:visibility="visible"
+            app:iconTint="@color/dim_white" />
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_assign_technician"
@@ -285,7 +325,6 @@
             android:hint="@string/btn_assign_to_technician"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
 
         <TextView
             android:id="@+id/tv_cancel_lead"

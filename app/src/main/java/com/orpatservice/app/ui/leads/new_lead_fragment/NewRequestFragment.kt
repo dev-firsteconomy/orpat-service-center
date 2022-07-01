@@ -2,27 +2,32 @@ package com.orpatservice.app.ui.leads.new_lead_fragment
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.View
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
-import com.orpatservice.app.databinding.FragmentNewRequestBinding
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.databinding.FragmentNewRequestBinding
+import com.orpatservice.app.databinding.ItemNewRequestAdminBinding
 import com.orpatservice.app.databinding.LayoutDialogCancelLeadBinding
-import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.customer_detail.AdminCustomerDetailsActivity
+import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
@@ -30,7 +35,7 @@ import com.tapadoo.alerter.Alerter
 
 class NewRequestsFragment : Fragment() {
 
-    private lateinit var binding: FragmentNewRequestBinding
+    private lateinit var binding: ItemNewRequestAdminBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
     private var tempDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var layoutManager: LinearLayoutManager
@@ -57,6 +62,9 @@ class NewRequestsFragment : Fragment() {
 
                 confirmationDialog(activity as Context, id)
             }
+            R.id.tv_request_location -> {
+                //openDirection(position)
+            }
         }
     }
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
@@ -74,7 +82,22 @@ class NewRequestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentNewRequestBinding.inflate(inflater, container, false)
+        binding = ItemNewRequestAdminBinding.inflate(inflater, container, false)
+
+        requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+
+
+
+        setObserver()
+        loadUI()
+        utilBindData()
+
+        binding.rvNewRequest.addOnScrollListener(scrollListener)
+
+        return binding.root
+    }
+
+    private fun utilBindData() {
 
         layoutManager = LinearLayoutManager(activity)
         binding.rvNewRequest.layoutManager = layoutManager
@@ -82,15 +105,35 @@ class NewRequestsFragment : Fragment() {
             adapter = requestsLeadsAdapter
         }
 
-        requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(text: Editable?) {
+                /*if(!text.isNullOrEmpty()){
+                    filter(text.toString())
+                }else{
+                    leadDataArrayList.clear()
+                    tempDataArrayList.clear()
+                    filter("")
 
-        setObserver()
-        loadUI()
-        requestLeadsViewModel.loadPendingLeads(pageNumber)
+                }*/
+            }
 
-        binding.rvNewRequest.addOnScrollListener(scrollListener)
+            override fun beforeTextChanged(char: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-        return binding.root
+            }
+
+            override fun onTextChanged(charSeq: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(!charSeq.isNullOrEmpty()){
+                    leadDataArrayList.clear()
+                    tempDataArrayList.clear()
+                    filter(charSeq.toString())
+                }else{
+                    leadDataArrayList.clear()
+                    tempDataArrayList.clear()
+                    filter("")
+
+                }
+            }
+        })
     }
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -108,9 +151,38 @@ class NewRequestsFragment : Fragment() {
     }
 
     private fun setObserver() {
+        requestLeadsViewModel.loadPendingLeads(pageNumber)
         requestLeadsViewModel.pendingLeadsData.observe(viewLifecycleOwner, this::getPendingLeads)
         requestLeadsViewModel.cancelLeadsData.observe(viewLifecycleOwner, this::doCancelLead)
     }
+
+    fun filter(text: String) {
+        loadSearchLead(text)
+    }
+
+    private fun openDirection(position: Int) {
+        val dir: String
+        if(!leadDataArrayList[position].latitude.isNullOrEmpty() && !leadDataArrayList[position].longitude.isNullOrEmpty()) {
+            dir = leadDataArrayList[position].latitude + "" + "," + "" + leadDataArrayList[position].longitude
+        }else{
+            dir = "" + "" + "," + "" +""
+        }
+        val intentUri = Uri.Builder().apply {
+            scheme("https")
+            authority("www.google.com")
+            appendPath("maps")
+            appendPath("dir")
+            appendPath("")
+            appendQueryParameter("api", "1")
+            appendQueryParameter("destination", dir)
+            // appendQueryParameter("destination", "${leadDataArrayList[position].latitude},-${(leadDataArrayList[position].longitude)}")
+        }.build()
+        startActivity(Intent(Intent.ACTION_VIEW).apply {
+            data = intentUri
+        })
+    }
+
+
 
     private fun getPendingLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
@@ -121,11 +193,16 @@ class NewRequestsFragment : Fragment() {
                 binding.cpiLoading.visibility = View.GONE
                 isLoading = false
                 activity?.let {
-                    Alerter.create(it)
+                   /* Alerter.create(it)
                         .setText(resources.error?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1500)
-                        .show()
+                        .show()*/
+
+                    Utils.instance.popupPinUtil(requireActivity(),
+                        resources.error?.message.toString(),
+                        "",
+                        false)
                 }
             }
             else -> {
@@ -136,7 +213,11 @@ class NewRequestsFragment : Fragment() {
                 response?.let {
                     if (it.success) {
                         totalPage = response.data.pagination.last_page
+                        leadDataArrayList.clear()
+                        tempDataArrayList.clear()
+
                         leadDataArrayList.addAll(response.data.data)
+                        tempDataArrayList.addAll(response.data.data)
                         requestsLeadsAdapter.notifyDataSetChanged()
 
                         isLoading = false
@@ -160,11 +241,16 @@ class NewRequestsFragment : Fragment() {
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
                 activity?.let {
-                    Alerter.create(it)
+                   /* Alerter.create(it)
                         .setText(resources.error?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1500)
-                        .show()
+                        .show()*/
+
+                    Utils.instance.popupPinUtil(requireActivity(),
+                        resources.error?.message.toString(),
+                        "",
+                        false)
                 }
             }
             else -> {
@@ -181,11 +267,16 @@ class NewRequestsFragment : Fragment() {
 
                         }
                         activity?.let {
-                            Alerter.create(it)
+                           /* Alerter.create(it)
                                 .setText(resources.data.message)
                                 .setBackgroundColorRes(R.color.orange)
                                 .setDuration(1500)
-                                .show()
+                                .show()*/
+
+                            Utils.instance.popupPinUtil(requireActivity(),
+                                resources.data.message,
+                                "",
+                                true)
                         }
                     }
                 }
@@ -194,6 +285,8 @@ class NewRequestsFragment : Fragment() {
     }
 
     fun loadSearchLead(query: String) {
+        leadDataArrayList.clear()
+        tempDataArrayList.clear()
         requestLeadsViewModel.searchPendingLeads(query)
         tempDataArrayList.clear()
         tempDataArrayList.addAll(leadDataArrayList)
@@ -232,6 +325,8 @@ class NewRequestsFragment : Fragment() {
             alertDialog.dismiss()
         }
     }
+
+
 
     private fun loadUI () {
         binding.tvNoLeads.visibility = View.GONE

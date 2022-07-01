@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.journeyapps.barcodescanner.BarcodeCallback
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.OpenCameraBottomSheetBinding
 
@@ -38,6 +39,7 @@ class CameraBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClic
     }
 
     interface BottomSheetItemClick {
+
         fun bottomSheetItemClick(clickAction: String?)
     }
 

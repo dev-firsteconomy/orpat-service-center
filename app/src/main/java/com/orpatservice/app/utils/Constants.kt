@@ -4,6 +4,16 @@ object Constants {
 
     const val MODULE_TYPE = "MODULE_TYPE"
     const val LEAD_DATA= "LEAD_DATA"
+    const val LEAD_ID= "LEAD_ID"
+    const val TASK_DATA= "TASK_DATA"
+    const val UPDATE_DATA= "UPDATE_DATA"
+    const val IMAGE_DATA= "IMAGE_DATA"
+    const val POSITION= "POSITION"
+    const val LEAD_DETAILS= "LEAD_DETAILS"
+
+    const val LATITUDE= "LEAD_DATA"
+    const val LONGITUDE= "LEAD_DATA"
+
 
     //Constants for login session
     const val TOKEN = "TOKEN"
@@ -16,11 +26,33 @@ object Constants {
     const val TECHNICIAN = "TECHNICIAN"
 
     const val REQUEST = "Requests"
-    val requestsTabNameArray = arrayOf(
+    /*val requestsTabNameArray = arrayOf(
         "New Request",
         "Assign To Technician",
         "Task Completed"
+    )*/
+
+
+    val requestsTabNameArray = arrayOf(
+        "New",
+        "Assigned",
+        "Completed"
     )
+
+   /* val requestsTabNameArray = arrayOf(
+        "New",
+        "Assigned",
+        "Parts",
+        "Completed"
+    )*/
+
+
+    val requestsTechnicianTabNameArray = arrayOf(
+        "",
+    )
+
+    const val PARENT = 0
+    const val CHILD = 1
 
     const val HISTORY = "History"
     val requestsHistoryTabNameArray = arrayOf(
@@ -47,6 +79,7 @@ object Constants {
     const val LEADS_ID = "LEADS_ID"
     const val IMAGE_URL = "IMAGE_URL"
     const val SELECTED_PARTS = "SELECTED_PARTS"
+    const val TECHNICIAN_ID = "SELECTED_PARTS"
     const val COMPLAINT_ID = "COMPLAINT_ID"
     const val TOTAL_ENQUIRY = "TOTAL_ENQUIRY"
 

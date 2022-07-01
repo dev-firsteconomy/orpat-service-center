@@ -95,7 +95,7 @@ class TechnicianAdapter(
 
         override fun onClick(view: View?) {
             when (view?.id) {
-                R.id.rb_select_technician -> {
+                R.id.btn_assign_alltechnician -> {
                     val copyOfLastCheckedPosition: Int = lastCheckedPosition
                     lastCheckedPosition = adapterPosition
                     notifyItemChanged(copyOfLastCheckedPosition)

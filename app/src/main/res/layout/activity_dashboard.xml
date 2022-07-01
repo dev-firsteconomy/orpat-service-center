@@ -32,7 +32,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="@string/admin"
+
                     style="@style/Theme.OrpatServiceCenter.MediumText.toolbarTittle"
                     android:textColor="@color/brown"
                     app:layout_constraintBottom_toBottomOf="parent"

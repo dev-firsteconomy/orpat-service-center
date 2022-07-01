@@ -1,11 +1,13 @@
 package com.orpatservice.app.utils
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
+import android.os.Handler
 import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -15,6 +17,8 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ItemComplaintBinding
+import com.orpatservice.app.ui.leads.technician.TechnicianCustomerDetailsActivity
+import com.tapadoo.alerter.Alerter
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -247,5 +251,53 @@ class Utils {
 
         }
 
+    }
+
+    fun alertDialog(context: Activity, s: String) {
+        Alerter.create(context)
+            .setTitle("")
+            .setText(s)
+            .setBackgroundColorRes(R.color.orange)
+            .setDuration(1000)
+            .show()
+
+    }
+
+    public fun popupPinUtil(context: Context, title : String, desc :String?, isSuccessPopup: Boolean) {
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view: View = inflater.inflate(R.layout.popup_pin_layout, null)
+        val popupIcon = view.findViewById<ImageView>(R.id.popup_icon)
+        var popupTitle = view.findViewById<TextView>(R.id.popup_tv_heading)
+        val popupDesc = view.findViewById<TextView>(R.id.popup_tv_desc)
+        val popupcloseImg = view.findViewById<ImageView>(R.id.popup_img_close)
+        val alertDialogBuilder = Dialog(context)
+        alertDialogBuilder.setContentView(view)
+        alertDialogBuilder.show()
+        alertDialogBuilder.setCanceledOnTouchOutside(false);
+        popupcloseImg.setOnClickListener {
+            alertDialogBuilder.dismiss()
+        }
+
+        popupTitle.text = title
+
+        desc?.let {
+            popupDesc.text = it
+        }
+
+        if(isSuccessPopup){
+
+            popupTitle.setTextColor(ContextCompat.getColor(context, R.color.success_green))
+            Glide.with(context)
+                .load(R.drawable.ic_verified_icon)
+                .into(popupIcon)
+
+        }else{
+            popupTitle.setTextColor(ContextCompat.getColor(context, R.color.failure_red))
+            Glide.with(context)
+                .load(R.drawable.ic_error_icon)
+                .into(popupIcon)
+
+        }
+        Handler().postDelayed(Runnable { alertDialogBuilder.dismiss() }, 5000)
     }
 }

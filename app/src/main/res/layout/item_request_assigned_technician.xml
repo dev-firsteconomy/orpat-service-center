@@ -75,8 +75,8 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_view_details"
-            style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+            android:id="@+id/btn_completed_task"
+            style="@style/Theme.OrpatServiceCenter.Buttons"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -103,9 +103,9 @@
             app:iconGravity="textStart"
             app:iconPadding="2dp"
             app:iconTint="@color/brown"
-            app:layout_constraintBaseline_toBaselineOf="@id/btn_view_details"
+            app:layout_constraintBaseline_toBaselineOf="@id/btn_completed_task"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_view_details" />
+            app:layout_constraintStart_toEndOf="@id/btn_completed_task" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

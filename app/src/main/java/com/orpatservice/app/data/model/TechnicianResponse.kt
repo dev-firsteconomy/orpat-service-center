@@ -6,4 +6,6 @@ data class TechnicianResponse(
     val message: String
 )
 
-data class TechnicianBaseData(val data: ArrayList<TechnicianData>, val pagination: PaginationData)
+data class TechnicianBaseData(
+    val data: ArrayList<TechnicianData>,
+    val pagination: PaginationData)

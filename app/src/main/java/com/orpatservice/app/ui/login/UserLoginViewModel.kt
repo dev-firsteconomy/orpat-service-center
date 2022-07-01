@@ -24,6 +24,7 @@ import retrofit2.Response
 class UserLoginViewModel : ViewModel() {
     val OTPData = MutableLiveData<Resource<OTPSendResponse>>()
     val loginData = MutableLiveData<Resource<LoginResponse>>()
+    val otpVerifyData = MutableLiveData<Resource<OTPSendResponse>>()
 
     fun hitServiceCenterLoginApi(email: String, password: String) {
         DataRepository.instance.hitServiceCenterLoginApi(email, password).enqueue(callbackLogin)
@@ -75,6 +76,7 @@ class UserLoginViewModel : ViewModel() {
         }
     }
 
+
     private val callbackLogin: Callback<LoginResponse> = object : Callback<LoginResponse> {
         override fun onResponse(
             call: Call<LoginResponse>,
@@ -94,6 +96,28 @@ class UserLoginViewModel : ViewModel() {
         }
         override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
             loginData.value = Resource.error(ErrorUtils.getError(t))
+        }
+    }
+
+    private val callbackOtpVarification: Callback<OTPSendResponse> = object : Callback<OTPSendResponse> {
+        override fun onResponse(
+            call: Call<OTPSendResponse>,
+            response: Response<OTPSendResponse>
+        ) {
+            if (response.isSuccessful) {
+                otpVerifyData.value = response.body()?.let { Resource.success(it) }
+            } else {
+                otpVerifyData.value =
+                    Resource.error(
+                        ErrorUtils.getError(
+                            response.errorBody(),
+                            response.code()
+                        )
+                    )
+            }
+        }
+        override fun onFailure(call: Call<OTPSendResponse>, t: Throwable) {
+            otpVerifyData.value = Resource.error(ErrorUtils.getError(t))
         }
     }
 }

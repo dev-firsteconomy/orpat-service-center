@@ -9,6 +9,8 @@ import com.orpatservice.app.data.remote.ErrorUtils
 import com.orpatservice.app.data.repository.DataRepository
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
+import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
 import com.orpatservice.app.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,11 +22,13 @@ import retrofit2.Response
 class RequestsLeadsViewModel : ViewModel() {
 
     val pendingLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
-    val assignedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
+    val technicianPendingLeadsData = MutableLiveData<Resource<TechnicianRequestLeadResponse>>()
+    val assignedLeadsData = MutableLiveData<Resource<NewRequestResponse>>()
     val assignedTechnicianLeadsData = MutableLiveData<Resource<NewRequestResponse>>()
     val cancelledLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val cancelLeadsData = MutableLiveData<Resource<CancelLeadResponse>>()
     val completedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
+    val taskcompletedLeadsData = MutableLiveData<Resource<TakCompletedResponse>>()
 
     fun loadPendingLeads(pageNumber: Int) {
         DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
@@ -35,12 +39,24 @@ class RequestsLeadsViewModel : ViewModel() {
         }*/
     }
 
+    /*fun searchTechnicianPendingLeads(pageNumber: Int) {
+        DataRepository.instance.hitGetTechnicianPendingLeads(pageNumber).enqueue(callbackTechnicianPendingLeads)
+
+    }*/
+
+
+    fun loadTechnicianPendingLeads(pageNumber: Int) {
+        DataRepository.instance.hitGetTechnicianPendingLeads(pageNumber).enqueue(callbackTechnicianPendingLeads)
+
+    }
+
+
     fun searchPendingLeads(keyword: String) {
-        /*if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitServiceCenterSearchPendingLeads(keyword).enqueue(callbackPendingLeads)
-        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
-            DataRepository.instance.hitTechnicianSearchPendingLeads(keyword).enqueue(callbackPendingLeads)
-        }*/
+       /* } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            DataRepository.instance.hitTechnicianSearchPendingLeads(keyword).enqueue(callbackPendingLeads)*/
+        }
     }
 
     private val callbackPendingLeads: Callback<RequestLeadResponse> =
@@ -66,19 +82,49 @@ class RequestsLeadsViewModel : ViewModel() {
             }
         }
 
-    fun loadAssignedLeads(pageNumber: Int) {
+    private val callbackTechnicianPendingLeads: Callback<TechnicianRequestLeadResponse> =
+        object : Callback<TechnicianRequestLeadResponse> {
+            override fun onResponse(
+                call: Call<TechnicianRequestLeadResponse>,
+                response: Response<TechnicianRequestLeadResponse>) {
+
+                if (response.isSuccessful) {
+                    technicianPendingLeadsData.postValue(response.body().let { Resource.success(it) }) // = response.body().let { Resource.success(it) }
+                } else {
+                    technicianPendingLeadsData.postValue(Resource.error(
+                        ErrorUtils.getError(
+                            response.errorBody(),
+                            response.code()
+                        )
+                    ))
+                }
+            }
+
+            override fun onFailure(call: Call<TechnicianRequestLeadResponse>, t: Throwable) {
+                technicianPendingLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
+            }
+        }
+
+    /*fun loadAssignedLeads(pageNumber: Int) {
         DataRepository.instance.hitGetServiceCenterAssignedLeads(pageNumber)
                 .enqueue(callbackAssignedLeads)
-    }
+    }*/
+
     fun loadAssignedTechnicianLeads(pageNumber: Int) {
         DataRepository.instance.hitGetServiceCenterAssignedTechnicianLeads(pageNumber)
             .enqueue(callbackAssignedTechnicianLeads)
     }
 
-    fun searchAssignedLeads(keyword: String) {
+  /*  fun searchAssignedLeads(keyword: String) {
         DataRepository.instance.hitServiceCenterSearchAssignedLeads(keyword)
             .enqueue(callbackAssignedLeads)
     }
+*/
+    fun searchCompletedLeads(keyword: String) {
+        DataRepository.instance.hitServiceCenterSearchCompletedLeads(keyword)
+            .enqueue(callbackTaskCompletedLeads)
+    }
+
     private val callbackAssignedTechnicianLeads: Callback<NewRequestResponse> =
         object : Callback<NewRequestResponse> {
             override fun onResponse(
@@ -103,11 +149,11 @@ class RequestsLeadsViewModel : ViewModel() {
             }
         }
 
-    private val callbackAssignedLeads: Callback<RequestLeadResponse> =
-        object : Callback<RequestLeadResponse> {
+    private val callbackAssignedLeads: Callback<NewRequestResponse> =
+        object : Callback<NewRequestResponse> {
             override fun onResponse(
-                call: Call<RequestLeadResponse>,
-                response: Response<RequestLeadResponse>) {
+                call: Call<NewRequestResponse>,
+                response: Response<NewRequestResponse>) {
 
                 if (response.isSuccessful) {
                     assignedLeadsData.postValue(response.body().let { Resource.success(it) } )
@@ -122,7 +168,7 @@ class RequestsLeadsViewModel : ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
+            override fun onFailure(call: Call<NewRequestResponse>, t: Throwable) {
                 assignedLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
@@ -188,14 +234,17 @@ class RequestsLeadsViewModel : ViewModel() {
 
     fun loadCompletedLeads(pageNumber: Int) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitGetServiceCenterCompletedLeads(pageNumber)
-                .enqueue(callbackCompletedLeads)
+            DataRepository.instance.hitGetServiceCenterCompletedLeads(pageNumber).enqueue(callbackCompletedLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             DataRepository.instance.hitGetTechnicianCompletedLeads(pageNumber)
                 .enqueue(callbackCompletedLeads)
         }
     }
 
+    fun loadTaskCompletedLeads(pageNumber: Int) {
+        DataRepository.instance.hitGetServiceCenterTaskCompletedLeads(pageNumber).enqueue(callbackTaskCompletedLeads)
+
+    }
     private val callbackCompletedLeads: Callback<RequestLeadResponse> =
         object : Callback<RequestLeadResponse> {
             override fun onResponse(
@@ -217,6 +266,29 @@ class RequestsLeadsViewModel : ViewModel() {
 
             override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
                 completedLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
+            }
+        }
+    private val callbackTaskCompletedLeads: Callback<TakCompletedResponse> =
+        object : Callback<TakCompletedResponse> {
+            override fun onResponse(
+                call: Call<TakCompletedResponse>,
+                response: Response<TakCompletedResponse>) {
+
+                if (response.isSuccessful) {
+                    taskcompletedLeadsData.postValue(response.body().let { Resource.success(it) })
+                } else {
+                    taskcompletedLeadsData.postValue(
+                        Resource.error(
+                            ErrorUtils.getError(
+                                response.errorBody(),
+                                response.code()
+                            )
+                        ))
+                }
+            }
+
+            override fun onFailure(call: Call<TakCompletedResponse>, t: Throwable) {
+                taskcompletedLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
 }

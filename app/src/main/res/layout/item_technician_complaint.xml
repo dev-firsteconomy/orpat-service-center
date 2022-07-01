@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:translationZ="2dp"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/corner_radius">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:hint="Task 01/04"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="0.091"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_model_number"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:padding="2dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/model_number"
+            android:textAlignment="textStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_task"/>
+
+        <TextView
+            android:id="@+id/tv_model_name_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textStyle="bold"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_model_number"
+            app:layout_constraintStart_toStartOf="@id/tv_model_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_number"
+            tools:text="0000000122" />
+
+        <!-- <TextView
+             android:id="@+id/tv_invoice_date"
+             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="4dp"
+             android:layout_marginTop="36dp"
+             android:padding="2dp"
+             android:text="@string/invoice_date"
+             android:textAlignment="textEnd"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toEndOf="@id/tv_model_number"
+             app:layout_constraintTop_toTopOf="parent" />
+
+         <TextView
+             android:id="@+id/tv_invoice_date_value"
+             style="@style/Theme.OrpatServiceCenter.SmallText"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:padding="2dp"
+             android:textAlignment="textEnd"
+             android:textSize="14sp"
+             app:layout_constraintEnd_toEndOf="@id/tv_invoice_date"
+             app:layout_constraintStart_toStartOf="@id/tv_invoice_date"
+             app:layout_constraintTop_toBottomOf="@id/tv_invoice_date"
+             tools:text="2nd Dec 2021" />-->
+
+        <TextView
+            android:id="@+id/tv_customer_description"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/customer_description"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
+
+
+        <TextView
+            android:id="@+id/tv_description_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/description"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_customer_description"
+            tools:text="Ceiling fans light is flickering" />
+
+    <!--    <TextView
+            android:id="@+id/tv_service_center_description"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/service_center_description"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_value" />
+
+        <EditText
+            android:id="@+id/tv_service_center_description_value"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:padding="5dp"
+            android:hint="@string/type_here"
+            android:gravity="left"
+            android:background="@drawable/bg_edit_text_border"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_service_center_description" />
+-->
+        <TextView
+            android:id="@+id/tv_invoice_image"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/invoice_image"
+            app:layout_constraintEnd_toStartOf="@id/tv_qr_code_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_value" />
+
+        <ImageView
+            android:id="@+id/iv_invoice_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@color/orange"
+            app:layout_constraintStart_toStartOf="@id/tv_invoice_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" />
+
+        <ImageView
+            android:id="@+id/iv_upload_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@color/orange"
+            app:layout_constraintEnd_toEndOf="@id/iv_invoice_image"
+            app:layout_constraintStart_toStartOf="@id/iv_invoice_image"
+            app:layout_constraintTop_toBottomOf="@id/iv_invoice_image" />
+
+        <TextView
+            android:id="@+id/tv_count_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="count"
+            android:visibility="invisible"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/iv_upload_image"
+            app:layout_constraintStart_toEndOf="@id/iv_upload_image"
+            app:layout_constraintTop_toTopOf="@id/iv_upload_image" >
+
+        </TextView>
+
+        <!--<ImageView
+            android:id="@+id/tv_count_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_show_image"
+            android:visibility="invisible"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/iv_upload_image"
+            app:layout_constraintStart_toEndOf="@id/iv_upload_image"
+            app:layout_constraintTop_toTopOf="@id/iv_upload_image" >
+
+        </ImageView>-->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_upload_image"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="6dp"
+            android:text="@string/upload_part_image"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textSize="10sp"
+            android:visibility="visible"
+            android:textColor="@color/white"
+            android:drawableLeft="@drawable/ic_upload_invoice"
+            android:includeFontPadding="false"
+            app:layout_constraintEnd_toEndOf="@id/iv_upload_image"
+            app:layout_constraintStart_toStartOf="@id/iv_upload_image"
+            app:layout_constraintTop_toBottomOf="@id/iv_upload_image" />
+
+
+       <!-- <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_total_count_upload_image"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:visibility="visible"
+            android:layout_marginTop="12dp"
+            app:layout_constraintLeft_toRightOf="@id/iv_upload_image"
+            app:layout_constraintTop_toBottomOf="@+id/iv_upload_image"
+            />
+-->
+        <TextView
+            android:id="@+id/tv_qr_code_image"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@string/qr_code_image"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@id/tv_invoice_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_invoice_image"
+            app:layout_constraintTop_toTopOf="@id/tv_invoice_image" />
+
+        <FrameLayout
+            android:id="@+id/scannerView"
+            android:layout_width="91dp"
+            android:layout_height="90dp"
+            android:background="@color/brown"
+            app:layout_constraintEnd_toEndOf="@id/tv_qr_code_image"
+            app:layout_constraintStart_toStartOf="@id/tv_qr_code_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_image">
+
+
+            <com.journeyapps.barcodescanner.DecoratedBarcodeView
+                android:id="@+id/barcode_scanner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_qr_code_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/dummy_qr_code"
+                android:scaleType="fitCenter"
+                android:background="@color/white"
+                android:visibility="visible"/>
+
+        </FrameLayout>
+
+      <!--  <ImageView
+            android:id="@+id/iv_qr_code_image"
+            android:layout_width="91dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@color/orange"
+            app:layout_constraintEnd_toEndOf="@id/tv_qr_code_image"
+            app:layout_constraintStart_toStartOf="@id/tv_qr_code_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" />
+-->
+        <TextView
+            android:id="@+id/tv_qr_code_number"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@id/scannerView"
+            app:layout_constraintStart_toStartOf="@id/scannerView"
+            app:layout_constraintTop_toBottomOf="@id/scannerView"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_scan_qr"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawablePadding="6dp"
+            android:text="@string/scan_barcode"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:includeFontPadding="false"
+            app:layout_constraintEnd_toEndOf="@id/tv_qr_code_number"
+            app:layout_constraintStart_toStartOf="@id/tv_qr_code_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_qr_code_number" />
+
+
+        <TextView
+            android:id="@+id/tv_qrcode_verify"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/txt_qrcode_verify"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_upload_image" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/brown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_qrcode_verify"/>
+
+        <TextView
+            android:id="@+id/tv_qrcode_success_verify"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:includeFontPadding="false"
+            android:text="@string/txt_qrcode_verify"
+            android:textSize="10sp"
+            android:textColor="@color/green"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_technician_update"
+            style="@style/Theme.OrpatServiceCenter.Buttons"
+            android:layout_width="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_update"
+            app:cornerRadius="0dp"
+            android:layout_marginTop="5dp"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconGravity="textEnd"
+            android:visibility="visible"
+            app:iconTint="@color/dim_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_qrcode_success_verify" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_technician_hide_update"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+            android:layout_width="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="44dp"
+            android:text="@string/btn_update"
+            app:cornerRadius="0dp"
+            android:visibility="gone"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/dim_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_qrcode_success_verify" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="8dp"
+    android:translationZ="2dp"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/corner_radius">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:hint="Task 01/04"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="0.091"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_model_number"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:padding="2dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/model_number"
+            android:textAlignment="textStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_task"/>
+
+        <TextView
+            android:id="@+id/tv_task_completed_model_name_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_model_number"
+            app:layout_constraintStart_toStartOf="@id/tv_model_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_number"
+            tools:text="0000000122" />
+
+        <TextView
+            android:id="@+id/tv_warranty"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
+            android:padding="2dp"
+            android:text="@string/warranty"
+            android:textAlignment="textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_model_number"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_task_completed_warranty"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:padding="2dp"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_warranty"
+            app:layout_constraintStart_toStartOf="@id/tv_warranty"
+            app:layout_constraintTop_toBottomOf="@id/tv_warranty"
+            tools:text="2nd Dec 2021" />
+
+        <TextView
+            android:id="@+id/tv_select_change_part"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingLeft="5dp"
+            android:text="@string/select_parts_covered_under_warranty"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_task_completed_model_name_value"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tv_task_completed_model_name_value"
+            app:layout_constraintTop_toBottomOf="@id/tv_task_completed_model_name_value" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_warrantyList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tv_select_change_part"
+            app:layout_constraintTop_toBottomOf="@id/tv_select_change_part"/>
+
+
+        <Button
+            android:id="@+id/tv_otp_verification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/otp_varification"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/rv_warrantyList"
+            app:layout_constraintHorizontal_bias="0.002"
+            app:layout_constraintStart_toStartOf="@id/rv_warrantyList"
+            app:layout_constraintTop_toBottomOf="@id/rv_warrantyList" />
+
+        <Button
+            android:id="@+id/tv_hide_otp_verification"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/rv_warrantyList"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:text="@string/otp_varification"
+            android:visibility="gone"
+
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/rv_warrantyList"
+            app:layout_constraintTop_toBottomOf="@id/rv_warrantyList"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

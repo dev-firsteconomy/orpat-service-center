@@ -134,5 +134,45 @@
     <string name="service_center_discription">Please Enter Description</string>
     <string name="invoicenumber">Please Enter Invoice Number</string>
     <string name="service_center_cancel_reason">Please Enter Cancel Reason</string>
+    <string name="assign">Assign</string>
+    <string name="area_code">Area Code</string>
+    <string name="task_assigned">Task Assigned</string>
+    <string name="task_completed">Task Completed</string>
+    <string name="txt_qrcode_verify">QR Code Successfully Verify</string>
+    <string name="btn_task_completed">Task Completed</string>
+    <string name="scan_barcode">Scan QRCode</string>
+    <string name="task_details">Task Details</string>
+    <string name="otp_varification">OTP Verification</string>
+    <string name="timer">Timer</string>
+    <string name="btn_update_technician">Update Technician</string>
+    <string name="technician_details">Technician Details</string>
+    <string name="btn_change_technician">Change Technician</string>
+    <string name="servicing_done_string">Servicing Done</string>
+    <string name="product_no_complaint_string">Product has no complaint</string>
+    <string name="not_covered_string">Part not covered under warranty</string>
+    <string name="error_service_center_desc">*Please Enter Service Center Description</string>
+    <string name="upload_part_image">Upload Part Image</string>
+    <string name="error_invoice_number_string">*Please Enter Invoice Number</string>
+    <string name="error_invoice_date_string">*Please Select Invoice Date</string>
+    <string name="error_under_warranty">*Please Select Under Warranty</string>
+
+    <string name="product_string">Product 01</string>
+    <string name="scan_qr_code_string">Scan the QR Code,\nto validate your product</string>
+    <string name="total_count">Total=</string>
+    <string name="btn_direction">Direction</string>
+    <string name="cutomer_names">Customer Name :</string>
+    <string name="btn_update_parts">Update Parts</string>
+    <string name="btn_update_otp">Update OTP</string>
+    <string name="btn_happy_code">Send Happy Code</string>
+    <string name="resend_happy_code">resend happy code</string>
+    <string name="select_image">Select Image</string>
+    <string name="select">Select</string>
+    <string name="create_task">Create Task</string>
+    <string name="btn_add_task">Add Task</string>
+    <string name="upload_gst_invoice">Upload printed GST invoice</string>
+    <string name="prblm_details_string">Explain your problem in details</string>
+    <string name="proceed_string">Proceed</string>
+    <string name="chargeable_request">Chargeable Request</string>
+
 
 </resources>

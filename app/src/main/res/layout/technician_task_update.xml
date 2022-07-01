@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:translationZ="2dp"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/corner_radius">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Task 01/04"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/tv_warranty"
+            app:layout_constraintHorizontal_bias="0.091"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_cancel_lead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Cancel Lead"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:textColor="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_customer_name"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:padding="2dp"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:text="@string/customer_name"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toStartOf="@id/tv_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_task"/>
+
+        <TextView
+            android:id="@+id/tv_customer_name_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textAlignment="textStart"
+            android:visibility="gone"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_customer_name"
+            app:layout_constraintStart_toStartOf="@id/tv_customer_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_customer_name"
+            tools:text="Customer Name" />
+
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="36dp"
+            android:padding="2dp"
+            android:textAlignment="textEnd"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_customer_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_date_time_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_date"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tv_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            android:text="2nd Dec 2021" />
+
+        <TextView
+            android:id="@+id/tv_model_number"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:padding="2dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/model_number"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toStartOf="@id/tv_warranty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_customer_name_value"/>
+
+        <TextView
+            android:id="@+id/tv_model_name_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_model_number"
+            app:layout_constraintStart_toStartOf="@id/tv_model_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_number"
+            tools:text="0000000122" />
+
+        <TextView
+            android:id="@+id/tv_warranty"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="27dp"
+            android:padding="2dp"
+            android:text="@string/warranty"
+            android:textAlignment="textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_model_number"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_warranty_date_year"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:padding="2dp"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_warranty"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tv_warranty"
+            app:layout_constraintTop_toBottomOf="@id/tv_warranty"
+            tools:text="2nd Dec 2021" />
+
+        <TextView
+            android:id="@+id/tv_under_warranty"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="2dp"
+            android:text="@string/under_warranty"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_model_name_value"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tv_model_name_value"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
+
+        <RadioGroup
+            android:id="@+id/radio_btn_under_warranty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/tv_under_warranty"
+            app:layout_constraintStart_toStartOf="@id/tv_under_warranty"
+            app:layout_constraintTop_toBottomOf="@+id/tv_under_warranty">
+
+            <RadioButton
+                android:id="@+id/radiobtn_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Yes"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF" />
+
+            <RadioButton
+                android:id="@+id/radiobtn_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:padding="5dp"
+                android:text="No"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tv_change_part"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="2dp"
+            android:text="@string/have_you_change_any_part"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/radio_btn_under_warranty"
+            app:layout_constraintStart_toStartOf="@id/radio_btn_under_warranty"
+            app:layout_constraintTop_toBottomOf="@id/radio_btn_under_warranty" />
+
+        <RadioGroup
+            android:id="@+id/radio_btn_change_part"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintEnd_toEndOf="@id/tv_change_part"
+            app:layout_constraintStart_toStartOf="@id/tv_change_part"
+            app:layout_constraintTop_toBottomOf="@+id/tv_change_part">
+
+            <RadioButton
+                android:id="@+id/radiobtn_change_part_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Yes"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF" />
+
+            <RadioButton
+                android:id="@+id/radiobtn_change_part_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:padding="5dp"
+                android:text="No"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tv_select_change_part"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingLeft="5dp"
+            android:text="@string/select_parts_covered_under_warranty"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/radio_btn_change_part"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/radio_btn_change_part"
+            app:layout_constraintTop_toBottomOf="@id/radio_btn_change_part" />
+
+        <LinearLayout
+            android:id="@+id/li_warrantyList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@id/tv_select_change_part"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tv_select_change_part"
+            app:layout_constraintTop_toBottomOf="@id/tv_select_change_part">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_warrant_parts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@id/tv_select_change_part"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/tv_select_change_part"
+                app:layout_constraintTop_toBottomOf="@id/tv_select_change_part"
+                tools:listitem="@layout/under_warranty_parts_adapter" />
+
+            <LinearLayout
+                android:id="@+id/li_no_warranty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@id/tv_select_change_part"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/tv_select_change_part"
+                app:layout_constraintTop_toBottomOf="@id/tv_select_change_part">
+
+                <LinearLayout
+                    android:id="@+id/li_first_parts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/check_first_warranty_parts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"/>
+
+                    <TextView
+                        android:id="@+id/tv_first_warranty_parts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15dp"
+                        android:textSize="12sp"
+                        android:paddingBottom="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        android:layout_weight="2.9"
+                        android:textColor="@color/black"
+                        android:text="@string/servicing_done_string"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/li_second_parts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <CheckBox
+                        android:id="@+id/check_second_warranty_parts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"/>
+
+                    <TextView
+                        android:id="@+id/tv_second_warranty_parts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15dp"
+                        android:textSize="12sp"
+                        android:paddingBottom="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        android:layout_weight="2.9"
+                        android:textColor="@color/black"
+                        android:text="@string/product_no_complaint_string"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/li_third_parts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <CheckBox
+                        android:id="@+id/check_third_warranty_parts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"/>
+
+                    <TextView
+                        android:id="@+id/tv_third_warranty_parts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15dp"
+                        android:textSize="12sp"
+                        android:paddingBottom="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        android:layout_weight="2.9"
+                        android:textColor="@color/black"
+                        android:text="@string/not_covered_string"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+            <Button
+                android:id="@+id/tv_task_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@id/li_warrantyList"
+                app:layout_constraintHorizontal_bias="0.002"
+                app:layout_constraintStart_toStartOf="@id/li_warrantyList"
+                app:layout_constraintTop_toBottomOf="@id/li_warrantyList" />
+
+            <Button
+                android:id="@+id/tv_hide_task_update"
+                style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/li_warrantyList"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:text="Update"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/li_warrantyList"
+                app:layout_constraintTop_toBottomOf="@id/li_warrantyList"/>
+
+
+
+
+
+          <!--  <Button
+                android:id="@+id/tv_no_warranty_task_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@id/rv_warrant_parts"
+                app:layout_constraintHorizontal_bias="0.002"
+                app:layout_constraintStart_toStartOf="@id/rv_warrant_parts"
+                app:layout_constraintTop_toBottomOf="@id/rv_warrant_parts" />
+
+            <Button
+                android:id="@+id/tv_hide_no_warranty_task_update"
+                style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/rv_warrant_parts"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:text="Update"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/rv_warrant_parts"
+                app:layout_constraintTop_toBottomOf="@id/rv_warrant_parts"/>-->
+        <!--</LinearLayout>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

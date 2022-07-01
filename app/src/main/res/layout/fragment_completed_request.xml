@@ -4,17 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.leads.history_lead_fragment.CompletedRequestFragment">
+    tools:context=".ui.leads.new_lead_fragment.TaskCompletedFragment">
+
+    <EditText
+        android:id="@+id/edt_task_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:drawableRight="@drawable/search_icon"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:maxLines="1"
+        android:textSize="12sp"
+        android:hint="Search"
+        android:background="@drawable/bg_edit_text_border"
+        android:layout_margin="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_completed_request"
+        android:id="@+id/rv_assign_technician"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="8dp"
+        android:layout_marginTop="50dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:listitem="@layout/item_request_lead_card" />
+        tools:listitem="@layout/adapter_task_completed" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/cpi_loading"

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/fab_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent">
+
+
+        <LinearLayout
+            android:id="@+id/li_assign_technician"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/radio_technician"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_profile_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.045"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.385"
+                app:srcCompat="@drawable/ic_avatar" />
+
+            <LinearLayout
+                android:id="@+id/li_technician_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/tv_technician_name"
+                    style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:text="@string/technician_name"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
+                    app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                    app:layout_constraintTop_toTopOf="@id/iv_profile_image"
+                    app:layout_constraintVertical_bias="0.217" />
+
+                <TextView
+                    android:id="@+id/tv_area_code"
+                    style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:text="@string/area_code"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
+                    app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                    app:layout_constraintTop_toTopOf="@id/iv_profile_image"
+                    app:layout_constraintVertical_bias="0.217" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/li_assign_technician_hide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RadioButton
+                    android:id="@+id/radio_technician_hide"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:checked="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_profile_image_hide"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.045"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.385"
+                    app:srcCompat="@drawable/ic_avatar" />
+
+                <LinearLayout
+                    android:id="@+id/li_technician_name_hide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_technician_name_hide"
+                        style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:text="@string/technician_name"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
+                        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                        app:layout_constraintTop_toTopOf="@id/iv_profile_image"
+                        app:layout_constraintVertical_bias="0.217" />
+
+                    <TextView
+                        android:id="@+id/tv_area_code_hide"
+                        style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:text="@string/area_code"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
+                        app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                        app:layout_constraintTop_toTopOf="@id/iv_profile_image"
+                        app:layout_constraintVertical_bias="0.217" />
+
+                </LinearLayout>
+
+
+        </LinearLayout>
+<!--
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_assign_alltechnician"
+            style="@style/Theme.OrpatServiceCenter.Buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/assign"
+            app:iconGravity="textStart"
+            app:iconPadding="2dp"
+            app:iconTint="@color/dim_white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/li_assign_technician" />
+-->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

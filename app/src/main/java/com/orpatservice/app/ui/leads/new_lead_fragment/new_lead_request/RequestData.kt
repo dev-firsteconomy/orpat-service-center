@@ -3,7 +3,9 @@ package com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request
 import android.os.Parcel
 import android.os.Parcelable
 import com.orpatservice.app.data.model.TechnicianData
+import com.orpatservice.app.data.model.requests_leads.Enquiry
 import com.orpatservice.app.data.model.requests_leads.LeadData
+import com.orpatservice.app.ui.leads.technician.response.TechnicianEnquiryImage
 
 /**
  * Created by Ajay Yadav on 22/12/21.
@@ -19,6 +21,10 @@ class RequestData() : Parcelable {
     var status: String? = null
     var city: String? = null
     var state: String? = null
+    var timer: String? = null
+    var color_code: String? = null
+    var enquiries: ArrayList<TaskEnquiry> = arrayListOf()
+    var technician: TechnicianData? = null
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -31,6 +37,9 @@ class RequestData() : Parcelable {
         status = parcel.readString()
         city = parcel.readString()
         state = parcel.readString()
+        timer = parcel.readString()
+        color_code = parcel.readString()
+        parcel.readTypedList(enquiries, TaskEnquiry.CREATOR)
 
     }
 
@@ -45,9 +54,11 @@ class RequestData() : Parcelable {
         parcel?.writeString(status)
         parcel?.writeString(city)
         parcel?.writeString(state)
+        parcel?.writeString(timer)
+        parcel?.writeString(color_code)
+        parcel?.writeTypedList(enquiries)
 
     }
-
 
     override fun describeContents(): Int {
         return 0

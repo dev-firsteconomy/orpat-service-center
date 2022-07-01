@@ -13,6 +13,11 @@ import com.orpatservice.app.ui.leads.customer_detail.CancelRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UpdateRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
+import com.orpatservice.app.ui.leads.technician.TechnicianUpdateRequestResponse
+import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
+import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -55,8 +60,16 @@ interface ApiEndPoint {
         @Field("otp") otp: String
     ): Call<LoginResponse>
 
+    @FormUrlEncoded
+    @POST("technician/verify-otp-and-login")
+    fun verifyTaskOTPAPI(
+        @Field("mobile") mobile: String,
+        @Field("otp") otp: String
+    ): Call<LoginResponse>
+
+
     @GET("service-center/technicians")
-    fun getTechnicianAPI(@Query("page") page: Int?): Call<TechnicianResponse>
+    fun getTechnicianAPI( @Header("Authorization") token : String,@Query("page") page: Int?): Call<TechnicianResponse>
 
     @POST("service-center/leads/{leadsId}/technician/{technicianId}")
     fun hitAPIAssignTechnician(
@@ -64,11 +77,52 @@ interface ApiEndPoint {
         @Path("technicianId") technicianId: Int?
     ): Call<TechnicianResponse>
 
+
+   @POST("technician/validate-task-product/{taskId}")
+   fun validateProduct(
+       @Header("Authorization") token : String,
+       @Path("taskId") taskId: String?,
+       @Body body : JsonObject
+   ): Call<UpdateRequestResponse>
+
+    @FormUrlEncoded
+    @POST("customer/validate-product")
+    fun validateProduct(
+        @Header("Authorization") token : String,
+        @Field("scanned_barcode") scanned_barcode: String,
+    ): Call<ValidateProductResponse>
+
+
+    @POST("service-center/leads/{leadsId}/technician/{technicianId}")
+    fun hitAPIAssignTechnicianLead(
+        @Header("Authorization") token : String,
+        @Path("leadsId") leadsId: String?,
+        @Path("technicianId") technicianId: String?
+    ): Call<TechnicianResponse>
+
+    @POST("service-center/leads/{leadsId}/re-assign-to-technician/{technicianId}")
+    fun hitAPIAssignChangeTechnicianLead(
+        @Header("Authorization") token : String,
+        @Path("leadsId") leadsId: String?,
+        @Path("technicianId") technicianId: String?
+    ): Call<TechnicianResponse>
+
+
     @GET("technician/get_parts")
     fun hitAPIParts(@Query("search") search: String?): Call<RepairPartResponse>
 
     @POST("technician/send-happy-code/{leadId}")
     fun hitAPISendHappyCode(@Path("leadId") leadId: String?): Call<TechnicianResponse>
+
+    @POST("service-center/send-happy-code/{leadId}")
+    fun hitAPITaskSendHappyCode(@Path("leadId") leadId: String?,  @Header("Authorization") token : String): Call<TechnicianResponse>
+
+    @FormUrlEncoded
+    @POST("service-center/leads/lead-happy-code-verification/{leadId}")
+    fun hitAPITaskSendHappyCodeVerification(
+        @Path("leadId") leadId: String?,
+        @Header("Authorization") token : String,
+        @Field("happy_code") happy_code: String?): Call<UpdatePartsRequestData>
 
     @FormUrlEncoded
     @POST("technician/leads/mark-as-complete/{leadId}")
@@ -78,9 +132,19 @@ interface ApiEndPoint {
         @Field("happy_code") happy_code: String?
     ): Call<SaveEnquiryResponse>
 
+    @FormUrlEncoded
+    @POST("service-center/leads/mark-as-complete-lead/{leadId}")
+    fun hitAPIServiceMarkAsComplete(
+        @Header("Authorization") token : String,
+        @Path("leadId") leadId: String?,
+        @Field("happy_code") happy_code: String?,
+
+    ): Call<UpdatePartsRequestData>
+
     // @FormUrlEncoded
     @POST("service-center/technicians")
     fun hitAPIAddTechnician(
+        @Header("Authorization") token : String,
         @Body requestBody: MultipartBody
     ): Call<AddTechnicianResponse>
 
@@ -104,6 +168,13 @@ interface ApiEndPoint {
         @Body requestBody: MultipartBody
     ): Call<UploadFileResponse>
 
+    @POST("technician/upload-file")
+    fun hitAPITechnicianUploadFile(
+        @Header("Authorization") token : String,
+        @Body requestBody: MultipartBody
+    ): Call<UploadFileResponse>
+
+
     @POST("service-center/leads/{leadsId}/task/{taskId}")
     fun hitUpdateRequestLead(
         @Path("leadsId") leadsId: Int?,
@@ -113,6 +184,51 @@ interface ApiEndPoint {
 
     )
     : Call<UpdateRequestResponse>
+
+
+  /*  @POST("service-center/enquiry-parts-verification/{leadsId}")
+    fun hitTaskUpdateRequestLead(
+        @Path("leadsId") leadsId: Int?,
+        @Header("Authorization") token : String,
+        @Body body : JsonObject
+
+    )
+            : Call<UpdateRequestResponse>*/
+
+    @POST("service-center/enquiry-parts-verification/{leadsId}")
+    fun hitTaskUpdateRequestLead(
+        @Header("Authorization") token : String,
+        @Body body : JsonObject,
+        @Path("leadsId") leadsId: Int?
+    ): Call<UpdateRequestResponse>
+
+
+
+    @POST("technician/leads/mark-as-complete/{leadsId}")
+    fun hitTaskCompletedRequestLead(
+        @Path("leadsId") leadsId: Int?,
+        @Header("Authorization") token : String,
+
+    ): Call<TechnicianRequestLeadResponse>
+
+
+    @POST("technician/update-task/{taskId}")
+    fun hitTechnicianUpdateRequestLead(
+        @Header("Authorization") token : String,
+        @Path("taskId") taskId: Int?,
+        @Body body : JsonObject
+
+    ): Call<TechnicianUpdateRequestResponse>
+
+
+    @POST("service-center/leads/{leadsId}/technician/{technicianId}")
+    fun hitTechnicianAssignRequestLead(
+        @Path("leadsId") leadsId: Int?,
+        @Path("technicianId") taskId: Int?,
+        @Header("Authorization") token : String,
+    )
+    : Call<UpdateRequestResponse>
+
 
     @POST("service-center/leads/cancel_lead/{leadsId}")
     fun hitCancelRequestLead(
@@ -132,20 +248,32 @@ interface ApiEndPoint {
 
 
     @GET("service-center/leads/pending")
-    fun getServiceCenterSearchPendingLeads(@Query("search") keyword: String): Call<RequestLeadResponse>
+    fun getServiceCenterSearchPendingLeads(@Query("search") keyword: String, @Header("Authorization") token : String): Call<RequestLeadResponse>
 
     @GET("service-center/leads/assigned")
-    fun getServiceCenterAssignedLeads(@Query("page") page: Int): Call<RequestLeadResponse>
+    fun getServiceCenterAssignedLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<RequestLeadResponse>
+
 
     @GET("service-center/technicians")
     fun getServiceCenterAssignedTechnicianLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<NewRequestResponse>
 
 
     @GET("service-center/leads/assigned")
-    fun getServiceCenterSearchAssignedLeads(@Query("search") keyword: String): Call<RequestLeadResponse>
+    fun getServiceCenterSearchAssignedLeads(@Query("search") keyword: String, @Header("Authorization") token : String): Call<RequestLeadResponse>
+
+    @GET("service-center/leads/completed")
+    fun getServiceCenterSearchCompletedLeads(@Query("search") keyword: String, @Header("Authorization") token : String): Call<TakCompletedResponse>
+
+    @GET("service-center/leads/completed")
+    fun getAPISearchCompletedLeads(@Query("search") keyword: String, @Header("Authorization") token : String): Call<RequestLeadResponse>
+
+
+    @GET("service-center/leads/completed")
+    fun getServiceCenterCompletedDataLeads(@Query("page") page: Int, @Header("Authorization") token : String): Call<RequestLeadResponse>
 
     @GET("service-center/leads/completed")
     fun getServiceCenterCompletedLeads(@Query("page") page: Int): Call<RequestLeadResponse>
+
 
     @GET("service-center/leads/cancelled")
     fun getServiceCenterCancelledLeads(@Query("page") page: Int): Call<RequestLeadResponse>
@@ -157,11 +285,15 @@ interface ApiEndPoint {
     ): Call<CancelLeadResponse>
 
     @GET("technician/leads/pending")
-    fun getTechnicianPendingLeads(@Query("page") page: Int): Call<RequestLeadResponse>
+    fun getTechnicianPendingLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<TechnicianRequestLeadResponse>
 
     @GET("technician/leads/pending")
     fun getTechnicianSearchPendingLeads(@Query("search") keyword: String): Call<RequestLeadResponse>
 
     @GET("technician/leads/completed")
     fun getTechnicianCompletedLeads(@Query("page") page: Int): Call<RequestLeadResponse>
+
+    @GET("service-center/leads/assigned")
+    fun getServiceCenterTaskCompletedLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<TakCompletedResponse>
+
 }

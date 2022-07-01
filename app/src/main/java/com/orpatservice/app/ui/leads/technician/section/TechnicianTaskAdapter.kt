@@ -1,0 +1,183 @@
+package com.orpatservice.app.ui.leads.technician.section
+
+import android.content.Context
+import android.os.Build
+import android.view.LayoutInflater
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.view.ViewGroup
+import android.webkit.RenderProcessGoneDetail
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.orpatservice.app.R
+import com.orpatservice.app.base.Callback
+import com.orpatservice.app.data.model.requests_leads.Enquiry
+import com.orpatservice.app.data.model.requests_leads.LeadData
+import com.orpatservice.app.data.model.requests_leads.WarrantryPart
+import com.orpatservice.app.databinding.FragmentTaskUpdateBinding
+import com.orpatservice.app.databinding.TechnicianTaskUpdateBinding
+import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.AssignTechnicianLeadAdapter
+import com.orpatservice.app.utils.Constants
+import com.orpatservice.app.utils.DividerItemDecorator
+
+class TechnicianTaskAdapter(
+    private val context: Context,
+    private val techList: ArrayList<Enquiry>,
+    private val leadData : LeadData,
+    private val itemClickListener: (Int, View,TechnicianTaskUpdateBinding) -> Unit,
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var callback: Callback? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val binding: TechnicianTaskUpdateBinding =
+            TechnicianTaskUpdateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return TechnicianViewHolder(binding)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is TechnicianViewHolder -> {
+                holder.bind(techList[position],context)
+            }
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return techList.size
+    }
+
+    inner class TechnicianViewHolder(private val binding: TechnicianTaskUpdateBinding) :
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+        private lateinit var linearLayoutManager: LinearLayoutManager
+        init {
+            // binding.btnAssignAlltechnician.setOnClickListener(this)
+        }
+
+        fun bind(technicianData: Enquiry,context : Context) {
+
+            val  pos = position +1
+            val  count  = techList.count()
+
+          //  println("technicianData.pending_parts_verification_status_count"+technicianData.pending_parts_verification_status_count)
+          //  println("technicianData.parts_verification_status"+technicianData.parts_verification_status)
+            if(technicianData.pending_parts_verification_status_count.equals("0") && technicianData.parts_verification_status.equals("1")){
+                binding.tvTaskUpdate.visibility = GONE
+                binding.tvHideTaskUpdate.visibility = VISIBLE
+
+            }else{
+                binding.tvTaskUpdate.visibility = VISIBLE
+                binding.tvHideTaskUpdate.visibility = GONE
+
+            }
+            if(technicianData.pending_parts_verification_status_count.equals("0")){
+                binding.tvTaskUpdate.visibility = GONE
+                binding.tvHideTaskUpdate.visibility = VISIBLE
+
+            }else{
+                binding.tvTaskUpdate.visibility = VISIBLE
+                binding.tvHideTaskUpdate.visibility = GONE
+
+            }
+            if(technicianData.parts_verification_status.equals("1")){
+                binding.tvTaskUpdate.visibility = GONE
+                binding.tvHideTaskUpdate.visibility = VISIBLE
+
+            }else{
+                binding.tvTaskUpdate.visibility = VISIBLE
+                binding.tvHideTaskUpdate.visibility = GONE
+
+            }
+
+            if(technicianData.is_cancelled.equals("Yes")){
+                binding.tvCancelLead.visibility = VISIBLE
+               // binding.tvTaskUpdate.visibility = GONE
+              //  binding.tvHideTaskUpdate.visibility = VISIBLE
+            }else{
+                binding.tvCancelLead.visibility = GONE
+               // binding.tvTaskUpdate.visibility = VISIBLE
+              //  binding.tvHideTaskUpdate.visibility = GONE
+            }
+
+            /*if(technicianData.parts_verification_status.equals("1")){
+                binding.tvTaskUpdate.visibility = GONE
+                binding.tvHideTaskUpdate.visibility = VISIBLE
+            }else{
+                binding.tvTaskUpdate.visibility = VISIBLE
+                binding.tvHideTaskUpdate.visibility = GONE
+            }*/
+
+            binding.tvModelNameValue.text = technicianData?.model_no
+            binding.tvWarrantyDateYear.text = technicianData?.in_warranty
+            binding.tvTask.text = "Task"+""+pos+""+"/"+""+count
+            binding.tvCustomerNameValue.text = leadData.name
+            binding.tvDateTimeValue.text = leadData.service_center_assigned_at
+
+            val warrantryPart = WarrantryPartAdapter(context,technicianData.warranty_parts,technicianData.lead_enquiry_images)
+            val dividerItemDecoration: RecyclerView.ItemDecoration =
+                DividerItemDecorator(ContextCompat.getDrawable(context, R.drawable.rv_divider))
+
+            linearLayoutManager = LinearLayoutManager(context)
+            binding.rvWarrantParts.apply {
+                adapter = warrantryPart
+                //addItemDecoration(dividerItemDecoration)
+                layoutManager = linearLayoutManager
+            }
+
+                binding.tvTaskUpdate.setOnClickListener {
+                    itemClickListener(
+                        adapterPosition,
+                        binding.tvTaskUpdate,binding
+                    )
+                }
+
+               /* binding.tvNoWarrantyTaskUpdate.setOnClickListener {
+                    itemClickListener(
+                        adapterPosition,
+                        binding.tvNoWarrantyTaskUpdate
+                    )
+                }*/
+                binding.radiobtnYes.setOnClickListener {
+                    itemClickListener(
+                        adapterPosition,
+                        binding.radiobtnYes,binding
+                    )
+                }
+                binding.radiobtnNo.setOnClickListener {
+
+                    itemClickListener(
+                        adapterPosition,
+                        binding.radiobtnNo,binding
+                    )
+                }
+                binding.radiobtnChangePartYes.setOnClickListener {
+                    binding.liNoWarranty.visibility = GONE
+                    binding.rvWarrantParts.visibility = VISIBLE
+                    itemClickListener(
+                        adapterPosition,
+                        binding.radiobtnChangePartYes,binding
+                    )
+                }
+                binding.radiobtnChangePartNo.setOnClickListener {
+                    binding.liNoWarranty.visibility = VISIBLE
+                    binding.rvWarrantParts.visibility = GONE
+                    itemClickListener(
+                        adapterPosition,
+                        binding.radiobtnChangePartNo,binding
+                    )
+                //}
+            }
+        }
+
+        override fun onClick(view: View?) {
+            when (view?.id) {
+            }
+        }
+    }
+
+}

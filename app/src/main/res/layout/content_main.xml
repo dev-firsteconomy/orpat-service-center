@@ -194,6 +194,62 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+
+
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcv_chargeable_request"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/corner_radius"
+            app:cardElevation="14dp"
+            app:cardMaxElevation="36dp"
+            android:visibility="gone"
+            app:contentPadding="16dp"
+            app:layout_constraintBottom_toTopOf="@id/mcv_payment"
+            app:layout_constraintEnd_toStartOf="@id/mcv_profile"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+            app:layout_constraintTop_toBottomOf="@id/mcv_request">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_chargeable_request"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_history"
+                    app:layout_constraintBottom_toTopOf="@id/tv_chargeable_request"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_chargeable_request"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/history"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_chargeable_request" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcv_profile"
             android:layout_width="0dp"
@@ -255,7 +311,6 @@
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/corner_radius"
             app:cardElevation="14dp"
-            android:visibility="gone"
             app:cardMaxElevation="36dp"
             app:contentPadding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -285,7 +340,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/payment"
+                    android:text="@string/chargeable_request"
                     android:layout_marginTop="6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -307,7 +362,7 @@
             app:cardElevation="14dp"
             app:cardMaxElevation="36dp"
             app:contentPadding="16dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/mcv_payment"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
             app:layout_constraintStart_toEndOf="@id/mcv_payment"

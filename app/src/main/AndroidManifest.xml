@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" /> <!-- Open fone dialpad for calling -->
     <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- Permission when working system apps -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <queries>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
@@ -27,6 +31,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.OrpatServiceCenter"
         android:usesCleartextTraffic="true">
@@ -135,6 +140,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent"
             tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".ui.leads.customer_detail.AllTechnicianActivity" />
+        <activity android:name=".ui.leads.technician.TechnicianCustomerDetailsActivity" />
+        <activity android:name=".ui.leads.service_center.TaskCompletedDetailsActivity" />
+        <activity android:name=".ui.leads.service_center.TechnicianTaskUpdateActivity" />
+        <activity android:name=".ui.leads.new_lead_fragment.activity.ChangeTechnicianActivity" />
+        <activity android:name=".ui.leads.new_lead_fragment.activity.LocationActivity" />
+        <activity android:name=".ui.leads.technician.SliderScreenImageActivity" />
+        <activity android:name=".ui.leads.service_center.AssignDetailsActivity" />
+        <activity android:name=".ui.leads.technician.section.EnquirySliderScreenImageActivity" />
+        <activity android:name=".ui.leads.technician.BarScannerActivity" />
+        <activity android:name=".ui.leads.customer_detail.AdminCustomerDetailsActivity" />
+        <activity android:name=".ui.leads.new_lead_fragment.activity.AddTaskActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

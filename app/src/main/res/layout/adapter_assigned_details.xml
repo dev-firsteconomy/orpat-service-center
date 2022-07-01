@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:translationZ="2dp"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/corner_radius">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:hint="Task 01/04"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="0.091"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_model_number"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:padding="2dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/model_number"
+            android:textAlignment="textStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_task"/>
+
+        <TextView
+            android:id="@+id/tv_model_name_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textStyle="bold"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_model_number"
+            app:layout_constraintStart_toStartOf="@id/tv_model_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_number"
+            tools:text="0000000122" />
+
+        <!-- <TextView
+             android:id="@+id/tv_invoice_date"
+             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="4dp"
+             android:layout_marginTop="36dp"
+             android:padding="2dp"
+             android:text="@string/invoice_date"
+             android:textAlignment="textEnd"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toEndOf="@id/tv_model_number"
+             app:layout_constraintTop_toTopOf="parent" />
+
+         <TextView
+             android:id="@+id/tv_invoice_date_value"
+             style="@style/Theme.OrpatServiceCenter.SmallText"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:padding="2dp"
+             android:textAlignment="textEnd"
+             android:textSize="14sp"
+             app:layout_constraintEnd_toEndOf="@id/tv_invoice_date"
+             app:layout_constraintStart_toStartOf="@id/tv_invoice_date"
+             app:layout_constraintTop_toBottomOf="@id/tv_invoice_date"
+             tools:text="2nd Dec 2021" />-->
+
+        <TextView
+            android:id="@+id/tv_customer_description"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/customer_description"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
+
+
+        <TextView
+            android:id="@+id/tv_description_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/description"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_customer_description"
+            tools:text="Ceiling fans light is flickering" />
+
+        <TextView
+            android:id="@+id/tv_service_center_description"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/service_center_description"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_value" />
+
+        <TextView
+            android:id="@+id/tv_service_center_description_value"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:padding="5dp"
+            android:hint="@string/type_here"
+            android:gravity="left"
+            android:background="@drawable/bg_edit_text_border"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_service_center_description" />
+
+        <TextView
+            android:id="@+id/tv_error_des"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:text="@string/error_service_center_desc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_service_center_description_value"/>
+
+        <TextView
+            android:id="@+id/tv_invoice_image"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/invoice_image"
+            app:layout_constraintEnd_toStartOf="@id/tv_qr_code_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_error_des" />
+
+        <ImageView
+            android:id="@+id/iv_invoice_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@color/orange"
+            app:layout_constraintStart_toStartOf="@id/tv_invoice_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_upload_invoice"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="6dp"
+            android:text="@string/upload_part_image"
+            android:gravity="center_vertical"
+            android:textSize="10sp"
+            android:visibility="gone"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:drawableLeft="@drawable/ic_upload_invoice"
+            android:includeFontPadding="false"
+            app:layout_constraintEnd_toEndOf="@id/iv_invoice_image"
+            app:layout_constraintStart_toStartOf="@id/iv_invoice_image"
+            app:layout_constraintTop_toBottomOf="@id/iv_invoice_image" />
+
+        <TextView
+            android:id="@+id/tv_qr_code_image"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@string/qr_code_image"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@id/tv_invoice_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_invoice_image"
+            app:layout_constraintTop_toTopOf="@id/tv_invoice_image" />
+
+        <ImageView
+            android:id="@+id/iv_qr_code_image"
+            android:layout_width="91dp"
+            android:layout_height="106dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@color/orange"
+            app:layout_constraintEnd_toEndOf="@id/tv_qr_code_image"
+            app:layout_constraintStart_toStartOf="@id/tv_qr_code_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" />
+
+        <TextView
+            android:id="@+id/tv_qr_code_number"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="127406668688"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@id/iv_qr_code_image"
+            app:layout_constraintStart_toStartOf="@id/iv_qr_code_image"
+            app:layout_constraintTop_toBottomOf="@id/iv_qr_code_image"/>
+
+
+        <TextView
+            android:id="@+id/tv_invoice_number"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:text="@string/invoice_number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_upload_invoice" />
+
+        <TextView
+            android:id="@+id/edt_invoice_number_value"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/type_here"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_edit_text_border"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_number" />
+
+        <TextView
+            android:id="@+id/tv_error_invoice_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:text="@string/error_invoice_number_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_invoice_number_value"/>
+
+        <TextView
+            android:id="@+id/tv_select_invoice_date"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:text="@string/invoice_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_error_invoice_number" />
+
+        <TextView
+            android:id="@+id/edt_select_invoice_date"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:hint="@string/select_date"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_edit_text_border"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_select_invoice_date" />
+
+        <TextView
+            android:id="@+id/tv_error_invoice_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:text="@string/error_invoice_date_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_select_invoice_date"/>
+
+
+        <!--<TextView
+            android:id="@+id/tv_upload_invoice"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:text="@string/upload_invoice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_select_invoice_date" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_upload_invoice"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="6dp"
+            android:text="@string/upload"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:drawableLeft="@drawable/ic_upload_invoice"
+            android:includeFontPadding="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_upload_invoice" />-->
+
+
+        <LinearLayout
+            android:id="@+id/li_warranty"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_error_invoice_date">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_under_warranty"
+                    style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:text="@string/under_warranty" />
+
+
+                <RadioGroup
+                    android:id="@+id/rb_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <RadioButton
+                        android:id="@+id/radiobtn_yes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:text="Yes"
+                        android:checked="false"
+                        android:textSize="14sp"
+                        app:backgroundTint="#FFFFFF" />
+
+                    <RadioButton
+                        android:id="@+id/radiobtn_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="No"
+                        android:checked="false"
+                        android:textSize="14sp"
+                        app:backgroundTint="#FFFFFF" />
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_warranty_date"
+                    style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:text="@string/warranty_end_date" />
+
+                <TextView
+                    android:id="@+id/tv_warranty_date_value"
+                    style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="6dp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:text="3rd Dec 2021" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_error_under_warranty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:text="@string/error_under_warranty"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/li_warranty"/>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_update"
+            style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+            android:layout_width="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="44dp"
+            android:text="@string/btn_update"
+            app:cornerRadius="0dp"
+            android:layout_marginTop="10dp"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconGravity="textEnd"
+            android:visibility="gone"
+            app:iconTint="@color/dim_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_hide_update"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+            android:layout_width="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="44dp"
+            android:text="@string/btn_update"
+            app:cornerRadius="0dp"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/dim_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/li_warranty" />
+
+        <!--  <TextView
+              android:id="@+id/tv_cancel_lead"
+              style="@style/Theme.OrpatServiceCenter.SmallText"
+              android:layout_width="match_parent"
+              android:layout_marginStart="50dp"
+              android:layout_marginEnd="50dp"
+              android:layout_height="44dp"
+              android:gravity="center"
+              android:text="@string/cancel_lead"
+              app:cornerRadius="0dp"
+              android:textColor="@color/black"
+              android:layout_marginTop="10dp"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/btn_assign_technician" />
+  -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

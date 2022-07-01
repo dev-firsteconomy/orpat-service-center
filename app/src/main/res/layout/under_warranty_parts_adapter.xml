@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/li_yes_warranty_parts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/li_parts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:paddingLeft="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/check_warranty_parts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"/>
+
+        <TextView
+            android:id="@+id/tv_warranty_parts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:textSize="12sp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:layout_weight="0.6"
+            android:textColor="@color/black"
+            android:text="@string/task_completed" />
+
+        <TextView
+            android:id="@+id/tv_upload_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:visibility="visible"
+            android:background="@drawable/bg_edit_text_border"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:textSize="8sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="@string/select_image" />
+
+        <ImageView
+            android:id="@+id/img_selected_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="7dp"
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1.2"/>
+
+    </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_update"
+            android:layout_width="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/btn_update"
+            android:gravity="center"
+            android:background="@drawable/bg_edit_text_border"
+            app:cornerRadius="0dp"
+            android:visibility="gone"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/dim_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/li_parts" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_hide_update"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+            android:layout_width="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/btn_update"
+            app:cornerRadius="0dp"
+            android:visibility="gone"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/dim_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/li_parts" />
+
+    </LinearLayout>
+<!--<LinearLayout
+    android:id="@+id/li_no_warranty_parts"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:orientation="vertical"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:id="@+id/li_parts_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+
+        >
+        <CheckBox
+            android:id="@+id/check_warranty_parts_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"/>
+
+        <TextView
+            android:id="@+id/tv_warranty_parts_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:textSize="12sp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:layout_weight="2.9"
+            android:textColor="@color/black"
+            android:text="Servicing Done"
+            />
+
+        <TextView
+            android:id="@+id/tv_upload_image_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:background="@drawable/bg_edit_text_border"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.1"
+            android:textColor="@color/black"
+            android:text="@string/upload_image" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/li_parts_complaint_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/check_warranty_parts_complaint_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"/>
+
+        <TextView
+            android:id="@+id/tv_warranty_parts_complaint_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:textSize="12sp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:layout_weight="2.9"
+            android:textColor="@color/black"
+            android:text="Product has no complaint"
+            />
+
+        <TextView
+            android:id="@+id/tv_upload_image_complaint_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:background="@drawable/bg_edit_text_border"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.1"
+            android:textColor="@color/black"
+            android:text="@string/upload_image" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/li_parts_not_covered"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/check_not_covered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"/>
+
+        <TextView
+            android:id="@+id/tv_not_covered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:textSize="12sp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:layout_weight="2.9"
+            android:textColor="@color/black"
+            android:text="Parts not covered under warranty"
+            />
+
+        <TextView
+            android:id="@+id/tv_parts_not_covered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:background="@drawable/bg_edit_text_border"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.1"
+            android:textColor="@color/black"
+            android:text="@string/upload_image" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_update_no"
+        style="@style/Theme.OrpatServiceCenter.Buttons"
+        android:layout_width="match_parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/btn_update"
+        app:cornerRadius="0dp"
+        android:visibility="gone"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/dim_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/li_parts" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_hide_update_no"
+        style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+        android:layout_width="match_parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/btn_update"
+        app:cornerRadius="0dp"
+        android:visibility="gone"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/dim_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/li_parts" />
+</LinearLayout>-->
+
+</com.google.android.material.card.MaterialCardView>

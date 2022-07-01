@@ -10,10 +10,10 @@ data class TechnicianData(
     val email: String,
     val mobile: String,
     val pincode: String,
-    val area: String,
+   // val area: String,
     val status: Int,
     val image: String,
-    val location: String
+    //val location: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -22,10 +22,10 @@ data class TechnicianData(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
-        parcel.readString().toString(),
+       // parcel.readString().toString(),
         parcel.readInt(),
         parcel.readString().toString(),
-        parcel.readString().toString()
+     //   parcel.readString().toString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -35,10 +35,10 @@ data class TechnicianData(
         parcel.writeString(email)
         parcel.writeString(mobile)
         parcel.writeString(pincode)
-        parcel.writeString(area)
+      //  parcel.writeString(area)
         parcel.writeInt(status)
         parcel.writeString(image)
-        parcel.writeString(location)
+      //  parcel.writeString(location)
     }
 
     override fun describeContents(): Int {

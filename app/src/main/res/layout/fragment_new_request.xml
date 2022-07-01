@@ -6,12 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.leads.new_lead_fragment.NewRequestsFragment">
 
+   <!-- <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edt_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:drawableRight="@drawable/search_icon"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="12sp"
+        android:hint="Search"
+        android:singleLine="true"
+        android:background="@drawable/bg_edit_text_border"
+        android:layout_margin="10dp"/>
+
+-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_new_request"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="8dp"
+
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:listitem="@layout/item_request_lead_card" />

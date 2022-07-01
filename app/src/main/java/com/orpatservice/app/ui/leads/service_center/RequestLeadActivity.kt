@@ -2,11 +2,12 @@ package com.orpatservice.app.ui.leads.service_center
 
 import android.app.SearchManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -14,9 +15,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityRequestsLeadsBinding
-import com.orpatservice.app.ui.leads.new_lead_fragment.AssignToTechnicianFragment
-import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
-import com.orpatservice.app.ui.leads.new_lead_fragment.TaskCompletedFragment
+import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
+import com.orpatservice.app.ui.leads.new_lead_fragment.*
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.NewRequestViewPagerAdapter
 import com.orpatservice.app.utils.Constants
 
@@ -25,8 +25,10 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     private lateinit var binding: ActivityRequestsLeadsBinding
     private lateinit var viewPager: ViewPager2
     private val newRequestFragment = NewRequestsFragment()
+    private  val assignedLeadFragment = AssignedLeadFragment()
     private val assignToTechnicianFragment = AssignToTechnicianFragment()
-    private val taskCompletedFragment = TaskCompletedFragment()
+   // private val taskCompletedFragment = TaskCompletedFragment()
+    //private val otpVerification = OTPVerificationFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +53,12 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
         val fragmentArrayList: ArrayList<Fragment> = ArrayList()
         fragmentArrayList.add(newRequestFragment)
+        fragmentArrayList.add(assignedLeadFragment)
         fragmentArrayList.add(assignToTechnicianFragment)
-        fragmentArrayList.add(taskCompletedFragment)
+        //fragmentArrayList.add(taskCompletedFragment)
+      //  fragmentArrayList.add(otpVerification)
 
-        val adapter = NewRequestViewPagerAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
+       val adapter = NewRequestViewPagerAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
 
         //Tab name
@@ -68,13 +72,15 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
     private fun setObserver() {
 
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+               // onBackPressed()
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
+                finish()
                 return true
             }
         }
@@ -83,7 +89,7 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
     private lateinit var searchView : SearchView
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_search, menu)
+      /*  menuInflater.inflate(R.menu.menu_search, menu)
 
         // Associate searchable configuration with the SearchView
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
@@ -94,12 +100,22 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                if(supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
-                    newRequestFragment.loadSearchLead(query)
-                } else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
-                    assignToTechnicianFragment.loadSearchLead(query)
-                }else if(supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment){
-                   // assignToTechnicianFragment.loadSearchLead(query)
+                if(!query.isNullOrEmpty()) {
+                    if (supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
+                        newRequestFragment.loadSearchLead(query)
+                    } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment) {
+                        assignToTechnicianFragment.loadSearchLead(query)
+                    } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment) {
+                        //taskCompletedFragment.loadSearchLead(query)
+                    }
+                }else{
+                    if (supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
+                        newRequestFragment.loadSearchLead("")
+                    } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment) {
+                        assignToTechnicianFragment.loadSearchLead("")
+                    } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment) {
+                        //taskCompletedFragment.loadSearchLead(query)
+                    }
                 }
                 searchView.clearFocus()
                 return false
@@ -108,7 +124,7 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
             }
-        })
+        })*/
 
         return true
     }
@@ -119,11 +135,15 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
             searchView.isIconified = true
             if(supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
                 newRequestFragment.loadOldLeadData()
-            } else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
+            } else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignedLeadFragment){
                 assignToTechnicianFragment.loadOldLeadData()
-            }else if(supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment){
-               // taskCompletedFragment.loadOldLeadData()
-            }
+            }else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
+                assignToTechnicianFragment.loadOldLeadData()
+            }/*else if(supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment){
+                taskCompletedFragment.loadOldLeadData()
+            }*//*else if(supportFragmentManager.fragments.get(viewPager.currentItem) is OTPVerificationFragment){
+                otpVerification.loadOldLeadData()
+            }*/
             return
         }
         super.onBackPressed()
@@ -137,6 +157,10 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
             0 -> {
                 tab.select()
             }
+            1 -> {
+                tab.select()
+            }
+
             else -> {
                 tab.select()
             }

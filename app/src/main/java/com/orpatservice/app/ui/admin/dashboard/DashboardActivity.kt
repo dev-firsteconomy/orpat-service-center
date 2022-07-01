@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
@@ -43,8 +44,14 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateUI() {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            binding.tvTitle.setText("Admin")
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            binding.tvTitle.setText("Technician")
+        }
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN, ignoreCase = true)) {
-            binding.includedContent.mcvAddTechnician.visibility = View.VISIBLE
+            binding.includedContent.mcvAddTechnician.visibility = View.GONE
+            binding.includedContent.mcvChargeableRequest.visibility = View.GONE
         }
     }
 
@@ -84,8 +91,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.mcv_add_technician -> {
-                val intent = Intent(this, TechniciansActivity::class.java)
 
+                val intent = Intent(this, TechniciansActivity::class.java)
                 intent.putExtra(Constants.IS_NAV, Constants.ComingFrom.DASHBOARD)
                 startActivity(intent)
 
@@ -102,10 +109,13 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                     startActivity(intent)
                 }
             }
+
             R.id.mcv_profile -> {
                 startActivity(Intent(this, ProfileActivity::class.java))
             }
             R.id.mcv_payment -> {
+
+
             }
             R.id.mcv_more -> {
 

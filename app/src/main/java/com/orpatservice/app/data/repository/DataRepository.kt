@@ -12,7 +12,6 @@ import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
 import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
-import com.orpatservice.app.data.remote.APIClient
 import com.orpatservice.app.data.remote.ApiClient
 import com.orpatservice.app.data.remote.ErrorUtils
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
@@ -20,6 +19,11 @@ import com.orpatservice.app.ui.leads.customer_detail.CancelRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UpdateRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
+import com.orpatservice.app.ui.leads.technician.TechnicianUpdateRequestResponse
+import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
+import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
 import com.orpatservice.app.utils.Constants
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -60,12 +64,56 @@ class DataRepository {
         return ApiClient.getAuthApi().verifyTechnicianOTPLoginAPI(mobileNumber, otp)
     }
 
+
+    fun hitServiceValidateProductApi(scanned_barcode: String): Call<ValidateProductResponse> {
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getClient().validateProduct(token,scanned_barcode)
+    }
+
+
+    fun hitCustomerValidateProductApi(
+        requestBody: JsonObject,
+        technicianId: String? ,
+
+    ): LiveData<Resource<UpdateRequestResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<UpdateRequestResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().validateProduct(token,technicianId,requestBody)
+            .enqueue(object : Callback<UpdateRequestResponse> {
+
+                override fun onFailure(call: Call<UpdateRequestResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<UpdateRequestResponse>,
+                    response: Response<UpdateRequestResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+    }
+
+
     fun loadTechnician(nextPage : Int): LiveData<Resource<TechnicianResponse>> {
         val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
 
         mutableTestData.value = (Resource.loading(null))
-
-        ApiClient.getAuthApi().getTechnicianAPI(nextPage)
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().getTechnicianAPI(token,nextPage)
             .enqueue(object : Callback<TechnicianResponse> {
 
                 override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
@@ -99,8 +147,8 @@ class DataRepository {
         val mutableLiveData = MutableLiveData<Resource<AddTechnicianResponse>>()
 
         mutableLiveData.value = (Resource.loading(null))
-
-        ApiClient.getAuthApi().hitAPIAddTechnician(requestBody)
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitAPIAddTechnician(token,requestBody)
             .enqueue(object : Callback<AddTechnicianResponse> {
 
                 override fun onFailure(call: Call<AddTechnicianResponse>, t: Throwable) {
@@ -200,6 +248,123 @@ class DataRepository {
         return mutableLiveData
     }
 
+
+
+   /* fun hitTaskUpdateRequestApi(
+        requestBody: JsonObject,
+        leadId: Int? ,
+    ): LiveData<Resource<UpdateRequestResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<UpdateRequestResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitTaskUpdateRequestLead(leadId,token,requestBody)
+            .enqueue(object : Callback<UpdateRequestResponse> {
+
+                override fun onFailure(call: Call<UpdateRequestResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<UpdateRequestResponse>,
+                    response: Response<UpdateRequestResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+    }*/
+
+    fun hitTaskUpdateRequestApi(data: JsonObject,leadId: Int?): Call<UpdateRequestResponse> {
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getClient().hitTaskUpdateRequestLead(token,data,leadId)
+    }
+
+    fun hitAPIUploadPartsComplete(leadsId: Int,happyCode: String?): Call<UpdatePartsRequestData> {
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getClient().hitAPIServiceMarkAsComplete(token,leadsId.toString(),happyCode)
+    }
+
+
+
+    fun hitTaskCompletedRequestApi(
+        leadId: Int? ,
+    ): LiveData<Resource<TechnicianRequestLeadResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<TechnicianRequestLeadResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitTaskCompletedRequestLead(leadId,token)
+            .enqueue(object : Callback<TechnicianRequestLeadResponse> {
+
+                override fun onFailure(call: Call<TechnicianRequestLeadResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<TechnicianRequestLeadResponse>,
+                    response: Response<TechnicianRequestLeadResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+    }
+    fun hitTechnicianUpdateRequestApi(
+        requestBody: JsonObject,
+        taskId : Int?,
+    ): LiveData<Resource<TechnicianUpdateRequestResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<TechnicianUpdateRequestResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitTechnicianUpdateRequestLead(token,taskId,requestBody)
+            .enqueue(object : Callback<TechnicianUpdateRequestResponse> {
+
+                override fun onFailure(call: Call<TechnicianUpdateRequestResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<TechnicianUpdateRequestResponse>,
+                    response: Response<TechnicianUpdateRequestResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+    }
+
     fun hitCancelRequestApi(
         requestBody: JsonObject,
         leadId: Int? ,
@@ -271,8 +436,75 @@ class DataRepository {
         return mutableLiveData
     }
 
+
+    fun hitAPIAssignTechnicianLead(leadsId: String?, technicianId: String): LiveData<Resource<TechnicianResponse>> {
+        val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
+
+        mutableTestData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitAPIAssignTechnicianLead(token,leadsId,technicianId)
+            .enqueue(object : Callback<TechnicianResponse> {
+
+                override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
+                    mutableTestData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<TechnicianResponse>,
+                    response: Response<TechnicianResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableTestData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableTestData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableTestData
+
+    }
+
+    fun hitAPIAssignChangeTechnicianLead(leadsId: String?, technicianId: String): LiveData<Resource<TechnicianResponse>> {
+        val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
+
+        mutableTestData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitAPIAssignChangeTechnicianLead(token,leadsId,technicianId)
+            .enqueue(object : Callback<TechnicianResponse> {
+
+                override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
+                    mutableTestData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<TechnicianResponse>,
+                    response: Response<TechnicianResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableTestData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableTestData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableTestData
+
+    }
+
     //Lead API assign to tech
-    fun hitAPIAssignTechnician(leadsId : Int,technicianId : Int): LiveData<Resource<TechnicianResponse>> {
+    fun hitAPIAssignTechnician(leadsId: Int?, technicianId: Int): LiveData<Resource<TechnicianResponse>> {
         val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
 
         mutableTestData.value = (Resource.loading(null))
@@ -341,7 +573,7 @@ class DataRepository {
         val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
 
         mutableTestData.value = (Resource.loading(null))
-
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
         ApiClient.getAuthApi().hitAPISendHappyCode(leadId)
             .enqueue(object : Callback<TechnicianResponse> {
 
@@ -352,6 +584,72 @@ class DataRepository {
                 override fun onResponse(
                     call: Call<TechnicianResponse>,
                     response: Response<TechnicianResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableTestData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableTestData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableTestData
+
+    }
+
+    fun hitAPITaskSendHappyCode(leadId : String): LiveData<Resource<TechnicianResponse>> {
+        val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
+
+        mutableTestData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitAPITaskSendHappyCode(leadId,token)
+            .enqueue(object : Callback<TechnicianResponse> {
+
+                override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
+                    mutableTestData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<TechnicianResponse>,
+                    response: Response<TechnicianResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableTestData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableTestData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableTestData
+
+    }
+
+    fun hitAPITaskSendHappyCodeVerification(leadId : String,happyCode : String): LiveData<Resource<UpdatePartsRequestData>> {
+        val mutableTestData = MutableLiveData<Resource<UpdatePartsRequestData>>()
+
+        mutableTestData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+         ApiClient.getAuthApi().hitAPITaskSendHappyCodeVerification(leadId,token,happyCode)
+            .enqueue(object : Callback<UpdatePartsRequestData> {
+
+                override fun onFailure(call: Call<UpdatePartsRequestData>, t: Throwable) {
+                    mutableTestData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<UpdatePartsRequestData>,
+                    response: Response<UpdatePartsRequestData>
                 ) {
                     if (response.isSuccessful) {
                         mutableTestData.value = response.body()?.let { Resource.success(it) }
@@ -402,6 +700,43 @@ class DataRepository {
         return mutableTestData
     }
 
+    /*fun hitAPIServiceMarkAsComplete(leadId : String, happyCode:String): LiveData<Resource<RequestLeadResponse>> {
+        val mutableTestData = MutableLiveData<Resource<RequestLeadResponse>>()
+
+        mutableTestData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitAPIServiceMarkAsComplete(leadId,happyCode,token)
+            .enqueue(object : Callback<RequestLeadResponse> {
+
+                override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
+                    mutableTestData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<RequestLeadResponse>,
+                    response: Response<RequestLeadResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        println("response.body()?.data"+response.body()?.data)
+                        mutableTestData.value = response.body()?.let {
+                            Resource.success(it)
+                        }
+
+                    } else {
+                        mutableTestData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableTestData
+    }*/
+
+
     fun hitAPIUploadFile(
         requestBody: MultipartBody,
     ): Call<UploadFileResponse> {
@@ -410,6 +745,17 @@ class DataRepository {
         mutableLiveData.value = (Resource.loading(null))
         val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
         return ApiClient.getAuthApi().hitAPIUploadFile(token,requestBody)
+
+    }
+
+    fun hitAPITechnicianUploadFile(
+        requestBody: MultipartBody,
+    ): Call<UploadFileResponse> {
+        val mutableLiveData = MutableLiveData<Resource<UploadFileResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().hitAPITechnicianUploadFile(token,requestBody)
 
     }
 
@@ -428,15 +774,23 @@ class DataRepository {
     //Lead API
     fun hitGetServiceCenterPendingLeads(pageNumber: Int): Call<RequestLeadResponse> {
         val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        println("tokentoken"+token)
         return ApiClient.getAuthApi().getServiceCenterPendingLeads(token,pageNumber)
     }
 
     fun hitServiceCenterSearchPendingLeads(keyword: String): Call<RequestLeadResponse> {
-        return ApiClient.getAuthApi().getServiceCenterSearchPendingLeads(keyword)
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getServiceCenterSearchPendingLeads(keyword,token)
     }
 
     fun hitGetServiceCenterAssignedLeads(pageNumber: Int): Call<RequestLeadResponse> {
-        return ApiClient.getAuthApi().getServiceCenterAssignedLeads(pageNumber)
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getServiceCenterAssignedLeads(token,pageNumber)
+    }
+
+    fun hitGetServiceCenterChangeAssignedLeads(pageNumber: Int): Call<NewRequestResponse> {
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getServiceCenterAssignedTechnicianLeads(token,pageNumber)
     }
 
 
@@ -447,12 +801,39 @@ class DataRepository {
 
 
     fun hitServiceCenterSearchAssignedLeads(keyword: String): Call<RequestLeadResponse> {
-        return ApiClient.getAuthApi().getServiceCenterSearchAssignedLeads(keyword)
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getServiceCenterSearchAssignedLeads(keyword,token)
     }
+
+    fun hitServiceCenterSearchCompletedLeads(keyword: String): Call<TakCompletedResponse> {
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getServiceCenterSearchCompletedLeads(keyword,token)
+    }
+
+    fun hitAPICompletedLeads(keyword: String): Call<RequestLeadResponse> {
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getAPISearchCompletedLeads(keyword,token)
+    }
+
+   /* fun hitServiceCenterSearchCompletedLeads(keyword: String): Call<RequestLeadResponse> {
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getServiceCenterSearchAssignedLeads(keyword,token)
+    }*/
 
     fun hitGetServiceCenterCompletedLeads(pageNumber: Int): Call<RequestLeadResponse> {
         return ApiClient.getAuthApi().getServiceCenterCompletedLeads(pageNumber)
     }
+    fun hitGetServiceCenterCompletedDataLeads(pageNumber: Int): Call<RequestLeadResponse> {
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getServiceCenterCompletedDataLeads(pageNumber,token)
+    }
+
+
+    fun hitGetServiceCenterTaskCompletedLeads(pageNumber: Int): Call<TakCompletedResponse> {
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getServiceCenterTaskCompletedLeads(token,pageNumber)
+    }
+
 
     fun hitGetServiceCenterCancelledLeads(pageNumber: Int): Call<RequestLeadResponse> {
         return ApiClient.getAuthApi().getServiceCenterCancelledLeads(pageNumber)
@@ -462,8 +843,9 @@ class DataRepository {
         return ApiClient.getAuthApi().getServiceCenterCancelLead(leadId, cancelReason)
     }
 
-    fun hitGetTechnicianPendingLeads(pageNumber: Int): Call<RequestLeadResponse> {
-        return ApiClient.getAuthApi().getTechnicianPendingLeads(pageNumber)
+    fun hitGetTechnicianPendingLeads(pageNumber: Int): Call<TechnicianRequestLeadResponse> {
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getTechnicianPendingLeads(token,pageNumber)
     }
 
     fun hitTechnicianSearchPendingLeads(keyword: String): Call<RequestLeadResponse> {

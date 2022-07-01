@@ -82,7 +82,6 @@ public class ApiClient {
         return apiEndpoint;
     }
 
-
     @NonNull
     private static Retrofit getHeaderRetrofitInstance(boolean hasSSLPinning) {
         /* String baseUrl = SharedPrefs.getInstance().getString(SharedPrefsConstant.BASE_URL, BuildConfig.DOMAIN);*/

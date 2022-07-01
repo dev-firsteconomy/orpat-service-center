@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_warranty_parts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="12sp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:textColor="@color/black"
+        android:text="@string/task_completed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+  <!--  <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_otp_varify"
+        style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+        android:layout_width="match_parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/otp_varification"
+        app:cornerRadius="0dp"
+        android:visibility="visible"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/dim_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_warranty_parts" />-->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_otp_varify"
+        style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite"
+        android:layout_width="match_parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="40dp"
+        android:layout_weight="1"
+        android:textSize="10sp"
+        android:visibility="gone"
+        android:text="@string/otp_varification"
+        app:iconGravity="textStart"
+        app:iconPadding="2dp"
+        app:iconTint="@color/brown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_warranty_parts"/>
+
+</com.google.android.material.card.MaterialCardView>
