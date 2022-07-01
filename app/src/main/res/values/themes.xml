@@ -109,6 +109,15 @@
         <item name="fontFamily">@font/poppins_medium</item>
     </style>
 
+    <style name="UserTypeRadioButtonStyles" parent="@android:style/Widget.CompoundButton">
+        <item name="android:background">@drawable/selector_user_type</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="android:textAlignment">center</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+    </style>
+
+
     <!-- OTP EditText Theme-->
     <style name="Theme.OrpatServiceCenter.OTPEditText">
         <item name="android:textSize">@dimen/OTP_text_size</item>

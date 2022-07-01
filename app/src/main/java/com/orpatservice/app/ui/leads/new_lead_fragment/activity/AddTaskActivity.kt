@@ -634,7 +634,7 @@ class AddTaskActivity : AppCompatActivity(), CameraBottomSheetDialogFragment.Bot
             ex.printStackTrace()
         }
         buildMutilPart()
-        //  binding.includedContent.ivUploadImage.setImageURI(resultUri)
+        //binding.includedContent.ivUploadImage.setImageURI(resultUri)
         //binding.ivSelectedImage.setImageURI(resultUri)
     }
 
