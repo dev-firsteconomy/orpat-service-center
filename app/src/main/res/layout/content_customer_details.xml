@@ -295,7 +295,7 @@
             android:layout_weight="1"
             app:icon="@drawable/ic_arrow_forward"
             app:iconGravity="textEnd"
-            android:visibility="visible"
+            android:visibility="gone"
             app:iconTint="@color/dim_white" />
 
 

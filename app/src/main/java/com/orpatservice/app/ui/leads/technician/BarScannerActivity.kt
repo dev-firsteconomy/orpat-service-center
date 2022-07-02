@@ -57,7 +57,14 @@ class BarScannerActivity : AppCompatActivity() {
 
 
 
-        binding.ivCancel.setOnClickListener { finish() }
+        binding.ivCancel.setOnClickListener {
+
+            val data = Intent()
+            data.putExtra("close", "close");
+
+            setResult(Activity.RESULT_OK, data);
+            finish()
+        }
 
         setObserver()
         initScanner()
@@ -203,6 +210,7 @@ class BarScannerActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun passProductAsResult(currentScanner: String) {
         val data = Intent()
         data.putExtra("currentScanner", currentScanner);

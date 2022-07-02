@@ -152,6 +152,8 @@
         <activity android:name=".ui.leads.technician.BarScannerActivity" />
         <activity android:name=".ui.leads.customer_detail.AdminCustomerDetailsActivity" />
         <activity android:name=".ui.leads.new_lead_fragment.activity.AddTaskActivity" />
+        <activity android:name=".ui.leads.chargeable_request.ChargeableRequestActivity" />
+        <activity android:name=".ui.leads.chargeable_request.ChargeableRequestDetailsActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

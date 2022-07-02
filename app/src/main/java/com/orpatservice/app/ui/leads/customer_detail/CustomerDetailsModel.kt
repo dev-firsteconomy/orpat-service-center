@@ -13,6 +13,7 @@ import com.orpatservice.app.data.repository.DataRepository
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.VerifyGSTRequestData
 import com.orpatservice.app.ui.leads.technician.TechnicianUpdateRequestResponse
 import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
@@ -30,6 +31,7 @@ class CustomerDetailsModel: ViewModel() {
     val taskCompletedData = MutableLiveData<Resource<TechnicianRequestLeadResponse>>()
     val submitLeadData = MutableLiveData<Resource<UpdateRequestResponse>>()
     val updatePartsLeadData = MutableLiveData<Resource<UpdatePartsRequestData>>()
+    val verifyNumData = MutableLiveData<Resource<VerifyGSTRequestData>>()
 
     fun hitUploadFile(requestBody: MultipartBody) {
         return DataRepository.instance.hitAPITechnicianUploadFile(requestBody).enqueue(callbackUploadFile)
@@ -43,6 +45,36 @@ class CustomerDetailsModel: ViewModel() {
     fun assignTechnicianLead() {
         DataRepository.instance.hitGetAssignTechnicianLeads().enqueue(callbackAssignTechnicianLead)
     }
+
+    fun verifyGstNum(keyword: String) {
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            DataRepository.instance.hitServiceCenterVerifyNum(keyword).enqueue(callbackVerifyNumLeads)
+        }
+    }
+
+
+    private val callbackVerifyNumLeads: Callback<VerifyGSTRequestData> =
+        object : Callback<VerifyGSTRequestData> {
+            override fun onResponse(
+                call: Call<VerifyGSTRequestData>,
+                response: Response<VerifyGSTRequestData>) {
+
+                if (response.isSuccessful) {
+                    verifyNumData.postValue(response.body().let { Resource.success(it) }) // = response.body().let { Resource.success(it) }
+                } else {
+                    verifyNumData.postValue(Resource.error(
+                        ErrorUtils.getError(
+                            response.errorBody(),
+                            response.code()
+                        )
+                    ))
+                }
+            }
+
+            override fun onFailure(call: Call<VerifyGSTRequestData>, t: Throwable) {
+                verifyNumData.postValue(Resource.error(ErrorUtils.getError(t)))
+            }
+        }
 
     /*fun hitUpdateRequest(requestBody: JsonObject,leadId: String, taskId: String) {
        // return DataRepository.instance.hitUpdateRequestApi(requestBody).enqueue(callbackUploadFile)
@@ -144,6 +176,20 @@ class CustomerDetailsModel: ViewModel() {
     ): LiveData<Resource<CancelRequestResponse>> {
         return DataRepository.instance.hitCancelRequestApi(requestBody,leadId)
     }
+
+    fun hitChargeableCancelRequest(
+        requestBody: JsonObject,
+        leadId : Int?,
+    ): LiveData<Resource<CancelRequestResponse>> {
+        return DataRepository.instance.hitChargeableCancelRequestApi(requestBody,leadId)
+    }
+
+    fun hitTaskCancelRequest(
+        requestBody: JsonObject,
+    ): LiveData<Resource<CancelRequestResponse>> {
+        return DataRepository.instance.hitTaskCancelRequestApi(requestBody)
+    }
+
 
    /* fun hitValidateQRApi(qrcode : String, technicianId: String){
         DataRepository.instance.hitCustomerValidateProductApi(qrcode,technicianId).enqueue(callbackQRCodeCheck)

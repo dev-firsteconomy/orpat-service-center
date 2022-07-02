@@ -21,6 +21,7 @@ import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.VerifyGSTRequestData
 import com.orpatservice.app.ui.leads.technician.TechnicianUpdateRequestResponse
 import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
@@ -374,6 +375,78 @@ class DataRepository {
         mutableLiveData.value = (Resource.loading(null))
         val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
         ApiClient.getAuthApi().hitCancelRequestLead(token,requestBody,leadId)
+            .enqueue(object : Callback<CancelRequestResponse> {
+
+                override fun onFailure(call: Call<CancelRequestResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<CancelRequestResponse>,
+                    response: Response<CancelRequestResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+
+    }
+
+
+    fun hitChargeableCancelRequestApi(
+        requestBody: JsonObject,
+        leadId: Int? ,
+    ): LiveData<Resource<CancelRequestResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<CancelRequestResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitChargeableCancelRequestLead(token,requestBody,leadId)
+            .enqueue(object : Callback<CancelRequestResponse> {
+
+                override fun onFailure(call: Call<CancelRequestResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<CancelRequestResponse>,
+                    response: Response<CancelRequestResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+
+    }
+
+    fun hitTaskCancelRequestApi(
+        requestBody: JsonObject,
+    ): LiveData<Resource<CancelRequestResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<CancelRequestResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitTaskCancelRequestLead(token,requestBody)
             .enqueue(object : Callback<CancelRequestResponse> {
 
                 override fun onFailure(call: Call<CancelRequestResponse>, t: Throwable) {
@@ -778,9 +851,21 @@ class DataRepository {
         return ApiClient.getAuthApi().getServiceCenterPendingLeads(token,pageNumber)
     }
 
+    fun hitGetServiceCenterChargeableLeads(pageNumber: Int): Call<RequestLeadResponse> {
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        println("tokentoken"+token)
+        return ApiClient.getAuthApi().getServiceCenterChargeableLeads(token,pageNumber)
+    }
+
+
     fun hitServiceCenterSearchPendingLeads(keyword: String): Call<RequestLeadResponse> {
         val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
         return ApiClient.getAuthApi().getServiceCenterSearchPendingLeads(keyword,token)
+    }
+
+    fun hitServiceCenterVerifyNum(keyword: String): Call<VerifyGSTRequestData> {
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getServiceCenterVerifyNum(keyword,token)
     }
 
     fun hitGetServiceCenterAssignedLeads(pageNumber: Int): Call<RequestLeadResponse> {

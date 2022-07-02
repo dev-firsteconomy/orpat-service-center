@@ -16,6 +16,7 @@ import com.orpatservice.app.ui.leads.service_center.LeadHistoryActivity
 import com.orpatservice.app.ui.leads.service_center.RequestLeadActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.leads.chargeable_request.ChargeableRequestActivity
 import com.orpatservice.app.ui.leads.technician.TechnicianHistoryLeadActivity
 import com.orpatservice.app.ui.login.SelectUserActivity
 import com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity
@@ -38,6 +39,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         binding.includedContent.mcvProfile.setOnClickListener(this)
         binding.includedContent.mcvPayment.setOnClickListener(this)
         binding.includedContent.mcvMore.setOnClickListener(this)
+        binding.includedContent.mcvChargeableRequest.setOnClickListener(this)
         binding.ivLogout.setOnClickListener(this)
 
         updateUI()
@@ -51,7 +53,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         }
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN, ignoreCase = true)) {
             binding.includedContent.mcvAddTechnician.visibility = View.GONE
-            binding.includedContent.mcvChargeableRequest.visibility = View.GONE
+            binding.includedContent.mcvPayment.visibility = View.GONE
         }
     }
 
@@ -114,7 +116,12 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(Intent(this, ProfileActivity::class.java))
             }
             R.id.mcv_payment -> {
+                val intent = Intent(this, ChargeableRequestActivity::class.java)
+                intent.putExtra(Constants.MODULE_TYPE, Constants.REQUEST)
+                startActivity(intent)
 
+            }
+            R.id.mcv_chargeable_request -> {
 
             }
             R.id.mcv_more -> {

@@ -20,4 +20,5 @@
     <dimen name="corner_radius_round">32dp</dimen>
     <dimen name="corner_radius_small_round">5dp</dimen>
     <dimen name="app_bar_text_size">22sp</dimen>
+    <dimen name="filed_text_size">10dp</dimen>
 </resources>

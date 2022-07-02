@@ -9,6 +9,7 @@ import com.orpatservice.app.data.model.TechnicianData
  */
 class LeadData() : Parcelable {
     var id: Int? = null
+    var is_open: String? = null
     var complain_id: String? = null
     var name: String? = null
     var email: String? = null
@@ -36,6 +37,7 @@ class LeadData() : Parcelable {
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readValue(Int::class.java.classLoader) as? Int
+        is_open = parcel.readString()
         complain_id = parcel.readString()
         name = parcel.readString()
         email = parcel.readString()
@@ -68,6 +70,7 @@ class LeadData() : Parcelable {
 
     override fun writeToParcel(parcel: Parcel?, flags: Int) {
         parcel?.writeValue(id)
+        parcel?.writeString(is_open)
         parcel?.writeString(complain_id)
         parcel?.writeString(name)
         parcel?.writeString(email)

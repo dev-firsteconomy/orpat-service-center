@@ -139,6 +139,13 @@ class ComplaintAdapter(
                 }
             })
 
+            binding.tvVerifyGst.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.tvVerifyGst,binding
+                )
+            }
+
             binding.rbGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { radioGroup, i ->
               binding.tvErrorUnderWarranty.visibility = GONE
             })
@@ -189,13 +196,13 @@ class ComplaintAdapter(
             binding.radiobtnYes.setOnClickListener {
                 itemClickListener(
                     adapterPosition,
-                    binding.ivQrCodeImage,binding
+                    binding.radiobtnYes,binding
                 )
             }
             binding.radiobtnNo.setOnClickListener {
                 itemClickListener(
                     adapterPosition,
-                    binding.ivQrCodeImage,binding
+                    binding.radiobtnNo,binding
                 )
             }
             binding.ivQrCodeImage.setOnClickListener {
@@ -210,6 +217,20 @@ class ComplaintAdapter(
                     binding.btnUpdate,
                     binding)
             }
+
+            binding.btnGstCancel.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.btnGstCancel,
+                    binding)
+            }
+            binding.btnGstGenerateChargeable.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.btnGstGenerateChargeable,
+                    binding)
+            }
+
         }
     }
 }

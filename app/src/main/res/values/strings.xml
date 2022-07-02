@@ -173,6 +173,18 @@
     <string name="prblm_details_string">Explain your problem in details</string>
     <string name="proceed_string">Proceed</string>
     <string name="chargeable_request">Chargeable Request</string>
+    <string name="chargeable_details">Chargeable Details</string>
+    <string name="finish">Finish</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="gst_num_string">GST Number</string>
+    <string name="error_gst_number_string">* Please Enter GST Number</string>
+    <string name="gst_in_string">Check GSTIN</string>
+    <string name="gst_trade_name">GST Trade Name</string>
+    <string name="gst_name_string">GST Name</string>
+    <string name="btn_generate_chageable">Create Chargeable Req</string>
+    <string name="service_center_gst_num">Please Enter GST Number</string>
+    <string name="btn_scan">Scan QR Code</string>
+    <string name="btn_cancel_task">Cancel Task</string>
 
 
 </resources>

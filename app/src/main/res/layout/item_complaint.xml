@@ -297,8 +297,10 @@
             app:layout_constraintTop_toBottomOf="@id/edt_select_invoice_date"/>
 
 
-        <!--<TextView
-            android:id="@+id/tv_upload_invoice"
+
+
+        <TextView
+            android:id="@+id/tv_gst_number"
             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -306,26 +308,115 @@
             android:drawablePadding="6dp"
             android:gravity="center_vertical"
             android:includeFontPadding="false"
-            android:text="@string/upload_invoice"
+            android:text="@string/gst_num_string"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edt_select_invoice_date" />
+            app:layout_constraintTop_toBottomOf="@id/tv_error_invoice_date" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_upload_invoice"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
+        <LinearLayout
+            android:id="@+id/li_gst_num"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:background="@drawable/bg_edit_text_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_gst_number" >
+
+            <EditText
+                android:id="@+id/edt_gst_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="@string/type_here"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_verify_gst"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:gravity="center"
+                android:visibility="visible"
+                android:textColor="@color/failure_red"
+                android:text="@string/gst_in_string"/>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_error_gst_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:text="@string/error_gst_number_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/li_gst_num"/>
+
+
+        <TextView
+            android:id="@+id/tv_gst_name"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:drawablePadding="6dp"
-            android:text="@string/upload"
+            android:visibility="gone"
             android:gravity="center_vertical"
-            android:padding="5dp"
-            android:textColor="@color/white"
-            android:drawableLeft="@drawable/ic_upload_invoice"
             android:includeFontPadding="false"
+            android:text="@string/gst_name_string"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_upload_invoice" />-->
+            app:layout_constraintTop_toBottomOf="@id/tv_error_gst_number" />
 
+        <TextView
+            android:id="@+id/tv_gst_first_name"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:hint="@string/select_date"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_edit_text_border"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_gst_name" />
+
+
+        <TextView
+            android:id="@+id/tv_gst_trade"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:includeFontPadding="false"
+            android:text="@string/gst_trade_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_gst_first_name" />
+
+        <TextView
+            android:id="@+id/tv_gst_trade_name"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:hint="@string/select_date"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_edit_text_border"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_gst_trade" />
 
         <LinearLayout
             android:id="@+id/li_warranty"
@@ -335,7 +426,7 @@
             android:weightSum="2"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_error_invoice_date">
+            app:layout_constraintTop_toBottomOf="@id/tv_gst_trade_name">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -422,59 +513,103 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/red"
+            android:visibility="gone"
             android:text="@string/error_under_warranty"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/li_warranty"/>
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_update"
-            style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+        <LinearLayout
+            android:id="@+id/li_update"
             android:layout_width="match_parent"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_height="40dp"
-            android:text="@string/btn_update"
-            app:cornerRadius="0dp"
-            android:layout_marginTop="10dp"
-            app:icon="@drawable/ic_arrow_forward"
-            app:iconGravity="textEnd"
-            android:visibility="visible"
-            app:iconTint="@color/dim_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_hide_update"
-            style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
-            android:layout_width="match_parent"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_height="40dp"
-            android:text="@string/btn_update"
-            app:cornerRadius="0dp"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="vertical"
             android:visibility="gone"
-            android:layout_marginTop="10dp"
-            app:iconGravity="textEnd"
-            app:iconTint="@color/dim_white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty" />
+            app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty">
 
-      <!--  <TextView
-            android:id="@+id/tv_cancel_lead"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_update"
+                style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+                android:layout_width="match_parent"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_height="40dp"
+                android:text="@string/btn_update"
+                app:cornerRadius="0dp"
+                android:layout_marginTop="10dp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="textEnd"
+                android:visibility="visible"
+                app:iconTint="@color/dim_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_hide_update"
+                style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+                android:layout_width="match_parent"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_height="40dp"
+                android:text="@string/btn_update"
+                app:cornerRadius="0dp"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                app:iconGravity="textEnd"
+                app:iconTint="@color/dim_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/li_generate_cancel"
             android:layout_width="match_parent"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_height="44dp"
-            android:gravity="center"
-            android:text="@string/cancel_lead"
-            app:cornerRadius="0dp"
-            android:textColor="@color/black"
+            android:layout_height="50dp"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:visibility="visible"
             android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_assign_technician" />
--->
+            app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_gst_cancel"
+                style="@style/Theme.OrpatServiceCenter.Buttons_Flat_Black"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/btn_cancel"
+
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_gst_generate_chargeable"
+                style="@style/Theme.OrpatServiceCenter.Buttons_Flat_Black"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/btn_generate_chageable"
+                android:layout_weight="1"
+                android:padding="-10dp"
+                android:minWidth="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:minHeight="0dp"
+                android:insetBottom="0dp"
+                android:insetTop="0dp"
+                android:layout_margin="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty" />
+
+        </LinearLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

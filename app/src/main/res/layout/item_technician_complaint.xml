@@ -9,10 +9,16 @@
     app:cardCornerRadius="@dimen/corner_radius"
     app:cardElevation="4dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/corner_radius">
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_task"
@@ -393,4 +399,36 @@
             app:layout_constraintTop_toBottomOf="@id/tv_qrcode_success_verify" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:padding="16dp"
+        android:weightSum="2">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_scan_qrcode"
+            android:layout_width="match_parent"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite_Flat"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:text="@string/btn_scan"
+            android:layout_weight="1"/>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel_task"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:text="@string/btn_cancel_task"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite_Flat"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

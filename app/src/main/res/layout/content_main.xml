@@ -31,7 +31,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcv_request"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:cardBackgroundColor="@color/white"
@@ -96,7 +96,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcv_add_technician"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:cardBackgroundColor="@color/white"
@@ -132,11 +132,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
                     android:gravity="center"
                     android:text="@string/add_technician"
-                    android:layout_marginTop="6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_add_tech" />
 
@@ -147,7 +148,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcv_history"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
@@ -253,7 +254,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcv_profile"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:cardBackgroundColor="@color/white"
@@ -303,7 +304,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mcv_payment"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
@@ -339,11 +340,13 @@
                     style="@style/Theme.OrpatServiceCenter.MediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/chargeable_request"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
                     android:layout_marginTop="6dp"
+                    android:text="@string/chargeable_request"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_payment" />
 
@@ -401,7 +404,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
-        
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

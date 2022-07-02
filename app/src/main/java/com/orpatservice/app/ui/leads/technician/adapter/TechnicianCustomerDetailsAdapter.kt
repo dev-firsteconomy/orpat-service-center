@@ -42,7 +42,6 @@ class TechnicianCustomerDetailsAdapter(
     class ComplaintViewHolder(val binding: ItemTechnicianComplaintBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-
         fun onBind(
             enquiryImage: ArrayList<TechnicianEnquiryImage>,
             tatalCount: Int,
@@ -87,6 +86,22 @@ class TechnicianCustomerDetailsAdapter(
 
 
             binding.tvQrCodeNumber.text = enquiry.scanned_barcode
+
+            binding.btnScanQrcode.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.btnScanQrcode,binding,
+                    enquiryImage
+                )
+            }
+
+            binding.btnCancelTask.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.btnCancelTask,binding,
+                    enquiryImage
+                )
+            }
 
             binding.ivInvoiceImage.setOnClickListener {
                 //binding.ivQrCodeImage.visibility = GONE

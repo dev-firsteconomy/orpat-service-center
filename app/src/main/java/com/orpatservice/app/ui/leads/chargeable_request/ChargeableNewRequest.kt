@@ -1,4 +1,4 @@
-package com.orpatservice.app.ui.leads.new_lead_fragment
+package com.orpatservice.app.ui.leads.chargeable_request
 
 import android.content.Context
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -22,20 +23,19 @@ import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
-import com.orpatservice.app.databinding.FragmentNewRequestBinding
+import com.orpatservice.app.databinding.ChargeableNewRequestAdminBinding
 import com.orpatservice.app.databinding.ItemNewRequestAdminBinding
 import com.orpatservice.app.databinding.LayoutDialogCancelLeadBinding
 import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
-import com.orpatservice.app.ui.leads.customer_detail.AdminCustomerDetailsActivity
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
+import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
-import com.tapadoo.alerter.Alerter
 
-class NewRequestsFragment : Fragment() {
+class ChargeableNewRequest : Fragment() {
 
-    private lateinit var binding: ItemNewRequestAdminBinding
+    private lateinit var binding: ChargeableNewRequestAdminBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
     private var tempDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var layoutManager: LinearLayoutManager
@@ -49,25 +49,20 @@ class NewRequestsFragment : Fragment() {
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
             R.id.btn_view_details -> {
-                val intent = Intent(activity, CustomerDetailsActivity::class.java)
+                val intent = Intent(activity, ChargeableRequestDetailsActivity::class.java)
+
                 intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
                 //No need to send new lead data because closing complaint perform through adapter
                 intent.putExtra(Constants.LEAD_TYPE, Constants.LEAD_NEW)
                 startActivity(intent)
             }
-
-            R.id.btn_view_decline -> {
-                removeIndex = position
-                val id = leadDataArrayList[position].id
-
-                confirmationDialog(activity as Context, id)
-            }
-            R.id.tv_request_location -> {
-                //openDirection(position)
-            }
         }
     }
-    private val requestsLeadsAdapter = RequestsLeadsAdapter(
+    /*private val requestsLeadsAdapter = RequestsLeadsAdapter(
+        leadDataArrayList, itemClickListener = onItemClickListener, Constants.LEAD_NEW
+    )*/
+
+    private val requestsLeadsAdapter = ChargeableRequestsLeadsAdapter(
         leadDataArrayList, itemClickListener = onItemClickListener, Constants.LEAD_NEW
     )
 
@@ -82,10 +77,9 @@ class NewRequestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = ItemNewRequestAdminBinding.inflate(inflater, container, false)
+        binding = ChargeableNewRequestAdminBinding.inflate(inflater, container, false)
 
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
-
 
 
         setObserver()
@@ -104,7 +98,7 @@ class NewRequestsFragment : Fragment() {
         binding.rvNewRequest.apply {
             adapter = requestsLeadsAdapter
         }
-
+        //binding.edtSearch.visibility = GONE
         binding.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(text: Editable?) {
                 /*if(!text.isNullOrEmpty()){
@@ -151,13 +145,13 @@ class NewRequestsFragment : Fragment() {
     }
 
     private fun setObserver() {
-        requestLeadsViewModel.loadPendingLeads(pageNumber)
-        requestLeadsViewModel.pendingLeadsData.observe(viewLifecycleOwner, this::getPendingLeads)
-        requestLeadsViewModel.cancelLeadsData.observe(viewLifecycleOwner, this::doCancelLead)
+        requestLeadsViewModel.loadChargeableLeads(pageNumber)
+        requestLeadsViewModel.chargeableLeadsData.observe(viewLifecycleOwner, this::getChargeableLeads)
+       // requestLeadsViewModel.cancelLeadsData.observe(viewLifecycleOwner, this::doCancelLead)
     }
 
     fun filter(text: String) {
-        loadSearchLead(text)
+        //loadSearchLead(text)
     }
 
     private fun openDirection(position: Int) {
@@ -184,7 +178,7 @@ class NewRequestsFragment : Fragment() {
 
 
 
-    private fun getPendingLeads(resources: Resource<RequestLeadResponse>) {
+    private fun getChargeableLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {
                 binding.cpiLoading.visibility = View.VISIBLE
@@ -193,11 +187,6 @@ class NewRequestsFragment : Fragment() {
                 binding.cpiLoading.visibility = View.GONE
                 isLoading = false
                 activity?.let {
-                   /* Alerter.create(it)
-                        .setText(resources.error?.message.toString())
-                        .setBackgroundColorRes(R.color.orange)
-                        .setDuration(1500)
-                        .show()*/
 
                     Utils.instance.popupPinUtil(requireActivity(),
                         resources.error?.message.toString(),
@@ -241,11 +230,6 @@ class NewRequestsFragment : Fragment() {
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
                 activity?.let {
-                   /* Alerter.create(it)
-                        .setText(resources.error?.message.toString())
-                        .setBackgroundColorRes(R.color.orange)
-                        .setDuration(1500)
-                        .show()*/
 
                     Utils.instance.popupPinUtil(requireActivity(),
                         resources.error?.message.toString(),
@@ -267,11 +251,6 @@ class NewRequestsFragment : Fragment() {
 
                         }
                         activity?.let {
-                           /* Alerter.create(it)
-                                .setText(resources.data.message)
-                                .setBackgroundColorRes(R.color.orange)
-                                .setDuration(1500)
-                                .show()*/
 
                             Utils.instance.popupPinUtil(requireActivity(),
                                 resources.data.message,
@@ -325,6 +304,7 @@ class NewRequestsFragment : Fragment() {
             alertDialog.dismiss()
         }
     }
+
 
 
     private fun loadUI () {

@@ -29,9 +29,19 @@ class RequestsLeadsViewModel : ViewModel() {
     val cancelLeadsData = MutableLiveData<Resource<CancelLeadResponse>>()
     val completedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val taskcompletedLeadsData = MutableLiveData<Resource<TakCompletedResponse>>()
+    val chargeableLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
 
     fun loadPendingLeads(pageNumber: Int) {
         DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
+        /*if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            DataRepository.instance.hitGetTechnicianPendingLeads(pageNumber).enqueue(callbackPendingLeads)
+        }*/
+    }
+
+    fun loadChargeableLeads(pageNumber: Int) {
+        DataRepository.instance.hitGetServiceCenterChargeableLeads(pageNumber).enqueue(callbackChargeableLeads)
         /*if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
@@ -79,6 +89,29 @@ class RequestsLeadsViewModel : ViewModel() {
 
             override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
                 pendingLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
+            }
+        }
+
+    private val callbackChargeableLeads: Callback<RequestLeadResponse> =
+        object : Callback<RequestLeadResponse> {
+            override fun onResponse(
+                call: Call<RequestLeadResponse>,
+                response: Response<RequestLeadResponse>) {
+
+                if (response.isSuccessful) {
+                    chargeableLeadsData.postValue(response.body().let { Resource.success(it) }) // = response.body().let { Resource.success(it) }
+                } else {
+                    chargeableLeadsData.postValue(Resource.error(
+                        ErrorUtils.getError(
+                            response.errorBody(),
+                            response.code()
+                        )
+                    ))
+                }
+            }
+
+            override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
+                chargeableLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
 

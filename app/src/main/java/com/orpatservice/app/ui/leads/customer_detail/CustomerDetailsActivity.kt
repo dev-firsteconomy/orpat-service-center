@@ -18,6 +18,8 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -47,6 +49,8 @@ import com.orpatservice.app.databinding.ItemComplaintBinding
 import com.orpatservice.app.ui.admin.technician.*
 import com.orpatservice.app.ui.leads.adapter.ComplaintAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.activity.AddTaskActivity
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.VerifyGSTRequestData
 import com.orpatservice.app.ui.leads.service_center.RequestLeadActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
@@ -81,6 +85,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private var invoiceUrl: String? = null
     private lateinit var bindingAdapter : ItemComplaintBinding
     private var pos: String? = null
+    private lateinit var alertDialogBuilder:Dialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,22 +135,22 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         if (leadData.enquiries.isNullOrEmpty()) {
             // binding.includedContent.tvEnquiryHeading.visibility = View.GONE
         }
-        println("leadData.enquiries" + leadData.enquiries)
-        if (!leadData.enquiries.isEmpty()){
+
+        //if (!leadData.enquiries.isEmpty()){
             complaintAdapter = ComplaintAdapter(
                 leadData.enquiries,
                 leadData,
                 itemClickListener = onItemClickListener
             )
-            binding.includedContent.btnAddTask.visibility = GONE
+           // binding.includedContent.btnAddTask.visibility = GONE
             binding.includedContent.rvComplaint.apply {
                 adapter = complaintAdapter
             }
-        }else{
-            binding.includedContent.btnAddTask.visibility = VISIBLE
-            binding.includedContent.tvCancelLeadHide.visibility = GONE
+       /* }else{
+           // binding.includedContent.btnAddTask.visibility = VISIBLE
+            //binding.includedContent.tvCancelLeadHide.visibility = GONE
 
-        }
+        }*/
 
 
         if(leadData.pending_lead_enqury_detail_count == "0" && leadData.in_warranty_enquiries_count!! > "0"){
@@ -202,8 +208,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
-            customerDetailsViewModel.hitCancelRequest(jsonObject, leadData.id)
-                .observe(this, this::getCancelRequestLead)
+            customerDetailsViewModel.hitCancelRequest(jsonObject, leadData.id).observe(this, this::getCancelRequestLead)
             alertDialogBuilder.dismiss()
         }else{
 
@@ -212,6 +217,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
     private fun setObserver() {
         customerDetailsViewModel.invoiceUploadData.observe(this, this::onFileUploaded)
+
+
+        customerDetailsViewModel.verifyNumData.observe(this, this::getVerifyData)
     }
 
     private fun bindUserDetails(leadData: LeadData) {
@@ -248,12 +256,12 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
            // openDirection()
         }
 
-        binding.includedContent.btnAddTask.setOnClickListener {
+        /*binding.includedContent.btnAddTask.setOnClickListener {
 
             val intent = Intent(this, AddTaskActivity::class.java)
             intent.putExtra(Constants.LEAD_DETAILS, leadData)
             startActivity(intent)
-        }
+        }*/
     }
 
     private fun getAssignTechnician(resources: Resource<RequestLeadResponse>) {
@@ -317,8 +325,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                             val intent = Intent(this, RequestLeadActivity::class.java)
                             startActivity(intent)
                             finish()
-                        }, 3000)
-
+                        }, 5000)
 
                     } else {
 
@@ -327,6 +334,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             }
         }
     }
+
     private fun openCallDialPad(contactNumber: String) {
         val i = Intent(Intent.ACTION_DIAL)
         val p = "tel:$contactNumber"
@@ -415,7 +423,80 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 }
                 hitUpdateRequest(binding,position,selectedUnderWarranty,view)
             }
+
+
+            R.id.tv_verify_gst -> {
+                  hitVerifyApi(bindingAdapter.edtGstNumber.text.toString())
+            }
+            R.id.radiobtn_yes -> {
+
+                bindingAdapter.liUpdate.visibility = VISIBLE
+
+                bindingAdapter.liGenerateCancel.visibility = GONE
+            }
+            R.id.radiobtn_no -> {
+                bindingAdapter.liUpdate.visibility = GONE
+                bindingAdapter.liGenerateCancel.visibility = VISIBLE
+
+            }
+            R.id.btn_gst_cancel -> {
+                showCancelEnquiryPopUp(position)
+            }
+            R.id.btn_gst_generate_chargeable -> {
+                hitCancelTask("",  position, "2")
+            }
         }
+    }
+
+    private fun showCancelEnquiryPopUp(position: Int) {
+
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view: View = inflater.inflate(R.layout.cancel_lead_popup_layout, null)
+        val tv_cancel_lead_cancel = view.findViewById<TextView>(R.id.tv_cancel_lead_cancel)
+        val tv_cancel_lead_ok = view.findViewById<TextView>(R.id.tv_cancel_lead_ok)
+        val et_cancel_lead_reason = view.findViewById<EditText>(R.id.et_cancel_lead_reason)
+        alertDialogBuilder = Dialog(this@CustomerDetailsActivity)
+        alertDialogBuilder.setContentView(view)
+        //alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alertDialogBuilder.setCancelable(false)
+        tv_cancel_lead_cancel.setOnClickListener {
+            alertDialogBuilder.dismiss()
+        }
+        tv_cancel_lead_ok.setOnClickListener {
+            if (Utils.instance.validateReason(et_cancel_lead_reason)
+
+            ) {
+                hitCancelTask(et_cancel_lead_reason.text.toString(), position, "1")
+                alertDialogBuilder.dismiss()
+            }
+        }
+        alertDialogBuilder.show()
+
+    }
+
+    private fun hitCancelTask(etCancelLeadReason: String?,position:Int,type:String) {
+
+            val jsonObject = JsonObject()
+
+            try {
+                //  val jsArray  = JsonArray()
+                jsonObject.addProperty("lead_cancelled_reason", etCancelLeadReason.toString())
+                jsonObject.addProperty("lead_id", leadData.id)
+                jsonObject.addProperty("enquiry_id", leadData.enquiries[position].id)
+                jsonObject.addProperty("cancellation_type", type)
+
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            customerDetailsViewModel.hitTaskCancelRequest(jsonObject)
+                .observe(this, this::getCancelRequestLead)
+
+    }
+
+    private fun hitVerifyApi(gstNum: CharSequence?) {
+
+        customerDetailsViewModel.verifyGstNum(gstNum.toString())
     }
 
     private fun hitUpdateRequest(binding: ItemComplaintBinding,position: Int,selectedUnderWarranty: String,view: View) {
@@ -423,7 +504,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         if (Utils.instance.validateDescription(binding.tvServiceCenterDescriptionValue) &&
             Utils.instance.validateInvoice(binding.edtInvoiceNumberValue) &&
             Utils.instance.validateDate(binding.edtSelectInvoiceDate) &&
-            Utils.instance.validateWarranty(binding,view)
+            Utils.instance.validateGSTNum(binding.edtGstNumber)
+        // Utils.instance.validateWarranty(binding,view)
             //Utils.instance.validateImage(binding.ivInvoiceImage,view)
         ) {
              validateImage(position)
@@ -818,6 +900,58 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                         }
                         val r = Runnable {
                            // barcodeView?.resume()
+                        }
+                        Handler().postDelayed(r, 1000)
+                    }
+                }.run {  }
+            }
+        }
+    }
+
+
+    private fun getVerifyData(resources: Resource<VerifyGSTRequestData>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                //    showLoadingUI()
+
+            }
+            Status.ERROR -> {
+                //  hideLoadingUI()
+
+                Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
+                    resources.error?.message.toString(),
+                    "",
+                    false)
+            }
+            else -> {
+                // hideLoadingUI()
+
+                val data = resources.data
+
+                data.let {
+                    if(it?.success == true){
+
+                        Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
+                            it.message,
+                            "",
+                            true)
+
+                        bindingAdapter.tvGstName.visibility = VISIBLE
+                        bindingAdapter.tvGstFirstName.visibility = VISIBLE
+                        bindingAdapter.tvGstTrade.visibility = VISIBLE
+                        bindingAdapter.tvGstTradeName.visibility = VISIBLE
+                        bindingAdapter.tvErrorGstNumber.visibility = GONE
+
+                        bindingAdapter.tvGstFirstName.text = data?.data?.firm_name.toString()
+                        bindingAdapter.tvGstTradeName.text = data?.data?.trade_name.toString()
+
+
+                    }else{
+                        it?.message?.let { msg ->
+                            // Utils.instance.popupUtil(this@CustomerDetailsActivity, msg, null, false)
+                        }
+                        val r = Runnable {
+                            // barcodeView?.resume()
                         }
                         Handler().postDelayed(r, 1000)
                     }

@@ -175,6 +175,16 @@ class Utils {
     }
 
 
+    fun validateGSTNum(editText: EditText?): Boolean {
+        return if (editText?.text?.isEmpty()!!) {
+            editText.error = editText.context.getString(R.string.service_center_gst_num)
+            editText.requestFocus()
+            false
+
+        } else true
+    }
+
+
     fun reSizeImg(bm: Bitmap) : Uri {
         var imageFile : File?=null
         var bm: Bitmap? = bm

@@ -15,6 +15,7 @@ import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
+import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.VerifyGSTRequestData
 import com.orpatservice.app.ui.leads.technician.TechnicianUpdateRequestResponse
 import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
@@ -239,8 +240,27 @@ interface ApiEndPoint {
     : Call<CancelRequestResponse>
 
 
+    @POST("service-center/leads/chargeable/mark/{leadsId}")
+    fun hitChargeableCancelRequestLead(
+        @Header("Authorization") token : String,
+        @Body body : JsonObject,
+        @Path("leadsId") leadsId: Int?,
+    )
+    : Call<CancelRequestResponse>
+
+    @POST("service-center/leads/cancel_enquiry")
+    fun hitTaskCancelRequestLead(
+        @Header("Authorization") token : String,
+        @Body body : JsonObject,
+    ): Call<CancelRequestResponse>
+
+
     @GET("service-center/leads/pending")
     fun getServiceCenterPendingLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<RequestLeadResponse>
+
+
+    @GET("service-center/leads/chargeable")
+    fun getServiceCenterChargeableLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<RequestLeadResponse>
 
 
     @GET("service-center/leads/assigned")
@@ -249,6 +269,10 @@ interface ApiEndPoint {
 
     @GET("service-center/leads/pending")
     fun getServiceCenterSearchPendingLeads(@Query("search") keyword: String, @Header("Authorization") token : String): Call<RequestLeadResponse>
+
+    @GET("service-center/verify-gstin-number/{gst_no}")
+    fun getServiceCenterVerifyNum(@Path("gst_no") keyword: String, @Header("Authorization") token : String): Call<VerifyGSTRequestData>
+
 
     @GET("service-center/leads/assigned")
     fun getServiceCenterAssignedLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<RequestLeadResponse>

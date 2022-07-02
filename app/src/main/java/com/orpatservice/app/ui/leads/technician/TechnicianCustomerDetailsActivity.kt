@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,9 +17,12 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -48,10 +53,8 @@ import com.orpatservice.app.ui.admin.technician.CAMERA
 import com.orpatservice.app.ui.admin.technician.CANCEL
 import com.orpatservice.app.ui.admin.technician.CameraBottomSheetDialogFragment
 import com.orpatservice.app.ui.admin.technician.GALLERY
-import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsModel
-import com.orpatservice.app.ui.leads.customer_detail.FullScreenImageActivity
-import com.orpatservice.app.ui.leads.customer_detail.UpdateRequestResponse
-import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
+import com.orpatservice.app.ui.leads.customer_detail.*
+import com.orpatservice.app.ui.leads.service_center.RequestLeadActivity
 import com.orpatservice.app.ui.leads.technician.adapter.TechnicianCustomerDetailsAdapter
 import com.orpatservice.app.ui.leads.technician.response.TechnicianEnquiryImage
 import com.orpatservice.app.ui.leads.technician.response.TechnicianLeadData
@@ -95,6 +98,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
     private val mRequestCode = 100
     //private val imgList : ArrayList<String>? = null
     private val imgList: ArrayList<String> = ArrayList()
+    private lateinit var alertDialogBuilder:Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -368,12 +372,12 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
 
                 R.id.btn_scan_qr -> {
                  // clearScannerAddMoreProducts()
-                 //   barcodeView = binding.barcodeScanner
+                  //   barcodeView = binding.barcodeScanner
                    // initScanner()
 
-                    val intent = Intent(this, BarScannerActivity::class.java)
+                  /*val intent = Intent(this, BarScannerActivity::class.java)
                     intent.putExtra("lead_id",leadData.enquiries.get(pos!!).id.toString())
-                    startActivityForResult(intent,1)
+                    startActivityForResult(intent,1)*/
 
                 }
                 R.id.btn_upload_image -> {
@@ -429,11 +433,102 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                             val intent = Intent(this, EnquirySliderScreenImageActivity::class.java)
                             intent.putExtra(Constants.IMAGE_DATA, leadData.enquiries[position])
                             startActivity(intent)
+                    }
+                }
+                R.id.btn_scan_qrcode -> {
+                    val intent = Intent(this, BarScannerActivity::class.java)
+                    intent.putExtra("lead_id",leadData.enquiries.get(pos!!).id.toString())
+                    startActivityForResult(intent,1)
+
+                }
+                R.id.btn_cancel_task -> {
+                    showCancelEnquiryPopUp(position)
+
+                }
+            }
+        }
+
+    private fun showCancelEnquiryPopUp(position: Int) {
+
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view: View = inflater.inflate(R.layout.cancel_lead_popup_layout, null)
+        val tv_cancel_lead_cancel = view.findViewById<TextView>(R.id.tv_cancel_lead_cancel)
+        val tv_cancel_lead_ok = view.findViewById<TextView>(R.id.tv_cancel_lead_ok)
+        val et_cancel_lead_reason = view.findViewById<EditText>(R.id.et_cancel_lead_reason)
+        alertDialogBuilder = Dialog(this@TechnicianCustomerDetailsActivity)
+        alertDialogBuilder.setContentView(view)
+        //alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alertDialogBuilder.setCancelable(false)
+        tv_cancel_lead_cancel.setOnClickListener {
+            alertDialogBuilder.dismiss()
+        }
+        tv_cancel_lead_ok.setOnClickListener {
+            if (Utils.instance.validateReason(et_cancel_lead_reason)
+
+            ) {
+                hitCancelTask(et_cancel_lead_reason.text.toString(), position, "1")
+                alertDialogBuilder.dismiss()
+            }
+        }
+        alertDialogBuilder.show()
+
+    }
+
+
+    private fun hitCancelTask(etCancelLeadReason: String?,position:Int,type:String) {
+
+        val jsonObject = JsonObject()
+
+        try {
+            //  val jsArray  = JsonArray()
+            jsonObject.addProperty("lead_cancelled_reason", etCancelLeadReason.toString())
+            jsonObject.addProperty("lead_id", leadData.id)
+            jsonObject.addProperty("enquiry_id", leadData.enquiries[position].id)
+            jsonObject.addProperty("cancellation_type", type)
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        customerDetailsViewModel.hitTaskCancelRequest(jsonObject)
+            .observe(this, this::getCancelRequestLead)
+
+    }
+
+    private fun getCancelRequestLead(resources: Resource<CancelRequestResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                binding.cpiLoading.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                binding.cpiLoading.visibility = View.GONE
+            }
+            else -> {
+                binding.cpiLoading.visibility = View.GONE
+                val response = resources.data
+
+                response?.let {
+                    if (it.success) {
+
+                        it.message?.toString()?.let { it1 ->
+                            Utils.instance.popupUtil(this,
+                                it1,
+                                "",
+                                true)
+                        }
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(this, RequestLeadActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }, 5000)
+
+                    } else {
 
                     }
                 }
             }
         }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -445,7 +540,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                 bindingAdapter.ivQrCodeImage.visibility = View.VISIBLE
                 bindingAdapter.barcodeScanner.visibility = View.INVISIBLE
 
-              //  currentScanner?.let { hitValidQRCode(it) }
+              //currentScanner?.let { hitValidQRCode(it) }
             }
         }
     }
