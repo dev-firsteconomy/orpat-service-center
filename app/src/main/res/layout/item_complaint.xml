@@ -32,7 +32,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:padding="2dp"
             android:layout_marginTop="10dp"
             android:text="@string/model_number"
             android:textAlignment="textStart"
@@ -44,10 +43,9 @@
             style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dp"
             android:textStyle="bold"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@id/tv_model_number"
             app:layout_constraintStart_toStartOf="@id/tv_model_number"
             app:layout_constraintTop_toBottomOf="@id/tv_model_number"
@@ -80,33 +78,57 @@
             app:layout_constraintTop_toBottomOf="@id/tv_invoice_date"
             tools:text="2nd Dec 2021" />-->
 
+
         <TextView
             android:id="@+id/tv_customer_description"
             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="@string/customer_description"
+            android:layout_marginTop="10dp"
+            android:text="@string/customer_note"
             android:textAlignment="textStart"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
 
-
         <TextView
             android:id="@+id/tv_description_value"
             style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="2dp"
             android:text="@string/description"
             android:textAlignment="textStart"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_customer_description"
-            tools:text="Ceiling fans light is flickering" />
+            />
+
+        <TextView
+            android:id="@+id/tv_complaint_preset"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/complaint_preset"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_value" />
+
+        <TextView
+            android:id="@+id/tv_complaint_preset_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset"
+            />
 
         <TextView
             android:id="@+id/tv_service_center_description"
@@ -114,12 +136,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="2dp"
+            android:layout_marginTop="10dp"
             android:text="@string/service_center_description"
             android:textAlignment="textStart"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_description_value" />
+            app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset_value" />
 
         <EditText
             android:id="@+id/tv_service_center_description_value"
@@ -254,6 +277,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/red"
+            android:visibility="gone"
             android:text="@string/error_invoice_number_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -291,13 +315,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/red"
+            android:visibility="gone"
             android:text="@string/error_invoice_date_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edt_select_invoice_date"/>
 
+        <TextView
+            android:id="@+id/tv_seller_text"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:text="@string/seller_text_string"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_error_invoice_date" />
 
+        <EditText
+            android:id="@+id/edt_seller_name"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:hint="@string/type_here"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_edit_text_border"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_seller_text" />
 
+        <TextView
+            android:id="@+id/tv_error_seller_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:text="@string/string_seller_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_seller_name"/>
 
         <TextView
             android:id="@+id/tv_gst_number"
@@ -310,7 +370,7 @@
             android:includeFontPadding="false"
             android:text="@string/gst_num_string"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_error_invoice_date" />
+            app:layout_constraintTop_toBottomOf="@id/tv_error_seller_text" />
 
         <LinearLayout
             android:id="@+id/li_gst_num"
@@ -341,6 +401,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight=".5"
                 android:gravity="center"
+                android:background="@color/success_green"
                 android:visibility="visible"
                 android:textColor="@color/failure_red"
                 android:text="@string/gst_in_string"/>
@@ -353,6 +414,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/red"
+            android:visibility="gone"
             android:text="@string/error_gst_number_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -379,7 +441,6 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:paddingLeft="10dp"
-            android:hint="@string/select_date"
             android:gravity="center_vertical"
             android:background="@drawable/bg_edit_text_border"
             android:textSize="14sp"
@@ -409,7 +470,6 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:paddingLeft="10dp"
-            android:hint="@string/select_date"
             android:gravity="center_vertical"
             android:background="@drawable/bg_edit_text_border"
             android:textSize="14sp"
@@ -471,6 +531,16 @@
                         android:checked="false"
                         android:textSize="14sp"
                         app:backgroundTint="#FFFFFF" />
+
+                    <RadioButton
+                        android:id="@+id/radiobtn_not_sure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Not Sure"
+                        android:checked="false"
+                        android:textSize="14sp"
+                        app:backgroundTint="#FFFFFF" />
                 </RadioGroup>
 
 
@@ -526,10 +596,9 @@
             android:layout_height="wrap_content"
             android:weightSum="1"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty">
-
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_update"
@@ -537,7 +606,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:text="@string/btn_update"
                 app:cornerRadius="0dp"
                 android:layout_marginTop="10dp"
@@ -554,13 +623,12 @@
                 android:layout_width="match_parent"
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:text="@string/btn_update"
                 app:cornerRadius="0dp"
                 android:visibility="gone"
                 android:layout_marginTop="10dp"
                 app:iconGravity="textEnd"
-                app:iconTint="@color/dim_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty" />
 
@@ -572,7 +640,7 @@
             android:layout_height="50dp"
             android:weightSum="2"
             android:orientation="horizontal"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_error_under_warranty">
@@ -584,7 +652,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/btn_cancel"
-
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="parent"

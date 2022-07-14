@@ -32,6 +32,7 @@ class CustomerDetailsModel: ViewModel() {
     val submitLeadData = MutableLiveData<Resource<UpdateRequestResponse>>()
     val updatePartsLeadData = MutableLiveData<Resource<UpdatePartsRequestData>>()
     val verifyNumData = MutableLiveData<Resource<VerifyGSTRequestData>>()
+    val assignToTechnicianList = MutableLiveData<Resource<NewRequestResponse>>()
 
     fun hitUploadFile(requestBody: MultipartBody) {
         return DataRepository.instance.hitAPITechnicianUploadFile(requestBody).enqueue(callbackUploadFile)
@@ -52,7 +53,41 @@ class CustomerDetailsModel: ViewModel() {
         }
     }
 
+    fun loadAssignedTechnicianLeads(pageNumber: Int) {
+        DataRepository.instance.hitGetServiceCenterAssignedTechnicianLeads(pageNumber)
+            .enqueue(callbackTechnicianLead)
+    }
 
+    fun loadTechnicianLeads(pageNumber: Int,leadId: Int) {
+        DataRepository.instance.hitGetServiceCenterTechnicianLeads(pageNumber,leadId)
+            .enqueue(callbackTechnicianLead)
+    }
+
+    private val callbackTechnicianLead: Callback<NewRequestResponse> = object :
+        Callback<NewRequestResponse> {
+        override fun onResponse(
+            call: Call<NewRequestResponse>,
+            response: Response<NewRequestResponse>
+        ) {
+            if (response.isSuccessful) {
+                assignToTechnicianList.value = response.body()?.let {
+                    Resource.success(it) }
+                //  getUserData()
+            } else {
+                assignToTechnicianList.value =
+                    Resource.error(
+                        ErrorUtils.getError(
+                            response.errorBody(),
+                            response.code()
+                        )
+                    )
+            }
+        }
+
+        override fun onFailure(call: Call<NewRequestResponse>, t: Throwable) {
+            assignToTechnicianList.value = Resource.error(ErrorUtils.getError(t))
+        }
+    }
     private val callbackVerifyNumLeads: Callback<VerifyGSTRequestData> =
         object : Callback<VerifyGSTRequestData> {
             override fun onResponse(
@@ -190,10 +225,16 @@ class CustomerDetailsModel: ViewModel() {
         return DataRepository.instance.hitTaskCancelRequestApi(requestBody)
     }
 
+    fun hitTechnicianTaskCancelRequest(
+        requestBody: JsonObject,
+    ): LiveData<Resource<CancelRequestResponse>> {
+        return DataRepository.instance.hitTechnicianTaskCancelRequestApi(requestBody)
+    }
 
-   /* fun hitValidateQRApi(qrcode : String, technicianId: String){
-        DataRepository.instance.hitCustomerValidateProductApi(qrcode,technicianId).enqueue(callbackQRCodeCheck)
-    }*/
+
+    /* fun hitValidateQRApi(qrcode : String, technicianId: String){
+         DataRepository.instance.hitCustomerValidateProductApi(qrcode,technicianId).enqueue(callbackQRCodeCheck)
+     }*/
 
 
     fun hitValidateQRApi(

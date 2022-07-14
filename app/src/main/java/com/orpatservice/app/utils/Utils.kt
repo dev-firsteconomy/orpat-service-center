@@ -258,9 +258,8 @@ class Utils {
                 .load(R.drawable.ic_error_icon)
                 .into(popupIcon)*/
 
-
         }
-
+        Handler().postDelayed(Runnable { alertDialogBuilder.dismiss() }, 5000)
     }
 
     fun alertDialog(context: Activity, s: String) {

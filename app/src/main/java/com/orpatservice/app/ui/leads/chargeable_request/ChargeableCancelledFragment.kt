@@ -8,7 +8,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -24,16 +23,13 @@ import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.databinding.ChargeableNewRequestAdminBinding
-import com.orpatservice.app.databinding.ItemNewRequestAdminBinding
 import com.orpatservice.app.databinding.LayoutDialogCancelLeadBinding
-import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
-import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 
-class ChargeableNewRequest : Fragment() {
+class ChargeableCancelledFragment  : Fragment() {
 
     private lateinit var binding: ChargeableNewRequestAdminBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
@@ -145,9 +141,9 @@ class ChargeableNewRequest : Fragment() {
     }
 
     private fun setObserver() {
-        requestLeadsViewModel.loadChargeableLeads(pageNumber,0)
+        requestLeadsViewModel.loadChargeableLeads(pageNumber,2)
         requestLeadsViewModel.chargeableLeadsData.observe(viewLifecycleOwner, this::getChargeableLeads)
-       // requestLeadsViewModel.cancelLeadsData.observe(viewLifecycleOwner, this::doCancelLead)
+        // requestLeadsViewModel.cancelLeadsData.observe(viewLifecycleOwner, this::doCancelLead)
     }
 
     fun filter(text: String) {
@@ -304,6 +300,7 @@ class ChargeableNewRequest : Fragment() {
             alertDialog.dismiss()
         }
     }
+
 
 
     private fun loadUI () {

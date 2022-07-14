@@ -20,6 +20,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.EditText
 import android.widget.TextView
@@ -146,7 +147,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             adapter = complaintAdapter
         }
 
-        if(leadData.pending_technician_detail_count == "0" && leadData.in_warranty_enquiries_count!! > "0"){
+        if(leadData.pending_technician_detail_count == "0"/* && leadData.in_warranty_enquiries_count!! > "0"*/){
             binding.includedContent.btnTaskComplete.visibility = View.VISIBLE
             binding.includedContent.btnTaskCompleteHide.visibility = View.GONE
 
@@ -165,7 +166,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
     private fun setObserver() {
         customerDetailsViewModel.assignTechnicianLead()
 
-        customerDetailsViewModel.qrCodeData.observe(this, this::onValidateQRCode)
+       //customerDetailsViewModel.qrCodeData.observe(this, this::onValidateQRCode)
 
         customerDetailsViewModel.invoiceUploadData.observe(this, this::onFileUploaded)
 
@@ -404,7 +405,8 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                             "",
                             false
                         )
-                    }else if(currentScannedProduct == null){
+                    }
+                   /* if(currentScannedProduct == null){
                         Utils.instance.popupPinUtil(
                             this@TechnicianCustomerDetailsActivity,
                             "Please verify QR code!",
@@ -412,9 +414,10 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                             false
                         )
                       //  Toast.makeText(getApplicationContext(), "Please upload Image", Toast.LENGTH_SHORT).show();
-                    } else {
-                        hitUpdateRequest(position)
-                    }
+                    }*/ /*else {
+
+                    }*/
+                    hitUpdateRequest(position)
                 }
                 R.id.tv_count_image ->{
 
@@ -490,7 +493,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             e.printStackTrace()
         }
 
-        customerDetailsViewModel.hitTaskCancelRequest(jsonObject)
+        customerDetailsViewModel.hitTechnicianTaskCancelRequest(jsonObject)
             .observe(this, this::getCancelRequestLead)
 
     }
@@ -517,7 +520,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                                 true)
                         }
                         Handler(Looper.getMainLooper()).postDelayed({
-                            val intent = Intent(this, RequestLeadActivity::class.java)
+                            val intent = Intent(this, TechnicianRequestLeadActivity::class.java)
                             startActivity(intent)
                             finish()
                         }, 5000)
@@ -533,14 +536,19 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == 1) {
                 //get extra data from data intent here
                 currentScannedProduct  = data!!.getStringExtra("currentScanner")
 
                 bindingAdapter.ivQrCodeImage.visibility = View.VISIBLE
                 bindingAdapter.barcodeScanner.visibility = View.INVISIBLE
 
+                bindingAdapter.liNoScannerPart.visibility = VISIBLE
+                bindingAdapter.liScannerPart.visibility = GONE
+
               //currentScanner?.let { hitValidQRCode(it) }
+            }else if(resultCode == 2){
+                bindingAdapter.btnCancelTask.visibility = VISIBLE
             }
         }
     }
@@ -837,7 +845,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                             .show()*/
 
 
-                        Utils.instance.popupPinUtil(this@TechnicianCustomerDetailsActivity,
+                        Utils.instance.popupUtil(this@TechnicianCustomerDetailsActivity,
                             it.message,
                             "",
                             true)
@@ -861,7 +869,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             bindingAdapter.btnTechnicianUpdate.visibility = View.VISIBLE
         }
 
-        if(data.data.pending_lead_enqury_detail_count== "0" && leadData.in_warranty_enquiries_count!! > "0"){
+        if(data.data.pending_lead_enqury_detail_count== "0" /*&& leadData.in_warranty_enquiries_count!! > "0"*/){
             binding.includedContent.btnTaskComplete.visibility = View.VISIBLE
             binding.includedContent.btnTaskCompleteHide.visibility = View.GONE
 

@@ -53,13 +53,32 @@ class TechnicianCustomerDetailsAdapter(
             if(enquiry.technician_detail_status == 1){
                 binding.btnTechnicianUpdate.visibility = View.GONE
                 binding.btnTechnicianHideUpdate.visibility = View.VISIBLE
+
+                binding.liNoScannerPart.visibility = VISIBLE
+                binding.liScannerPart.visibility = GONE
+
+
+                binding.btnUploadImage.setFocusable(false);
+                binding.btnUploadImage.setEnabled(false);
+                binding.btnUploadImage.setCursorVisible(false);
+                binding.btnUploadImage.setKeyListener(null);
             }else{
                 binding.btnTechnicianUpdate.visibility = View.VISIBLE
                 binding.btnTechnicianHideUpdate.visibility = View.GONE
+
+                binding.liNoScannerPart.visibility = GONE
+                binding.liScannerPart.visibility = VISIBLE
             }
 
             binding.tvDescriptionValue.text = enquiry.customer_discription
             binding.tvModelNameValue.text = enquiry.model_no
+            binding.tvServiceCenterValue.text = enquiry.service_center_discription
+            binding.tvCustomerIssueValue.text = enquiry.complaint_preset
+
+            binding.tvDescriptionValueScan.text = enquiry.customer_discription
+            binding.tvModelNameValueScan.text = enquiry.model_no
+            binding.tvServiceCenterValueScan.text = enquiry.service_center_discription
+            binding.tvComplaintPresetValueScan.text = enquiry.complaint_preset
 
              enquiryImage.forEach{
                  Glide.with(binding.ivUploadImage)
@@ -70,14 +89,14 @@ class TechnicianCustomerDetailsAdapter(
                      .into(binding.ivUploadImage)
              }
 
-            Glide.with(binding.ivInvoiceImage.context)
+            Glide.with(binding.ivInvoiceImage)
                 .load(enquiry.invoice_url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 //.circleCrop() // .error(R.drawable.active_dot)
                 .placeholder(R.color.gray)
                 .into(binding.ivInvoiceImage)
 
-            Glide.with(binding.ivQrCodeImage.context)
+            Glide.with(binding.ivQrCodeImage)
                 .load(enquiry.dummy_barcode)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 //.circleCrop() // .error(R.drawable.active_dot)
@@ -153,6 +172,7 @@ class TechnicianCustomerDetailsAdapter(
             val posi = adapterPosition+1
 
             binding.tvTask.setText("Task"+" "+ posi+"/"+tatalCount)
+            binding.tvTaskScan.setText("Task"+" "+ posi+"/"+tatalCount)
 
             binding.ivQrCodeImage.setOnClickListener {
                 itemClickListener(

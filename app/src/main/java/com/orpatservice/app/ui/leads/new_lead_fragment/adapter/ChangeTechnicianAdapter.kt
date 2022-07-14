@@ -82,12 +82,12 @@ class ChangeTechnicianAdapter (
                 rbPosoition = adapterPosition;
             }
 
-            Glide.with(binding.ivProfileImage)
+            /*Glide.with(binding.ivProfileImage)
                 .load(technicianData.technician?.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop() // .error(R.drawable.active_dot)
                 .placeholder(R.drawable.ic_tech_avatar)
-                .into(binding.ivProfileImage)
+                .into(binding.ivProfileImage)*/
 
 
             binding.tvTechnicianName.text =

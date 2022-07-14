@@ -62,6 +62,7 @@ class AssignedDetailsAdapter (
             binding.tvDescriptionValue.text = enquiry.customer_discription
             binding.tvModelNameValue.text = enquiry.model_no
             binding.tvServiceCenterDescriptionValue.text = enquiry.service_center_discription
+            binding.tvComplaintPresetValue.text = enquiry.complaint_preset
             binding.edtInvoiceNumberValue.text = enquiry.invoice_no
             binding.edtSelectInvoiceDate.text = enquiry.purchase_at
 
@@ -72,11 +73,12 @@ class AssignedDetailsAdapter (
             binding.edtSelectInvoiceDate.text = parts?.get(0)+""+" "+""+ parts?.get(1)+""+" "+""+ parts?.get(2)/*+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"*/
 
 
-
             if(enquiry.in_warranty.equals("Yes")){
                 binding.radiobtnYes.isChecked = true
-            }else{
+            }else if(enquiry.in_warranty.equals("No")){
                 binding.radiobtnNo.isChecked = true
+            }else if(enquiry.in_warranty.equals("Not Sure")){
+                binding.radiobtnNotSure.isChecked = true
             }
 
            /* if(!binding.tvServiceCenterDescriptionValue.text.isNullOrEmpty()){

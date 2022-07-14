@@ -3,6 +3,7 @@ package com.orpatservice.app.utils
 import com.orpatservice.app.data.model.requests_leads.ImageData
 import com.orpatservice.app.data.model.requests_leads.ImageListData
 import com.orpatservice.app.data.model.requests_leads.ImagePosition
+import com.orpatservice.app.ui.admin.technician.PinData
 import com.orpatservice.app.ui.leads.customer_detail.CheckWarrantyList
 import com.orpatservice.app.ui.leads.customer_detail.ProductData
 import com.orpatservice.app.ui.leads.customer_detail.productListData
@@ -23,6 +24,9 @@ object CommonUtils {
     val imagePos = ArrayList<ImagePosition>()
 
     val warrantyListData = ArrayList<CheckWarrantyList>()
+
+
+    val pincodeData = ArrayList<PinData>()
 
 
     fun dateFormat(strDate: String ?): String {

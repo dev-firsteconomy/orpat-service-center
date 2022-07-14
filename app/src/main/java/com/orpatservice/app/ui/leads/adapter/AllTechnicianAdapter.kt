@@ -57,19 +57,19 @@ class AllTechnicianAdapter (
 
         fun bind(technicianData: RequestData) {
 
-                Glide.with(binding.ivProfileImage)
+               /* Glide.with(binding.ivProfileImage)
                     .load(technicianData.technician?.image)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .circleCrop() // .error(R.drawable.active_dot)
                     .placeholder(R.drawable.ic_tech_avatar)
-                    .into(binding.ivProfileImage)
+                    .into(binding.ivProfileImage)*/
 
 
                     binding.tvTechnicianName.text =
                         technicianData?.first_name + " " + technicianData?.last_name
-                    binding.tvAreaCode.text =
-                        "Area Code:" + " " + "" + technicianData?.pincode
-
+                   /* binding.tvAreaCode.text =
+                        "Area Code:" + " " + "" + technicianData?.pincode*/
+            binding.tvAreaCode.text = "Lead Count: " + "" + " " + "" + technicianData.active_leads_count
             binding.radioTechnician.setChecked(position == lastCheckedPosition);
             binding.liTechnicianName.setOnClickListener {
                 val copyOfLastCheckedPosition = lastCheckedPosition
@@ -81,6 +81,10 @@ class AllTechnicianAdapter (
                     lastCheckedPosition,
                     binding.liTechnicianName)
             }
+           /* if(technicianData.active_leads_count != null) {
+                binding.tvLeadCount.text =
+                    "Lead Count: " + "" + " " + "" + technicianData.active_leads_count
+            }*/
             binding.radioTechnician.setOnClickListener {
                 /*if(binding.radioTechnician.isChecked){
                     itemClickListener(

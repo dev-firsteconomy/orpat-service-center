@@ -9,17 +9,24 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityChargeableRequestLeadBinding
 import com.orpatservice.app.databinding.ActivityTechnicianRequestLeadBinding
 import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
+import com.orpatservice.app.ui.leads.new_lead_fragment.AssignToTechnicianFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.AssignedLeadFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.technician.TechnicianNewRequest
 import com.orpatservice.app.ui.leads.technician.adapter.NewRequestTechnicianAdapter
+import com.orpatservice.app.utils.Constants
 
 class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedListener {
     private lateinit var binding : ActivityChargeableRequestLeadBinding
 
     private val newRequestFragment = ChargeableNewRequest()
+    private  val chargeableFinishedFragment = ChargeableFinishedFragment()
+    private val chargeableCancelledFragment = ChargeableCancelledFragment()
     private lateinit var viewPager: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,14 +51,17 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
 
         val fragmentArrayList: ArrayList<Fragment> = ArrayList()
         fragmentArrayList.add(newRequestFragment)
+        fragmentArrayList.add(chargeableFinishedFragment)
+        fragmentArrayList.add(chargeableCancelledFragment)
+
         val adapter = ChageableRequestTechnicianAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
 
         //Tab name
-        /*  TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+          TabLayoutMediator(tabLayout, viewPager) { tab, position ->
               tab.text = Constants.requestsTechnicianTabNameArray[position]
           }.attach()
-  */
+
         //loadFragment(newRequestFragment)
     }
 
@@ -81,6 +91,21 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
         return true
     }
 
+    override fun onBackPressed() {
+        if (!searchView.isIconified) {
+            searchView.onActionViewCollapsed()
+            searchView.isIconified = true
+            if(supportFragmentManager.fragments.get(viewPager.currentItem) is ChargeableNewRequest) {
+                newRequestFragment.loadOldLeadData()
+            } else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignedLeadFragment){
+                chargeableFinishedFragment.loadOldLeadData()
+            }else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
+                chargeableCancelledFragment.loadOldLeadData()
+            }
+            return
+        }
+        super.onBackPressed()
+    }
 
     override fun onTabSelected(tab: TabLayout.Tab) {
         when (tab.position) {

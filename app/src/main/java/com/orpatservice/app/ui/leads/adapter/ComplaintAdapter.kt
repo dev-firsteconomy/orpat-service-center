@@ -1,5 +1,6 @@
 package com.orpatservice.app.ui.leads.adapter
 
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -60,19 +61,69 @@ class ComplaintAdapter(
             if(enquiry.detail_status == 1){
                 binding.btnUpdate.visibility = View.GONE
                 binding.btnHideUpdate.visibility = View.VISIBLE
+
+                binding.tvServiceCenterDescriptionValue.setText(enquiry.service_center_discription)
+                binding.tvServiceCenterDescriptionValue.setFocusable(false);
+                binding.tvServiceCenterDescriptionValue.setEnabled(false);
+                binding.tvServiceCenterDescriptionValue.setCursorVisible(false);
+                binding.tvServiceCenterDescriptionValue.setKeyListener(null);
+               /// binding.tvServiceCenterDescriptionValue.setBackgroundColor(Color.TRANSPARENT);
+
+                binding.edtInvoiceNumberValue.setText(enquiry.invoice_no)
+                binding.edtInvoiceNumberValue.setFocusable(false);
+                binding.edtInvoiceNumberValue.setEnabled(false);
+                binding.edtInvoiceNumberValue.setCursorVisible(false);
+                binding.edtInvoiceNumberValue.setKeyListener(null);
+               // binding.edtInvoiceNumberValue.setBackgroundColor(Color.TRANSPARENT);
+
+                binding.edtSelectInvoiceDate.setText(enquiry.purchase_at)
+                binding.edtSelectInvoiceDate.setFocusable(false);
+                binding.edtSelectInvoiceDate.setEnabled(false);
+                binding.edtSelectInvoiceDate.setCursorVisible(false);
+                binding.edtSelectInvoiceDate.setKeyListener(null);
+               // binding.edtSelectInvoiceDate.setBackgroundColor(Color.TRANSPARENT);
+
+                binding.edtSellerName.setText("")
+                binding.edtSellerName.setFocusable(false);
+                binding.edtSellerName.setEnabled(false);
+                binding.edtSellerName.setCursorVisible(false);
+                binding.edtSellerName.setKeyListener(null);
+               // binding.edtSellerName.setBackgroundColor(Color.TRANSPARENT);
+
+                binding.edtGstNumber.setText("")
+                binding.edtGstNumber.setFocusable(false);
+                binding.edtGstNumber.setEnabled(false);
+                binding.edtGstNumber.setCursorVisible(false);
+                binding.edtGstNumber.setKeyListener(null);
+               // binding.edtGstNumber.setBackgroundColor(Color.TRANSPARENT);
+
+
+                binding.tvVerifyGst.setFocusable(false);
+                binding.tvVerifyGst.setEnabled(false);
+                binding.tvVerifyGst.setCursorVisible(false);
+                binding.tvVerifyGst.setKeyListener(null);
+                // binding.edtGstNumber.setBackgroundColor(Color.TRANSPARENT);
+
+                binding.btnUploadInvoice.isEnabled = false
+                binding.btnUploadInvoice.isClickable = false
+
+
             }else{
                 binding.btnUpdate.visibility = View.VISIBLE
                 binding.btnHideUpdate.visibility = View.GONE
             }
+
+
             binding.tvDescriptionValue.text = enquiry.customer_discription
             binding.tvModelNameValue.text = enquiry.model_no
+            binding.tvComplaintPresetValue.text = enquiry.complaint_preset
 
             if(!binding.tvServiceCenterDescriptionValue.text.isNullOrEmpty()){
                 binding.tvErrorDes.visibility = GONE
             }else{
                 binding.tvErrorDes.visibility = VISIBLE
             }
-            if(!binding.edtInvoiceNumberValue.text.isNullOrEmpty()){
+           /* if(!binding.edtInvoiceNumberValue.text.isNullOrEmpty()){
                 binding.tvErrorInvoiceNumber.visibility = GONE
             }else{
                 binding.tvErrorInvoiceNumber.visibility = VISIBLE
@@ -82,13 +133,13 @@ class ComplaintAdapter(
                 binding.tvErrorInvoiceDate.visibility = GONE
             }else{
                 binding.tvErrorInvoiceDate.visibility = VISIBLE
-            }
+            }*/
 
            // enquiry.purchase_at?.let { binding.tvPurchaseAt.text = CommonUtils.dateFormat(it) }
             binding.tvServiceCenterDescriptionValue.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     if(s!!.isEmpty()){
-                        binding.tvErrorDes.visibility = View.VISIBLE
+                     //   binding.tvErrorDes.visibility = View.VISIBLE
                     }else{
                         binding.tvErrorDes.visibility = View.GONE
                     }
@@ -97,7 +148,7 @@ class ComplaintAdapter(
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                     //  validationUtil()
                     if(s!!.isEmpty()){
-                        binding.tvErrorDes.visibility = View.VISIBLE
+                      //  binding.tvErrorDes.visibility = View.VISIBLE
                     }else{
                         binding.tvErrorDes.visibility = View.GONE
                     }
@@ -107,16 +158,17 @@ class ComplaintAdapter(
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
                     if(count == 0){
-                        binding.tvErrorDes.visibility = View.VISIBLE
+                      //  binding.tvErrorDes.visibility = View.VISIBLE
                     }else {
                         binding.tvErrorDes.visibility = View.GONE
                     }
                 }
             })
+
             binding.edtInvoiceNumberValue.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     if(s!!.isEmpty()){
-                        binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
+                       // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
                     }else{
                         binding.tvErrorInvoiceNumber.visibility = View.GONE
                     }
@@ -124,7 +176,7 @@ class ComplaintAdapter(
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                     if(s!!.isEmpty()){
-                        binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
+                       // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
                     }else{
                         binding.tvErrorInvoiceNumber.visibility = View.GONE
                     }
@@ -132,7 +184,7 @@ class ComplaintAdapter(
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if(count == 0){
-                        binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
+                        //binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
                     }else {
                         binding.tvErrorInvoiceNumber.visibility = View.GONE
                     }

@@ -6,9 +6,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.Status
+import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.databinding.ActivityDashboardBinding
 import com.orpatservice.app.ui.ProfileActivity
 import com.orpatservice.app.ui.admin.technician.TechniciansActivity
@@ -20,10 +25,14 @@ import com.orpatservice.app.ui.leads.chargeable_request.ChargeableRequestActivit
 import com.orpatservice.app.ui.leads.technician.TechnicianHistoryLeadActivity
 import com.orpatservice.app.ui.login.SelectUserActivity
 import com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
+import com.orpatservice.app.utils.Utils
 
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityDashboardBinding
+    private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
+    private lateinit var notificationCount: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +41,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+
+        requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
 
         binding.includedContent.mcvRequest.setOnClickListener(this)
         binding.includedContent.mcvAddTechnician.setOnClickListener(this)
@@ -43,6 +54,51 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         binding.ivLogout.setOnClickListener(this)
 
         updateUI()
+        setObserver()
+    }
+
+    private fun setObserver() {
+        requestLeadsViewModel.loadSynAppConfig()
+        requestLeadsViewModel.synAppConfig.observe(this, this::getSynAppConfig)
+
+        requestLeadsViewModel.loadTechnicianSynAppConfig()
+        requestLeadsViewModel.technicianSynAppConfig.observe(this, this::getSynAppConfig)
+    }
+
+    private fun getSynAppConfig(resources: Resource<RequestSynAppResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+
+            }
+            Status.ERROR -> {
+
+                    Utils.instance.popupPinUtil(this,
+                        resources.error?.message.toString(),
+                        "",
+                        false)
+            }
+            else -> {
+
+                val response = resources.data
+
+                response?.let {
+                    if (it.success) {
+                        notificationCount = response.data.notification_badge_count.barcode_request_tab
+
+                        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+                            binding.includedContent.tvCount.visibility = VISIBLE
+                            binding.includedContent.tvCount.text = response.data.notification_badge_count.barcode_request_tab
+                            binding.includedContent.tvChargeableCount.text = response.data.notification_badge_count.no_barcode_request_tab
+
+                        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+                            binding.includedContent.tvCount.visibility = VISIBLE
+                            binding.includedContent.tvCount.text = response.data.notification_badge_count.barcode_request_tab
+
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun updateUI() {

@@ -62,7 +62,7 @@ class BarScannerActivity : AppCompatActivity() {
             val data = Intent()
             data.putExtra("close", "close");
 
-            setResult(Activity.RESULT_OK, data);
+            setResult(2, data);
             finish()
         }
 
@@ -172,13 +172,6 @@ class BarScannerActivity : AppCompatActivity() {
 
                 response?.let {
                     if (it.success) {
-/*
-                        Alerter.create(this@TechnicianCustomerDetailsActivity)
-                            .setTitle("")
-                            .setText("" + it.message?.toString())
-                            .setBackgroundColorRes(R.color.orange)
-                            .setDuration(1000)
-                            .show()*/
 
                         Utils.instance.popupPinUtil(this,
                             it.message,
@@ -215,7 +208,7 @@ class BarScannerActivity : AppCompatActivity() {
         val data = Intent()
         data.putExtra("currentScanner", currentScanner);
 
-        setResult(Activity.RESULT_OK, data);
+        setResult(1, data);
         finish()
     }
 

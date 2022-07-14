@@ -8,6 +8,7 @@ import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.data.remote.ErrorUtils
 import com.orpatservice.app.data.repository.DataRepository
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.admin.dashboard.RequestSynAppResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
@@ -30,6 +31,8 @@ class RequestsLeadsViewModel : ViewModel() {
     val completedLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val taskcompletedLeadsData = MutableLiveData<Resource<TakCompletedResponse>>()
     val chargeableLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
+    val synAppConfig = MutableLiveData<Resource<RequestSynAppResponse>>()
+    val technicianSynAppConfig = MutableLiveData<Resource<RequestSynAppResponse>>()
 
     fun loadPendingLeads(pageNumber: Int) {
         DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
@@ -40,8 +43,18 @@ class RequestsLeadsViewModel : ViewModel() {
         }*/
     }
 
-    fun loadChargeableLeads(pageNumber: Int) {
-        DataRepository.instance.hitGetServiceCenterChargeableLeads(pageNumber).enqueue(callbackChargeableLeads)
+
+    fun loadSynAppConfig() {
+        DataRepository.instance.hitGetSynConfigApp().enqueue(callbackSynApp)
+    }
+
+    fun loadTechnicianSynAppConfig() {
+        DataRepository.instance.hitGetTechnicianSynConfigApp().enqueue(callbackTechnicianSynApp)
+    }
+
+
+    fun loadChargeableLeads(pageNumber: Int,filter:Int) {
+        DataRepository.instance.hitGetServiceCenterChargeableLeads(pageNumber,filter).enqueue(callbackChargeableLeads)
         /*if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
@@ -89,6 +102,54 @@ class RequestsLeadsViewModel : ViewModel() {
 
             override fun onFailure(call: Call<RequestLeadResponse>, t: Throwable) {
                 pendingLeadsData.postValue(Resource.error(ErrorUtils.getError(t)))
+            }
+        }
+
+
+
+    private val callbackSynApp: Callback<RequestSynAppResponse> =
+        object : Callback<RequestSynAppResponse> {
+            override fun onResponse(
+                call: Call<RequestSynAppResponse>,
+                response: Response<RequestSynAppResponse>) {
+
+                if (response.isSuccessful) {
+                    synAppConfig.postValue(response.body().let { Resource.success(it) }) // = response.body().let { Resource.success(it) }
+                } else {
+                    synAppConfig.postValue(Resource.error(
+                        ErrorUtils.getError(
+                            response.errorBody(),
+                            response.code()
+                        )
+                    ))
+                }
+            }
+
+            override fun onFailure(call: Call<RequestSynAppResponse>, t: Throwable) {
+                synAppConfig.postValue(Resource.error(ErrorUtils.getError(t)))
+            }
+        }
+
+    private val callbackTechnicianSynApp: Callback<RequestSynAppResponse> =
+        object : Callback<RequestSynAppResponse> {
+            override fun onResponse(
+                call: Call<RequestSynAppResponse>,
+                response: Response<RequestSynAppResponse>) {
+
+                if (response.isSuccessful) {
+                    technicianSynAppConfig.postValue(response.body().let { Resource.success(it) }) // = response.body().let { Resource.success(it) }
+                } else {
+                    technicianSynAppConfig.postValue(Resource.error(
+                        ErrorUtils.getError(
+                            response.errorBody(),
+                            response.code()
+                        )
+                    ))
+                }
+            }
+
+            override fun onFailure(call: Call<RequestSynAppResponse>, t: Throwable) {
+                technicianSynAppConfig.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
 

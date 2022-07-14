@@ -9,6 +9,8 @@ import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.ui.admin.dashboard.RequestSynAppResponse
+import com.orpatservice.app.ui.admin.technician.RequestPincodeResponse
 import com.orpatservice.app.ui.leads.customer_detail.CancelRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UpdateRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
@@ -159,9 +161,18 @@ interface ApiEndPoint {
 
     @POST("service-center/technicians/update_technician/{technician_id}")
     fun hitAPIUpdateTechnician(
+        @Header("Authorization") token : String,
         @Body requestBody: MultipartBody,
         @Path("technician_id") technician_id: Int?
     ): Call<AddTechnicianResponse>
+
+    @POST("service-center/technicians")
+    fun submitTechnician(
+        @Header("Authorization") token : String,
+        @Body body : JsonObject
+    ): Call<AddTechnicianResponse>
+
+
 
     @POST("service-center/upload-file")
     fun hitAPIUploadFile(
@@ -254,13 +265,35 @@ interface ApiEndPoint {
         @Body body : JsonObject,
     ): Call<CancelRequestResponse>
 
+    @POST("technician/leads/cancel_enquiry")
+    fun hitTechnicianTaskCancelRequestLead(
+        @Header("Authorization") token : String,
+        @Body body : JsonObject,
+    ): Call<CancelRequestResponse>
+
+
+    @GET("service-center/app-config")
+    fun getSynAppConfig(@Header("Authorization") token : String): Call<RequestSynAppResponse>
+
+
+    @GET("service-center/app-config")
+    fun getTechnicianSynAppConfig(@Header("Authorization") token : String): Call<RequestSynAppResponse>
 
     @GET("service-center/leads/pending")
     fun getServiceCenterPendingLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<RequestLeadResponse>
 
+    @GET("service-center/pincodes")
+    fun getPincode(@Header("Authorization") token : String): Call<RequestPincodeResponse>
+
+
 
     @GET("service-center/leads/chargeable")
-    fun getServiceCenterChargeableLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<RequestLeadResponse>
+    fun getServiceCenterChargeableLeads(
+
+        @Header("Authorization") token : String,
+        @Query("page") page: Int,
+        @Query("filter") filter: Int,
+        ): Call<RequestLeadResponse>
 
 
     @GET("service-center/leads/assigned")
@@ -280,6 +313,11 @@ interface ApiEndPoint {
 
     @GET("service-center/technicians")
     fun getServiceCenterAssignedTechnicianLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<NewRequestResponse>
+
+    @GET("service-center/asign-technician-list")
+    fun getServiceCenterTechnicianLeads(@Header("Authorization") token : String,
+                                        @Query("lead_id") leadsId: Int?,
+    ): Call<NewRequestResponse>
 
 
     @GET("service-center/leads/assigned")

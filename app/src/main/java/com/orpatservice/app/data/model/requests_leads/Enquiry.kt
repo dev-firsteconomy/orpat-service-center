@@ -17,7 +17,7 @@ class Enquiry() : Parcelable {
 
    // var qr_image: String? = null
     var purchase_at: String? = null
-    var nature_pf_complain: String? = null
+    var complaint_preset: String? = null
     var in_warranty: String? = null
     var is_cancelled: String? = null
     var status: Boolean = false
@@ -44,7 +44,7 @@ class Enquiry() : Parcelable {
         invoice_no = parcel.readString()
      //   qr_image = parcel.readString()
         purchase_at = parcel.readString()
-        nature_pf_complain = parcel.readString()
+        complaint_preset = parcel.readString()
         in_warranty = parcel.readString()
         is_cancelled = parcel.readString()
         status = parcel.readValue(Boolean::class.java.classLoader) as Boolean
@@ -77,7 +77,7 @@ class Enquiry() : Parcelable {
         dest?.writeString(invoice_no)
       //  dest?.writeString(qr_image)
         dest?.writeString(purchase_at)
-        dest?.writeString(nature_pf_complain)
+        dest?.writeString(complaint_preset)
         dest?.writeString(in_warranty)
         dest?.writeString(is_cancelled)
         dest?.writeValue(status)

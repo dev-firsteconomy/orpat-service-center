@@ -68,7 +68,6 @@ class AllTechnicianActivity : AppCompatActivity() ,Callback{
         isNave = intent.getStringExtra(Constants.LEADS_ID).toString()
         technician_user = intent.getStringExtra(Constants.TECHNICIAN_ID).toString()
 
-
         alltechnicianAdapter = AllTechnicianAdapter(techList,itemClickListener = onItemClickListener,isNave,technician_user)
 
         linearLayoutManager = LinearLayoutManager(this)
@@ -88,7 +87,8 @@ class AllTechnicianActivity : AppCompatActivity() ,Callback{
         setObserver()
         addScrollerListener()
 
-        viewModel.loadAssignedTechnicianLeads(pageNumber)
+      //  viewModel.loadAssignedTechnicianLeads(pageNumber)
+
     }
 
     private fun userUtilData() {
@@ -152,7 +152,8 @@ class AllTechnicianActivity : AppCompatActivity() ,Callback{
     }
 
     private fun setObserver() {
-        viewModel.assignToTechnicianList.observe(this, this::getAssignedLeads)
+        viewModel.technicianList.observe(this, this::getAssignedLeads)
+        viewModel.loadTechnicianLeads(pageNumber,isNave.toInt())
     }
 
     private var nextPage: String? = null
@@ -164,12 +165,6 @@ class AllTechnicianActivity : AppCompatActivity() ,Callback{
 
             }
             Status.ERROR -> {
-                //  hideLoadingUI()
-             /*   Alerter.create(this)
-                    .setText(resources.error?.message.toString())
-                    .setBackgroundColorRes(R.color.orange)
-                    .setDuration(1500)
-                    .show()*/
 
                 Utils.instance.popupPinUtil(this,
                     resources.error?.message.toString(),
@@ -183,9 +178,9 @@ class AllTechnicianActivity : AppCompatActivity() ,Callback{
 
                 data.let {
                     if(it?.success == true){
-                        totalPage = it.data.pagination.last_page
+                       // totalPage = it.data.pagination.last_page
                         techList.addAll(it.data.data)
-                        nextPage = it.data.pagination.next_page_url
+                       // nextPage = it.data.pagination.next_page_url
 
                         //technicianAdapter.notifyDataSetChanged()
                         isLoading = false

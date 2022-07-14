@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_margin="@dimen/fab_margin"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
             app:tabRippleColor="@color/off_white"
             app:tabTextAppearance="@style/Theme.OrpatServiceCenter.RegularText.TabLayoutTextAppearance" />

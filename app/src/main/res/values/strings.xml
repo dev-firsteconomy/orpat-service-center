@@ -115,8 +115,8 @@
     <string name="search">Search</string>
     <string name="model_number">Model Number</string>
     <string name="invoice_date">Invoice Date</string>
-    <string name="customer_description">Customer Description</string>
-    <string name="service_center_description">Service Center Description</string>
+    <string name="customer_description">Customer Note</string>
+    <string name="service_center_description">Service Center Note</string>
     <string name="type_here">Type here</string>
     <string name="invoice_number">Invoice Number</string>
     <string name="upload_invoice">Upload Invoice</string>
@@ -150,7 +150,7 @@
     <string name="servicing_done_string">Servicing Done</string>
     <string name="product_no_complaint_string">Product has no complaint</string>
     <string name="not_covered_string">Part not covered under warranty</string>
-    <string name="error_service_center_desc">*Please Enter Service Center Description</string>
+    <string name="error_service_center_desc">*Please Enter Service Center Note</string>
     <string name="upload_part_image">Upload Part Image</string>
     <string name="error_invoice_number_string">*Please Enter Invoice Number</string>
     <string name="error_invoice_date_string">*Please Select Invoice Date</string>
@@ -176,7 +176,7 @@
     <string name="chargeable_details">Chargeable Details</string>
     <string name="finish">Finish</string>
     <string name="btn_cancel">Cancel</string>
-    <string name="gst_num_string">GST Number</string>
+    <string name="gst_num_string">Check Seller\'s GSTIN Validity</string>
     <string name="error_gst_number_string">* Please Enter GST Number</string>
     <string name="gst_in_string">Check GSTIN</string>
     <string name="gst_trade_name">GST Trade Name</string>
@@ -184,7 +184,17 @@
     <string name="btn_generate_chageable">Create Chargeable Req</string>
     <string name="service_center_gst_num">Please Enter GST Number</string>
     <string name="btn_scan">Scan QR Code</string>
-    <string name="btn_cancel_task">Cancel Task</string>
-
+    <string name="btn_cancel_task"><u>Cancel Task</u></string>
+    <string name="service_done">Service Done</string>
+    <string name="btn_service_cancel">Service Cancel</string>
+    <string name="customer_note">Customer Note</string>
+    <string name="string_seller_name">*Please Enter Seller Name</string>
+    <string name="seller_text_string">Seller Name</string>
+    <string name="aadhar_card">Aadhar Card</string>
+    <string name="service_center_note">Service Center Note</string>
+    <string name="customer_issue">Customer Issue</string>
+    <string name="complaint_preset">Complaint Preset</string>
+    <string name="upload_aadhar_card">Upload Aadhar Card</string>
+    <string name="image_aadhar_card">Upload Aadhar card here</string>
 
 </resources>

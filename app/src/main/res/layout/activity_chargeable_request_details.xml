@@ -315,10 +315,10 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_finish"
-                    style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+                    style="@style/Theme.OrpatServiceCenter.Buttons_Flat_Black"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="@string/finish"
+                    android:text="@string/service_done"
                     app:cornerRadius="0dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
@@ -342,10 +342,10 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_cancel"
-                    style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+                    style="@style/Theme.OrpatServiceCenter.Buttons_Flat_Black"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="@string/btn_cancel"
+                    android:text="@string/btn_service_cancel"
                     app:cornerRadius="0dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"

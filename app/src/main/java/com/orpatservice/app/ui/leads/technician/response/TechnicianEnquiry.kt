@@ -10,10 +10,11 @@ class TechnicianEnquiry() : Parcelable {
     var scanned_barcode: String? = null
     // var qr_image: String? = null
     var purchase_at: String? = null
-    var nature_pf_complain: String? = null
+    var complaint_preset: String? = null
     var in_warranty: String? = null
     var status: Boolean = false
     var customer_discription: String? = null
+    var service_center_discription: String? = null
     var dummy_barcode: String? = null
     var model_no: String? = null
     var technician_detail_status: Int? = null
@@ -27,10 +28,11 @@ class TechnicianEnquiry() : Parcelable {
         scanned_barcode = parcel.readString()
         //   qr_image = parcel.readString()
         purchase_at = parcel.readString()
-        nature_pf_complain = parcel.readString()
+        complaint_preset = parcel.readString()
         in_warranty = parcel.readString()
         status = parcel.readValue(Boolean::class.java.classLoader) as Boolean
         customer_discription = parcel.readString()
+        service_center_discription = parcel.readString()
         dummy_barcode = parcel.readString()
         model_no = parcel.readString()
         technician_detail_status = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -49,10 +51,11 @@ class TechnicianEnquiry() : Parcelable {
         dest?.writeString(scanned_barcode)
         //  dest?.writeString(qr_image)
         dest?.writeString(purchase_at)
-        dest?.writeString(nature_pf_complain)
+        dest?.writeString(complaint_preset)
         dest?.writeString(in_warranty)
         dest?.writeValue(status)
         dest?.writeString(customer_discription)
+        dest?.writeString(service_center_discription)
         dest?.writeString(dummy_barcode)
         dest?.writeString(model_no)
         dest?.writeValue(technician_detail_status)

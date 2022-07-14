@@ -194,12 +194,12 @@
                 style="@style/Theme.OrpatServiceCenter.SmallText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="120123"
                 android:visibility="visible"
+                android:textSize="@dimen/text_size_16"
                 app:layout_constraintEnd_toEndOf="@id/tv_time"
                 app:layout_constraintStart_toStartOf="@id/tv_time"
                 app:layout_constraintTop_toBottomOf="@id/tv_time"
-                tools:text="120123" />
+                />
 
             <ImageView
                 android:id="@+id/iv_location"
@@ -239,7 +239,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
                 app:layout_constraintTop_toBottomOf="@id/tv_full_address"
-                tools:text="In addition to setting the gravity, this can also help with alignment in some situations by reducing paddings on the top and bottom of the textview, which can be unequal:" />
+                app:text="In addition to setting the gravity, this can also help with alignment in some situations by reducing paddings on the top and bottom of the textview, which can be unequal:" />
 
             <View
                 android:id="@+id/v_divider"

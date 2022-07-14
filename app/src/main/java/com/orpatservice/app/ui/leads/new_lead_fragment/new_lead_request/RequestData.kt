@@ -19,13 +19,14 @@ class RequestData() : Parcelable {
     var pincode: String? = null
     var address1: String? = null
     var status: String? = null
-    var city: String? = null
+    var active_leads_count: String? = null
+    /*var city: String? = null
     var state: String? = null
     var timer: String? = null
     var color_code: String? = null
     var enquiries: ArrayList<TaskEnquiry> = arrayListOf()
     var technician: TechnicianData? = null
-
+*/
     constructor(parcel: Parcel) : this() {
         id = parcel.readValue(Int::class.java.classLoader) as? Int
         first_name = parcel.readString()
@@ -35,11 +36,12 @@ class RequestData() : Parcelable {
         pincode = parcel.readString()
         address1 = parcel.readString()
         status = parcel.readString()
-        city = parcel.readString()
+        active_leads_count = parcel.readString()
+       /* city = parcel.readString()
         state = parcel.readString()
         timer = parcel.readString()
         color_code = parcel.readString()
-        parcel.readTypedList(enquiries, TaskEnquiry.CREATOR)
+        parcel.readTypedList(enquiries, TaskEnquiry.CREATOR)*/
 
     }
 
@@ -52,11 +54,12 @@ class RequestData() : Parcelable {
         parcel?.writeString(pincode)
         parcel?.writeString(address1)
         parcel?.writeString(status)
-        parcel?.writeString(city)
+        parcel?.writeString(active_leads_count)
+        /*parcel?.writeString(city)
         parcel?.writeString(state)
         parcel?.writeString(timer)
         parcel?.writeString(color_code)
-        parcel?.writeTypedList(enquiries)
+        parcel?.writeTypedList(enquiries)*/
 
     }
 

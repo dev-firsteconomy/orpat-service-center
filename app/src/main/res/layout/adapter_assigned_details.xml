@@ -32,7 +32,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:padding="2dp"
             android:layout_marginTop="10dp"
             android:text="@string/model_number"
             android:textAlignment="textStart"
@@ -44,7 +43,6 @@
             style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dp"
             android:textStyle="bold"
             android:textAlignment="textStart"
             android:textSize="14sp"
@@ -85,7 +83,7 @@
             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="2dp"
+            android:layout_marginTop="10dp"
             android:text="@string/customer_description"
             android:textAlignment="textStart"
             android:textSize="14sp"
@@ -99,27 +97,50 @@
             style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="@string/description"
             android:textAlignment="textStart"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_customer_description"
-            tools:text="Ceiling fans light is flickering" />
+            app:layout_constraintTop_toBottomOf="@id/tv_customer_description" />
+
+
+        <TextView
+            android:id="@+id/tv_complaint_preset"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/complaint_preset"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_value" />
+
+
+        <TextView
+            android:id="@+id/tv_complaint_preset_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset" />
 
         <TextView
             android:id="@+id/tv_service_center_description"
             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="2dp"
+            android:layout_marginTop="10dp"
             android:text="@string/service_center_description"
             android:textAlignment="textStart"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_description_value" />
+            app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset_value" />
 
         <TextView
             android:id="@+id/tv_service_center_description_value"
@@ -384,6 +405,17 @@
                         android:checked="false"
                         android:textSize="14sp"
                         app:backgroundTint="#FFFFFF" />
+
+                    <RadioButton
+                        android:id="@+id/radiobtn_not_sure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Not Sure"
+                        android:checked="false"
+                        android:textSize="14sp"
+                        app:backgroundTint="#FFFFFF" />
+
                 </RadioGroup>
 
 

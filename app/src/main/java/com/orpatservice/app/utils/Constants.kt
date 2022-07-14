@@ -36,7 +36,7 @@ object Constants {
     val requestsTabNameArray = arrayOf(
         "New",
         "Assigned",
-        "Completed"
+        "Verify"
     )
 
    /* val requestsTabNameArray = arrayOf(
@@ -48,7 +48,9 @@ object Constants {
 
 
     val requestsTechnicianTabNameArray = arrayOf(
-        "",
+        "New",
+        "Finished",
+        "Cancelled",
     )
 
     const val PARENT = 0
