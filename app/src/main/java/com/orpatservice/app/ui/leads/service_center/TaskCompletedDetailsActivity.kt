@@ -158,6 +158,7 @@ class TaskCompletedDetailsActivity  : AppCompatActivity(), TextWatcher {
         alertDialogBuilder.show()
 
     }
+
     private fun validateOTP() {
 
         (0 until editTextArray.size)
@@ -335,7 +336,7 @@ class TaskCompletedDetailsActivity  : AppCompatActivity(), TextWatcher {
                                 val intent = Intent(this, RequestLeadActivity::class.java)
                                 startActivity(intent)
                                 finish()
-                            }, 3000)
+                            }, 5000)
 
                         }
                     } ?: run {

@@ -50,12 +50,20 @@ class TechnicianCustomerDetailsAdapter(
             itemClickListener: (Int, View, ItemTechnicianComplaintBinding, ArrayList<TechnicianEnquiryImage>) -> Unit
         ) {
 
-            if(enquiry.technician_detail_status == 1){
+            if(enquiry.technician_scan_status == 1){
+                binding.liNoScannerPart.visibility = VISIBLE
+                binding.liScannerPart.visibility = GONE
+            }else{
+                binding.liNoScannerPart.visibility = GONE
+                binding.liScannerPart.visibility = VISIBLE
+            }
+
+            if(enquiry.technician_detail_status == 1 ){
                 binding.btnTechnicianUpdate.visibility = View.GONE
                 binding.btnTechnicianHideUpdate.visibility = View.VISIBLE
 
-                binding.liNoScannerPart.visibility = VISIBLE
-                binding.liScannerPart.visibility = GONE
+               // binding.liNoScannerPart.visibility = VISIBLE
+               // binding.liScannerPart.visibility = GONE
 
 
                 binding.btnUploadImage.setFocusable(false);
@@ -66,8 +74,8 @@ class TechnicianCustomerDetailsAdapter(
                 binding.btnTechnicianUpdate.visibility = View.VISIBLE
                 binding.btnTechnicianHideUpdate.visibility = View.GONE
 
-                binding.liNoScannerPart.visibility = GONE
-                binding.liScannerPart.visibility = VISIBLE
+                //binding.liNoScannerPart.visibility = GONE
+               // binding.liScannerPart.visibility = VISIBLE
             }
 
             binding.tvDescriptionValue.text = enquiry.customer_discription
@@ -80,6 +88,12 @@ class TechnicianCustomerDetailsAdapter(
             binding.tvServiceCenterValueScan.text = enquiry.service_center_discription
             binding.tvComplaintPresetValueScan.text = enquiry.complaint_preset
 
+            if(!enquiry.lead_enquiry_images.isEmpty()) {
+                binding.tvCountImage.visibility = VISIBLE
+                binding.tvCountImage.text = "+"+" "+""+enquiry.lead_enquiry_images.count().toString()
+            }else{
+                binding.tvCountImage.visibility = GONE
+            }
              enquiryImage.forEach{
                  Glide.with(binding.ivUploadImage)
                      .load(it.image)

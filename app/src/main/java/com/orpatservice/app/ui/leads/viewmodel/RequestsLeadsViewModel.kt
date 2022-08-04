@@ -9,6 +9,7 @@ import com.orpatservice.app.data.remote.ErrorUtils
 import com.orpatservice.app.data.repository.DataRepository
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.admin.dashboard.RequestSynAppResponse
+import com.orpatservice.app.ui.admin.dashboard.RequestTechnicianSynAppResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
@@ -32,7 +33,7 @@ class RequestsLeadsViewModel : ViewModel() {
     val taskcompletedLeadsData = MutableLiveData<Resource<TakCompletedResponse>>()
     val chargeableLeadsData = MutableLiveData<Resource<RequestLeadResponse>>()
     val synAppConfig = MutableLiveData<Resource<RequestSynAppResponse>>()
-    val technicianSynAppConfig = MutableLiveData<Resource<RequestSynAppResponse>>()
+    val technicianSynAppConfig = MutableLiveData<Resource<RequestTechnicianSynAppResponse>>()
 
     fun loadPendingLeads(pageNumber: Int) {
         DataRepository.instance.hitGetServiceCenterPendingLeads(pageNumber).enqueue(callbackPendingLeads)
@@ -51,7 +52,6 @@ class RequestsLeadsViewModel : ViewModel() {
     fun loadTechnicianSynAppConfig() {
         DataRepository.instance.hitGetTechnicianSynConfigApp().enqueue(callbackTechnicianSynApp)
     }
-
 
     fun loadChargeableLeads(pageNumber: Int,filter:Int) {
         DataRepository.instance.hitGetServiceCenterChargeableLeads(pageNumber,filter).enqueue(callbackChargeableLeads)
@@ -130,11 +130,11 @@ class RequestsLeadsViewModel : ViewModel() {
             }
         }
 
-    private val callbackTechnicianSynApp: Callback<RequestSynAppResponse> =
-        object : Callback<RequestSynAppResponse> {
+    private val callbackTechnicianSynApp: Callback<RequestTechnicianSynAppResponse> =
+        object : Callback<RequestTechnicianSynAppResponse> {
             override fun onResponse(
-                call: Call<RequestSynAppResponse>,
-                response: Response<RequestSynAppResponse>) {
+                call: Call<RequestTechnicianSynAppResponse>,
+                response: Response<RequestTechnicianSynAppResponse>) {
 
                 if (response.isSuccessful) {
                     technicianSynAppConfig.postValue(response.body().let { Resource.success(it) }) // = response.body().let { Resource.success(it) }
@@ -148,7 +148,7 @@ class RequestsLeadsViewModel : ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<RequestSynAppResponse>, t: Throwable) {
+            override fun onFailure(call: Call<RequestTechnicianSynAppResponse>, t: Throwable) {
                 technicianSynAppConfig.postValue(Resource.error(ErrorUtils.getError(t)))
             }
         }
@@ -267,8 +267,8 @@ class RequestsLeadsViewModel : ViewModel() {
             }
         }
 
-    fun loadCancelledLeads(pageNumber: Int) {
-            DataRepository.instance.hitGetServiceCenterCancelledLeads(pageNumber)
+    fun loadCancelledLeads(pageNumber: Int,type:String) {
+            DataRepository.instance.hitGetServiceCenterCancelledLeads(pageNumber,type)
                 .enqueue(callbackCancelledLeads)
     }
 
@@ -326,9 +326,9 @@ class RequestsLeadsViewModel : ViewModel() {
             }
         }
 
-    fun loadCompletedLeads(pageNumber: Int) {
+    fun loadCompletedLeads(pageNumber: Int,type:String) {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
-            DataRepository.instance.hitGetServiceCenterCompletedLeads(pageNumber).enqueue(callbackCompletedLeads)
+            DataRepository.instance.hitGetServiceCenterCompletedLeads(pageNumber,type).enqueue(callbackCompletedLeads)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
             DataRepository.instance.hitGetTechnicianCompletedLeads(pageNumber)
                 .enqueue(callbackCompletedLeads)

@@ -1,18 +1,25 @@
 package com.orpatservice.app.ui.leads.technician
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.view.KeyEvent
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.*
 import com.google.gson.JsonObject
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.ResultPoint
@@ -45,6 +52,11 @@ class BarScannerActivity : AppCompatActivity() {
     private var leadId: String = ""
     lateinit var customerDetailsViewModel: CustomerDetailsModel
 
+    private var latitude : String = ""
+    private var longitude : String = ""
+    private  final val permissionCode  = 42
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,6 +78,10 @@ class BarScannerActivity : AppCompatActivity() {
             finish()
         }
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        getLastLocation()
+
         setObserver()
         initScanner()
 
@@ -77,6 +93,101 @@ class BarScannerActivity : AppCompatActivity() {
 
 
     }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+
+                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                    var location: Location? = task.result
+                    if (location == null) {
+                        requestNewLocationData()
+                    } else {
+                        println("latitude"+location.latitude.toString())
+                        println("longitude"+location.longitude.toString())
+                        latitude = location.latitude.toString()
+                        longitude = location.longitude.toString()
+                    }
+                }
+            } else {
+                //Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+                onBackPressed()
+            }
+        } else {
+            requestPermissions()
+        }
+    }
+
+    /*override fun onResume() {
+        super.onResume()
+        if (!checkPermissions()) {
+            requestPermissions()
+        } else {
+            getLastLocation()
+        }
+    }
+*/
+
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            permissionCode
+        )
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        var mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationClient!!.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location = locationResult.lastLocation
+            latitude = mLastLocation.latitude.toString()
+            longitude = mLastLocation.longitude.toString()
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+
     private fun initScanner() {
         // Request camera permissions
         if (isCameraPermissionGranted()) {
@@ -87,6 +198,7 @@ class BarScannerActivity : AppCompatActivity() {
             barcodeView?.decodeContinuous(callback)
             barcodeView?.barcodeView?.cameraSettings?.isAutoFocusEnabled = true
             beepManager = BeepManager(this)
+            barcodeView?.getStatusView()?.setVisibility(View.GONE);
 
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),
@@ -145,13 +257,17 @@ class BarScannerActivity : AppCompatActivity() {
         val jsonObject = JsonObject()
 
         try {
-            //  val jsArray  = JsonArray()
+            //val jsArray  = JsonArray()
             jsonObject.addProperty("scanned_barcode", currentScanner)
+            jsonObject.addProperty("latitude", latitude)
+            jsonObject.addProperty("longitude", longitude)
 
         } catch (e: JSONException) {
             e.printStackTrace()
         }
 
+        println("jsonObject"+jsonObject)
+        println("leadId"+leadId)
         customerDetailsViewModel.hitValidateQRApi(
             jsonObject,
             leadId
@@ -173,7 +289,7 @@ class BarScannerActivity : AppCompatActivity() {
                 response?.let {
                     if (it.success) {
 
-                        Utils.instance.popupPinUtil(this,
+                        Utils.instance.popupPinsUtil(this,
                             it.message,
                             "",
                             true)
@@ -196,7 +312,7 @@ class BarScannerActivity : AppCompatActivity() {
                         val r = Runnable {
                             barcodeView?.resume()
                         }
-                        Handler().postDelayed(r, 1000)
+                        Handler().postDelayed(r, 5000)
 
                     }
                 }

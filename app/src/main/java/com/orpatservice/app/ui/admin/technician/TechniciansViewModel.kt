@@ -5,10 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.JsonObject
 import com.orpatservice.app.data.Resource
-import com.orpatservice.app.data.model.AddTechnicianResponse
-import com.orpatservice.app.data.model.RepairPartResponse
-import com.orpatservice.app.data.model.SaveEnquiryResponse
-import com.orpatservice.app.data.model.TechnicianResponse
+import com.orpatservice.app.data.model.*
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.data.remote.ErrorUtils
 import com.orpatservice.app.data.repository.DataRepository
@@ -16,6 +13,7 @@ import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
+import com.orpatservice.app.ui.leads.technician.response.TechnicianLeadData
 import com.orpatservice.app.utils.Constants
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -38,6 +36,11 @@ class TechniciansViewModel : ViewModel() {
     fun loadTechnician(nextPage : Int): LiveData<Resource<TechnicianResponse>> {
         return DataRepository.instance.loadTechnician(nextPage)
     }
+
+    fun loadTechnicianData(nextPage : Int): LiveData<Resource<RequestTechnicianData>> {
+        return DataRepository.instance.loadTechnicianData(nextPage)
+    }
+
 
     fun hitAPIAddTechnician(
         requestBody: MultipartBody
@@ -94,12 +97,39 @@ class TechniciansViewModel : ViewModel() {
         return DataRepository.instance.hitAPITechnician(requestBody).enqueue(callbackSubmitTechnician)
     }
 
+    fun hitUpdateTechnicianApi(requestBody: JsonObject,technicianID: Int) {
+        return DataRepository.instance.hitAPIUpdateTechnician(requestBody,technicianID).enqueue(callbackUpdateTechnician)
+    }
+
     fun loadPincode() {
         DataRepository.instance.hitGetPincode().enqueue(callbackPincode)
 
     }
 
     private val callbackSubmitTechnician: Callback<AddTechnicianResponse> = object : Callback<AddTechnicianResponse> {
+        override fun onResponse(
+            call: Call<AddTechnicianResponse>,
+            response: Response<AddTechnicianResponse>
+        ) {
+            if (response.isSuccessful) {
+                submitTechnicianData.value = response.body()?.let { Resource.success(it) }
+            } else {
+                submitTechnicianData.value =
+                    Resource.error(
+                        ErrorUtils.getError(
+                            response.errorBody(),
+                            response.code()
+                        )
+                    )
+            }
+        }
+
+        override fun onFailure(call: Call<AddTechnicianResponse>, t: Throwable) {
+            submitTechnicianData.value = Resource.error(ErrorUtils.getError(t))
+        }
+    }
+
+    private val callbackUpdateTechnician: Callback<AddTechnicianResponse> = object : Callback<AddTechnicianResponse> {
         override fun onResponse(
             call: Call<AddTechnicianResponse>,
             response: Response<AddTechnicianResponse>

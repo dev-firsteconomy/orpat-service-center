@@ -17,6 +17,7 @@ import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.service_center.AssignDetailsActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
@@ -36,10 +37,11 @@ class CompletedRequestFragment : Fragment() {
             R.id.btn_view_details -> {
                 when (view.id) {
                     R.id.btn_view_details -> {
-                        /*val intent = Intent(activity, CustomerDetailsActivity::class.java)
+                        val intent = Intent(activity, AssignDetailsActivity::class.java)
 
                         intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-                        startActivity(intent)*/
+                        intent.putExtra(Constants.LEAD_TYPE, Constants.LEAD_NEW)
+                        startActivity(intent)
                     }
                 }
             }
@@ -75,7 +77,7 @@ class CompletedRequestFragment : Fragment() {
 
         setObserver()
         loadUI()
-        requestLeadsViewModel.loadCompletedLeads(pageNumber)
+        requestLeadsViewModel.loadCompletedLeads(pageNumber,"1")
 
         binding.rvAssignTechnician.addOnScrollListener(scrollListener)
 
@@ -89,7 +91,7 @@ class CompletedRequestFragment : Fragment() {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
                     pageNumber++
                     binding.cpiLoading.visibility = View.VISIBLE
-                    requestLeadsViewModel.loadCompletedLeads(pageNumber)
+                    requestLeadsViewModel.loadCompletedLeads(pageNumber,"1")
                     isLoading = true
                 }
             }

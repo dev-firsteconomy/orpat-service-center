@@ -15,7 +15,7 @@ import com.orpatservice.app.data.model.TechnicianData
 import com.orpatservice.app.utils.Constants
 
 class TechnicianAdapter(
-    private val techList: ArrayList<TechnicianData>,
+    private val techList: ArrayList<TechnicianList>,
     private val is_nav: String?
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -64,7 +64,7 @@ class TechnicianAdapter(
             binding.rbSelectTechnician.setOnClickListener(this)
         }
 
-        fun bind(technicianData: TechnicianData) {
+        fun bind(technicianData: TechnicianList) {
             Glide.with(binding.ivProfile)
                 .load(technicianData.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -74,7 +74,7 @@ class TechnicianAdapter(
 
             binding.tvTechName.text = technicianData.first_name + " " + technicianData.last_name
             binding.tvLocation.text = technicianData.pincode
-            if (technicianData.status == 1) {
+            if (technicianData.status == "1") {
                 binding.tvIsAvailable.text = Constants.AVAILABLE
 
             } else {

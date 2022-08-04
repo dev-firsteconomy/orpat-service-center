@@ -1,16 +1,25 @@
 package com.orpatservice.app.ui.leads.service_center
 
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +44,7 @@ import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePa
 import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
 import com.orpatservice.app.ui.leads.technician.adapter.AdapterSectionRecycler
 import com.orpatservice.app.ui.leads.technician.section.*
+import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
 import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.DividerItemDecorator
@@ -43,7 +53,7 @@ import com.tapadoo.alerter.Alerter
 import org.json.JSONException
 
 
-class TechnicianTaskUpdateActivity : AppCompatActivity() {
+class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
     private lateinit var binding: ContentTechnicianTaskUpdateBinding
     private lateinit var requestData: LeadData
     private var requestEnquiry: Int? = 0
@@ -58,6 +68,10 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() {
     private lateinit var technicianTaskAdapter: TechnicianTaskAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
     private  lateinit var bindingAdapter : TechnicianTaskUpdateBinding
+    private var alertDialog : Dialog? = null
+    private val editTextArray: ArrayList<EditText> = ArrayList(OTPVerificationActivity.NUM_OF_DIGITS)
+    private val NUM_OF_DIGITS = 4
+    private var numTemp = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,18 +130,40 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() {
         binding.includedContent.tvContactNumber.setOnClickListener {
             openCallDialPad(requestData.mobile.toString())
         }
+        binding.includedContent.tvTechnicianNameValues.text = requestData.technician?.first_name+""+" "+""+requestData.technician?.last_name
+        binding.includedContent.tvTechnicianNumberValues.text = requestData.technician?.mobile
+        binding.includedContent.tvTechnicianNumberValues.setOnClickListener {
+            openCallDialPad(requestData.technician?.mobile.toString())
+        }
+        binding.includedContent.tvTechnicianNumber.setOnClickListener {
+            openCallDialPad(requestData.technician?.mobile.toString())
+        }
         val str = requestData.created_at
         val delimiter = " "
         val parts = str?.split(delimiter)
 
         binding.includedContent.tvRequestDateValue.text = parts?.get(0)+""+" "+""+ parts?.get(1)+""+" "+""+ parts?.get(2)+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"
 
-        if(requestData.pending_parts_verification_status_count.equals("0")){
+        /*if(requestData.pending_parts_verification_status_count.equals("0")){
             binding.includedContent.btnSubmit.visibility = VISIBLE
             binding.includedContent.btnHideSubmit.visibility = GONE
         }else{
             binding.includedContent.btnSubmit.visibility = GONE
             binding.includedContent.btnHideSubmit.visibility = VISIBLE
+        }*/
+
+        if(requestData.pending_parts_verification_status_count.equals("0")){
+            binding.includedContent.btnVerifyOtp.visibility = VISIBLE
+            binding.includedContent.btnHideVerifyOtp.visibility = GONE
+        }else{
+            binding.includedContent.btnVerifyOtp.visibility = GONE
+            binding.includedContent.btnHideVerifyOtp.visibility = VISIBLE
+        }
+
+        binding.includedContent.btnVerifyOtp.setOnClickListener {
+
+            customerDetailsViewModel.hitAPITaskSendHappyCode(requestData.id.toString()).observe(this, loadHappyCodeData())
+
         }
 
         binding.includedContent.btnSubmit.setOnClickListener {
@@ -140,6 +176,240 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() {
 
         }
     }
+
+
+    private fun loadHappyCodeData(): Observer<Resource<TechnicianResponse>> {
+        return Observer { it ->
+            when (it?.status) {
+                Status.LOADING -> {
+                    //binding.cpiLoadingResend.visibility = View.VISIBLE
+
+                }
+                Status.ERROR -> {
+                    //binding.cpiLoadingResend.visibility = View.GONE
+
+                    /* Alerter.create(this@TaskCompletedDetailsActivity)
+                         .setTitle("")
+                         .setText("" + it.error?.message.toString())
+                         .setBackgroundColorRes(R.color.orange)
+                         .setDuration(1000)
+                         .show()*/
+
+                    Utils.instance.popupPinUtil(this,
+                        it.error?.message.toString(),
+                        "",
+                        false)
+
+                }
+                else -> {
+                    // binding.cpiLoadingResend.visibility = View.GONE
+                    val data = it?.data
+
+                    data?.let {
+                        if (it.success) {
+                            showOTPVarificationPopUp()
+
+                            /*  it.message.let { it1 ->
+                                  Utils.instance.popupPinUtil(this,
+                                      it1,
+                                      "",
+                                      true)
+                              }*/
+                            //alertDialog?.dismiss()
+                            /* Handler(Looper.getMainLooper()).postDelayed({
+                                 val intent = Intent(this, RequestLeadActivity::class.java)
+                                 startActivity(intent)
+                                 finish()
+                             }, 3000)*/
+
+                        }
+                    } ?: run {
+
+                        Utils.instance.popupPinUtil(this,
+                            it.data?.message.toString(),
+                            "",
+                            false)
+                        alertDialog?.dismiss()
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun showOTPVarificationPopUp() {
+
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view: View = inflater.inflate(R.layout.otp_varification_popup_layout, null)
+
+        val alertDialogBuilder = Dialog(this@TechnicianTaskUpdateActivity)
+        alertDialogBuilder.setContentView(view)
+        alertDialog = alertDialogBuilder
+        val layout: ConstraintLayout = view.findViewById(R.id.cl_otp_layout)
+        createOTPUI(layout)
+        val btn_varify_otp = view.findViewById<TextView>(R.id.btn_varify_otp)
+        val subTitle = view.findViewById<TextView>(R.id.tv_subheading)
+        val tv_resend_happy_code = view.findViewById<TextView>(R.id.tv_resend_happy_code)
+
+        subTitle.text = "Please verify the code sent to your mobile number +91"+" "+requestData.mobile
+        tv_resend_happy_code.setOnClickListener {
+            customerDetailsViewModel.hitAPITaskSendHappyCode(requestData.id.toString()).observe(this, loadHappyCodeData())
+
+        }
+        btn_varify_otp.setOnClickListener {
+            validateOTP()
+        }
+        //alertDialogBuilder.setCancelable(false)
+        alertDialogBuilder.show()
+
+    }
+
+    private fun validateOTP() {
+
+        (0 until editTextArray.size)
+            .forEach { i ->
+                if (editTextArray[i].text.isEmpty()) {
+
+                    Utils.instance.popupPinUtil(this,
+                        getString(R.string.warning_enter_OTP),
+                        "",
+                        false)
+
+                    return
+                }
+            }
+        verifyOTPCode(testCodeValidity())
+    }
+
+    private fun testCodeValidity(): String {
+        var verificationCode = ""
+        for (i in editTextArray.indices) {
+            val digit = editTextArray[i].text.toString().trim { it <= ' ' }
+            verificationCode += digit
+        }
+        if (verificationCode.trim { it <= ' ' }.length == NUM_OF_DIGITS) {
+            return verificationCode
+        }
+        return ""
+    }
+
+    private fun createOTPUI(views: View) {
+        //create array
+       /* val layout: ConstraintLayout = views.findViewById(R.id.cl_otp_layout)
+        for (index in 0 until (layout.childCount)) {
+            val view: View = layout.getChildAt(index)
+            if (view is EditText) {
+                editTextArray.add(index, view)
+                editTextArray[index].addTextChangedListener(this@TechnicianTaskUpdateActivity)
+            }
+        }
+
+        editTextArray[0].requestFocus() //After the views are initialized we focus on the first view
+
+        (0 until editTextArray.size)
+            .forEach { i ->
+                editTextArray[i].setOnKeyListener { _, keyCode, event ->
+                    if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                        //backspace
+                        if (i != 0) { //Don't implement for first digit
+                            editTextArray[i - 1].requestFocus()
+                            editTextArray[i - 1]
+                                .setSelection(editTextArray[i - 1].length())
+                        }
+                    }
+                    false
+                }
+            }*/
+
+        val layout: ConstraintLayout = views as ConstraintLayout
+        for (index in 0 until (layout.childCount)) {
+            val view: View = layout.getChildAt(index)
+            if (view is EditText) {
+                editTextArray.add(index, view)
+                editTextArray[index].addTextChangedListener(this@TechnicianTaskUpdateActivity)
+            }
+        }
+
+        editTextArray[0].requestFocus() //After the views are initialized we focus on the first view
+
+        (0 until editTextArray.size)
+            .forEach { i ->
+                editTextArray[i].setOnKeyListener { _, keyCode, event ->
+                    if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                        //backspace
+                        if (i != 0) { //Don't implement for first digit
+                            editTextArray[i - 1].requestFocus()
+                            editTextArray[i - 1]
+                                .setSelection(editTextArray[i - 1].length())
+                        }
+                    }
+                    false
+                }
+            }
+        }
+
+    private fun verifyOTPCode(verificationCode: String) {
+        if (verificationCode.isNotEmpty()) {
+            enableCodeEditTexts(false)
+            //API trigger
+            println("taskCompletedRequestData.id"+requestData.id + verificationCode)
+            customerDetailsViewModel.hitAPITaskSendHappyCodeVerification(requestData.id.toString(),verificationCode).observe(this, loadHappyCodeVerificationData())
+
+        }
+    }
+
+    private fun loadHappyCodeVerificationData(): Observer<Resource<UpdatePartsRequestData>> {
+        return Observer { it ->
+            when (it?.status) {
+                Status.LOADING -> {
+                    //binding.cpiLoadingResend.visibility = View.VISIBLE
+
+                }
+                Status.ERROR -> {
+                    //binding.cpiLoadingResend.visibility = View.GONE
+
+                    Utils.instance.popupPinUtil(this,
+                        it.error?.message.toString(),
+                        "",
+                        false)
+
+                }
+                else -> {
+                    // binding.cpiLoadingResend.visibility = View.GONE
+                    val data = it?.data
+
+                    data?.let {
+                        if (it.success) {
+
+                            it.message.let { it1 ->
+                                Utils.instance.popupPinUtil(this,
+                                    it1,
+                                    "",
+                                    true)
+                            }
+                            //alertDialog?.dismiss()
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val intent = Intent(this, RequestLeadActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }, 5000)
+
+                        }
+                    } ?: run {
+
+
+                        Utils.instance.popupPinUtil(this,
+                            it.data?.message.toString(),
+                            "",
+                            false)
+                        alertDialog?.dismiss()
+                    }
+                }
+            }
+        }
+
+    }
+
 
     private fun openCallDialPad(contactNumber: String) {
         val i = Intent(Intent.ACTION_DIAL)
@@ -179,7 +449,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() {
                         }
 
                         jsonObject.addProperty("in_warranty", radiobtn_yes)
-                        jsonObject.addProperty("is_any_part_changed", radiobtn_change_part_yes)
+                       // jsonObject.addProperty("is_any_part_changed", radiobtn_change_part_yes)
                         jsonObject.addProperty("other_reasons", "No reason")
                         jsonObject.add("part_ids", jsArray)
 
@@ -398,7 +668,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() {
                             //onBackPressed()
                             finish()
 
-                        }, 3000)
+                        }, 5000)
 
                     }else{
                         it?.message?.let { msg ->
@@ -448,7 +718,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() {
 
                         //println("it.data.data"+it.data.data.get(0));
 
-                        if(data?.data?.pending_lead_enqury_detail_count.equals("0")){
+                        /*if(data?.data?.pending_lead_enqury_detail_count.equals("0")){
                             binding.includedContent.btnSubmit.visibility = VISIBLE
                             binding.includedContent.btnHideSubmit.visibility = GONE
                         }else{
@@ -456,7 +726,15 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() {
                             binding.includedContent.btnSubmit.visibility = GONE
                             binding.includedContent.btnHideSubmit.visibility = VISIBLE
                         }
+*/
 
+                        if(data?.data?.pending_lead_enqury_detail_count.equals("0")){
+                            binding.includedContent.btnVerifyOtp.visibility = VISIBLE
+                            binding.includedContent.btnHideVerifyOtp.visibility = GONE
+                        }else{
+                            binding.includedContent.btnVerifyOtp.visibility = GONE
+                            binding.includedContent.btnHideVerifyOtp.visibility = VISIBLE
+                        }
                       /*  Handler(Looper.getMainLooper()).postDelayed({
                             val intent = Intent(this, RequestLeadActivity::class.java)
                             startActivity(intent)
@@ -474,5 +752,46 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() {
                 }.run {  }
             }
         }
+    }
+
+    private fun enableCodeEditTexts(enable: Boolean) {
+        for (i in 0 until editTextArray.size)
+            editTextArray[i].isEnabled = enable
+    }
+
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        numTemp = s.toString()
+    }//store the previous digit
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+
+    override fun afterTextChanged(s: Editable) {
+
+        (0 until editTextArray.size)
+            .forEach { i ->
+                if (s === editTextArray[i].editableText) {
+
+                    if (s.isBlank()) {
+                        return
+                    }
+                    if (s.length >= 2) {//if more than 1 char
+                        val newTemp = s.toString().substring(s.length - 1, s.length)
+                        if (newTemp != numTemp) {
+                            editTextArray[i].setText(newTemp)
+                        } else {
+                            editTextArray[i].setText(s.toString().substring(0, s.length - 1))
+                        }
+                    } else if (i != editTextArray.size - 1) { //not last char
+                        editTextArray[i + 1].requestFocus()
+                        editTextArray[i + 1].setSelection(editTextArray[i + 1].length())
+                        return
+                    } else {
+                        //THIS BLOCK FOR AUTOMATIC OTP VERIFY API TRIGGER BUT FOR NOW WE DO IT MANUALLY
+                        //will verify code the moment the last character is inserted and all digits have a number
+                        //verifyCode(testCodeValidity())
+                    }
+                }
+            }
     }
 }

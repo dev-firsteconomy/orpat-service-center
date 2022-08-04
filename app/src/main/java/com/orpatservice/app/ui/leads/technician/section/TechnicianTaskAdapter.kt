@@ -66,16 +66,38 @@ class TechnicianTaskAdapter(
 
           //  println("technicianData.pending_parts_verification_status_count"+technicianData.pending_parts_verification_status_count)
           //  println("technicianData.parts_verification_status"+technicianData.parts_verification_status)
-            if(technicianData.pending_parts_verification_status_count.equals("0") && technicianData.parts_verification_status.equals("1")){
+            if(/*technicianData.pending_parts_verification_status_count.equals("0") &&*/ technicianData.parts_verification_status.equals("1")){
                 binding.tvTaskUpdate.visibility = GONE
                 binding.tvHideTaskUpdate.visibility = VISIBLE
+
+
+                if(technicianData.in_warranty.equals("Yes")){
+                    binding.radiobtnYes.isChecked = true
+
+                    binding.radiobtnNo.isChecked = false
+                    binding.radiobtnNo.setFocusable(false);
+                    binding.radiobtnNo.setEnabled(false);
+                    binding.radiobtnNo.setCursorVisible(false);
+                    binding.radiobtnNo.setKeyListener(null);
+
+                }else if(technicianData.in_warranty.equals("No")){
+                    binding.radiobtnNo.isChecked = true
+
+                    binding.radiobtnYes.isChecked = false
+                    binding.radiobtnYes.setFocusable(false);
+                    binding.radiobtnYes.setEnabled(false);
+                    binding.radiobtnYes.setCursorVisible(false);
+                    binding.radiobtnYes.setKeyListener(null);
+
+                }
+
 
             }else{
                 binding.tvTaskUpdate.visibility = VISIBLE
                 binding.tvHideTaskUpdate.visibility = GONE
 
             }
-            if(technicianData.pending_parts_verification_status_count.equals("0")){
+           /* if(technicianData.pending_parts_verification_status_count.equals("0")){
                 binding.tvTaskUpdate.visibility = GONE
                 binding.tvHideTaskUpdate.visibility = VISIBLE
 
@@ -92,7 +114,8 @@ class TechnicianTaskAdapter(
                 binding.tvTaskUpdate.visibility = VISIBLE
                 binding.tvHideTaskUpdate.visibility = GONE
 
-            }
+            }*/
+
 
             if(technicianData.is_cancelled.equals("Yes")){
                 binding.tvCancelLead.visibility = VISIBLE
@@ -117,6 +140,11 @@ class TechnicianTaskAdapter(
             binding.tvTask.text = "Task"+""+pos+""+"/"+""+count
             binding.tvCustomerNameValue.text = leadData.name
             binding.tvDateTimeValue.text = leadData.service_center_assigned_at
+
+
+            binding.tvDescriptionValue.text = technicianData.customer_discription
+            binding.tvComplaintPresetValue.text = technicianData.complaint_preset
+            binding.tvServiceCenterDescriptionValue.text = technicianData.service_center_discription
 
             val warrantryPart = WarrantryPartAdapter(context,technicianData.warranty_parts,technicianData.lead_enquiry_images)
             val dividerItemDecoration: RecyclerView.ItemDecoration =
@@ -143,12 +171,17 @@ class TechnicianTaskAdapter(
                     )
                 }*/
                 binding.radiobtnYes.setOnClickListener {
+                    binding.liNoWarranty.visibility = GONE
+                    binding.rvWarrantParts.visibility = VISIBLE
                     itemClickListener(
                         adapterPosition,
                         binding.radiobtnYes,binding
                     )
                 }
                 binding.radiobtnNo.setOnClickListener {
+                    binding.liNoWarranty.visibility = GONE
+                    binding.rvWarrantParts.visibility = GONE
+                    binding.tvSelectChangePart.visibility = GONE
 
                     itemClickListener(
                         adapterPosition,

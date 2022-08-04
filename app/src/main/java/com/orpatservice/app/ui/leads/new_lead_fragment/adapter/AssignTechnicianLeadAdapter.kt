@@ -80,14 +80,16 @@ class AssignTechnicianLeadAdapter constructor(
                 binding.btnHideViewDetails.visibility = VISIBLE
             }*/
 
-            if(leadData.status.equals("Otp Pending")){
+            /*if(leadData.status.equals("Otp Pending")){
                 binding.btnUpdateOtp.visibility = View.VISIBLE
                 binding.btnHideUpdateOtp.visibility = View.GONE
 
             }else{
                 binding.btnUpdateOtp.visibility = View.GONE
                 binding.btnHideUpdateOtp.visibility = View.VISIBLE
-            }
+            }*/
+
+
            /* if(leadData.pending_parts_verification_status_count.equals("0")){
                 binding.btnUpdateOtp.visibility = View.VISIBLE
                 binding.btnHideUpdateOtp.visibility = View.GONE

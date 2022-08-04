@@ -128,7 +128,7 @@
     <string name="btn_complete_task">Complete Task</string>
     <string name="warranty">Warranty</string>
     <string name="have_you_change_any_part">Have You Change Any Part</string>
-    <string name="select_parts_covered_under_warranty">Select parts covered under warranty</string>
+    <string name="select_parts_covered_under_warranty">Select replaced parts covered under warranty</string>
     <string name="btn_update">Update</string>
     <string name="select_date">Select Date</string>
     <string name="service_center_discription">Please Enter Description</string>
@@ -162,6 +162,7 @@
     <string name="btn_direction">Direction</string>
     <string name="cutomer_names">Customer Name :</string>
     <string name="btn_update_parts">Update Parts</string>
+    <string name="btn_verify_parts">Verify &amp; Update Parts</string>
     <string name="btn_update_otp">Update OTP</string>
     <string name="btn_happy_code">Send Happy Code</string>
     <string name="resend_happy_code">resend happy code</string>
@@ -196,5 +197,7 @@
     <string name="complaint_preset">Complaint Preset</string>
     <string name="upload_aadhar_card">Upload Aadhar Card</string>
     <string name="image_aadhar_card">Upload Aadhar card here</string>
+    <string name="technician_number">Technician Number</string>
+    <string name="btn_verifyhappy_code">Verify Happy Code</string>
 
 </resources>

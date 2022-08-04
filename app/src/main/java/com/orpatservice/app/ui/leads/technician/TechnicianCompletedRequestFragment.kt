@@ -1,31 +1,31 @@
-package com.orpatservice.app.ui.leads.history_lead_fragment
+package com.orpatservice.app.ui.leads.technician
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.R
-import com.orpatservice.app.databinding.FragmentCancelledRequestBinding
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
-import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
+import com.orpatservice.app.databinding.FragmentCompletedRequestBinding
 import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.history_lead_fragment.CompletedRequestFragment
 import com.orpatservice.app.ui.leads.service_center.AssignDetailsActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
-class CancelledRequestFragment : Fragment() {
+class TechnicianCompletedRequestFragment : Fragment() {
 
-    private lateinit var binding: FragmentCancelledRequestBinding
+    private lateinit var binding: FragmentCompletedRequestBinding
     private var leadDataArrayList: ArrayList<LeadData> = ArrayList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
@@ -38,28 +38,21 @@ class CancelledRequestFragment : Fragment() {
             R.id.btn_view_details -> {
                 when (view.id) {
                     R.id.btn_view_details -> {
-                        /*val intent = Intent(activity, CustomerDetailsActivity::class.java)
-
-                        intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
-                        startActivity(intent)*/
-                        val intent = Intent(activity, AssignDetailsActivity::class.java)
+                        val intent = Intent(activity, TechnicianHistoryDetailsActivity::class.java)
 
                         intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
                         intent.putExtra(Constants.LEAD_TYPE, Constants.LEAD_NEW)
                         startActivity(intent)
-
-                    }
-                    R.id.btn_view_decline -> {
-                        Toast.makeText(activity, "In-Progress", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
+
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
         leadDataArrayList,
         itemClickListener = onItemClickListener,
-        Constants.LEAD_CANCELLED_REQUEST
+        Constants.LEAD_COMPLETED_REQUEST
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,11 +66,12 @@ class CancelledRequestFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentCancelledRequestBinding.inflate(inflater, container, false)
+        binding = FragmentCompletedRequestBinding.inflate(inflater, container, false)
 
+        binding.edtTaskSearch.visibility = GONE
         layoutManager = LinearLayoutManager(activity)
-        binding.rvCancelledRequest.layoutManager = layoutManager
-        binding.rvCancelledRequest.apply {
+        binding.rvAssignTechnician.layoutManager = layoutManager
+        binding.rvAssignTechnician.apply {
             adapter = requestsLeadsAdapter
         }
 
@@ -85,9 +79,9 @@ class CancelledRequestFragment : Fragment() {
 
         setObserver()
         loadUI()
-        requestLeadsViewModel.loadCancelledLeads(pageNumber,"2")
+        requestLeadsViewModel.loadCompletedLeads(pageNumber,"1")
 
-        binding.rvCancelledRequest.addOnScrollListener(scrollListener)
+        binding.rvAssignTechnician.addOnScrollListener(scrollListener)
 
         return binding.root
     }
@@ -99,7 +93,7 @@ class CancelledRequestFragment : Fragment() {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
                     pageNumber++
                     binding.cpiLoading.visibility = View.VISIBLE
-                    requestLeadsViewModel.loadCancelledLeads(pageNumber,"2")
+                    requestLeadsViewModel.loadCompletedLeads(pageNumber,"1")
                     isLoading = true
                 }
             }
@@ -107,17 +101,17 @@ class CancelledRequestFragment : Fragment() {
     }
 
     private fun setObserver() {
-        requestLeadsViewModel.cancelledLeadsData.observe(viewLifecycleOwner, this::getCancelledLeads)
+        requestLeadsViewModel.completedLeadsData.observe(viewLifecycleOwner, this::getCompletedLeads)
     }
 
-    private fun getCancelledLeads(resources: Resource<RequestLeadResponse>) {
+    private fun getCompletedLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {
                 binding.cpiLoading.visibility = View.VISIBLE
             }
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
-                isLoading = false
+                isLoading = true
                 activity?.let {
                     Alerter.create(it)
                         .setText(resources.error?.message.toString())
@@ -158,7 +152,7 @@ class CancelledRequestFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            CancelledRequestFragment().apply {
+            CompletedRequestFragment().apply {
                 arguments = Bundle().apply {
                 }
             }

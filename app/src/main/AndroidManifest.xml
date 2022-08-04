@@ -155,6 +155,8 @@
         <activity android:name=".ui.leads.chargeable_request.ChargeableRequestActivity" />
         <activity android:name=".ui.leads.chargeable_request.ChargeableRequestDetailsActivity" />
         <activity android:name=".ui.admin.technician.PincodeSelectionActivity" />
+        <activity android:name=".ui.admin.technician.UpdateTechnicianActivity" />
+        <activity android:name=".ui.leads.technician.TechnicianHistoryDetailsActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

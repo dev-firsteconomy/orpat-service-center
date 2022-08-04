@@ -309,4 +309,42 @@ class Utils {
         }
         Handler().postDelayed(Runnable { alertDialogBuilder.dismiss() }, 5000)
     }
+
+    public fun popupPinsUtil(context: Context, title : String, desc :String?, isSuccessPopup: Boolean) {
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view: View = inflater.inflate(R.layout.popup_pin_layout, null)
+        val popupIcon = view.findViewById<ImageView>(R.id.popup_icon)
+        var popupTitle = view.findViewById<TextView>(R.id.popup_tv_heading)
+        val popupDesc = view.findViewById<TextView>(R.id.popup_tv_desc)
+        val popupcloseImg = view.findViewById<ImageView>(R.id.popup_img_close)
+        val alertDialogBuilder = Dialog(context)
+        alertDialogBuilder.setContentView(view)
+        alertDialogBuilder.show()
+        alertDialogBuilder.setCanceledOnTouchOutside(false);
+        popupcloseImg.setOnClickListener {
+            alertDialogBuilder.dismiss()
+        }
+
+        popupTitle.text = title
+
+        desc?.let {
+            popupDesc.text = it
+        }
+
+        if(isSuccessPopup){
+
+            popupTitle.setTextColor(ContextCompat.getColor(context, R.color.success_green))
+            Glide.with(context)
+                .load(R.drawable.ic_verified_icon)
+                .into(popupIcon)
+
+        }else{
+            popupTitle.setTextColor(ContextCompat.getColor(context, R.color.failure_red))
+            Glide.with(context)
+                .load(R.drawable.ic_error_icon)
+                .into(popupIcon)
+
+        }
+       // Handler().postDelayed(Runnable { alertDialogBuilder.dismiss() }, 5000)
+    }
 }

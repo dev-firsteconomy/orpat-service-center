@@ -2,6 +2,8 @@ package com.orpatservice.app.data.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.orpatservice.app.ui.admin.technician.PincodeData
+import com.orpatservice.app.ui.leads.technician.response.TechnicianEnquiry
 
 data class TechnicianData(
     val id : Int=0,
@@ -13,6 +15,7 @@ data class TechnicianData(
    // val area: String,
     val status: Int,
     val image: String,
+   // var pincodes: ArrayList<PincodeData> = arrayListOf()
     //val location: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(

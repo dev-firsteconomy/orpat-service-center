@@ -1,18 +1,27 @@
 package com.orpatservice.app.ui.leads.technician
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
@@ -42,6 +51,8 @@ class TechnicianNewRequest : Fragment() {
     private var isLoading: Boolean = false
     private var pageNumber = 1
     private var totalPage = 1
+    val PERMISSION_ID = 42
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     //Click listener for List Item
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
@@ -87,7 +98,9 @@ class TechnicianNewRequest : Fragment() {
         }
 
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
+        getLastLocation()
         setObserver()
         loadUI()
         requestLeadsViewModel.loadTechnicianPendingLeads(pageNumber)
@@ -95,6 +108,93 @@ class TechnicianNewRequest : Fragment() {
         binding.rvNewRequest.addOnScrollListener(scrollListener)
 
         return binding.root
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+
+                mFusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()) { task ->
+                    var location: Location? = task.result
+                    if (location == null) {
+                        requestNewLocationData()
+                    } else {
+                        println("latitude1"+location.latitude.toString())
+                        println("longitude1"+location.longitude.toString())
+                    }
+                }
+            } else {
+                //Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+            }
+        } else {
+            requestPermissions()
+        }
+    }
+
+
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        var mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        mFusedLocationClient!!.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            var mLastLocation: Location = locationResult.lastLocation
+            println("latitude1"+mLastLocation.latitude.toString())
+            println("longitude1"+mLastLocation.longitude.toString())
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        var locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            requireActivity(), arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODE
+        )
+
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            PERMISSION_ID
+        )
     }
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -126,7 +226,7 @@ class TechnicianNewRequest : Fragment() {
             appendPath("")
             appendQueryParameter("api", "1")
             appendQueryParameter("destination", dir)
-            // appendQueryParameter("destination", "${leadDataArrayList[position].latitude},-${(leadDataArrayList[position].longitude)}")
+            //appendQueryParameter("destination", "${leadDataArrayList[position].latitude},-${(leadDataArrayList[position].longitude)}")
         }.build()
         startActivity(Intent(Intent.ACTION_VIEW).apply {
             data = intentUri

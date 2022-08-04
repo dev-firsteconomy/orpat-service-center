@@ -239,7 +239,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
                 app:layout_constraintTop_toBottomOf="@id/tv_full_address"
-                app:text="In addition to setting the gravity, this can also help with alignment in some situations by reducing paddings on the top and bottom of the textview, which can be unequal:" />
+              />
 
             <View
                 android:id="@+id/v_divider"

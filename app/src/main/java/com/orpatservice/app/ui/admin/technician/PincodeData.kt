@@ -7,20 +7,23 @@ import com.orpatservice.app.data.model.requests_leads.Enquiry
 import com.orpatservice.app.data.model.requests_leads.LeadData
 
 class PincodeData() : Parcelable {
-    var id: Int? = null
+   // var id: Int? = null
+    var id: String? = null
     var pincode: String? = null
     var officename: String? = null
 
 
     constructor(parcel: Parcel) : this() {
-        id = parcel.readValue(Int::class.java.classLoader) as? Int
+       // id = parcel.readValue(Int::class.java.classLoader) as? Int
+        id = parcel.readString()
         pincode = parcel.readString()
         officename = parcel.readString()
 
     }
 
     override fun writeToParcel(parcel: Parcel?, flags: Int) {
-        parcel?.writeValue(id)
+      //  parcel?.writeValue(id)
+        parcel?.writeString(id)
         parcel?.writeString(pincode)
         parcel?.writeString(officename)
 

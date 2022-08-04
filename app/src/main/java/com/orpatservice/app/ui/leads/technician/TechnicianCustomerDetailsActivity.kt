@@ -33,6 +33,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.zxing.BarcodeFormat
@@ -60,6 +62,7 @@ import com.orpatservice.app.ui.leads.technician.adapter.TechnicianCustomerDetail
 import com.orpatservice.app.ui.leads.technician.response.TechnicianEnquiryImage
 import com.orpatservice.app.ui.leads.technician.response.TechnicianLeadData
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
+import com.orpatservice.app.ui.leads.technician.section.CameraBottomDialogFragment
 import com.orpatservice.app.ui.leads.technician.section.EnquirySliderScreenImageActivity
 import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
@@ -76,7 +79,7 @@ import java.util.*
 
 const val MY_PERMISSIONS_WRITE_READ_REQUEST_CODE = 1000
 class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListener,
-    CameraBottomSheetDialogFragment.BottomSheetItemClick {
+    CameraBottomDialogFragment.BottomSheetItemClick {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION = 10
@@ -100,6 +103,8 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
     //private val imgList : ArrayList<String>? = null
     private val imgList: ArrayList<String> = ArrayList()
     private lateinit var alertDialogBuilder:Dialog
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,6 +176,8 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         customerDetailsViewModel.invoiceUploadData.observe(this, this::onFileUploaded)
 
     }
+
+
 
     private fun onValidateQRCode(resources: Resource<ValidateProductResponse>) {
         when (resources.status) {
@@ -256,7 +263,6 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         binding.includedContent.tvRequestDateValue.text = parts?.get(0)+""+" "+""+ parts?.get(1)+""+" "+""+ parts?.get(2)+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"
 
 
-
         binding.includedContent.tvTimerValue.text = leadData.timer
         binding.includedContent.tvTimerValue.setTextColor(Color.parseColor(leadData.color_code))
 
@@ -336,7 +342,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                             startActivity(intent)
                             //onBackPressed()
                             finish()
-                        }, 3000)
+                        }, 5000)
 
                     } else {
 
@@ -350,6 +356,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         when (item.itemId) {
             android.R.id.home -> {
                 //onBackPressed()
+                CommonUtils.imageList.clear()
                 val intent = Intent(this, TechnicianRequestLeadActivity::class.java)
                 startActivity(intent)
                 return true
@@ -383,8 +390,15 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                 }
                 R.id.btn_upload_image -> {
                     //println("positionpositionpositionposition"+position)
+                    val arraylist = ArrayList<String>()
+                    for(i in CommonUtils.imageList){
+                        if(i.position == pos.toString()){
+                            arraylist.add(i.file!!)
 
-                    if(CommonUtils.imageList.count() < 5) {
+
+                        }
+                    }
+                    if(arraylist.count() < 5) {
                         if (checkCameraPermission()) {
                             bindingAdapter = binding
                             loadBottomSheetDialog()
@@ -431,6 +445,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                 R.id.iv_upload_image -> {
                     //if(!CommonUtils.imageList.isNullOrEmpty()) {
                         if (leadData.enquiries[position].lead_enquiry_images.isNullOrEmpty()) {
+
                             goToSliderImageActivity(CommonUtils.imageList)
                         } else {
                             val intent = Intent(this, EnquirySliderScreenImageActivity::class.java)
@@ -560,9 +575,15 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         startActivity(intent)
     }
     private fun goToSliderImageActivity(imageList: ArrayList<ImageListData>?) {
+        val arraylist = ArrayList<String>()
+        for(i in CommonUtils.imageList){
+            if(i.position == pos.toString()){
+                arraylist.add(i.file!!)
 
+            }
+        }
         val intent = Intent(this, SliderScreenImageActivity::class.java)
-       // intent.putExtra(Constants.IMAGE_DATA, imageList)
+        intent.putExtra(Constants.IMAGE_DATA, arraylist)
         startActivity(intent)
     }
 
@@ -577,16 +598,29 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             val jsonObject = JsonObject()
 
             try {
+                val arraylist = ArrayList<String>()
+                for(i in CommonUtils.imageList){
+                    if(i.position == pos.toString()){
+                        arraylist.add(i.file!!)
 
+
+                    }
+                }
                 val jsArray  = JsonArray()
-
-                for (i in CommonUtils.imageList){
+                for (i in arraylist){
+                    val jsonObj = JsonObject()
+                    jsonObj.addProperty("file",i)
+                    //jsArray.add(jsonObj)
+                    jsArray.add(i)
+                    //println("i.file"+jsArray)
+                }
+                /*for (i in CommonUtils.imageList){
                     val jsonObj = JsonObject()
                     jsonObj.addProperty("file",i.file)
                     //jsArray.add(jsonObj)
                     jsArray.add(i.file)
                     //println("i.file"+jsArray)
-                }
+                }*/
 
                /* if (invoiceUrl == null) {
                     jsonObject.addProperty(
@@ -597,14 +631,13 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                     jsonObject.addProperty("image_link", invoiceUrl)
                 }
 */
-               // println("jsArray"+jsArray);
+                println("jsArray"+jsArray);
                 jsonObject.add("image_links", jsArray)
-               // println("jsonObject"+jsonObject+ leadData.enquiries.get(pos!!).id)
                 customerDetailsViewModel.hitTechnicianUpdateRequest(
                     jsonObject,
                     leadData.enquiries.get(pos!!).id
                 ).observe(this@TechnicianCustomerDetailsActivity, this::onUpdateRequest)
-                CommonUtils.imageList.clear()
+               // CommonUtils.imageList.clear()
 
 
             } catch (e: JSONException) {
@@ -628,7 +661,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
     }
 
     private fun loadBottomSheetDialog() {
-        val fragment = CameraBottomSheetDialogFragment().newInstance()
+        val fragment = CameraBottomDialogFragment().newInstance()
         fragment.bottomSheetItemClick = this@TechnicianCustomerDetailsActivity
         fragment.show(supportFragmentManager, "Bottomsheet_Media_Selection")
     }
@@ -696,6 +729,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             barcodeView?.decodeContinuous(callback)
             barcodeView?.barcodeView?.cameraSettings?.isAutoFocusEnabled = true
             beepManager = BeepManager(this)
+            barcodeView?.getStatusView()?.setVisibility(View.GONE);
 
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
@@ -815,7 +849,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                             startActivity(intent)
                             //onBackPressed()
                             //finish()
-                        }, 1000)
+                        }, 5000)
                     }
                 }
             }
@@ -869,7 +903,8 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             bindingAdapter.btnTechnicianUpdate.visibility = View.VISIBLE
         }
 
-        if(data.data.pending_lead_enqury_detail_count== "0" /*&& leadData.in_warranty_enquiries_count!! > "0"*/){
+        //if(data.data.pending_lead_enqury_detail_count == "0" /*&& leadData.in_warranty_enquiries_count!! > "0"*/){
+        if(data.data.pending_technician_detail == "0"/*&& leadData.in_warranty_enquiries_count!! > "0"*/){
             binding.includedContent.btnTaskComplete.visibility = View.VISIBLE
             binding.includedContent.btnTaskCompleteHide.visibility = View.GONE
 
@@ -926,9 +961,9 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                 //  barcodeView?.pause()
                 startImageCapture()
             }
-            GALLERY -> {
+          /*  GALLERY -> {
                 getImageGallery()
-            }
+            }*/
             CANCEL -> {
             }
         }
@@ -1127,7 +1162,8 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                         }
                         println("imgListimgListimgList"+arraylist.count())
                         bindingAdapter.tvCountImage.visibility = VISIBLE
-                        bindingAdapter.tvCountImage.text = "+"+""+""+CommonUtils.imageList.count().toString()
+                       // bindingAdapter.tvCountImage.text = "+"+""+""+CommonUtils.imageList.count().toString()
+                        bindingAdapter.tvCountImage.text = "+"+""+""+arraylist.count().toString()
 
                     }else{
                         it?.message?.let { msg ->

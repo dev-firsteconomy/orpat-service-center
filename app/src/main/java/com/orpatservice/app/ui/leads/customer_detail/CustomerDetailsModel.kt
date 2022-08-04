@@ -53,6 +53,14 @@ class CustomerDetailsModel: ViewModel() {
         }
     }
 
+    fun hitAPITaskSendHappyCode(leadId : String): LiveData<Resource<TechnicianResponse>> {
+        return DataRepository.instance.hitAPITaskSendHappyCode(leadId)
+    }
+
+    fun hitAPITaskSendHappyCodeVerification(leadId : String,happyCode : String): LiveData<Resource<UpdatePartsRequestData>> {
+        return DataRepository.instance.hitAPITaskSendHappyCodeVerification(leadId,happyCode)
+    }
+
     fun loadAssignedTechnicianLeads(pageNumber: Int) {
         DataRepository.instance.hitGetServiceCenterAssignedTechnicianLeads(pageNumber)
             .enqueue(callbackTechnicianLead)

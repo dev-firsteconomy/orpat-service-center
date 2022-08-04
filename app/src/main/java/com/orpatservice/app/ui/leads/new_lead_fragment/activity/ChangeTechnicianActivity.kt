@@ -156,8 +156,10 @@ class ChangeTechnicianActivity  : AppCompatActivity(), Callback {
     }
     private fun setObserver() {
         binding.cpiLoading.visibility = VISIBLE
-        viewModel.changeTechnicianLead(pageNumber)
-        viewModel.changeTechnicianList.observe(this, this::getAssignedLeads)
+     /*   viewModel.changeTechnicianLead(pageNumber)
+        viewModel.changeTechnicianList.observe(this, this::getAssignedLeads)*/
+        viewModel.technicianList.observe(this, this::getAssignedLeads)
+        viewModel.loadTechnicianLeads(pageNumber,leadId.toInt())
      }
 
     override fun onItemClick(view: View, position: Int) {
@@ -193,9 +195,9 @@ class ChangeTechnicianActivity  : AppCompatActivity(), Callback {
 
                 data.let {
                     if(it?.success == true){
-                        totalPage = it.data.pagination.last_page
+                       // totalPage = it.data.pagination.last_page
                         techList.addAll(it.data.data)
-                        nextPage = it.data.pagination.next_page_url
+                     //   nextPage = it.data.pagination.next_page_url
 
                         //technicianAdapter.notifyDataSetChanged()
                         isLoading = false
@@ -257,7 +259,7 @@ class ChangeTechnicianActivity  : AppCompatActivity(), Callback {
                                  .setDuration(1000)
                                  .show()*/
 
-                            it.message?.toString()?.let { it1 ->
+                            it.message.toString()?.let { it1 ->
                                 Utils.instance.popupUtil(
                                     this,
                                     it1,
@@ -270,7 +272,7 @@ class ChangeTechnicianActivity  : AppCompatActivity(), Callback {
                                 startActivity(intent)
                                 finish()
 
-                            }, 3000)
+                            }, 5000)
                         }
                     } ?: run {
                     }

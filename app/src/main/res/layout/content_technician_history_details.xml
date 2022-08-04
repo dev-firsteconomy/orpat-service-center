@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@id/li_assign"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -154,6 +153,7 @@
                 android:layout_marginTop="10dp"
                 android:drawablePadding="2dp"
                 android:paddingLeft="10dp"
+                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
                 android:text="@string/technician_name"
@@ -167,10 +167,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/tv_technician_name"
                 app:layout_constraintStart_toStartOf="@id/tv_technician_name"
                 app:layout_constraintTop_toBottomOf="@id/tv_technician_name"
-                 />
+                />
 
             <TextView
                 android:id="@+id/tv_technician_number"
@@ -179,6 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:drawablePadding="2dp"
+                android:visibility="gone"
                 android:layout_marginLeft="15dp"
                 android:drawableLeft="@drawable/ic_call_mini"
                 android:gravity="center_vertical"
@@ -194,6 +196,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/tv_technician_number"
                 app:layout_constraintStart_toStartOf="@id/tv_technician_number"
                 app:layout_constraintTop_toBottomOf="@id/tv_technician_number"
@@ -262,10 +265,10 @@
             <TextView
                 android:id="@+id/tv_full_address"
                 style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"
+                android:layout_margin="10dp"
+                android:paddingLeft="15dp"
                 android:text="@string/full_address"
                 app:layout_constraintEnd_toEndOf="@id/tv_technician_number_values"
                 app:layout_constraintHorizontal_bias="1.0"

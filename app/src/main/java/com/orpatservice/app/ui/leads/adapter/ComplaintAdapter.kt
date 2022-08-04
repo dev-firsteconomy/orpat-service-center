@@ -107,6 +107,58 @@ class ComplaintAdapter(
                 binding.btnUploadInvoice.isEnabled = false
                 binding.btnUploadInvoice.isClickable = false
 
+                if(enquiry.in_warranty.equals("Yes")){
+                    binding.radiobtnYes.isChecked = true
+
+                    binding.radiobtnNo.isChecked = false
+                    binding.radiobtnNotSure.isChecked = false
+
+                    binding.radiobtnNo.setFocusable(false);
+                    binding.radiobtnNo.setEnabled(false);
+                    binding.radiobtnNo.setCursorVisible(false);
+                    binding.radiobtnNo.setKeyListener(null);
+
+
+                    binding.radiobtnNotSure.setFocusable(false);
+                    binding.radiobtnNotSure.setEnabled(false);
+                    binding.radiobtnNotSure.setCursorVisible(false);
+                    binding.radiobtnNotSure.setKeyListener(null);
+
+                }else if(enquiry.in_warranty.equals("No")){
+                    binding.radiobtnNo.isChecked = true
+
+                    binding.radiobtnYes.isChecked = false
+                    binding.radiobtnNotSure.isChecked = false
+
+                    binding.radiobtnYes.setFocusable(false);
+                    binding.radiobtnYes.setEnabled(false);
+                    binding.radiobtnYes.setCursorVisible(false);
+                    binding.radiobtnYes.setKeyListener(null);
+
+
+                    binding.radiobtnNotSure.setFocusable(false);
+                    binding.radiobtnNotSure.setEnabled(false);
+                    binding.radiobtnNotSure.setCursorVisible(false);
+                    binding.radiobtnNotSure.setKeyListener(null);
+
+                }else if(enquiry.in_warranty.equals("Not Sure")){
+                    binding.radiobtnNotSure.isChecked = true
+
+                    binding.radiobtnYes.isChecked = false
+                    binding.radiobtnNo.isChecked = false
+
+                    binding.radiobtnYes.setFocusable(false);
+                    binding.radiobtnYes.setEnabled(false);
+                    binding.radiobtnYes.setCursorVisible(false);
+                    binding.radiobtnYes.setKeyListener(null);
+
+
+                    binding.radiobtnNo.setFocusable(false);
+                    binding.radiobtnNo.setEnabled(false);
+                    binding.radiobtnNo.setCursorVisible(false);
+                    binding.radiobtnNo.setKeyListener(null);
+                }
+
 
             }else{
                 binding.btnUpdate.visibility = View.VISIBLE
@@ -255,6 +307,12 @@ class ComplaintAdapter(
                 itemClickListener(
                     adapterPosition,
                     binding.radiobtnNo,binding
+                )
+            }
+            binding.radiobtnNotSure.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.radiobtnNotSure,binding
                 )
             }
             binding.ivQrCodeImage.setOnClickListener {

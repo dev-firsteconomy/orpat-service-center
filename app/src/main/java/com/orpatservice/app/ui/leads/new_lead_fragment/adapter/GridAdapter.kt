@@ -50,7 +50,7 @@ internal class GridAdapter(
                 convertView = layoutInflater!!.inflate(R.layout.rowitem, null)
             }
             imageView = convertView!!.findViewById(R.id.imageView)
-            imageView_hide = convertView!!.findViewById(R.id.imageView_hide)
+            imageView_hide = convertView.findViewById(R.id.imageView_hide)
 
             if(!CommonUtils.imageData.isEmpty()) {
                 if(CommonUtils.imageData.count() == 1) {
@@ -120,8 +120,8 @@ internal class GridAdapter(
                             .into(imageView)
                     }
                 }else if(CommonUtils.imageData.count() == 5) {
-                    println("CommonUtils.imageData" + CommonUtils.imageData[0].image_data)
-                    println("CommonUtils.imageData1" + CommonUtils.imageData[1].image_data)
+                   // println("CommonUtils.imageData" + CommonUtils.imageData[0].image_data)
+                  //  println("CommonUtils.imageData1" + CommonUtils.imageData[1].image_data)
                     if (CommonUtils.imageData[0].image_data == position ||  CommonUtils.imageData[1].image_data == position ||  CommonUtils.imageData[2].image_data == position ||  CommonUtils.imageData[3].image_data == position ||  CommonUtils.imageData[4].image_data == position) {
                         imageView_hide.visibility = VISIBLE
                         imageView.visibility = GONE

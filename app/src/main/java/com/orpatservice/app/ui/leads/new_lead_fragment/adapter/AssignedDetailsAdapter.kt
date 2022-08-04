@@ -73,13 +73,68 @@ class AssignedDetailsAdapter (
             binding.edtSelectInvoiceDate.text = parts?.get(0)+""+" "+""+ parts?.get(1)+""+" "+""+ parts?.get(2)/*+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"*/
 
 
-            if(enquiry.in_warranty.equals("Yes")){
+            /*if(enquiry.in_warranty.equals("Yes")){
                 binding.radiobtnYes.isChecked = true
             }else if(enquiry.in_warranty.equals("No")){
                 binding.radiobtnNo.isChecked = true
             }else if(enquiry.in_warranty.equals("Not Sure")){
                 binding.radiobtnNotSure.isChecked = true
+            }*/
+
+            if(enquiry.in_warranty.equals("Yes")){
+                binding.radiobtnYes.isChecked = true
+
+                binding.radiobtnNo.isChecked = false
+                binding.radiobtnNotSure.isChecked = false
+
+                binding.radiobtnNo.setFocusable(false);
+                binding.radiobtnNo.setEnabled(false);
+                binding.radiobtnNo.setCursorVisible(false);
+                binding.radiobtnNo.setKeyListener(null);
+
+
+                binding.radiobtnNotSure.setFocusable(false);
+                binding.radiobtnNotSure.setEnabled(false);
+                binding.radiobtnNotSure.setCursorVisible(false);
+                binding.radiobtnNotSure.setKeyListener(null);
+
+            }else if(enquiry.in_warranty.equals("No")){
+                binding.radiobtnNo.isChecked = true
+
+                binding.radiobtnYes.isChecked = false
+                binding.radiobtnNotSure.isChecked = false
+
+                binding.radiobtnYes.setFocusable(false);
+                binding.radiobtnYes.setEnabled(false);
+                binding.radiobtnYes.setCursorVisible(false);
+                binding.radiobtnYes.setKeyListener(null);
+
+
+                binding.radiobtnNotSure.setFocusable(false);
+                binding.radiobtnNotSure.setEnabled(false);
+                binding.radiobtnNotSure.setCursorVisible(false);
+                binding.radiobtnNotSure.setKeyListener(null);
+
+            }else if(enquiry.in_warranty.equals("Not Sure")){
+                binding.radiobtnNotSure.isChecked = true
+
+                binding.radiobtnYes.isChecked = false
+                binding.radiobtnNo.isChecked = false
+
+                binding.radiobtnYes.setFocusable(false);
+                binding.radiobtnYes.setEnabled(false);
+                binding.radiobtnYes.setCursorVisible(false);
+                binding.radiobtnYes.setKeyListener(null);
+
+
+                binding.radiobtnNo.setFocusable(false);
+                binding.radiobtnNo.setEnabled(false);
+                binding.radiobtnNo.setCursorVisible(false);
+                binding.radiobtnNo.setKeyListener(null);
             }
+
+
+
 
            /* if(!binding.tvServiceCenterDescriptionValue.text.isNullOrEmpty()){
                 binding.tvErrorDes.visibility = View.GONE

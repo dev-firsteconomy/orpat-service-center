@@ -38,11 +38,12 @@ import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.AddTechnicianResponse
-import com.orpatservice.app.data.model.TechnicianData
 import com.orpatservice.app.databinding.ActivityAddTechnicianBinding
 import com.orpatservice.app.databinding.AdapterRequestPincodeBinding
 import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
+import com.orpatservice.app.ui.leads.technician.response.TechnicianLeadData
 import com.orpatservice.app.utils.CommonUtils
+import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -52,16 +53,15 @@ import org.json.JSONException
 import java.io.File
 import java.io.FileDescriptor
 import java.io.IOException
-import java.util.*
+import java.util.ArrayList
 
+const val ADDS = "ADD"
+const val UPDATES = "UPDATE"
+const val PARCELABLE_TECHNICIANS = "PARCELABLE_TECHNICIAN"
+const val MY_PERMISSIONS_WRITE_READ_REQUEST_CODES = 1000
+const val MY_PERMISSIONS_WRITE_READ_REQUEST_CODE_AADHARCARDS = 2000
 
-const val ADD = "ADD"
-const val UPDATE = "UPDATE"
-const val PARCELABLE_TECHNICIAN = "PARCELABLE_TECHNICIAN"
-const val MY_PERMISSIONS_WRITE_READ_REQUEST_CODE = 1000
-const val MY_PERMISSIONS_WRITE_READ_REQUEST_CODE_AADHARCARD = 2000
-
-class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
+class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
     CameraBottomSheetDialogFragment.BottomSheetItemClick {
     private lateinit var binding: ActivityAddTechnicianBinding
     private lateinit var viewModel: TechniciansViewModel
@@ -70,6 +70,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
     private var aadharCardUrl: String? = null
     private var pincodeDataArrayList: ArrayList<PincodeData> = ArrayList()
     private var flag:String? = null
+    private lateinit var technicianList: TechnicianList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,10 +88,11 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         }
 
         viewModel = ViewModelProvider(this)[TechniciansViewModel::class.java]
+        technicianList = intent?.getParcelableExtra<TechnicianList>(Constants.TECHNICIANS_DATA) as TechnicianList
 
-
-        setObserver()
         uiBind()
+        setObserver()
+
 
         binding.includedContent.btnSubmitMobile.setOnClickListener(this)
         binding.includedContent.vImage.setOnClickListener(this)
@@ -98,21 +100,41 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         binding.includedContent.etPinCode.setOnClickListener(this)
 
 
-        if (intent.getStringExtra(UPDATE).equals(UPDATE)) {
+        /*if (intent.getStringExtra(UPDATES).equals(UPDATES)) {
             bindUpdateTechnician()
 
-        }
-
-
+        }*/
     }
-
+    private var technicianID: Int = 0
     private fun uiBind() {
 
-        if(!CommonUtils.pincodeData.isEmpty()) {
-            for(i in CommonUtils.pincodeData) {
-                binding.includedContent.etPinCode.setText(i.pincode.toString())
-            }
+        binding.includedContent.etFirstName.setText(technicianList.first_name)
+        binding.includedContent.etLastName.setText(technicianList.last_name)
+        binding.includedContent.etMobileNo.setText(technicianList.mobile)
+
+        val list = ArrayList<String>()
+            for(i in technicianList.pincodes) {
+                list.add(i.pincode!!)
+                val pincodeData = PinData(
+                    i.id.toString(),
+                    i.pincode.toString(),
+                )
+                CommonUtils.pincodeData.add(pincodeData)
         }
+
+        val text: String = list.toString().replace("[", "").replace("]", "")
+        binding.includedContent.etPinCode.setText(text.toString())
+
+        technicianID = technicianList.id!!
+        if (technicianList.status == "0") {
+            binding.includedContent.rbDeActivate.isChecked = true
+        }
+
+        Glide.with(binding.includedContent.ivUploadImage)
+            .load(technicianList.image)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.ic_tech_avatar)
+            .into(binding.includedContent.ivUploadImage)
     }
 
     private fun setObserver() {
@@ -124,53 +146,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
     }
 
-    private var technicianID: Int? = 0
-    private fun bindUpdateTechnician() {
-        val technicianData = intent.getParcelableExtra<TechnicianList>(
-            PARCELABLE_TECHNICIAN
-        )
-        binding.includedContent.etFirstName.setText(technicianData?.first_name)
-        binding.includedContent.etLastName.setText(technicianData?.last_name)
-        binding.includedContent.etMobileNo.setText(technicianData?.mobile)
-        binding.includedContent.etPinCode.setText(technicianData?.pincode)
 
-        val list = ArrayList<String>()
-        for (i in pincodeDataArrayList) {
-            //list.clear()
-            list.add(i.pincode.toString())
-
-        }
-        val text: String = list.toString().replace("[", "").replace("]", "")
-        binding.includedContent.etPinCode.setText(text.toString())
-
-
-
-        /*binding.includedContent.etPinCode.setOnClickListener {
-
-            //  val intent = Intent(this, PincodeSelectionActivity::class.java)
-            // startActivity(intent)
-
-        }*/
-
-        if (!CommonUtils.pincodeData.isEmpty()) {
-            for (i in CommonUtils.pincodeData) {
-                println("i.pincode"+i.pincode)
-                //binding.includedContent.etPinCode.text = i.pincode
-            }
-        }
-
-        technicianID = technicianData?.id
-        if (technicianData?.status == "0") {
-            binding.includedContent.rbDeActivate.isChecked = true
-        }
-
-        Glide.with(binding.includedContent.ivUploadImage)
-            .load(technicianData?.image)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .placeholder(R.drawable.ic_tech_avatar)
-            .into(binding.includedContent.ivUploadImage)
-
-    }
 
     private fun onFileUploaded(resources: Resource<UploadFileResponse>) {
         when (resources.status) {
@@ -181,10 +157,10 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
             Status.ERROR -> {
                 //  hideLoadingUI()
 
-                Utils.instance.popupPinUtil(this@AddTechnicianActivity,
+              /*  Utils.instance.popupPinUtil(this@UpdateTechnicianActivity,
                     resources.error?.message.toString(),
                     "",
-                    false)
+                    false)*/
             }
             else -> {
                 // hideLoadingUI()
@@ -199,7 +175,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                             aadharCardUrl = it.data.invoice_url
                         }
 
-                        Utils.instance.popupPinUtil(this@AddTechnicianActivity,
+                        Utils.instance.popupPinUtil(this@UpdateTechnicianActivity,
                             it.message,
                             "",
                             true)
@@ -238,7 +214,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
             Status.ERROR -> {
 
-                Utils.instance.popupPinUtil(this@AddTechnicianActivity,
+                Utils.instance.popupPinUtil(this@UpdateTechnicianActivity,
                     resources.error?.message.toString(),
                     "",
                     false)
@@ -254,21 +230,21 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                     if(it?.success == true){
 
                         data?.let { it1 ->
-                            Utils.instance.popupUtil(this@AddTechnicianActivity,
+                            Utils.instance.popupUtil(this@UpdateTechnicianActivity,
                                 it1.message,
                                 "",
                                 true)
 
                             Handler(Looper.getMainLooper()).postDelayed({
                                 val intent = Intent()
-                                intent.putExtra(PARCELABLE_TECHNICIAN, it.data)
+                                intent.putExtra(PARCELABLE_TECHNICIANS, it.data)
                                 setResult(Activity.RESULT_OK, intent)
                                 finish()
                             }, 5000)
                         }
                     }else{
                         it?.message?.let { msg ->
-                            Utils.instance.popupPinUtil(this@AddTechnicianActivity,
+                            Utils.instance.popupPinUtil(this@UpdateTechnicianActivity,
                                 msg,
                                 null,
                                 false)
@@ -299,7 +275,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
                 response?.let {
                     if (it.success) {
-                    //    pincodeDataArrayList.clear()
+                        //    pincodeDataArrayList.clear()
 
                         pincodeDataArrayList.addAll(response.data.pincodes)
                         //requestsPincodeAdapter.notifyDataSetChanged()
@@ -340,7 +316,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                         if (it.success) {
                             //Toast.makeText(this, "" + it.message, Toast.LENGTH_LONG).show()
                             val intent = Intent()
-                            intent.putExtra(PARCELABLE_TECHNICIAN, it.data)
+                            intent.putExtra(PARCELABLE_TECHNICIANS, it.data)
                             setResult(Activity.RESULT_OK, intent)
                             finish()
 
@@ -366,48 +342,48 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun hitAPIAddTechnician() {
-       /* val params = MultipartBody.Builder().setType(MultipartBody.FORM)
+        /* val params = MultipartBody.Builder().setType(MultipartBody.FORM)
 
-        params.addFormDataPart(
-            "first_name",
-            binding.includedContent.etFirstName.text.toString().trim()
-        )
-        params.addFormDataPart(
-            "last_name",
-            binding.includedContent.etLastName.text.toString().trim()
-        )
-        params.addFormDataPart("mobile", binding.includedContent.etMobileNo.text.toString().trim())
-        params.addFormDataPart("aadhar_card_no", binding.includedContent.etAadharCardNum.text.toString().trim())
+         params.addFormDataPart(
+             "first_name",
+             binding.includedContent.etFirstName.text.toString().trim()
+         )
+         params.addFormDataPart(
+             "last_name",
+             binding.includedContent.etLastName.text.toString().trim()
+         )
+         params.addFormDataPart("mobile", binding.includedContent.etMobileNo.text.toString().trim())
+         params.addFormDataPart("aadhar_card_no", binding.includedContent.etAadharCardNum.text.toString().trim())
 
-        //params.addFormDataPart("pincode", binding.includedContent.etPinCode.text.toString().trim())
+         //params.addFormDataPart("pincode", binding.includedContent.etPinCode.text.toString().trim())
 
-        if (binding.includedContent.rbActivate.isChecked) {
-            params.addFormDataPart("status", "1")
+         if (binding.includedContent.rbActivate.isChecked) {
+             params.addFormDataPart("status", "1")
 
-        } else if (binding.includedContent.rbDeActivate.isChecked) {
-            params.addFormDataPart("status", "0")
+         } else if (binding.includedContent.rbDeActivate.isChecked) {
+             params.addFormDataPart("status", "0")
 
-        }
+         }
 
-        if (!resultUri?.path.isNullOrBlank()) {
-            val files = File(resultUri?.path ?: "")
-            val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
-            params.addFormDataPart("image", files.name, requestFile)
-        }
+         if (!resultUri?.path.isNullOrBlank()) {
+             val files = File(resultUri?.path ?: "")
+             val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
+             params.addFormDataPart("image", files.name, requestFile)
+         }
 
-        val jsArray = JsonArray()
-        for (i in CommonUtils.pincodeData) {
+         val jsArray = JsonArray()
+         for (i in CommonUtils.pincodeData) {
 
-            // jsonObj.addProperty("pincodes", i.pincode)
-            jsArray.add(i.pincode)
-        }
+             // jsonObj.addProperty("pincodes", i.pincode)
+             jsArray.add(i.pincode)
+         }
 
-        params.addFormDataPart("pincodes", jsArray.toString())
-        println("paramsparamsparams"+params.build() + jsArray.toString())
+         params.addFormDataPart("pincodes", jsArray.toString())
+         println("paramsparamsparams"+params.build() + jsArray.toString())
 
-        viewModel.hitAPIAddTechnician(
-            params.build()
-        ).observe(this, loadAddTechnician())*/
+         viewModel.hitAPIAddTechnician(
+             params.build()
+         ).observe(this, loadAddTechnician())*/
 
 
         val jsonObject = JsonObject()
@@ -459,7 +435,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun hitAPIUpdateTechnician() {
-        val params = MultipartBody.Builder().setType(MultipartBody.FORM)
+        /*val params = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         params.addFormDataPart(
             "first_name",
@@ -470,7 +446,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
             binding.includedContent.etLastName.text.toString().trim()
         )
         params.addFormDataPart("mobile", binding.includedContent.etMobileNo.text.toString().trim())
-       // params.addFormDataPart("pincode", binding.includedContent.etPinCode.text.toString().trim())
+        // params.addFormDataPart("pincode", binding.includedContent.etPinCode.text.toString().trim())
         params.addFormDataPart("aadhar_card_no", binding.includedContent.etAadharCardNum.text.toString().trim())
 
         if (binding.includedContent.rbActivate.isChecked) {
@@ -484,7 +460,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         val jsArray = JsonArray()
         for (i in CommonUtils.pincodeData) {
 
-           // jsonObj.addProperty("pincodes", i.pincode)
+            // jsonObj.addProperty("pincodes", i.pincode)
             jsArray.add(i.id)
         }
 
@@ -497,19 +473,17 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         }
 
         println("paramsparamsparams"+params)
-        viewModel.hitAPIUpdateTechnician(
-            params.build(), technicianID
-        ).observe(this, loadAddTechnician())
+        */
 
 
 
-      /*  val jsonObject = JsonObject()
+        val jsonObject = JsonObject()
         try {
             val jsArray = JsonArray()
             for (i in CommonUtils.pincodeData) {
                 val jsonObj = JsonObject()
-               // jsonObj.addProperty("pincodes", i.pincode)
-                jsArray.add(i.pincode)
+                //jsonObj.addProperty("pincodes", i.pincode)
+                jsArray.add(i.id)
 
             }
 
@@ -520,27 +494,43 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                 jsonObject.addProperty("status", "0")
 
             }
+            var profileImg: String?= null
+            if(invoiceUrl != null){
+                profileImg = invoiceUrl
+            }else{
+                profileImg = ""
+            }
 
+            var aadharCardImg: String?= null
+            if(aadharCardUrl != null){
+                aadharCardImg = aadharCardUrl
+            }else{
+                aadharCardImg = ""
+            }
             jsonObject.addProperty("first_name", binding.includedContent.etFirstName.text.toString().trim())
             jsonObject.addProperty("last_name", binding.includedContent.etLastName.text.toString().trim())
             jsonObject.addProperty("mobile", binding.includedContent.etMobileNo.text.toString().trim())
-            jsonObject.addProperty("image", invoiceUrl)
+            jsonObject.addProperty("image", profileImg)
             jsonObject.addProperty("aadhar_card_no", binding.includedContent.etAadharCardNum.text.toString().trim())
-            jsonObject.addProperty("aadhar_image", invoiceUrl)
+            jsonObject.addProperty("aadhar_image", aadharCardImg)
             jsonObject.add("pincodes", jsArray)
+
         } catch (e: JSONException) {
             e.printStackTrace()
         }
         println("jsArray" + jsonObject)
 
-        viewModel.hitSubmitTechnician(jsonObject)*/
+
+        viewModel.hitUpdateTechnicianApi(jsonObject, technicianID)
+
+
     }
 
     private fun isValidAddTechnician(): Boolean {
         return (Utils.instance.validateFirstName(binding.includedContent.etFirstName)
                 && Utils.instance.validateLastName(binding.includedContent.etLastName)
                 && Utils.instance.validatePhoneNumber(binding.includedContent.etMobileNo))
-               // && Utils.instance.validatePinCode(binding.includedContent.etPinCode))
+        // && Utils.instance.validatePinCode(binding.includedContent.etPinCode))
 
     }
 
@@ -800,7 +790,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                 Manifest.permission.CAMERA,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODE
+            ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODES
         )
     }
 
@@ -810,7 +800,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                 Manifest.permission.CAMERA,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODE_AADHARCARD
+            ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODE_AADHARCARDS
         )
     }
 
@@ -819,7 +809,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == MY_PERMISSIONS_WRITE_READ_REQUEST_CODE) {
+        if (requestCode == MY_PERMISSIONS_WRITE_READ_REQUEST_CODES) {
             if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
                     this,
@@ -834,7 +824,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                 loadBottomSheetDialog("image")
             }
 
-        }else if(requestCode == MY_PERMISSIONS_WRITE_READ_REQUEST_CODE_AADHARCARD) {
+        }else if(requestCode == MY_PERMISSIONS_WRITE_READ_REQUEST_CODE_AADHARCARDS) {
             if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
                     this,
@@ -907,8 +897,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         rv_pincode_list.layoutManager = LinearLayoutManager(this)
 
         // This will pass the ArrayList to our Adapter
-        val adapter =
-            RequestsPincodeAdapter(pincodeDataArrayList, itemClickListener = onItemClickListener)
+        val adapter = UpdatePincodeAdapter(pincodeDataArrayList,technicianList.pincodes, itemClickListener = onItemClickListener)
 
         // Setting the Adapter with the recyclerview
         rv_pincode_list.adapter = adapter
@@ -919,39 +908,41 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
     private val onItemClickListener: (Int, View, AdapterRequestPincodeBinding) -> Unit =
         { position, view, bind ->
             when (view.id) {
-               R.id.check_id -> {
-                   val list = ArrayList<String>()
+                R.id.check_id -> {
+                    val list = ArrayList<String>()
 
-                   if(bind.checkId.isChecked) {
+                    if(bind.checkId.isChecked) {
 
-                       val pincodeData = PinData(
-                           pincodeDataArrayList[position].id.toString(),
-                           pincodeDataArrayList[position].pincode.toString(),
-                       )
-                       CommonUtils.pincodeData.add(pincodeData)
-                       for (i in CommonUtils.pincodeData) {
-                           //list.clear()
-                           list.add(i.pincode)
+                        val pincodeData = PinData(
+                            pincodeDataArrayList[position].id.toString(),
+                            pincodeDataArrayList[position].pincode.toString(),
+                        )
+                        CommonUtils.pincodeData.add(pincodeData)
+                        for (i in CommonUtils.pincodeData) {
+                            //list.clear()
+                            list.add(i.pincode)
 
-                       }
-                       val text: String = list.toString().replace("[", "").replace("]", "")
-                       binding.includedContent.etPinCode.setText(text.toString())
+                        }
+                        val distinct = list.distinct().toList()
+                        val text: String = distinct.toString().replace("[", "").replace("]", "")
+                        binding.includedContent.etPinCode.setText(text.toString())
 
-                   }else if(!bind.checkId.isChecked){
-                       val pincodeData = PinData(
-                           pincodeDataArrayList[position].id.toString(),
-                           pincodeDataArrayList[position].pincode.toString(),
-                       )
-                       CommonUtils.pincodeData.remove(pincodeData)
-                       for (i in CommonUtils.pincodeData) {
-                           //list.clear()
-                           list.add(i.pincode)
+                    }else if(!bind.checkId.isChecked){
+                        val pincodeData = PinData(
+                            pincodeDataArrayList[position].id.toString(),
+                            pincodeDataArrayList[position].pincode.toString(),
+                        )
+                        CommonUtils.pincodeData.remove(pincodeData)
+                        for (i in CommonUtils.pincodeData) {
+                            //list.clear()
+                            list.add(i.pincode)
 
-                       }
-                       val text: String = list.toString().replace("[", "").replace("]", "")
-                       binding.includedContent.etPinCode.setText(text.toString())
+                        }
+                        val distinct = list.distinct().toList()
+                        val text: String = distinct.toString().replace("[", "").replace("]", "")
+                        binding.includedContent.etPinCode.setText(text.toString())
 
-                   }
+                    }
                 }
             }
         }

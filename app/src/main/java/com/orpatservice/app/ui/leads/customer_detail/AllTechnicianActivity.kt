@@ -270,7 +270,7 @@ class AllTechnicianActivity : AppCompatActivity() ,Callback{
                                 startActivity(intent)
                                 finish()
 
-                            }, 3000)
+                            }, 5000)
                         }
                     } ?: run {
                     }

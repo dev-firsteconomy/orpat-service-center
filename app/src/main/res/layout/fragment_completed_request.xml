@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.leads.new_lead_fragment.TaskCompletedFragment">
 
     <EditText
@@ -25,7 +26,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="8dp"
-        android:layout_marginTop="50dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:listitem="@layout/adapter_task_completed" />
@@ -49,4 +49,4 @@
         android:textSize="@dimen/OTP_text_size"
         android:visibility="gone"
         android:text="@string/no_leads"/>
-</FrameLayout>
+</LinearLayout>

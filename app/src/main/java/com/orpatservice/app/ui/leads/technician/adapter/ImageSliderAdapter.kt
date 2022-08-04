@@ -9,14 +9,14 @@ import com.bumptech.glide.Glide
 import com.orpatservice.app.R
 import com.orpatservice.app.data.model.requests_leads.ImageListData
 
-class ImageSliderAdapter (private val imageDataModelList: ArrayList<ImageListData>) : RecyclerView.Adapter<ImageSliderAdapter.ViewHolder>() {
+class ImageSliderAdapter (private val imageDataModelList: ArrayList<String>) : RecyclerView.Adapter<ImageSliderAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_sliderscreen_image, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItems(imageDataModelList[position])
+        holder.bindItems(imageDataModelList)
     }
 
     override fun getItemCount(): Int {
@@ -24,10 +24,10 @@ class ImageSliderAdapter (private val imageDataModelList: ArrayList<ImageListDat
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(imageDataModel: ImageListData) {
+        fun bindItems(imageDataModel: ArrayList<String>) {
             val imageView = itemView.findViewById<ImageView>(R.id.img_slider)
 
-            Glide.with(itemView.context).load(imageDataModel.file).into(imageView)
+            Glide.with(itemView.context).load(imageDataModel[position]).into(imageView)
         }
     }
 }

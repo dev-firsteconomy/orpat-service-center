@@ -55,14 +55,16 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
 
         updateUI()
         setObserver()
+
     }
 
     private fun setObserver() {
-        requestLeadsViewModel.loadSynAppConfig()
-        requestLeadsViewModel.synAppConfig.observe(this, this::getSynAppConfig)
 
-        requestLeadsViewModel.loadTechnicianSynAppConfig()
-        requestLeadsViewModel.technicianSynAppConfig.observe(this, this::getSynAppConfig)
+        /*requestLeadsViewModel.synAppConfig.observe(this, this::getSynAppConfig)
+        requestLeadsViewModel.loadSynAppConfig()
+        requestLeadsViewModel.technicianSynAppConfig.observe(this, this::getTechnicianSynAppConfig)
+        requestLeadsViewModel.loadTechnicianSynAppConfig()*/
+
     }
 
     private fun getSynAppConfig(resources: Resource<RequestSynAppResponse>) {
@@ -101,11 +103,74 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun getTechnicianSynAppConfig(resources: Resource<RequestTechnicianSynAppResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+
+            }
+            Status.ERROR -> {
+
+                Utils.instance.popupPinUtil(this,
+                    resources.error?.message.toString(),
+                    "",
+                    false)
+            }
+            else -> {
+
+                val response = resources.data
+
+                response?.let {
+                    if (it.success) {
+                        notificationCount = response.data.notification_badge_count.barcode_request_tab
+
+                        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+                            binding.includedContent.tvCount.visibility = VISIBLE
+                            binding.includedContent.tvCount.text = response.data.notification_badge_count.barcode_request_tab
+                         //   binding.includedContent.tvChargeableCount.text = response.data.notification_badge_count.no_barcode_request_tab
+
+                        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+                            binding.includedContent.tvCount.visibility = VISIBLE
+                            binding.includedContent.tvCount.text = response.data.notification_badge_count.barcode_request_tab
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+            binding.tvTitle.setText("Admin")
+
+            requestLeadsViewModel.synAppConfig.observe(this, this::getSynAppConfig)
+            requestLeadsViewModel.loadSynAppConfig()
+
+        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+            binding.tvTitle.setText("Technician")
+
+            requestLeadsViewModel.technicianSynAppConfig.observe(this, this::getTechnicianSynAppConfig)
+            requestLeadsViewModel.loadTechnicianSynAppConfig()
+        }
+        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN, ignoreCase = true)) {
+            binding.includedContent.mcvAddTechnician.visibility = View.GONE
+            binding.includedContent.mcvPayment.visibility = View.GONE
+        }
+
+    }
     private fun updateUI() {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             binding.tvTitle.setText("Admin")
+
+            requestLeadsViewModel.synAppConfig.observe(this, this::getSynAppConfig)
+            requestLeadsViewModel.loadSynAppConfig()
+
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
             binding.tvTitle.setText("Technician")
+
+            requestLeadsViewModel.technicianSynAppConfig.observe(this, this::getTechnicianSynAppConfig)
+            requestLeadsViewModel.loadTechnicianSynAppConfig()
         }
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN, ignoreCase = true)) {
             binding.includedContent.mcvAddTechnician.visibility = View.GONE

@@ -1,12 +1,10 @@
-package com.orpatservice.app.ui.leads.service_center
+package com.orpatservice.app.ui.leads.technician
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,13 +14,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -33,20 +28,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.google.gson.JsonObject
 import com.orpatservice.app.BuildConfig
 import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.requests_leads.LeadData
-import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.ActivityAssignedDetailsBinding
-import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
+import com.orpatservice.app.databinding.ActivityTechnicianHistoryDetailsBinding
 import com.orpatservice.app.databinding.AdapterAssignedDetailsBinding
-import com.orpatservice.app.databinding.ItemComplaintBinding
 import com.orpatservice.app.ui.admin.technician.*
-import com.orpatservice.app.ui.leads.adapter.ComplaintAdapter
 import com.orpatservice.app.ui.leads.customer_detail.*
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.AssignedDetailsAdapter
 import com.orpatservice.app.utils.Constants
@@ -55,21 +46,19 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import org.json.JSONException
 import java.io.File
 import java.io.FileDescriptor
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-const val MY_PERMISSIONS_WRITE_READ_REQUEST_CODE = 1000
-class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraBottomSheetDialogFragment.BottomSheetItemClick {
+const val MY_PERMISSIONS_WRITE_READ_REQUEST_CODES = 1000
+class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraBottomSheetDialogFragment.BottomSheetItemClick {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION = 10
     }
-    private lateinit var binding: ActivityAssignedDetailsBinding
+    private lateinit var binding: ActivityTechnicianHistoryDetailsBinding
     private lateinit var leadData: LeadData
     private lateinit var complaintAdapter: AssignedDetailsAdapter
     private var resultUri: Uri? = null
@@ -81,7 +70,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAssignedDetailsBinding.inflate(layoutInflater)
+        binding = ActivityTechnicianHistoryDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         customerDetailsViewModel = ViewModelProvider(this)[CustomerDetailsModel::class.java]
         // set toolbar as support action bar
@@ -89,7 +78,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
 
 
         //   binding.includedContent.btnAssignTechnician.setOnClickListener(this)
-        //      binding.includedContent.ivCall.setOnClickListener(this)
+        //   binding.includedContent.ivCall.setOnClickListener(this)
 
         supportActionBar?.apply {
             title = ""
@@ -132,18 +121,18 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
             adapter = complaintAdapter
         }
 
-      /*  if(leadData.pending_lead_enqury_detail_count == "0" && leadData.in_warranty_enquiries_count!! > "0"){
-            binding.includedContent.btnAssignTechnician.visibility = View.VISIBLE
-            binding.includedContent.btnAssignTechnicianHide.visibility = View.GONE
+        /*  if(leadData.pending_lead_enqury_detail_count == "0" && leadData.in_warranty_enquiries_count!! > "0"){
+              binding.includedContent.btnAssignTechnician.visibility = View.VISIBLE
+              binding.includedContent.btnAssignTechnicianHide.visibility = View.GONE
 
-        }else{
-            binding.includedContent.btnAssignTechnician.visibility = View.GONE
-            binding.includedContent.btnAssignTechnicianHide.visibility = View.VISIBLE
-        }
-        binding.includedContent.tvCancelLeadHide.setOnClickListener {
+          }else{
+              binding.includedContent.btnAssignTechnician.visibility = View.GONE
+              binding.includedContent.btnAssignTechnicianHide.visibility = View.VISIBLE
+          }
+          binding.includedContent.tvCancelLeadHide.setOnClickListener {
 
-            showCancelLeadPopUp()
-        }*/
+              showCancelLeadPopUp()
+          }*/
 
 
         bindUserDetails(leadData)
@@ -169,15 +158,21 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
         binding.includedContent.tvTimerValue.setTextColor(Color.parseColor(leadData.color_code))
 
 
-            binding.includedContent.tvTechnicianNameValues.text =
-                leadData.technician?.first_name + "" + " " + "" + leadData.technician?.last_name
-            binding.includedContent.tvTechnicianNumberValues.text = leadData.technician?.mobile
-            binding.includedContent.tvTechnicianNumberValues.setOnClickListener {
-                openCallDialPad(leadData.technician?.mobile.toString())
-            }
-            binding.includedContent.tvTechnicianNumber.setOnClickListener {
-                openCallDialPad(leadData.technician?.mobile.toString())
-            }
+        binding.includedContent.tvTechnicianName.visibility = GONE
+        binding.includedContent.tvTechnicianNumber.visibility = GONE
+        binding.includedContent.tvTechnicianNameValues.visibility = GONE
+        binding.includedContent.tvTechnicianNumberValues.visibility = GONE
+        /*binding.includedContent.tvTechnicianNameValues.text =
+            leadData.technician?.first_name + "" + " " + "" + leadData.technician?.last_name
+        binding.includedContent.tvTechnicianNumberValues.text = leadData.technician?.mobile
+        binding.includedContent.tvTechnicianNumberValues.setOnClickListener {
+            openCallDialPad(leadData.technician?.mobile.toString())
+        }
+        binding.includedContent.tvTechnicianNumber.setOnClickListener {
+            openCallDialPad(leadData.technician?.mobile.toString())
+        }*/
+
+
 
         val str = leadData.created_at
         val delimiter = " "
@@ -213,9 +208,9 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                 onBackPressed()
-               /* val intent = Intent(this, RequestLeadActivity::class.java)
-                startActivity(intent)*/
+                onBackPressed()
+                /* val intent = Intent(this, RequestLeadActivity::class.java)
+                 startActivity(intent)*/
                 return true
             }
         }
@@ -277,52 +272,52 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
                 } else {
                     selectedUnderWarranty = "No"
                 }
-               // hitUpdateRequest(binding,position,selectedUnderWarranty,view)
+                // hitUpdateRequest(binding,position,selectedUnderWarranty,view)
             }
         }
     }
 
-  /*  private fun hitUpdateRequest(binding: AdapterAssignedDetailsBinding, position: Int, selectedUnderWarranty: String, view: View) {
+    /*  private fun hitUpdateRequest(binding: AdapterAssignedDetailsBinding, position: Int, selectedUnderWarranty: String, view: View) {
 
-        if (Utils.instance.validateDescription(binding.tvServiceCenterDescriptionValue) &&
-            Utils.instance.validateInvoice(binding.edtInvoiceNumberValue) &&
-            Utils.instance.validateDate(binding.edtSelectInvoiceDate)
-            //Utils.instance.validateWarranty(binding,view)
-        //Utils.instance.validateImage(binding.ivInvoiceImage,view)
-        ) {
-            validateImage(position)
-            val jsonObject = JsonObject()
+          if (Utils.instance.validateDescription(binding.tvServiceCenterDescriptionValue) &&
+              Utils.instance.validateInvoice(binding.edtInvoiceNumberValue) &&
+              Utils.instance.validateDate(binding.edtSelectInvoiceDate)
+              //Utils.instance.validateWarranty(binding,view)
+          //Utils.instance.validateImage(binding.ivInvoiceImage,view)
+          ) {
+              validateImage(position)
+              val jsonObject = JsonObject()
 
-            try {
-                //  val jsArray  = JsonArray()
-                if (invoiceUrl == null) {
-                    jsonObject.addProperty(
-                        "invoice_url",
-                        leadData.enquiries.get(position).invoice_url
-                    )
-                } else {
-                    jsonObject.addProperty("invoice_url", invoiceUrl)
-                }
+              try {
+                  //  val jsArray  = JsonArray()
+                  if (invoiceUrl == null) {
+                      jsonObject.addProperty(
+                          "invoice_url",
+                          leadData.enquiries.get(position).invoice_url
+                      )
+                  } else {
+                      jsonObject.addProperty("invoice_url", invoiceUrl)
+                  }
 
-                jsonObject.addProperty("purchase_at", binding.edtSelectInvoiceDate.text.toString())
-                jsonObject.addProperty("in_warranty", selectedUnderWarranty)
-                jsonObject.addProperty("invoice_no", binding.edtInvoiceNumberValue.text.toString().trim())
-                jsonObject.addProperty(
-                    "service_center_discription",
-                    binding.tvServiceCenterDescriptionValue.text.toString().trim()
-                )
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
+                  jsonObject.addProperty("purchase_at", binding.edtSelectInvoiceDate.text.toString())
+                  jsonObject.addProperty("in_warranty", selectedUnderWarranty)
+                  jsonObject.addProperty("invoice_no", binding.edtInvoiceNumberValue.text.toString().trim())
+                  jsonObject.addProperty(
+                      "service_center_discription",
+                      binding.tvServiceCenterDescriptionValue.text.toString().trim()
+                  )
+              } catch (e: JSONException) {
+                  e.printStackTrace()
+              }
 
-            customerDetailsViewModel.hitUpdateRequest(
-                jsonObject,
-                leadData.id,
-                leadData.enquiries.get(position).id
-            ).observe(this@AssignDetailsActivity, this::onUpdateRequest)
-        }
-    }
-*/
+              customerDetailsViewModel.hitUpdateRequest(
+                  jsonObject,
+                  leadData.id,
+                  leadData.enquiries.get(position).id
+              ).observe(this@AssignDetailsActivity, this::onUpdateRequest)
+          }
+      }
+  */
     fun validateImage(position: Int) {
 
         if(invoiceUrl == null && leadData.enquiries[position].invoice_url == null){
@@ -353,7 +348,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
                              .setDuration(1000)
                              .show()*/
 
-                        Utils.instance.popupPinUtil(this@AssignDetailsActivity,
+                        Utils.instance.popupPinUtil(this@TechnicianHistoryDetailsActivity,
                             it.message,
                             "",
                             true)
@@ -392,7 +387,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
         }
 
         val datePickerDialog = DatePickerDialog(
-            this@AssignDetailsActivity, dateSetListener, calendar
+            this@TechnicianHistoryDetailsActivity, dateSetListener, calendar
                 .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
@@ -406,7 +401,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
 
     private fun loadBottomSheetDialog() {
         val fragment = CameraBottomSheetDialogFragment().newInstance()
-        fragment.bottomSheetItemClick = this@AssignDetailsActivity
+        fragment.bottomSheetItemClick = this@TechnicianHistoryDetailsActivity
         fragment.show(supportFragmentManager, "Bottomsheet_Media_Selection")
     }
 
@@ -460,7 +455,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
                 Manifest.permission.CAMERA,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODE
+            ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODES
         )
     }
 
@@ -646,7 +641,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
                      .setDuration(1500)
                      .show()*/
 
-                Utils.instance.popupPinUtil(this@AssignDetailsActivity,
+                Utils.instance.popupPinUtil(this@TechnicianHistoryDetailsActivity,
                     resources.error?.message.toString(),
                     "",
                     false)
@@ -666,7 +661,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
                              .setDuration(1500)
                              .show()*/
 
-                        Utils.instance.popupPinUtil(this@AssignDetailsActivity,
+                        Utils.instance.popupPinUtil(this@TechnicianHistoryDetailsActivity,
                             it.message,
                             "",
                             true)

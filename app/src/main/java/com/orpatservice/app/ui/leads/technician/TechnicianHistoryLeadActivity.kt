@@ -28,7 +28,7 @@ class TechnicianHistoryLeadActivity : AppCompatActivity() {
             setDisplayShowHomeEnabled(true)
         }
 
-        val completedRequestFragment = CompletedRequestFragment()
+        val completedRequestFragment = TechnicianCompletedRequestFragment()
         loadFragment(completedRequestFragment)
     }
 

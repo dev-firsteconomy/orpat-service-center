@@ -4,27 +4,26 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.*
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.GridView
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.orpatservice.app.R
 import com.orpatservice.app.base.Callback
-import com.orpatservice.app.data.model.requests_leads.*
-import com.orpatservice.app.databinding.ItemTechnicianComplaintBinding
-import com.orpatservice.app.databinding.TechnicianTaskUpdateBinding
+import com.orpatservice.app.data.model.requests_leads.ImageData
+import com.orpatservice.app.data.model.requests_leads.LeadEnquiryImage
+import com.orpatservice.app.data.model.requests_leads.WarrantryPart
 import com.orpatservice.app.databinding.UnderWarrantyPartsAdapterBinding
 import com.orpatservice.app.ui.leads.customer_detail.CheckWarrantyList
 import com.orpatservice.app.ui.leads.customer_detail.FullScreenImageActivity
 import com.orpatservice.app.ui.leads.customer_detail.productListData
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.GridAdapter
-import com.orpatservice.app.ui.leads.technician.response.TechnicianEnquiryImage
 import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
@@ -55,7 +54,7 @@ class WarrantryPartAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is TechnicianViewHolder -> {
-                holder.bind(context, warrantyList[position])
+                holder.bind(context, warrantyList[position],leadImageList)
             }
         }
     }
@@ -73,13 +72,49 @@ class WarrantryPartAdapter(
             // binding.btnAssignAlltechnician.setOnClickListener(this)
         }
 
-        fun bind(context: Context, technicianData: WarrantryPart) {
+        fun bind(
+            context: Context,
+            technicianData: WarrantryPart,
+            leadEnquiryImage: ArrayList<LeadEnquiryImage>
+        ) {
 
            // bind = binding
             binding.tvWarrantyParts.text =
                 technicianData.name
 
-            binding.checkWarrantyParts.setOnClickListener {
+           /*if(leadEnquiryImage.status.equals("Approved")){
+               if(leadEnquiryImage.part.equals(technicianData.name)){
+                   binding.checkWarrantyParts.isChecked = true
+               }
+
+           }else{
+
+           }*/
+
+            for(i in leadEnquiryImage){
+                if(i.status.equals("Approved")){
+                    if(i.part.equals(technicianData.name)){
+                        binding.checkWarrantyParts.isChecked = true
+                        Glide.with(context)
+                            .load(i.image)
+                            .placeholder(R.color.gray)
+                            .into(binding.imgSelectedImage)
+                    }else{
+                       // binding.checkWarrantyParts.isChecked = false
+
+
+                        binding.checkWarrantyParts.setFocusable(false);
+                        binding.checkWarrantyParts.setEnabled(false);
+                        binding.checkWarrantyParts.setCursorVisible(false);
+                        binding.checkWarrantyParts.setKeyListener(null);
+                    }
+                }else{
+
+                }
+            }
+
+
+                binding.checkWarrantyParts.setOnClickListener {
 
                     if (binding.checkWarrantyParts.isChecked) {
 
@@ -87,15 +122,23 @@ class WarrantryPartAdapter(
 
                         val warrantyPart = CheckWarrantyList(adapterPosition,"true")
                         CommonUtils.warrantyListData.add(warrantyPart)
-                    }else{
-
-                        //val warrantyPart = CheckWarrantyList(adapterPosition,"false")
-                        binding.imgSelectedImage.visibility = INVISIBLE
-                        CommonUtils.warrantyListData.removeAt(adapterPosition)
-                        CommonUtils.imageData.removeAt(adapterPosition)
+                     }else{
                         println("CommonUtils.warrantyListData"+CommonUtils.warrantyListData)
-                        println("CommonUtils.warrantyListData"+CommonUtils.imageData)
-                    }
+                      // println("CommonUtils.warrantyListData"+CommonUtils.imageData)
+                        //val warrantyPart = CheckWarrantyList(adapterPosition,"false")
+                        binding.checkWarrantyParts.isChecked = false
+                        println("adapterPosition"+adapterPosition)
+                        binding.imgSelectedImage.visibility = INVISIBLE
+                        try {
+                            CommonUtils.warrantyListData.removeAt(adapterPosition)
+                            if(!CommonUtils.imageData.isEmpty()) {
+                             CommonUtils.imageData.removeAt(adapterPosition)
+                            }
+                        }catch (e:IndexOutOfBoundsException){
+                                e.message.toString()
+                        }
+
+                     }
             }
             binding.tvUploadImage.setOnClickListener {
 
@@ -183,8 +226,19 @@ class WarrantryPartAdapter(
         private val onItemClickListener: (Int, View) -> Unit =
             { position, view ->
 
+            try {
 
-                val imagePos = ImageData(position, "true")
+                    val iterator: MutableIterator<ImageData> = CommonUtils.imageData.iterator()
+                    while (iterator.hasNext()) {
+                        val string = iterator.next()
+                        if (string.image_adapter_pos == adapterPosition) {
+                            // Remove the current element from the iterator and the list.
+                            iterator.remove()
+                        }
+                    }
+
+                println("ccccccccc" + adapterPosition)
+                val imagePos = ImageData(position, "true", adapterPosition)
                 CommonUtils.imageData.add(imagePos)
 
                 alertDialogBuilder?.dismiss()
@@ -195,13 +249,124 @@ class WarrantryPartAdapter(
                     .load(leadImageList[position].image)
                     .placeholder(R.color.gray)
                     .into(binding.imgSelectedImage)
+                /*if(!CommonUtils.imageData.isEmpty()) {
+                    println("hua ki nhi" + adapterPosition)
+                    println("nhi hua h" + CommonUtils.imageData)
+                for(i in CommonUtils.imageData) {
+                    println("fffffffff" + adapterPosition)
+                    if (i.image_adapter_pos == adapterPosition) {
+                        println("sssssss" + adapterPosition)
+                    } else {
+                        println("ccccccccc" + adapterPosition)
+                        val imagePos = ImageData(position, "true", adapterPosition)
+                        CommonUtils.imageData.add(imagePos)
+
+                        alertDialogBuilder?.dismiss()
+
+                        selectedImg = leadImageList[position].image
+                        binding.imgSelectedImage.visibility = VISIBLE
+                        Glide.with(context)
+                            .load(leadImageList[position].image)
+                            .placeholder(R.color.gray)
+                            .into(binding.imgSelectedImage)
+                    }
+                }*/
+                /*for(i in CommonUtils.imageData) {
+                          if (i.image_adapter_pos == adapterPosition) {
+                              *//*if(!CommonUtils.imageData.isEmpty()) {
+                                  CommonUtils.imageData.removeAt(position)
+                              }*//*
+                              println("hua ki nhi" +  CommonUtils.imageData[adapterPosition].image_data)
+
+                              val imagePos = ImageData(position, "true", adapterPosition)
+                              CommonUtils.imageData.add(imagePos)
+
+                              alertDialogBuilder?.dismiss()
+
+                              selectedImg = leadImageList[position].image
+                              binding.imgSelectedImage.visibility = VISIBLE
+                              Glide.with(context)
+                                  .load(leadImageList[position].image)
+                                  .placeholder(R.color.gray)
+                                  .into(binding.imgSelectedImage)
+                          } else {
+                              println("nhi hua h" + adapterPosition)
+                              val imagePos = ImageData(position, "true", adapterPosition)
+                              CommonUtils.imageData.add(imagePos)
+
+                              alertDialogBuilder?.dismiss()
+
+                              selectedImg = leadImageList[position].image
+                              binding.imgSelectedImage.visibility = VISIBLE
+                              Glide.with(context)
+                                  .load(leadImageList[position].image)
+                                  .placeholder(R.color.gray)
+                                  .into(binding.imgSelectedImage)
+
+                          }*/
+
+                    //val it: MutableIterator<ImageData> = CommonUtils.imageData.iterator()
+                    /*for(i in CommonUtils.imageData){
+                        println("image_adapter_pos" +CommonUtils.imageData[adapterPosition].image_adapter_pos)
+                        println("adapterPositionadapterPosition" +adapterPosition)
+                        if(i.image_adapter_pos == adapterPosition) {
+                            CommonUtils.imageData.removeAt(adapterPosition)
+
+                            val imagePos = ImageData(position, "true", adapterPosition)
+                            CommonUtils.imageData.add(imagePos)
+
+                            alertDialogBuilder?.dismiss()
+
+                            selectedImg = leadImageList[position].image
+                            binding.imgSelectedImage.visibility = VISIBLE
+                            Glide.with(context)
+                                .load(leadImageList[position].image)
+                                .placeholder(R.color.gray)
+                                .into(binding.imgSelectedImage)
+                        }*//*else{
+                            println("nhi hua h" +adapterPosition)
+                            val imagePos = ImageData(position, "true", adapterPosition)
+                            CommonUtils.imageData.add(imagePos)
+
+                            alertDialogBuilder?.dismiss()
+
+                            selectedImg = leadImageList[position].image
+                            binding.imgSelectedImage.visibility = VISIBLE
+                            Glide.with(context)
+                                .load(leadImageList[position].image)
+                                .placeholder(R.color.gray)
+                                .into(binding.imgSelectedImage)
+                        }*/
+                  //  }
+                   // var arr = arrayOf<String>(CommonUtils.imageData)
+
+              /*  }else {
+                    val imagePos = ImageData(position, "true", adapterPosition)
+                    CommonUtils.imageData.add(imagePos)
+
+                    alertDialogBuilder?.dismiss()
+
+                    selectedImg = leadImageList[position].image
+                    binding.imgSelectedImage.visibility = VISIBLE
+                    Glide.with(context)
+                        .load(leadImageList[position].image)
+                        .placeholder(R.color.gray)
+                        .into(binding.imgSelectedImage)
+                }*/
+            }catch (e:IndexOutOfBoundsException){
+
+            }
+                try {
+                    val warrantyPartData = productListData(
+                        warrantyList[position].id.toString(),
+                        leadImageList[position].id.toString()
+                    )
+                    CommonUtils.productListData.add(warrantyPartData)
+
+                    } catch (e: IndexOutOfBoundsException){
 
 
-                val warrantyPartData = productListData(
-                    warrantyList[position].id.toString(),
-                    leadImageList[position].id.toString()
-                )
-                CommonUtils.productListData.add(warrantyPartData)
+                }
             }
     }
 }

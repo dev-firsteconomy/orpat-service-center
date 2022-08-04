@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.orpatservice.app.databinding.AdapterRequestPincodeBinding
 import com.orpatservice.app.utils.CommonUtils
 
-class RequestsPincodeAdapter (private val mList: List<PincodeData>,
-                              private val itemClickListener: (Int, View,AdapterRequestPincodeBinding) -> Unit,
+class UpdatePincodeAdapter (private val mList: List<PincodeData>,
+                            private val pincodeList: List<PincodeData>,
+                            private val itemClickListener: (Int, View, AdapterRequestPincodeBinding) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // create new views
@@ -28,7 +29,7 @@ class RequestsPincodeAdapter (private val mList: List<PincodeData>,
         when (holder) {
             is ComplaintViewHolder -> {
                 holder.onBind(
-                    mList[position],
+                    mList[position],pincodeList,
                     itemClickListener
                 )
             }
@@ -44,26 +45,39 @@ class RequestsPincodeAdapter (private val mList: List<PincodeData>,
 
         fun onBind(
             list: PincodeData,
-            itemClickListener: (Int, View,AdapterRequestPincodeBinding) -> Unit
+            pincodeList: List<PincodeData>,
+            itemClickListener: (Int, View, AdapterRequestPincodeBinding) -> Unit
         ) {
+
+            /*for(i in pincodeList){
+                if(i.pincode.equals(list.pincode)){
+
+                    val pincodeData = PinData(
+                        i.id.toString(),
+                        i.pincode.toString(),
+                    )
+                    CommonUtils.pincodeData.add(pincodeData)
+                }
+            }*/
 
             if (!CommonUtils.pincodeData.isEmpty()) {
                 for (i in CommonUtils.pincodeData) {
                     binding.tvPincodeList.text = list.pincode
                     binding.tvPincodeListName.text = list.officename
 
-                    println("i.pincode"+i.pincode)
                     if(i.pincode.equals(list.pincode)){
                         binding.checkId.isChecked = true
                     }
                 }
             }else {
+               // CommonUtils.pincodeData.clear()
+
                 binding.tvPincodeList.text = list.pincode
                 binding.tvPincodeListName.text = list.officename
             }
-            if(list.pincode.isNullOrEmpty()){
-                binding.checkId.isChecked = true
-            }
+
+
+
 
             binding.tvPincodeList.setOnClickListener {
                 itemClickListener(

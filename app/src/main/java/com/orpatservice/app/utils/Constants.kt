@@ -10,6 +10,7 @@ object Constants {
     const val IMAGE_DATA= "IMAGE_DATA"
     const val POSITION= "POSITION"
     const val LEAD_DETAILS= "LEAD_DETAILS"
+    const val TECHNICIANS_DATA= "TECHNICIANS_DATA"
 
     const val LATITUDE= "LEAD_DATA"
     const val LONGITUDE= "LEAD_DATA"

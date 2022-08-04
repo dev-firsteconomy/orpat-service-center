@@ -104,8 +104,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:padding="2dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:text="@string/model_number"
+            android:textSize="14sp"
             android:textAlignment="textStart"
             app:layout_constraintEnd_toStartOf="@id/tv_warranty"
             app:layout_constraintStart_toStartOf="parent"
@@ -124,6 +125,83 @@
             app:layout_constraintTop_toBottomOf="@id/tv_model_number"
             tools:text="0000000122" />
 
+
+
+        <TextView
+            android:id="@+id/tv_customer_description"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/customer_note"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
+
+        <TextView
+            android:id="@+id/tv_description_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_customer_description"
+            />
+
+        <TextView
+            android:id="@+id/tv_complaint_preset"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/complaint_preset"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_value" />
+
+        <TextView
+            android:id="@+id/tv_complaint_preset_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset"
+            />
+
+        <TextView
+            android:id="@+id/tv_service_center_description"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/service_center_description"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset_value" />
+
+        <TextView
+            android:id="@+id/tv_service_center_description_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_service_center_description" />
+
         <TextView
             android:id="@+id/tv_warranty"
             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
@@ -133,6 +211,7 @@
             android:layout_marginTop="27dp"
             android:padding="2dp"
             android:text="@string/warranty"
+            android:textSize="14sp"
             android:textAlignment="textEnd"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_model_number"
@@ -158,15 +237,15 @@
             style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:padding="2dp"
             android:text="@string/under_warranty"
             android:textAlignment="textStart"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/tv_model_name_value"
+            app:layout_constraintEnd_toEndOf="@id/tv_service_center_description_value"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/tv_model_name_value"
-            app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
+            app:layout_constraintStart_toStartOf="@id/tv_service_center_description_value"
+            app:layout_constraintTop_toBottomOf="@id/tv_service_center_description_value" />
 
         <RadioGroup
             android:id="@+id/radio_btn_under_warranty"
@@ -209,6 +288,7 @@
             android:text="@string/have_you_change_any_part"
             android:textAlignment="textStart"
             android:textSize="12sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/radio_btn_under_warranty"
             app:layout_constraintStart_toStartOf="@id/radio_btn_under_warranty"
             app:layout_constraintTop_toBottomOf="@id/radio_btn_under_warranty" />
@@ -219,6 +299,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginLeft="10dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/tv_change_part"
             app:layout_constraintStart_toStartOf="@id/tv_change_part"
             app:layout_constraintTop_toBottomOf="@+id/tv_change_part">
@@ -255,7 +336,7 @@
             android:textAlignment="textStart"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@id/radio_btn_change_part"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.18"
             app:layout_constraintStart_toStartOf="@id/radio_btn_change_part"
             app:layout_constraintTop_toBottomOf="@id/radio_btn_change_part" />
 

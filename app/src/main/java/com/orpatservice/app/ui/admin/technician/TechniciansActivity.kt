@@ -33,7 +33,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
     private lateinit var binding: ActivityTechniciansBinding
     private lateinit var viewModel: TechniciansViewModel
 
-    private val techList: ArrayList<TechnicianData> = ArrayList()
+    private val techList: ArrayList<TechnicianList> = ArrayList()
     private lateinit var technicianAdapter: TechnicianAdapter
 
 
@@ -114,11 +114,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
     }
 
     private fun setObserver() {
-        viewModel.loadTechnician(pageNumber).observe(this, loadTechnician())
+        //viewModel.loadTechnician(pageNumber).observe(this, loadTechnician())
+        viewModel.loadTechnicianData(pageNumber).observe(this, loadTechnician())
     }
 
     private var nextPage: String? = null
-    private fun loadTechnician(): Observer<Resource<TechnicianResponse>> {
+    private fun loadTechnician(): Observer<Resource<RequestTechnicianData>> {
         return Observer { it ->
             when (it?.status) {
                 Status.LOADING -> {
@@ -128,12 +129,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                 Status.ERROR -> {
                     isLoading = false
                     binding.cpiLoading.visibility = View.GONE
-                    Alerter.create(this@TechniciansActivity)
+                    /*Alerter.create(this@TechniciansActivity)
                         .setTitle("")
                         .setText("" + it.error?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1000)
-                        .show()
+                        .show()*/
                 }
                 else -> {
                     binding.cpiLoading.visibility = View.GONE
@@ -141,9 +142,9 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
                     data?.let {
                         if (it.success) {
-                            totalPage = it.data.pagination.last_page
+                           // totalPage = it.data.pagination.last_page
                             techList.addAll(it.data.data)
-                            nextPage = it.data.pagination.next_page_url
+                        //    nextPage = it.data.pagination.next_page_url
 
                             //technicianAdapter.notifyDataSetChanged()
                             isLoading = false
@@ -155,12 +156,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
                         }
                     } ?: run {
-                        Alerter.create(this@TechniciansActivity)
+                        /*Alerter.create(this@TechniciansActivity)
                             .setTitle("")
                             .setText(it.data?.message.toString())
                             .setBackgroundColorRes(R.color.orange)
                             .setDuration(1000)
-                            .show()
+                            .show()*/
                     }
                 }
             }
@@ -188,12 +189,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                     binding.btnSubmitTechnician.isCheckable = true
                     binding.btnSubmitTechnician.backgroundTintList = null
 
-                    Alerter.create(this@TechniciansActivity)
+                    /*Alerter.create(this@TechniciansActivity)
                         .setTitle("")
                         .setText("" + it.error?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1000)
-                        .show()
+                        .show()*/
 
                 }
                 else -> {
@@ -210,12 +211,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                         binding.btnSubmitTechnician.isCheckable = true
                         binding.btnSubmitTechnician.backgroundTintList = null
 
-                        Alerter.create(this@TechniciansActivity)
+                        /*Alerter.create(this@TechniciansActivity)
                             .setTitle("")
                             .setText(it.data?.message.toString())
                             .setBackgroundColorRes(R.color.orange)
                             .setDuration(1000)
-                            .show()
+                            .show()*/
                     }
                 }
             }
@@ -284,12 +285,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                     )
 
                 } else {
-                    Alerter.create(this@TechniciansActivity)
+                    /*Alerter.create(this@TechniciansActivity)
                         .setTitle("")
                         .setText("" + resources.getString(R.string.select_technician))
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1000)
-                        .show()
+                        .show()*/
 
                 }
             }
@@ -303,18 +304,21 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
             R.id.tv_edit -> {
                 clickedPosition = position
 
-                val intent = Intent(this, AddTechnicianActivity::class.java)
-                intent.putExtra(UPDATE, UPDATE)
-                intent.putExtra(PARCELABLE_TECHNICIAN, techList[position])
+                val intent = Intent(this, UpdateTechnicianActivity::class.java)
+                intent.putExtra(UPDATES, UPDATES)
+             //   println("i.pincodei.pincode"+ techList[position].pincodes[0].pincode)
 
-                addTechnicianLauncher.launch(intent)
+                intent.putExtra(Constants.TECHNICIANS_DATA, techList[position])
+               // intent.putExtra(PARCELABLE_TECHNICIANS, techList[position])
+                startActivity(intent)
+                //addTechnicianLauncher.launch(intent)
             }
             R.id.rb_select_technician -> {
                 technicianId = techList[position].id
 
             }
             R.id.iv_call -> {
-                openCallDialPad(techList[position].mobile)
+                techList[position].mobile?.let { openCallDialPad(it) }
 
             }
         }
@@ -326,7 +330,7 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
             if (result.resultCode == Activity.RESULT_OK) {
                 //setObserver()
                 val technicianData =
-                    result.data?.getParcelableExtra<TechnicianData>(PARCELABLE_TECHNICIAN)
+                    result.data?.getParcelableExtra<TechnicianList>(PARCELABLE_TECHNICIANS)
                 if (clickedPosition != null) {
                     techList[clickedPosition!!] = technicianData!!
                     technicianAdapter.notifyItemChanged(clickedPosition!!)

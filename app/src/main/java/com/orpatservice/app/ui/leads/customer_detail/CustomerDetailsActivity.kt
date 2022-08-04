@@ -12,12 +12,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -33,6 +36,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.gms.location.*
 import com.google.gson.JsonObject
 import com.orpatservice.app.BuildConfig
 import com.orpatservice.app.R
@@ -90,6 +94,10 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private lateinit var alertDialogBuilder:Dialog
     private var assignTechnicianListMsg:String? = null
     private var techList: ArrayList<RequestData> = ArrayList()
+    private  final val permissionCode  = 42
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private var latitude : String = ""
+    private var longitude : String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -169,7 +177,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
             showCancelLeadPopUp()
         }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        getLastLocation()
         bindUserDetails(leadData)
         setObserver()
 
@@ -177,6 +187,99 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         //customerDetailsViewModel.loadAssignedTechnicianLeads(pageNumber)
 
     }
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+
+                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                    var location: Location? = task.result
+                    if (location == null) {
+                        requestNewLocationData()
+                    } else {
+                        println("latitude"+location.latitude.toString())
+                        println("longitude"+location.longitude.toString())
+                        latitude = location.latitude.toString()
+                        longitude = location.longitude.toString()
+                    }
+                }
+            } else {
+                //Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+                onBackPressed()
+            }
+        } else {
+            requestPermissions()
+        }
+    }
+
+    /*override fun onResume() {
+        super.onResume()
+        if (!checkPermissions()) {
+            requestPermissions()
+        } else {
+            getLastLocation()
+        }
+    }
+*/
+
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            permissionCode
+        )
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        var mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationClient!!.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location = locationResult.lastLocation
+            latitude = mLastLocation.latitude.toString()
+            longitude = mLastLocation.longitude.toString()
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
 
     private fun showCancelLeadPopUp() {
 
@@ -495,6 +598,12 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 bindingAdapter.liGenerateCancel.visibility = VISIBLE
 
             }
+            R.id.radiobtn_not_sure -> {
+                bindingAdapter.liUpdate.visibility = VISIBLE
+
+                bindingAdapter.liGenerateCancel.visibility = GONE
+
+            }
             R.id.btn_gst_cancel -> {
                 showCancelEnquiryPopUp(position)
             }
@@ -564,7 +673,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         // Utils.instance.validateWarranty(binding,view)
            // Utils.instance.validateImage(binding.ivInvoiceImage,view)
         ) {
-             validateImage(position)
+             //validateImage(position)
             val jsonObject = JsonObject()
 
             try {
@@ -590,6 +699,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             }
 
             println("jsonObjectjsonObject"+jsonObject)
+            println("leadDataleadData"+leadData.id + leadData.enquiries.get(position).id)
             customerDetailsViewModel.hitUpdateRequest(
                 jsonObject,
                 leadData.id,
@@ -615,9 +725,12 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         when (resources.status) {
             Status.LOADING -> {
                 binding.cpiLoading.visibility = View.VISIBLE
+
+
             }
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
+
             }
             else -> {
                 binding.cpiLoading.visibility = View.GONE
@@ -626,12 +739,6 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 response?.let {
                     if (it.success) {
 
-                       /* Alerter.create(this@CustomerDetailsActivity)
-                            .setTitle("")
-                            .setText("" + it.message?.toString())
-                            .setBackgroundColorRes(R.color.orange)
-                            .setDuration(1000)
-                            .show()*/
 
                         Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
                             "Task Update Successfully",
@@ -641,6 +748,10 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                         showData(response)
 
                     } else {
+                        Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
+                            "message",
+                            "",
+                            false)
 
                     }
                 }
@@ -743,15 +854,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             true
         }
     }
-    private fun requestPermissions() {
-        ActivityCompat.requestPermissions(
-            this, arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODE
-        )
-    }
+
 
     @SuppressLint("QueryPermissionsNeeded")
     private fun startImageCapture() {

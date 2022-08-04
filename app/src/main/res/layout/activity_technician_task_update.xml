@@ -174,6 +174,58 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_request_id"
                 tools:text="+91929292952" />
 
+            <TextView
+                android:id="@+id/tv_technician_name"
+                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="2dp"
+                android:paddingLeft="10dp"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/technician_name"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@id/tv_tv_request_id_value" />
+
+            <TextView
+                android:id="@+id/tv_technician_name_values"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                app:layout_constraintEnd_toEndOf="@id/tv_technician_name"
+                app:layout_constraintStart_toStartOf="@id/tv_technician_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_technician_name"
+                />
+
+            <TextView
+                android:id="@+id/tv_technician_number"
+                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="2dp"
+                android:layout_marginLeft="15dp"
+                android:drawableLeft="@drawable/ic_call_mini"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/technician_number"
+                app:layout_constraintEnd_toEndOf="@id/tv_technician_name_values"
+                app:layout_constraintStart_toStartOf="@id/tv_technician_name_values"
+                app:layout_constraintTop_toBottomOf="@id/tv_technician_name_values" />
+
+            <TextView
+                android:id="@+id/tv_technician_number_values"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                app:layout_constraintEnd_toEndOf="@id/tv_technician_number"
+                app:layout_constraintStart_toStartOf="@id/tv_technician_number"
+                app:layout_constraintTop_toBottomOf="@id/tv_technician_number"
+                />
 
             <TextView
                 android:id="@+id/tv_timer"
@@ -241,20 +293,20 @@
                 style="@style/Theme.OrpatServiceCenter.SmallRegularText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"
                 android:text="@string/full_address"
-                app:layout_constraintEnd_toEndOf="@id/tv_contact_number_value"
+                app:layout_constraintEnd_toEndOf="@id/tv_technician_number_values"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@id/tv_contact_number_value"
-                app:layout_constraintTop_toBottomOf="@id/tv_pin_code_value" />
+                app:layout_constraintStart_toStartOf="@id/tv_technician_number_values"
+                app:layout_constraintTop_toBottomOf="@id/tv_technician_number_values" />
 
             <TextView
                 android:id="@+id/tv_full_address_value"
                 style="@style/Theme.OrpatServiceCenter.SmallText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:paddingLeft="10dp"
                 android:text="In addition to setting the gravity, this can also help with alignment in some situations by reducing paddings on the top and bottom of the textview, which can be unequal:"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
@@ -305,32 +357,62 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sv_item">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_submit"
-        style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/Medium_button_height"
-        android:text="@string/submit"
-        app:cornerRadius="0dp"
-        android:layout_weight="1"
-        app:icon="@drawable/ic_arrow_forward"
-        app:iconGravity="textEnd"
-        android:visibility="gone"
-        app:iconTint="@color/dim_white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_verify_otp"
+            style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/Medium_button_height"
+            android:text="@string/btn_verifyhappy_code"
+            app:cornerRadius="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconGravity="textEnd"
+            android:visibility="gone"
+            app:iconTint="@color/dim_white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_hide_verify_otp"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite_Flat"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/Medium_button_height"
+            android:text="@string/btn_verifyhappy_code"
+            app:cornerRadius="0dp"
+            android:layout_weight="1"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconGravity="textEnd"
+            android:visibility="visible"
+            app:iconTint="@color/dim_white" />
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_hide_submit"
-        style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite_Flat"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/Medium_button_height"
-        android:text="@string/submit"
-        app:cornerRadius="0dp"
-        android:layout_weight="1"
-        app:icon="@drawable/ic_arrow_forward"
-        app:iconGravity="textEnd"
-        android:visibility="visible"
-        app:iconTint="@color/dim_white" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
+            style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/Medium_button_height"
+            android:text="@string/submit"
+            app:cornerRadius="0dp"
+            android:layout_weight="1"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconGravity="textEnd"
+            android:visibility="gone"
+            app:iconTint="@color/dim_white" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_hide_submit"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite_Flat"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/Medium_button_height"
+            android:text="@string/submit"
+            app:cornerRadius="0dp"
+            android:layout_weight="1"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconGravity="textEnd"
+            android:visibility="gone"
+            app:iconTint="@color/dim_white" />
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
