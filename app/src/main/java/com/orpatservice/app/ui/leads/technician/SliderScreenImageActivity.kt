@@ -36,6 +36,6 @@ class SliderScreenImageActivity : AppCompatActivity() {
         val imgList = CommonUtils.imageList
         println("CommonUtils.imageList"+CommonUtils.imageList)
         binding.recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        binding.recyclerView.adapter = ImageSliderAdapter(imageList as ArrayList<String>)
+        binding.recyclerView.adapter = ImageSliderAdapter(this,imageList as ArrayList<String>)
     }
 }

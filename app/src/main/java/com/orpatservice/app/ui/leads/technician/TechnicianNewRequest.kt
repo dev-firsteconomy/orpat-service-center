@@ -14,6 +14,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -53,6 +54,10 @@ class TechnicianNewRequest : Fragment() {
     private var totalPage = 1
     val PERMISSION_ID = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private var latitude : String = ""
+    private var longitude : String = ""
+    private var total = 0
+    private  var totalCount :TextView? = null
 
     //Click listener for List Item
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
@@ -120,51 +125,23 @@ class TechnicianNewRequest : Fragment() {
                     if (location == null) {
                         requestNewLocationData()
                     } else {
-                        println("latitude1"+location.latitude.toString())
-                        println("longitude1"+location.longitude.toString())
+                        println("latitude"+location.latitude.toString())
+                        println("longitude"+location.longitude.toString())
+                        latitude = location.latitude.toString()
+                        longitude = location.longitude.toString()
                     }
                 }
             } else {
                 //Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
+              //  requireActivity().onBackPressed()
             }
         } else {
             requestPermissions()
         }
     }
 
-
-
-    @SuppressLint("MissingPermission")
-    private fun requestNewLocationData() {
-        var mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 0
-        mLocationRequest.fastestInterval = 0
-        mLocationRequest.numUpdates = 1
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        mFusedLocationClient!!.requestLocationUpdates(
-            mLocationRequest, mLocationCallback,
-            Looper.myLooper()
-        )
-    }
-
-    private val mLocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            var mLastLocation: Location = locationResult.lastLocation
-            println("latitude1"+mLastLocation.latitude.toString())
-            println("longitude1"+mLastLocation.longitude.toString())
-        }
-    }
-
-    private fun isLocationEnabled(): Boolean {
-        var locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
 
     private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
@@ -183,19 +160,60 @@ class TechnicianNewRequest : Fragment() {
 
     private fun requestPermissions() {
         ActivityCompat.requestPermissions(
-            requireActivity(), arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODE
-        )
-
-        ActivityCompat.requestPermissions(
             requireActivity(),
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
             PERMISSION_ID
         )
     }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            PERMISSION_ID -> if (grantResults.isNotEmpty() && grantResults[0] ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                getLastLocation()
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        var mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        mFusedLocationClient!!.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location = locationResult.lastLocation
+            latitude = mLastLocation.latitude.toString()
+            longitude = mLastLocation.longitude.toString()
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -267,6 +285,13 @@ class TechnicianNewRequest : Fragment() {
                 response?.let {
                     if (it.success) {
                         totalPage = response.data.pagination.last_page
+                        total = response.data.pagination.total
+
+                        Constants.TECHNICIAN_TOTAL = total.toString()
+
+                        totalCount?.text = Constants.TECHNICIAN_TOTAL
+
+                        leadDataArrayList.clear()
                         leadDataArrayList.addAll(response.data.data)
                         requestsLeadsAdapter.notifyDataSetChanged()
 
@@ -369,10 +394,24 @@ class TechnicianNewRequest : Fragment() {
         binding.cpiLoading.visibility = View.VISIBLE
     }
 
+    override fun onResume() {
+        super.onResume()
+        //totalCount?.text = Constants.ASSIGN_TOTAL.toString()
+        setObserver()
+
+    }
+
+    fun loadTotalLead(toolbarTotalLead: TextView) {
+        totalCount = toolbarTotalLead
+        println("toolbarTotalLead"+toolbarTotalLead)
+        totalCount?.text = Constants.TECHNICIAN_TOTAL.toString()
+    }
+
+
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            NewRequestsFragment().apply {
+            TechnicianNewRequest().apply {
                 arguments = Bundle().apply {
                 }
             }

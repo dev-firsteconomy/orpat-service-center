@@ -44,6 +44,14 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="48dp" />
 
+        <ImageView
+            android:id="@+id/close_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <TextView
             android:id="@+id/tv_heading"
             style="@style/Theme.OrpatServiceCenter.StepsHead"
@@ -51,7 +59,7 @@
             android:layout_height="wrap_content"
             android:text="@string/verification"
             android:textSize="25dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             app:layout_constraintBottom_toTopOf="@id/tv_subheading"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
@@ -178,20 +186,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_varify_otp"
             app:layout_constraintStart_toEndOf="parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/tv_resend_happy_code"
-                style="@style/Theme.OrpatServiceCenter.RegularText"
+                style="@style/Theme.OrpatServiceCenter.Buttons"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:textColor="@color/green"
-                android:text="@string/resend_happy_code"
-                />
+                android:layout_height="@dimen/Medium_button_height"
+                android:visibility="gone"
+                android:textSize="@dimen/text_size_12"
+                android:layout_marginBottom="8dp"
+                app:iconTint="@color/off_white"
+                android:text="@string/resend_happy_code" />
 
+            <!-- <TextView
+                            android:id="@+id/tv_resend_happy_code"
+
+                            style="@style/Theme.OrpatServiceCenter.RegularText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:textColor="@color/green"
+                            android:text="@string/resend_happy_code"
+                            />-->
             <!--   <TextView
                    android:id="@+id/tv_register_now"
                    style="@style/Theme.OrpatServiceCenter.RegularText"

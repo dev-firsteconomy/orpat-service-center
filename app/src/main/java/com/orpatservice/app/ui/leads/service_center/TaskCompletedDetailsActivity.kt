@@ -105,7 +105,7 @@ class TaskCompletedDetailsActivity  : AppCompatActivity(), TextWatcher {
         }
 
         binding.includedContent.btnHappyCode.setOnClickListener {
-            viewModel.hitAPITaskSendHappyCode(taskCompletedRequestData.id.toString()).observe(this, loadHappyCodeData())
+            //viewModel.hitAPITaskSendHappyCode(taskCompletedRequestData.id.toString()).observe(this, loadHappyCodeData())
 
             // showOTPVarificationPopUp()
         }
@@ -148,7 +148,7 @@ class TaskCompletedDetailsActivity  : AppCompatActivity(), TextWatcher {
 
         subTitle.text = "Please verify the code sent to your mobile number +91"+" "+taskCompletedRequestData.mobile
         tv_resend_happy_code.setOnClickListener {
-            viewModel.hitAPITaskSendHappyCode(taskCompletedRequestData.id.toString()).observe(this, loadHappyCodeData())
+            //viewModel.hitAPITaskSendHappyCode(taskCompletedRequestData.id.toString()).observe(this, loadHappyCodeData())
 
         }
         btn_varify_otp.setOnClickListener {
@@ -242,7 +242,7 @@ class TaskCompletedDetailsActivity  : AppCompatActivity(), TextWatcher {
 
                    /* Alerter.create(this@TaskCompletedDetailsActivity)
                         .setTitle("")
-                        .setText("" + it.error?.message.toString())
+                        .setText("" + it.er ror?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1000)
                         .show()*/

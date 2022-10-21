@@ -369,7 +369,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
     }
 
     private fun showData(data: UpdateRequestResponse) {
-        if (data.data.detail_status == "1") {
+        if ((data.data.detail_status.toString()) == "1") {
             bindingAdapter.btnHideUpdate.visibility = View.VISIBLE
             bindingAdapter.btnUpdate.visibility = View.GONE
         }else{
@@ -635,11 +635,11 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
     private fun onFileUploaded(resources: Resource<UploadFileResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-                //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
 
             }
             Status.ERROR -> {
-                //  hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
                 /* Alerter.create(this)
                      .setText(resources.error?.message.toString())
                      .setBackgroundColorRes(R.color.orange)
@@ -652,7 +652,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
                     false)
             }
             else -> {
-                // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
                 val data = resources.data
 

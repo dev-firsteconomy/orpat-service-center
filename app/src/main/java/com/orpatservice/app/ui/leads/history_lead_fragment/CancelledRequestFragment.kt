@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +33,8 @@ class CancelledRequestFragment : Fragment() {
     private var isLoading: Boolean = false
     private var pageNumber = 1
     private var totalPage = 1
+    private var total = 0
+    private  var totalCount :TextView? = null
 
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
@@ -134,6 +137,14 @@ class CancelledRequestFragment : Fragment() {
                 response?.let {
                     if (it.success) {
                         totalPage = response.data.pagination.last_page
+
+                        total = response.data.pagination.total
+
+                        Constants.CANCELLED_REQ = total.toString()
+
+                        totalCount?.text = Constants.CANCELLED_REQ
+
+                        leadDataArrayList.clear()
                         leadDataArrayList.addAll(response.data.data)
                         requestsLeadsAdapter.notifyDataSetChanged()
 
@@ -154,6 +165,19 @@ class CancelledRequestFragment : Fragment() {
         binding.tvNoLeads.visibility = View.GONE
         binding.cpiLoading.visibility = View.VISIBLE
     }
+
+    override fun onResume() {
+        super.onResume()
+        setObserver()
+
+    }
+
+    fun loadTotalLead(toolbarTotalLead: TextView) {
+        totalCount = toolbarTotalLead
+        totalCount?.text = Constants.CANCELLED_REQ.toString()
+    }
+
+
 
     companion object {
         @JvmStatic

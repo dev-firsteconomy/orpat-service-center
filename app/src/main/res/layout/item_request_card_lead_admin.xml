@@ -20,8 +20,32 @@
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:textSize="14sp"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_request_date_time"
+            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_request_timer"
+            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:hint="timer"
+            android:visibility="visible"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/text_size_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_request_date_time" />
 
         <LinearLayout
             android:id="@+id/li_customer_name"
@@ -29,9 +53,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2"
-            android:layout_marginTop="25dp"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_request_id" >
+            app:layout_constraintTop_toBottomOf="@id/tv_request_timer" >
 
             <TextView
                 android:id="@+id/tv_request_customer_name"
@@ -44,8 +68,7 @@
                 android:layout_weight="1"
                 android:textStyle="bold"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_request_id" />
+                />
 
             <TextView
                 android:id="@+id/tv_request_customer_name_value"
@@ -53,11 +76,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
+
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_weight="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_request_id" />
+                />
 
         </LinearLayout>
 
@@ -73,30 +96,6 @@
             android:drawableStart="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/li_customer_name" />
-
-        <TextView
-            android:id="@+id/tv_request_date_time"
-            style="@style/Theme.OrpatServiceCenter.RegularText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_request_timer"
-            style="@style/Theme.OrpatServiceCenter.RegularText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:hint="timer"
-            android:visibility="visible"
-            android:textColor="@color/orange"
-            android:textSize="@dimen/text_size_16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_request_date_time" />
-
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_view_details"

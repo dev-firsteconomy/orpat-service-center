@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -31,6 +32,7 @@ import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.new_lead_fragment.activity.ChangeTechnicianActivity
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.AssignedLeadAdapter
 import com.orpatservice.app.ui.leads.service_center.AssignDetailsActivity
+import com.orpatservice.app.ui.leads.service_center.RequestLeadActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
@@ -46,6 +48,8 @@ class AssignedLeadFragment  : Fragment() {
     private var isLoading: Boolean = false
     private var pageNumber = 1
     private var totalPage = 1
+    private var total = 0
+    private  var totalCount :TextView? = null
 
     //Click listener for List Item
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
@@ -188,6 +192,12 @@ class AssignedLeadFragment  : Fragment() {
                 response?.let {
                     if (it.success) {
                         totalPage = response.data.pagination.last_page
+                        total = response.data.pagination.total
+
+                        Constants.ASSIGN_TOTAL = total.toString()
+                        
+                        totalCount?.text = Constants.ASSIGN_TOTAL
+
                         leadDataArrayList.clear()
                         tempDataArrayList.clear()
                         leadDataArrayList.addAll(response.data.data)
@@ -209,6 +219,20 @@ class AssignedLeadFragment  : Fragment() {
     fun filter(text: String) {
         loadSearchLead(text)
     }
+
+    override fun onResume() {
+        super.onResume()
+        //totalCount?.text = Constants.ASSIGN_TOTAL.toString()
+        setObserver()
+
+    }
+
+    fun loadTotalLead(toolbarTotalLead: TextView) {
+        totalCount = toolbarTotalLead
+        println("toolbarTotalLead"+toolbarTotalLead)
+        totalCount?.text = Constants.ASSIGN_TOTAL.toString()
+    }
+
 
     private fun openDirection(position: Int) {
         val dir: String
@@ -383,7 +407,7 @@ class AssignedLeadFragment  : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            NewRequestsFragment().apply {
+            AssignedLeadFragment().apply {
                 arguments = Bundle().apply {
                 }
             }

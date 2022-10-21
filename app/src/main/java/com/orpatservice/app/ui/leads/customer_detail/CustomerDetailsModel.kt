@@ -7,6 +7,7 @@ import com.google.gson.JsonObject
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.TechnicianResponse
+import com.orpatservice.app.data.model.login.SendHappyCodeResponse
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.data.remote.ErrorUtils
 import com.orpatservice.app.data.repository.DataRepository
@@ -53,7 +54,8 @@ class CustomerDetailsModel: ViewModel() {
         }
     }
 
-    fun hitAPITaskSendHappyCode(leadId : String): LiveData<Resource<TechnicianResponse>> {
+    fun hitAPITaskSendHappyCode(leadId : String): LiveData<Resource<SendHappyCodeResponse>> {
+
         return DataRepository.instance.hitAPITaskSendHappyCode(leadId)
     }
 
@@ -61,12 +63,13 @@ class CustomerDetailsModel: ViewModel() {
         return DataRepository.instance.hitAPITaskSendHappyCodeVerification(leadId,happyCode)
     }
 
-    fun loadAssignedTechnicianLeads(pageNumber: Int) {
+   /* fun loadAssignedTechnicianLeads(pageNumber: Int) {
         DataRepository.instance.hitGetServiceCenterAssignedTechnicianLeads(pageNumber)
             .enqueue(callbackTechnicianLead)
-    }
+    }*/
 
     fun loadTechnicianLeads(pageNumber: Int,leadId: Int) {
+        println("pageNumberpageNumber"+pageNumber+leadId)
         DataRepository.instance.hitGetServiceCenterTechnicianLeads(pageNumber,leadId)
             .enqueue(callbackTechnicianLead)
     }

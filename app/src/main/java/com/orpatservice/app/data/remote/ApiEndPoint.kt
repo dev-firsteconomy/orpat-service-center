@@ -7,6 +7,8 @@ import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
 import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.model.login.LoginResponse
+import com.orpatservice.app.data.model.login.SendHappyCodeResponse
+import com.orpatservice.app.data.model.login.TechnicianLoginResponse
 import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.admin.dashboard.RequestSynAppResponse
@@ -124,7 +126,7 @@ interface ApiEndPoint {
     fun hitAPISendHappyCode(@Path("leadId") leadId: String?): Call<TechnicianResponse>
 
     @POST("service-center/send-happy-code/{leadId}")
-    fun hitAPITaskSendHappyCode(@Path("leadId") leadId: String?,  @Header("Authorization") token : String): Call<TechnicianResponse>
+    fun hitAPITaskSendHappyCode(@Path("leadId") leadId: String?,  @Header("Authorization") token : String): Call<SendHappyCodeResponse>
 
     @FormUrlEncoded
     @POST("service-center/leads/lead-happy-code-verification/{leadId}")
@@ -323,13 +325,13 @@ interface ApiEndPoint {
     @GET("service-center/leads/assigned")
     fun getServiceCenterAssignedLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<RequestLeadResponse>
 
-
     @GET("service-center/technicians")
     fun getServiceCenterAssignedTechnicianLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<NewRequestResponse>
 
     @GET("service-center/asign-technician-list")
     fun getServiceCenterTechnicianLeads(@Header("Authorization") token : String,
                                         @Query("lead_id") leadsId: Int?,
+                                        @Query("page") page: Int
     ): Call<NewRequestResponse>
 
 

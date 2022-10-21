@@ -184,13 +184,13 @@ class ChargeableRequestDetailsActivity: AppCompatActivity() {
     private fun getCancelRequestLead(resources: Resource<CancelRequestResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-               // binding.cpiLoading.visibility = View.VISIBLE
+                binding.cpiLoading.visibility = View.VISIBLE
             }
             Status.ERROR -> {
-               // binding.cpiLoading.visibility = View.GONE
+                binding.cpiLoading.visibility = View.GONE
             }
             else -> {
-               // binding.cpiLoading.visibility = View.GONE
+                binding.cpiLoading.visibility = View.GONE
                 val response = resources.data
 
                 response?.let {

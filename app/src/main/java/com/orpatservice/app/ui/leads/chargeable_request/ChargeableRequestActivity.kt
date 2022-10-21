@@ -75,7 +75,7 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                //onBackPressed()
+               // onBackPressed()
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
                 return true
@@ -91,8 +91,8 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
         return true
     }
 
-    override fun onBackPressed() {
-        if (!searchView.isIconified) {
+    /*override fun onBackPressed() {
+        *//*if (!searchView.isIconified) {
             searchView.onActionViewCollapsed()
             searchView.isIconified = true
             if(supportFragmentManager.fragments.get(viewPager.currentItem) is ChargeableNewRequest) {
@@ -103,10 +103,10 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
                 chargeableCancelledFragment.loadOldLeadData()
             }
             return
-        }
+        }*//*
         super.onBackPressed()
     }
-
+*/
     override fun onTabSelected(tab: TabLayout.Tab) {
         when (tab.position) {
             0 -> {

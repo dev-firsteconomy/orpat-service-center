@@ -124,6 +124,8 @@
     <string name="warranty_end_date">Warranty End Date:</string>
     <string name="under_warranty">Under Warranty</string>
     <string name="cancel_lead"><u><b><i>Cancel Lead</i></b></u></string>
+    <string name="cancel_task">Cancel Task</string>
+
     <string name="technician_name">Technician Name</string>
     <string name="btn_complete_task">Complete Task</string>
     <string name="warranty">Warranty</string>
@@ -135,7 +137,7 @@
     <string name="invoicenumber">Please Enter Invoice Number</string>
     <string name="service_center_cancel_reason">Please Enter Cancel Reason</string>
     <string name="assign">Assign</string>
-    <string name="area_code">Area Code</string>
+    <string name="area_code">Lead Count</string>
     <string name="task_assigned">Task Assigned</string>
     <string name="task_completed">Task Completed</string>
     <string name="txt_qrcode_verify">QR Code Successfully Verify</string>
@@ -165,7 +167,7 @@
     <string name="btn_verify_parts">Verify &amp; Update Parts</string>
     <string name="btn_update_otp">Update OTP</string>
     <string name="btn_happy_code">Send Happy Code</string>
-    <string name="resend_happy_code">resend happy code</string>
+    <string name="resend_happy_code">Resend happy code</string>
     <string name="select_image">Select Image</string>
     <string name="select">Select</string>
     <string name="create_task">Create Task</string>
@@ -199,5 +201,14 @@
     <string name="image_aadhar_card">Upload Aadhar card here</string>
     <string name="technician_number">Technician Number</string>
     <string name="btn_verifyhappy_code">Verify Happy Code</string>
+    <string name="remove">Remove</string>
+    <string name="serviceable_warranty_parts_string">View Serviceable Warranty Parts</string>
+    <string name="passport">Passport</string>
+    <string name="view_warranty_parts">View Uploaded Parts</string>
+    <string name="view_warranty_parts_list">View Warranty Parts List</string>
+    <string name="please_enter_password">Please Enter Password</string>
+    <string name="part_verification_image">Part verifiaction images</string>
+    <string name="buyer_text_string">Buyer Name</string>
+    <string name="login_password">Login Password</string>
 
 </resources>

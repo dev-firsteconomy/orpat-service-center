@@ -161,18 +161,18 @@ class AllTechnicianActivity : AppCompatActivity() ,Callback{
     private fun getAssignedLeads(resources: Resource<NewRequestResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-                //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
 
             }
             Status.ERROR -> {
-
-                Utils.instance.popupPinUtil(this,
+                binding.cpiLoading.visibility = View.GONE
+               /* Utils.instance.popupPinUtil(this,
                     resources.error?.message.toString(),
                     "",
-                    false)
+                    false)*/
             }
             else -> {
-                // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
                 val data = resources.data
 
@@ -213,9 +213,9 @@ class AllTechnicianActivity : AppCompatActivity() ,Callback{
                 viewModel.hitAPIAssignTechnicianLead(isNave, techList[position].id.toString()).observe(this, loadAssignTechnician())
             }*/
             R.id.radio_technician ->{
-                Toast.makeText(getApplicationContext(),
+               /* Toast.makeText(getApplicationContext(),
                     "Group Clicked ",
-                     Toast.LENGTH_SHORT).show();
+                     Toast.LENGTH_SHORT).show();*/
             }
         }
     }
@@ -224,29 +224,22 @@ class AllTechnicianActivity : AppCompatActivity() ,Callback{
         return Observer { it ->
             when (it?.status) {
                 Status.LOADING -> {
-                   // binding.cpiLoading.visibility = View.VISIBLE
+                    binding.cpiLoading.visibility = View.VISIBLE
 
                 }
                 Status.ERROR -> {
                     isLoading = false
-                   // binding.cpiLoading.visibility = View.GONE
+                    binding.cpiLoading.visibility = View.GONE
 
-                  /*  Alerter.create(this@AllTechnicianActivity)
-                        .setTitle("")
-                        .setText("" + it.error?.message.toString())
-                        .setBackgroundColorRes(R.color.orange)
-                        .setDuration(1000)
-                        .show()*/
-
-                        Utils.instance.popupPinUtil(this,
+                      /*  Utils.instance.popupPinUtil(this,
                             it.error?.message.toString(),
                             "",
-                            false)
+                            false)*/
 
 
                 }
                 else -> {
-                   // binding.cpiLoading.visibility = View.GONE
+                    binding.cpiLoading.visibility = View.GONE
                     val data = it?.data
 
                     data?.let {

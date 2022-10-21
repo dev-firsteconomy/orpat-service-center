@@ -39,10 +39,10 @@ android:visibility="gone"
                 android:id="@+id/radio_technician"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_profile_image"
@@ -79,7 +79,7 @@ android:visibility="gone"
                     app:layout_constraintVertical_bias="0.217" />
 
                 <TextView
-                    android:id="@+id/tv_area_code"
+                    android:id="@+id/tv_technician_lead_count"
                     style="@style/Theme.OrpatServiceCenter.SmallRegularText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -87,7 +87,7 @@ android:visibility="gone"
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:text="@string/area_code"
+                    android:hint="@string/area_code"
                     app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
                     app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                     app:layout_constraintTop_toTopOf="@id/iv_profile_image"

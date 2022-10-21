@@ -69,7 +69,12 @@ class AllTechnicianAdapter (
                         technicianData?.first_name + " " + technicianData?.last_name
                    /* binding.tvAreaCode.text =
                         "Area Code:" + " " + "" + technicianData?.pincode*/
-            binding.tvAreaCode.text = "Lead Count: " + "" + " " + "" + technicianData.active_leads_count
+            if( technicianData.active_leads_count == null){
+                binding.tvTechnicianLeadCount.text = "Lead Count: " + "" + " " + "" + "0"
+            }else{
+                binding.tvTechnicianLeadCount.text = "Lead Count: " + "" + " " + "" + technicianData.active_leads_count
+            }
+
             binding.radioTechnician.setChecked(position == lastCheckedPosition);
             binding.liTechnicianName.setOnClickListener {
                 val copyOfLastCheckedPosition = lastCheckedPosition

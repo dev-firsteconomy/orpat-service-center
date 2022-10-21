@@ -49,5 +49,8 @@
         app:indicatorColor="@color/red"
         app:trackThickness="4dp" />
 
+
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

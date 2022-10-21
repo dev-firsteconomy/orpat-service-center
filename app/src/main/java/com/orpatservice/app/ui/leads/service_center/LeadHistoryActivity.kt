@@ -10,6 +10,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.orpatservice.app.databinding.ActivityLeadHistoryBinding
 import com.orpatservice.app.ui.leads.history_lead_fragment.CancelledRequestFragment
 import com.orpatservice.app.ui.leads.history_lead_fragment.CompletedRequestFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.AssignedLeadFragment
+import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.ui.leads.pager.ViewPagerAdapter
 import com.orpatservice.app.utils.Constants
@@ -18,6 +20,9 @@ class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
     lateinit var binding: ActivityLeadHistoryBinding
     lateinit var viewModel: RequestsLeadsViewModel
+    private val completeRequestFragment = CompletedRequestFragment()
+    private  val cancelledRequestFragment = CancelledRequestFragment()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +48,8 @@ class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         tabLayout.addOnTabSelectedListener(this)
 
         val fragmentArrayList: ArrayList<Fragment> = ArrayList()
-        fragmentArrayList.add(CompletedRequestFragment())
-        fragmentArrayList.add(CancelledRequestFragment())
+        fragmentArrayList.add(completeRequestFragment)
+        fragmentArrayList.add(cancelledRequestFragment)
 
         val adapter = ViewPagerAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
@@ -79,6 +84,11 @@ class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     override fun onTabSelected(tab: TabLayout.Tab) {
         when (tab.position) {
             0 -> {
+                completeRequestFragment.loadTotalLead(binding.tvToolbarTotalLead)
+                tab.select()
+            }
+            1 -> {
+                cancelledRequestFragment.loadTotalLead(binding.tvToolbarTotalLead)
                 tab.select()
             }
 

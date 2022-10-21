@@ -10,6 +10,8 @@ import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.TechnicianResponse
 import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
+import com.orpatservice.app.data.model.login.SendHappyCodeResponse
+import com.orpatservice.app.data.model.login.TechnicianLoginResponse
 import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.data.remote.ApiClient
@@ -763,21 +765,20 @@ class DataRepository {
 
     }
 
-    fun hitAPITaskSendHappyCode(leadId : String): LiveData<Resource<TechnicianResponse>> {
-        val mutableTestData = MutableLiveData<Resource<TechnicianResponse>>()
-
+    fun hitAPITaskSendHappyCode(leadId : String): LiveData<Resource<SendHappyCodeResponse>> {
+        val mutableTestData = MutableLiveData<Resource<SendHappyCodeResponse>>()
         mutableTestData.value = (Resource.loading(null))
         val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
         ApiClient.getAuthApi().hitAPITaskSendHappyCode(leadId,token)
-            .enqueue(object : Callback<TechnicianResponse> {
+            .enqueue(object : Callback<SendHappyCodeResponse> {
 
-                override fun onFailure(call: Call<TechnicianResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SendHappyCodeResponse>, t: Throwable) {
                     mutableTestData.value = Resource.error(ErrorUtils.getError(t))
                 }
 
                 override fun onResponse(
-                    call: Call<TechnicianResponse>,
-                    response: Response<TechnicianResponse>
+                    call: Call<SendHappyCodeResponse>,
+                    response: Response<SendHappyCodeResponse>
                 ) {
                     if (response.isSuccessful) {
                         mutableTestData.value = response.body()?.let { Resource.success(it) }
@@ -991,7 +992,7 @@ class DataRepository {
 
     fun hitGetServiceCenterTechnicianLeads(pageNumber: Int,leadId: Int): Call<NewRequestResponse> {
         val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
-        return ApiClient.getAuthApi().getServiceCenterTechnicianLeads(token,leadId)
+        return ApiClient.getAuthApi().getServiceCenterTechnicianLeads(token,leadId,pageNumber)
     }
 
 

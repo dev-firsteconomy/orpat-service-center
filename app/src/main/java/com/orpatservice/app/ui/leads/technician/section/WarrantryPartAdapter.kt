@@ -30,6 +30,7 @@ import com.orpatservice.app.utils.Utils
 
 class WarrantryPartAdapter(
     private val context :Context,
+    private val partsPosition :Int,
     private val warrantyList: ArrayList<WarrantryPart>,
     private  val leadImageList: ArrayList<LeadEnquiryImage>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -54,7 +55,7 @@ class WarrantryPartAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is TechnicianViewHolder -> {
-                holder.bind(context, warrantyList[position],leadImageList)
+                holder.bind(context, warrantyList[position],leadImageList,partsPosition)
             }
         }
     }
@@ -75,7 +76,8 @@ class WarrantryPartAdapter(
         fun bind(
             context: Context,
             technicianData: WarrantryPart,
-            leadEnquiryImage: ArrayList<LeadEnquiryImage>
+            leadEnquiryImage: ArrayList<LeadEnquiryImage>,
+            partsPosition: Int,
         ) {
 
            // bind = binding
@@ -144,8 +146,9 @@ class WarrantryPartAdapter(
 
                 //println("secondImgsecondImg"+secondImg)
 
+
                 if (!selectedParts.isEmpty()) {
-                    showImageList()
+                    showImageList(partsPosition)
                 } else {
                     Utils.instance.popupPinUtil(
                         context,
@@ -171,7 +174,7 @@ class WarrantryPartAdapter(
             context.startActivity(intent)
         }
 
-        private fun showImageList() {
+        private fun showImageList(partsPosition:Int) {
 
             val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -183,7 +186,7 @@ class WarrantryPartAdapter(
             alertDialogBuilder!!.setContentView(view)
 
             val gridAdapter =
-                GridAdapter(context, leadImageList, itemClickListener = onItemClickListener)
+                GridAdapter(context,partsPosition,adapterPosition, leadImageList, itemClickListener = onItemClickListener)
             grid_view.adapter = gridAdapter
 
            /* grid_view.onItemClickListener = AdapterView.OnItemClickListener { _, view, position, _ ->
@@ -223,8 +226,8 @@ class WarrantryPartAdapter(
 
         }
 
-        private val onItemClickListener: (Int, View) -> Unit =
-            { position, view ->
+        private val onItemClickListener: (Int, View,Int) -> Unit =
+            { position, view, partPos ->
 
             try {
 
@@ -237,8 +240,8 @@ class WarrantryPartAdapter(
                         }
                     }
 
-                println("ccccccccc" + adapterPosition)
-                val imagePos = ImageData(position, "true", adapterPosition)
+
+                val imagePos = ImageData(position, "true", adapterPosition,partPos)
                 CommonUtils.imageData.add(imagePos)
 
                 alertDialogBuilder?.dismiss()
@@ -249,110 +252,7 @@ class WarrantryPartAdapter(
                     .load(leadImageList[position].image)
                     .placeholder(R.color.gray)
                     .into(binding.imgSelectedImage)
-                /*if(!CommonUtils.imageData.isEmpty()) {
-                    println("hua ki nhi" + adapterPosition)
-                    println("nhi hua h" + CommonUtils.imageData)
-                for(i in CommonUtils.imageData) {
-                    println("fffffffff" + adapterPosition)
-                    if (i.image_adapter_pos == adapterPosition) {
-                        println("sssssss" + adapterPosition)
-                    } else {
-                        println("ccccccccc" + adapterPosition)
-                        val imagePos = ImageData(position, "true", adapterPosition)
-                        CommonUtils.imageData.add(imagePos)
 
-                        alertDialogBuilder?.dismiss()
-
-                        selectedImg = leadImageList[position].image
-                        binding.imgSelectedImage.visibility = VISIBLE
-                        Glide.with(context)
-                            .load(leadImageList[position].image)
-                            .placeholder(R.color.gray)
-                            .into(binding.imgSelectedImage)
-                    }
-                }*/
-                /*for(i in CommonUtils.imageData) {
-                          if (i.image_adapter_pos == adapterPosition) {
-                              *//*if(!CommonUtils.imageData.isEmpty()) {
-                                  CommonUtils.imageData.removeAt(position)
-                              }*//*
-                              println("hua ki nhi" +  CommonUtils.imageData[adapterPosition].image_data)
-
-                              val imagePos = ImageData(position, "true", adapterPosition)
-                              CommonUtils.imageData.add(imagePos)
-
-                              alertDialogBuilder?.dismiss()
-
-                              selectedImg = leadImageList[position].image
-                              binding.imgSelectedImage.visibility = VISIBLE
-                              Glide.with(context)
-                                  .load(leadImageList[position].image)
-                                  .placeholder(R.color.gray)
-                                  .into(binding.imgSelectedImage)
-                          } else {
-                              println("nhi hua h" + adapterPosition)
-                              val imagePos = ImageData(position, "true", adapterPosition)
-                              CommonUtils.imageData.add(imagePos)
-
-                              alertDialogBuilder?.dismiss()
-
-                              selectedImg = leadImageList[position].image
-                              binding.imgSelectedImage.visibility = VISIBLE
-                              Glide.with(context)
-                                  .load(leadImageList[position].image)
-                                  .placeholder(R.color.gray)
-                                  .into(binding.imgSelectedImage)
-
-                          }*/
-
-                    //val it: MutableIterator<ImageData> = CommonUtils.imageData.iterator()
-                    /*for(i in CommonUtils.imageData){
-                        println("image_adapter_pos" +CommonUtils.imageData[adapterPosition].image_adapter_pos)
-                        println("adapterPositionadapterPosition" +adapterPosition)
-                        if(i.image_adapter_pos == adapterPosition) {
-                            CommonUtils.imageData.removeAt(adapterPosition)
-
-                            val imagePos = ImageData(position, "true", adapterPosition)
-                            CommonUtils.imageData.add(imagePos)
-
-                            alertDialogBuilder?.dismiss()
-
-                            selectedImg = leadImageList[position].image
-                            binding.imgSelectedImage.visibility = VISIBLE
-                            Glide.with(context)
-                                .load(leadImageList[position].image)
-                                .placeholder(R.color.gray)
-                                .into(binding.imgSelectedImage)
-                        }*//*else{
-                            println("nhi hua h" +adapterPosition)
-                            val imagePos = ImageData(position, "true", adapterPosition)
-                            CommonUtils.imageData.add(imagePos)
-
-                            alertDialogBuilder?.dismiss()
-
-                            selectedImg = leadImageList[position].image
-                            binding.imgSelectedImage.visibility = VISIBLE
-                            Glide.with(context)
-                                .load(leadImageList[position].image)
-                                .placeholder(R.color.gray)
-                                .into(binding.imgSelectedImage)
-                        }*/
-                  //  }
-                   // var arr = arrayOf<String>(CommonUtils.imageData)
-
-              /*  }else {
-                    val imagePos = ImageData(position, "true", adapterPosition)
-                    CommonUtils.imageData.add(imagePos)
-
-                    alertDialogBuilder?.dismiss()
-
-                    selectedImg = leadImageList[position].image
-                    binding.imgSelectedImage.visibility = VISIBLE
-                    Glide.with(context)
-                        .load(leadImageList[position].image)
-                        .placeholder(R.color.gray)
-                        .into(binding.imgSelectedImage)
-                }*/
             }catch (e:IndexOutOfBoundsException){
 
             }

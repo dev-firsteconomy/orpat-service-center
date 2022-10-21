@@ -19,6 +19,8 @@ class Enquiry() : Parcelable {
     var purchase_at: String? = null
     var complaint_preset: String? = null
     var in_warranty: String? = null
+    var seller_name: String? = null
+    var seller_gst_no: String? = null
     var is_cancelled: String? = null
     var status: Boolean = false
     var customer_discription: String? = null
@@ -46,6 +48,8 @@ class Enquiry() : Parcelable {
         purchase_at = parcel.readString()
         complaint_preset = parcel.readString()
         in_warranty = parcel.readString()
+        seller_name = parcel.readString()
+        seller_gst_no = parcel.readString()
         is_cancelled = parcel.readString()
         status = parcel.readValue(Boolean::class.java.classLoader) as Boolean
         customer_discription = parcel.readString()
@@ -79,6 +83,8 @@ class Enquiry() : Parcelable {
         dest?.writeString(purchase_at)
         dest?.writeString(complaint_preset)
         dest?.writeString(in_warranty)
+        dest?.writeString(seller_name)
+        dest?.writeString(seller_gst_no)
         dest?.writeString(is_cancelled)
         dest?.writeValue(status)
         dest?.writeString(customer_discription)

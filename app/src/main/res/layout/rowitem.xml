@@ -21,10 +21,8 @@
         android:layout_margin="10dp"
         android:padding="10dp"
         android:visibility="gone"
-        android:background="@color/gray"
+        android:background="@drawable/bg_selected_img"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.orpatservice.app.ui.leads.technician.response
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.orpatservice.app.data.model.requests_leads.WarrantryPart
 
 class TechnicianEnquiry() : Parcelable {
     var id: Int? = null
@@ -19,6 +20,7 @@ class TechnicianEnquiry() : Parcelable {
     var model_no: String? = null
     var technician_detail_status: Int? = null
     var technician_scan_status: Int? = null
+    var warranty_parts: ArrayList<WarrantryPart> = arrayListOf()
     var lead_enquiry_images: ArrayList<TechnicianEnquiryImage> = arrayListOf()
 
 
@@ -38,6 +40,7 @@ class TechnicianEnquiry() : Parcelable {
         model_no = parcel.readString()
         technician_detail_status = parcel.readValue(Int::class.java.classLoader) as? Int
         technician_scan_status = parcel.readValue(Int::class.java.classLoader) as? Int
+        parcel.readTypedList(warranty_parts,WarrantryPart.CREATOR)
         parcel.readTypedList(lead_enquiry_images, TechnicianEnquiryImage.CREATOR)
     }
 
@@ -62,6 +65,7 @@ class TechnicianEnquiry() : Parcelable {
         dest?.writeString(model_no)
         dest?.writeValue(technician_detail_status)
         dest?.writeValue(technician_scan_status)
+        dest?.writeTypedList(warranty_parts)
         dest?.writeTypedList(lead_enquiry_images)
     }
 

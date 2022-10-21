@@ -26,7 +26,6 @@ class ChangeTechnicianAdapter (
 
     var callback: Callback? = null
 
-    private var selectedPosition = -1
     private var pos:Int = 0
     private var lastCheckedPosition = -1
 
@@ -73,7 +72,7 @@ class ChangeTechnicianAdapter (
 
             if((technicianData.first_name+""+" "+""+technicianData.last_name).equals(technician_id)){
                 lastCheckedPosition = adapterPosition
-                 binding.radioTechnician.isChecked = true
+                binding.radioTechnician.isChecked = true
 
             }
             if (lastCheckedPosition == adapterPosition && binding.radioTechnician.isChecked())
@@ -92,51 +91,72 @@ class ChangeTechnicianAdapter (
 
             binding.tvTechnicianName.text =
                 technicianData?.first_name + " " +   technicianData?.last_name
-            binding.tvAreaCode.text =
-                "Area Code:" + " " + "" +   technicianData?.pincode
+            if(technicianData?.active_leads_count != null) {
+                binding.tvTechnicianLeadCount.text =
+                    "Lead Count:" + " " + "" + technicianData?.active_leads_count.toString()
+            }else{
+                binding.tvTechnicianLeadCount.text =
+                    "Lead Count:" + " " + "" + "0"
+            }
 
 
-              binding.radioTechnician.setChecked(position == lastCheckedPosition);
+            binding.radioTechnician.setChecked(position == lastCheckedPosition);
 
-           /* binding.radioTechnician.setOnClickListener {
 
-                       if (binding.radioTechnician.isChecked) {
-                           itemClickListener(
-                               adapterPosition,
-                               binding.radioTechnician
-                           )
-                       } else {
-                           binding.radioTechnician.isChecked = false
-                           //binding.radioTechnicianHide.visibility = GONE
-                       }
-                       val copyOfLastCheckedPosition = lastCheckedPosition
-                       lastCheckedPosition = adapterPosition
-                       notifyItemChanged(copyOfLastCheckedPosition)
-                       notifyItemChanged(lastCheckedPosition)
+            /* binding.radioTechnician.setOnClickListener {
 
-                       itemClickListener(
-                           lastCheckedPosition,
-                           binding.radioTechnician
-                       )
+                        if (binding.radioTechnician.isChecked) {
+                            itemClickListener(
+                                adapterPosition,
+                                binding.radioTechnician
+                            )
+                        } else {
+                            binding.radioTechnician.isChecked = false
+                            //binding.radioTechnicianHide.visibility = GONE
+                        }
+                        val copyOfLastCheckedPosition = lastCheckedPosition
+                        lastCheckedPosition = adapterPosition
+                        notifyItemChanged(copyOfLastCheckedPosition)
+                        notifyItemChanged(lastCheckedPosition)
 
-            }*/
+                        itemClickListener(
+                            lastCheckedPosition,
+                            binding.radioTechnician
+                        )
+
+             }*/
 
             binding.radioTechnician.setOnClickListener {
 
-                 val rb: RadioButton  =  binding.radioTechnician
+                val rb: RadioButton  =  binding.radioTechnician
                 val clickedPos = adapterPosition;
-                if (rb?.isChecked() == true){
-                    rbChecked?.setChecked(false)
-                    rbChecked = rb;
-                    rbPosoition = clickedPos;
 
-                    itemClickListener(
-                        adapterPosition,
-                        binding.radioTechnician
-                    )
-                }
-                else{
-                    rbChecked = null;
+                if (rb.isChecked){
+
+                    if(lastCheckedPosition == adapterPosition){
+                        println("adapterPosition"+"adapterPosition")
+                        rbChecked?.isChecked = true
+                    }else {
+                        lastCheckedPosition = adapterPosition
+                        println("lastCheckedPosition"+"lastCheckedPosition")
+                        binding.radioTechnician .isChecked = true
+                        rbChecked?.setChecked(false)
+                        rbChecked = rb;
+                        rbPosoition = clickedPos;
+
+                    }
+                       /* rbChecked?.setChecked(false)
+                        rbChecked = rb;
+                        rbPosoition = clickedPos;
+*/
+                        itemClickListener(
+                            adapterPosition,
+                            binding.radioTechnician
+                        )
+
+                }else{
+
+                    rbChecked = rb;
                     rbPosoition = adapterPosition;
                 }
             }
@@ -146,22 +166,37 @@ class ChangeTechnicianAdapter (
                 val rb: LinearLayout  =  binding.liTechnicianName
                 val rb1: RadioButton  =  binding.radioTechnician
                 val clickedPos = adapterPosition;
-                //if (rb.isClickable == true){
-                    binding.radioTechnician.isChecked = true
+                 //if (rb1.isChecked() == true){
+
+                if(lastCheckedPosition == adapterPosition){
+                    println("adapterPosition"+"adapterPosition")
+                    rbChecked?.isChecked = true
+                }else {
+                    lastCheckedPosition = adapterPosition
+                    println("lastCheckedPosition"+"lastCheckedPosition")
+                    binding.radioTechnician .isChecked = true
                     rbChecked?.setChecked(false)
                     rbChecked = rb1;
                     rbPosoition = clickedPos;
+
+                }
+                   /* binding.radioTechnician.isChecked = true
+
+                    rbChecked?.setChecked(false)
+
+                    rbChecked = rb1;
+                    rbPosoition = clickedPos;*/
 
                 itemClickListener(
                     adapterPosition,
                     binding.liTechnicianName)
 
-               /* }
-                else{
+               // }
+                /*else{
                     rbChecked = null;
                     rbPosoition = adapterPosition;
-                }
-*/
+                }*/
+
 /*
                 val copyOfLastCheckedPosition = lastCheckedPosition
                 lastCheckedPosition = adapterPosition
@@ -171,7 +206,7 @@ class ChangeTechnicianAdapter (
                 itemClickListener(
                     lastCheckedPosition,
                     binding.liTechnicianName)*/
-           }
+            }
 
             // binding.radioTechnician.isChecked = selectedPosition == adapterPosition
             /* binding.btnAssignAlltechnician.isChecked =

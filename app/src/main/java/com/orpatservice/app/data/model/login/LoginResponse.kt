@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by Ajay Yadav on 19/12/21.
  */
-data class LoginResponse(val success: Boolean, val data: LoginBaseData, val message: String)
+data class LoginResponse(val success: Boolean,
+                         val data: LoginBaseData,
+                         val message: String)
 
 data class LoginBaseData(
     @SerializedName("token") val token: String,

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -18,6 +19,8 @@ import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
+import android.view.Window
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -27,6 +30,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.orpatservice.app.BuildConfig
 import com.orpatservice.app.R
@@ -37,9 +42,14 @@ import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.ActivityAssignedDetailsBinding
 import com.orpatservice.app.databinding.ActivityTechnicianHistoryDetailsBinding
 import com.orpatservice.app.databinding.AdapterAssignedDetailsBinding
+import com.orpatservice.app.databinding.AdapterTechnicianHistoryDetailsBinding
 import com.orpatservice.app.ui.admin.technician.*
 import com.orpatservice.app.ui.leads.customer_detail.*
+import com.orpatservice.app.ui.leads.customer_detail.adapter.ServiceableWarrantryPartAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.AssignedDetailsAdapter
+import com.orpatservice.app.ui.leads.technician.adapter.TechnicianHistoryDetailsAdapter
+import com.orpatservice.app.ui.leads.technician.section.EnquirySliderScreenImageActivity
+import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 import okhttp3.MediaType.Companion.toMediaType
@@ -60,12 +70,12 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
     }
     private lateinit var binding: ActivityTechnicianHistoryDetailsBinding
     private lateinit var leadData: LeadData
-    private lateinit var complaintAdapter: AssignedDetailsAdapter
+    private lateinit var complaintAdapter: TechnicianHistoryDetailsAdapter
     private var resultUri: Uri? = null
     private var mCurrentCaptureImage: String? = null
     lateinit var customerDetailsViewModel: CustomerDetailsModel
     private var invoiceUrl: String? = null
-    private lateinit var bindingAdapter : AdapterAssignedDetailsBinding
+    private lateinit var bindingAdapter : AdapterTechnicianHistoryDetailsBinding
     private var pos: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,7 +125,7 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
         if (leadData.enquiries.isNullOrEmpty()) {
             // binding.includedContent.tvEnquiryHeading.visibility = View.GONE
         }
-        complaintAdapter = AssignedDetailsAdapter(leadData.enquiries, leadData, itemClickListener = onItemClickListener)
+        complaintAdapter = TechnicianHistoryDetailsAdapter(leadData.enquiries, leadData, itemClickListener = onItemClickListener)
 
         binding.includedContent.rvComplaint.apply {
             adapter = complaintAdapter
@@ -240,7 +250,7 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
     }
 
     private var lastClickedPos: Int = 0
-    private val onItemClickListener: (Int, View, AdapterAssignedDetailsBinding) -> Unit = { position, view, binding ->
+    private val onItemClickListener: (Int, View, AdapterTechnicianHistoryDetailsBinding) -> Unit = { position, view, binding ->
         pos = position.toString()
         bindingAdapter = binding
         when (view.id) {
@@ -260,7 +270,6 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
                 bindingAdapter = binding
                 val tvDatePicker: TextView = view.findViewById(R.id.edt_select_invoice_date)
                 openDatePicker(tvDatePicker)
-
                 binding.tvErrorInvoiceDate.visibility = View.GONE
             }
 
@@ -274,7 +283,37 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
                 }
                 // hitUpdateRequest(binding,position,selectedUnderWarranty,view)
             }
+            R.id.tv_view_warranty_parts_image ->{
+                bindingAdapter = binding
+                val intent = Intent(this, TechnicianWarrantyPartsImageActivity::class.java)
+                intent.putExtra(Constants.IMAGE_DATA, leadData.enquiries[position])
+                startActivity(intent)
+
+            }
+            R.id.tv_view_warranty_parts_list ->{
+                openDropDown(position)
+            }
         }
+    }
+    private fun openDropDown(position:Int) {
+        lateinit var  dialog: Dialog
+
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.warranty_parts_list)
+        val rv_complaint_list = dialog.findViewById(R.id.rv_warranty_parts_list) as RecyclerView
+        val popup_img_close = dialog.findViewById(R.id.popup_img_close) as ImageView
+        popup_img_close.setOnClickListener {
+            dialog.dismiss()
+        }
+        rv_complaint_list.layoutManager = LinearLayoutManager(this)
+
+        // This will pass the ArrayList to our Adapter
+        val adapter = ServiceableWarrantryPartAdapter(leadData.enquiries[position].warranty_parts)
+        rv_complaint_list.adapter = adapter
+
+        dialog.show()
     }
 
     /*  private fun hitUpdateRequest(binding: AdapterAssignedDetailsBinding, position: Int, selectedUnderWarranty: String, view: View) {
@@ -364,7 +403,7 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
     }
 
     private fun showData(data: UpdateRequestResponse) {
-        if (data.data.detail_status == "1") {
+        if ((data.data.detail_status.toString()) == "1") {
             bindingAdapter.btnHideUpdate.visibility = View.VISIBLE
             bindingAdapter.btnUpdate.visibility = View.GONE
         }else{
@@ -630,11 +669,11 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
     private fun onFileUploaded(resources: Resource<UploadFileResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-                //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
 
             }
             Status.ERROR -> {
-                //  hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
                 /* Alerter.create(this)
                      .setText(resources.error?.message.toString())
                      .setBackgroundColorRes(R.color.orange)
@@ -647,7 +686,7 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
                     false)
             }
             else -> {
-                // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
                 val data = resources.data
 

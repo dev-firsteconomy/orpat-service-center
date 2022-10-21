@@ -1,19 +1,15 @@
 package com.orpatservice.app.ui.leads.service_center
 
-import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityRequestsLeadsBinding
 import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
 import com.orpatservice.app.ui.leads.new_lead_fragment.*
@@ -58,7 +54,7 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         //fragmentArrayList.add(taskCompletedFragment)
       //  fragmentArrayList.add(otpVerification)
 
-       val adapter = NewRequestViewPagerAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
+       val adapter = NewRequestViewPagerAdapter(fragmentArrayList,binding.toolbarTotalLead, supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
 
         //Tab name
@@ -89,6 +85,17 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
     private lateinit var searchView : SearchView
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
+        if (supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
+            binding.toolbarTotalLead.text = ""
+            newRequestFragment.loadTotalLead(binding.toolbarTotalLead)
+        }else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignedLeadFragment) {
+            binding.toolbarTotalLead.text = ""
+            assignedLeadFragment.loadTotalLead(binding.toolbarTotalLead)
+        } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment) {
+            //assignToTechnicianFragment.loadSearchLead(query)
+        }
+
       /*  menuInflater.inflate(R.menu.menu_search, menu)
 
         // Associate searchable configuration with the SearchView
@@ -129,8 +136,11 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         return true
     }
 
-    override fun onBackPressed() {
-        if (!searchView.isIconified) {
+    override fun onResume() {
+        super.onResume()
+    }
+  /*  override fun onBackPressed() {
+        *//*if (!searchView.isIconified) {
             searchView.onActionViewCollapsed()
             searchView.isIconified = true
             if(supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
@@ -139,25 +149,32 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
                 assignToTechnicianFragment.loadOldLeadData()
             }else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
                 assignToTechnicianFragment.loadOldLeadData()
-            }/*else if(supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment){
+            }*//**//*else if(supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment){
                 taskCompletedFragment.loadOldLeadData()
-            }*//*else if(supportFragmentManager.fragments.get(viewPager.currentItem) is OTPVerificationFragment){
+            }*//**//**//**//*else if(supportFragmentManager.fragments.get(viewPager.currentItem) is OTPVerificationFragment){
                 otpVerification.loadOldLeadData()
-            }*/
+            }*//**//*
             return
-        }
+        }*//*
         super.onBackPressed()
-    }
+    }*/
 
     /**
      * Tab selection logic
      */
     override fun onTabSelected(tab: TabLayout.Tab) {
+
         when (tab.position) {
+
             0 -> {
                 tab.select()
             }
             1 -> {
+                assignedLeadFragment.loadTotalLead(binding.toolbarTotalLead)
+                tab.select()
+            }
+            2 -> {
+                assignToTechnicianFragment.loadTotalLead(binding.toolbarTotalLead)
                 tab.select()
             }
 

@@ -163,15 +163,32 @@
             app:layout_constraintStart_toStartOf="@id/tv_invoice_image"
             app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" />
 
+        <TextView
+            android:id="@+id/tv_serviceable_warranty_parts"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:background="@drawable/bg_edit_text_border"
+            android:layout_marginTop="10dp"
+            android:textSize="10sp"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/serviceable_warranty_parts_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_invoice_image"/>
+
         <View
             android:id="@+id/view_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
             android:background="@color/brown"
-            app:layout_constraintEnd_toEndOf="@id/iv_invoice_image"
-            app:layout_constraintStart_toStartOf="@id/iv_invoice_image"
-            app:layout_constraintTop_toBottomOf="@id/iv_invoice_image"/>
+            app:layout_constraintEnd_toEndOf="@id/tv_serviceable_warranty_parts"
+            app:layout_constraintStart_toStartOf="@id/tv_serviceable_warranty_parts"
+            app:layout_constraintTop_toBottomOf="@id/tv_serviceable_warranty_parts"/>
 
         <LinearLayout
             android:id="@+id/li_upload_part_img"
@@ -368,8 +385,7 @@
             android:layout_marginEnd="50dp"
             android:layout_height="wrap_content"
             android:text="@string/btn_update"
-            app:cornerRadius="0dp"
-            android:layout_marginTop="10dp"
+            app:cornerRadius="3dp"
             app:icon="@drawable/ic_arrow_forward"
             app:iconGravity="textEnd"
             android:visibility="visible"
@@ -385,7 +401,7 @@
             android:layout_marginEnd="50dp"
             android:layout_height="44dp"
             android:text="@string/btn_update"
-            app:cornerRadius="0dp"
+            app:cornerRadius="3dp"
             android:visibility="gone"
             app:iconGravity="textEnd"
             app:iconTint="@color/dim_white"

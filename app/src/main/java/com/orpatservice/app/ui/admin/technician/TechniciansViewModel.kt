@@ -215,9 +215,9 @@ class TechniciansViewModel : ViewModel() {
     fun hitAPISendHappyCode(leadId : String): LiveData<Resource<TechnicianResponse>> {
         return DataRepository.instance.hitAPISendHappyCode(leadId)
     }
-    fun hitAPITaskSendHappyCode(leadId : String): LiveData<Resource<TechnicianResponse>> {
+   /* fun hitAPITaskSendHappyCode(leadId : String): LiveData<Resource<TechnicianResponse>> {
         return DataRepository.instance.hitAPITaskSendHappyCode(leadId)
-    }
+    }*/
 
     fun hitAPITaskSendHappyCodeVerification(leadId : String,happyCode : String): LiveData<Resource<UpdatePartsRequestData>> {
         return DataRepository.instance.hitAPITaskSendHappyCodeVerification(leadId,happyCode)

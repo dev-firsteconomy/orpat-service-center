@@ -187,7 +187,6 @@ class BarScannerActivity : AppCompatActivity() {
         )
     }
 
-
     private fun initScanner() {
         // Request camera permissions
         if (isCameraPermissionGranted()) {
@@ -277,13 +276,13 @@ class BarScannerActivity : AppCompatActivity() {
     private fun validateQRCode(resources: Resource<UpdateRequestResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-               // binding.cpiLoading.visibility = View.VISIBLE
+                binding.cpiLoading.visibility = View.VISIBLE
             }
             Status.ERROR -> {
-               // binding.cpiLoading.visibility = View.GONE
+                binding.cpiLoading.visibility = View.GONE
             }
             else -> {
-                //binding.cpiLoading.visibility = View.GONE
+                binding.cpiLoading.visibility = View.GONE
                 val response = resources.data
 
                 response?.let {

@@ -16,7 +16,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,9 +34,11 @@ import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.TechnicianResponse
+import com.orpatservice.app.data.model.login.SendHappyCodeResponse
 import com.orpatservice.app.data.model.requests_leads.*
 import com.orpatservice.app.databinding.*
 import com.orpatservice.app.ui.leads.adapter.AllTechnicianAdapter
+import com.orpatservice.app.ui.leads.customer_detail.CancelRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsModel
 import com.orpatservice.app.ui.leads.customer_detail.UpdateRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.productListData
@@ -57,18 +61,17 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
     private lateinit var binding: ContentTechnicianTaskUpdateBinding
     private lateinit var requestData: LeadData
     private var requestEnquiry: Int? = 0
-    private lateinit var taskCompletedDataAdapter: TechnicianTaskUpdateAdapter
-    private  var  selectedWarranty : String? = null
-    private var  in_warranty : String? = null
+
     lateinit var customerDetailsViewModel: CustomerDetailsModel
     private  lateinit var bindingChild : UnderWarrantyPartsAdapterBinding
-
+    private lateinit var alertDialogBuilder:Dialog
     private var radiobtn_yes: String?= null
     private var radiobtn_change_part_yes: String?= null
     private lateinit var technicianTaskAdapter: TechnicianTaskAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
     private  lateinit var bindingAdapter : TechnicianTaskUpdateBinding
     private var alertDialog : Dialog? = null
+    private lateinit var tv_resend_happy_code:Button
     private val editTextArray: ArrayList<EditText> = ArrayList(OTPVerificationActivity.NUM_OF_DIGITS)
     private val NUM_OF_DIGITS = 4
     private var numTemp = ""
@@ -98,6 +101,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 
             initFormComponent()
             userDetailsUtil()
+            //userClick()
 
 
             technicianTaskAdapter = TechnicianTaskAdapter(this@TechnicianTaskUpdateActivity,requestData.enquiries,requestData,
@@ -126,7 +130,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
         binding.includedContent.tvTvRequestIdValue.text = requestData.complain_id.toString()
         binding.includedContent.tvTimerValue.text = requestData.timer
         binding.includedContent.tvTimerValue.setTextColor(Color.parseColor(requestData.color_code))
-        binding.includedContent.tvFullAddressValue.text = requestData.address1+""+" ,"+""+requestData.address2/*+""+" ,"+""+requestData.state*/
+        binding.includedContent.tvCustomerFullAddressValues.text = requestData.address1+""+" ,"+""+requestData.address2/*+""+" ,"+""+requestData.state*/
         binding.includedContent.tvContactNumber.setOnClickListener {
             openCallDialPad(requestData.mobile.toString())
         }
@@ -162,7 +166,8 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 
         binding.includedContent.btnVerifyOtp.setOnClickListener {
 
-            customerDetailsViewModel.hitAPITaskSendHappyCode(requestData.id.toString()).observe(this, loadHappyCodeData())
+            println("requestData.id.toString()"+requestData.id.toString())
+            customerDetailsViewModel.hitAPITaskSendHappyCode(requestData.id.toString()).observe(this, loadHappyCodeData("verify"))
 
         }
 
@@ -173,21 +178,23 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                 customerDetailsViewModel.hitAPIServiceMarkAsCompleteLead(
                     it1,"1234")
             }/*.observe(this, loadCompleteLead()*/
-
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        initFormComponent()
+    }
 
-    private fun loadHappyCodeData(): Observer<Resource<TechnicianResponse>> {
+    private fun loadHappyCodeData(flag:String): Observer<Resource<SendHappyCodeResponse>> {
         return Observer { it ->
             when (it?.status) {
                 Status.LOADING -> {
-                    //binding.cpiLoadingResend.visibility = View.VISIBLE
+                    binding.cpiLoading.visibility = View.VISIBLE
 
                 }
                 Status.ERROR -> {
-                    //binding.cpiLoadingResend.visibility = View.GONE
-
+                    binding.cpiLoading.visibility = View.GONE
                     /* Alerter.create(this@TaskCompletedDetailsActivity)
                          .setTitle("")
                          .setText("" + it.error?.message.toString())
@@ -202,14 +209,24 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 
                 }
                 else -> {
-                    // binding.cpiLoadingResend.visibility = View.GONE
+                     binding.cpiLoading.visibility = View.GONE
                     val data = it?.data
 
                     data?.let {
                         if (it.success) {
-                            showOTPVarificationPopUp()
+                            if(flag == "verify") {
+                                showOTPVarificationPopUp()
+                            }else{
+                                it.message.let { it1 ->
+                                    Utils.instance.popupPinUtil(this,
+                                        it1,
+                                        "",
+                                        true)
+                                }
+                                editTextArray.clear()
+                            }
 
-                            /*  it.message.let { it1 ->
+                              /*it.message.let { it1 ->
                                   Utils.instance.popupPinUtil(this,
                                       it1,
                                       "",
@@ -247,33 +264,50 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
         alertDialog = alertDialogBuilder
         val layout: ConstraintLayout = view.findViewById(R.id.cl_otp_layout)
         createOTPUI(layout)
-        val btn_varify_otp = view.findViewById<TextView>(R.id.btn_varify_otp)
+        val btn_varify_otp = view.findViewById<Button>(R.id.btn_varify_otp)
         val subTitle = view.findViewById<TextView>(R.id.tv_subheading)
-        val tv_resend_happy_code = view.findViewById<TextView>(R.id.tv_resend_happy_code)
+        tv_resend_happy_code = view.findViewById<Button>(R.id.tv_resend_happy_code)
+
+        val close_btn = view.findViewById<ImageView>(R.id.close_btn)
 
         subTitle.text = "Please verify the code sent to your mobile number +91"+" "+requestData.mobile
         tv_resend_happy_code.setOnClickListener {
-            customerDetailsViewModel.hitAPITaskSendHappyCode(requestData.id.toString()).observe(this, loadHappyCodeData())
 
+            customerDetailsViewModel.hitAPITaskSendHappyCode(requestData.id.toString()).observe(this, loadHappyCodeData("resend"))
+
+        }
+        close_btn.setOnClickListener {
+            alertDialog!!.dismiss()
         }
         btn_varify_otp.setOnClickListener {
             validateOTP()
         }
-        //alertDialogBuilder.setCancelable(false)
+       // alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.show()
 
     }
 
     private fun validateOTP() {
+     //   println("sizesizesize"+editTextArray.size)
 
+      /*  for(i in editTextArray){
+            println("toStringtoStringtoString"+i.text.toString())
+        }*/
+      //  println("editTextArray.size"+editTextArray[1].text.toString()+editTextArray[2].text.toString()+editTextArray[3].text.toString())
         (0 until editTextArray.size)
             .forEach { i ->
                 if (editTextArray[i].text.isEmpty()) {
-
+                    println("texttexttext"+editTextArray[i].text.toString())
                     Utils.instance.popupPinUtil(this,
                         getString(R.string.warning_enter_OTP),
                         "",
                         false)
+
+                       // userClick()
+                       // initFormComponent()
+                        editTextArray.clear()
+                        alertDialog?.dismiss()
+
 
                     return
                 }
@@ -295,31 +329,6 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 
     private fun createOTPUI(views: View) {
         //create array
-       /* val layout: ConstraintLayout = views.findViewById(R.id.cl_otp_layout)
-        for (index in 0 until (layout.childCount)) {
-            val view: View = layout.getChildAt(index)
-            if (view is EditText) {
-                editTextArray.add(index, view)
-                editTextArray[index].addTextChangedListener(this@TechnicianTaskUpdateActivity)
-            }
-        }
-
-        editTextArray[0].requestFocus() //After the views are initialized we focus on the first view
-
-        (0 until editTextArray.size)
-            .forEach { i ->
-                editTextArray[i].setOnKeyListener { _, keyCode, event ->
-                    if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
-                        //backspace
-                        if (i != 0) { //Don't implement for first digit
-                            editTextArray[i - 1].requestFocus()
-                            editTextArray[i - 1]
-                                .setSelection(editTextArray[i - 1].length())
-                        }
-                    }
-                    false
-                }
-            }*/
 
         val layout: ConstraintLayout = views as ConstraintLayout
         for (index in 0 until (layout.childCount)) {
@@ -339,8 +348,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                         //backspace
                         if (i != 0) { //Don't implement for first digit
                             editTextArray[i - 1].requestFocus()
-                            editTextArray[i - 1]
-                                .setSelection(editTextArray[i - 1].length())
+                            editTextArray[i - 1].setSelection(editTextArray[i - 1].length())
                         }
                     }
                     false
@@ -362,20 +370,22 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
         return Observer { it ->
             when (it?.status) {
                 Status.LOADING -> {
-                    //binding.cpiLoadingResend.visibility = View.VISIBLE
+                    binding.cpiLoading.visibility = View.VISIBLE
 
                 }
                 Status.ERROR -> {
-                    //binding.cpiLoadingResend.visibility = View.GONE
+                    binding.cpiLoading.visibility = View.GONE
 
-                    Utils.instance.popupPinUtil(this,
+                   /* Utils.instance.popupPinUtil(this,
                         it.error?.message.toString(),
                         "",
                         false)
+                    editTextArray.clear()
+                    alertDialog?.dismiss()*/
 
                 }
                 else -> {
-                    // binding.cpiLoadingResend.visibility = View.GONE
+                    binding.cpiLoading.visibility = View.GONE
                     val data = it?.data
 
                     data?.let {
@@ -387,13 +397,24 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                                     "",
                                     true)
                             }
-                            //alertDialog?.dismiss()
+                            alertDialog?.dismiss()
                             Handler(Looper.getMainLooper()).postDelayed({
                                 val intent = Intent(this, RequestLeadActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }, 5000)
 
+                        }else{
+                            it.message.let { it1 ->
+                                Utils.instance.popupPinUtil(this,
+                                    it1,
+                                    "",
+                                    false)
+                            }
+                            for (i in 0 until editTextArray.size)
+                                editTextArray[i].setText("")
+                            enableCodeEditTexts(true)
+                            tv_resend_happy_code.visibility = VISIBLE
                         }
                     } ?: run {
 
@@ -402,6 +423,9 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                             it.data?.message.toString(),
                             "",
                             false)
+                        for (i in 0 until editTextArray.size)
+                            editTextArray[i].setText("")
+                        enableCodeEditTexts(true)
                         alertDialog?.dismiss()
                     }
                 }
@@ -467,6 +491,10 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                         false)
                 }
             }
+            R.id.tv_cancel_task_update -> {
+
+                showCancelEnquiryPopUp(position)
+            }
 
             R.id.radiobtn_yes -> {
                 radiobtn_yes = "Yes"
@@ -484,7 +512,85 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
         }
     }
 
+    private fun showCancelEnquiryPopUp(position: Int) {
 
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view: View = inflater.inflate(R.layout.cancel_lead_popup_layout, null)
+        val tv_cancel_lead_cancel = view.findViewById<TextView>(R.id.tv_cancel_lead_cancel)
+        val tv_cancel_lead_ok = view.findViewById<TextView>(R.id.tv_cancel_lead_ok)
+        val et_cancel_lead_reason = view.findViewById<EditText>(R.id.et_cancel_lead_reason)
+        alertDialogBuilder = Dialog(this@TechnicianTaskUpdateActivity)
+        alertDialogBuilder.setContentView(view)
+        //alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alertDialogBuilder.setCancelable(false)
+        tv_cancel_lead_cancel.setOnClickListener {
+            alertDialogBuilder.dismiss()
+        }
+        tv_cancel_lead_ok.setOnClickListener {
+            if (Utils.instance.validateReason(et_cancel_lead_reason)) {
+                hitCancelTask(et_cancel_lead_reason.text.toString(), position, "1")
+                alertDialogBuilder.dismiss()
+            }
+        }
+        alertDialogBuilder.show()
+
+    }
+
+    private fun hitCancelTask(etCancelLeadReason: String?,position:Int,type:String) {
+
+        val jsonObject = JsonObject()
+
+        try {
+            //  val jsArray  = JsonArray()
+            jsonObject.addProperty("lead_cancelled_reason", etCancelLeadReason.toString())
+            jsonObject.addProperty("lead_id", requestData.id)
+            jsonObject.addProperty("enquiry_id", requestData.enquiries[position].id)
+            jsonObject.addProperty("cancellation_type", type)
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        customerDetailsViewModel.hitTaskCancelRequest(jsonObject)
+            .observe(this, this::getCancelRequestTask)
+
+    }
+
+    private fun getCancelRequestTask(resources: Resource<CancelRequestResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                binding.cpiLoading.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                binding.cpiLoading.visibility = View.GONE
+            }
+            else -> {
+                binding.cpiLoading.visibility = View.GONE
+                val response = resources.data
+
+                response?.let {
+                    if (it.success) {
+
+                        it.message?.toString()?.let { it1 ->
+                            Utils.instance.popupUtil(this,
+                                it1,
+                                "",
+                                true)
+                        }
+                        Handler(Looper.getMainLooper()).postDelayed({
+                           /* val intent = Intent(this, RequestLeadActivity::class.java)
+                            startActivity(intent)*/
+                            onBackPressed()
+                            finish()
+                        }, 5000)
+
+                    } else {
+
+                    }
+                }
+            }
+        }
+    }
    /* private fun loadCompleteLead(): Observer<Resource<RequestLeadResponse>> {
         return Observer { it ->
             when (it?.status) {
@@ -632,11 +738,11 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
     private fun loadCompleteLead(resources: Resource<UpdatePartsRequestData>) {
         when (resources.status) {
             Status.LOADING -> {
-                //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
             }
 
             Status.ERROR -> {
-                //    hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
                 Utils.instance.popupPinUtil(this@TechnicianTaskUpdateActivity,
                     resources.error?.message.toString(),"",
                     false)
@@ -647,12 +753,13 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                     .show()*/
             }
             else -> {
-                // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
                 val data = resources.data
 
                 data.let {
                     if(it?.success == true){
+                        alertDialog?.dismiss()
                         Utils.instance.popupUtil(this@TechnicianTaskUpdateActivity,
                             it.message,"",
                             true)
@@ -683,14 +790,54 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
         }
     }
 
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        println("beforeTextChanged"+"beforeTextChanged"+s)
+
+        numTemp = s.toString()
+        println("numTempnumTemp"+numTemp)
+    }//store the previous digit
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        println("onTextChanged"+"onTextChanged"+s)
+    }
+
+    override fun afterTextChanged(s: Editable) {
+        println("afterTextChanged"+"afterTextChanged"+s)
+        (0 until editTextArray.size)
+            .forEach { i ->
+                if (s === editTextArray[i].editableText) {
+
+                    if (s.isBlank()) {
+                        return
+                    }
+                    if (s.length >= 2) {//if more than 1 char
+                        val newTemp = s.toString().substring(s.length - 1, s.length)
+                        if (newTemp != numTemp) {
+                            editTextArray[i].setText(newTemp)
+                        } else {
+                            editTextArray[i].setText(s.toString().substring(0, s.length - 1))
+                        }
+                    } else if (i != editTextArray.size - 1) { //not last char
+                        editTextArray[i + 1].requestFocus()
+                        editTextArray[i + 1].setSelection(editTextArray[i + 1].length())
+                        return
+                    } else {
+                        //THIS BLOCK FOR AUTOMATIC OTP VERIFY API TRIGGER BUT FOR NOW WE DO IT MANUALLY
+                        //will verify code the moment the last character is inserted and all digits have a number
+                        //verifyCode(testCodeValidity())
+                    }
+                }
+            }
+    }
+
     private fun onTaskUpload(resources: Resource<UpdateRequestResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-                //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
             }
 
             Status.ERROR -> {
-                //    hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
                 Utils.instance.popupPinUtil(this@TechnicianTaskUpdateActivity,
                     resources.error?.message.toString(),"",
                     false)
@@ -701,7 +848,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                     .show()*/
             }
             else -> {
-                // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
                 val data = resources.data
 
@@ -759,7 +906,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
             editTextArray[i].isEnabled = enable
     }
 
-    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+   /* override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
         numTemp = s.toString()
     }//store the previous digit
 
@@ -793,5 +940,5 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                     }
                 }
             }
-    }
+    }*/
 }

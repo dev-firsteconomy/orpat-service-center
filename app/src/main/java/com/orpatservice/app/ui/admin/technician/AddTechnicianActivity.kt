@@ -102,8 +102,6 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
             bindUpdateTechnician()
 
         }
-
-
     }
 
     private fun uiBind() {
@@ -259,12 +257,17 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                                 "",
                                 true)
 
-                            Handler(Looper.getMainLooper()).postDelayed({
+                            /*Handler(Looper.getMainLooper()).postDelayed({
                                 val intent = Intent()
                                 intent.putExtra(PARCELABLE_TECHNICIAN, it.data)
                                 setResult(Activity.RESULT_OK, intent)
                                 finish()
-                            }, 5000)
+                            }, 5000)*/
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val intent = Intent(this, TechniciansActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            },5000)
                         }
                     }else{
                         it?.message?.let { msg ->
@@ -325,12 +328,12 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                         .setDuration(1000)
                         .show()*/
 
-                    Utils.instance.popupPinUtil(
+                    /*Utils.instance.popupPinUtil(
                         this,
                         it.error?.message.toString(),
                         "",
                         false
-                    )
+                    )*/
                 }
                 else -> {
                     binding.cpiLoading.visibility = View.GONE
@@ -446,6 +449,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
             jsonObject.addProperty("image", profileImg)
             jsonObject.addProperty("aadhar_card_no", binding.includedContent.etAadharCardNum.text.toString().trim())
             jsonObject.addProperty("aadhar_image", aadharCardImg)
+            jsonObject.addProperty("passcode", binding.includedContent.etPassport.text.toString().trim())
             jsonObject.add("pincodes", jsArray)
 
         } catch (e: JSONException) {
@@ -472,6 +476,7 @@ class AddTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         params.addFormDataPart("mobile", binding.includedContent.etMobileNo.text.toString().trim())
        // params.addFormDataPart("pincode", binding.includedContent.etPinCode.text.toString().trim())
         params.addFormDataPart("aadhar_card_no", binding.includedContent.etAadharCardNum.text.toString().trim())
+
 
         if (binding.includedContent.rbActivate.isChecked) {
             params.addFormDataPart("status", "1")

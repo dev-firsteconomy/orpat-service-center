@@ -1,5 +1,6 @@
 package com.orpatservice.app.utils
 
+import com.orpatservice.app.data.model.data.InvoiceData
 import com.orpatservice.app.data.model.requests_leads.ImageData
 import com.orpatservice.app.data.model.requests_leads.ImageListData
 import com.orpatservice.app.data.model.requests_leads.ImagePosition
@@ -12,6 +13,8 @@ import java.text.SimpleDateFormat
 object CommonUtils {
 
     val productData = ArrayList<ProductData>()
+
+    val invoiceData = ArrayList<InvoiceData>()
 
     val productListData = ArrayList<productListData>()
 

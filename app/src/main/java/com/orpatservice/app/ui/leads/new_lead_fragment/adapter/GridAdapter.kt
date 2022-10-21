@@ -20,8 +20,10 @@ import com.orpatservice.app.utils.CommonUtils
 
 internal class GridAdapter(
     private val context: Context,
+    private val partPosition: Int,
+    private val imgPosition: Int,
     private val imgList: ArrayList<LeadEnquiryImage>,
-    private val itemClickListener: (Int, View) -> Unit,
+    private val itemClickListener: (Int, View,Int) -> Unit,
     ) :
         BaseAdapter(), ListAdapter {
         private var layoutInflater: LayoutInflater? = null
@@ -53,8 +55,16 @@ internal class GridAdapter(
             imageView_hide = convertView.findViewById(R.id.imageView_hide)
 
             if(!CommonUtils.imageData.isEmpty()) {
+                for(i in CommonUtils.imageData){
+                    if(i.partPosition == partPosition){
+                        println("image_pos"+CommonUtils.imageData.count())
+                    }else{
+                        println("image_adapter_pos"+i.partPosition)
+                    }
+                }
+
+
                 if(CommonUtils.imageData.count() == 1) {
-                    //println("CommonUtils.imageData" + CommonUtils.imageData[0].image_data)
                     if (CommonUtils.imageData[0].image_data == position) {
                         imageView_hide.visibility = VISIBLE
                         imageView.visibility = GONE
@@ -150,6 +160,7 @@ internal class GridAdapter(
                 itemClickListener(
                     position,
                     imageView,
+                    partPosition
                 )
             }
 

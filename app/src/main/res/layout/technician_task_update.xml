@@ -125,6 +125,79 @@
             app:layout_constraintTop_toBottomOf="@id/tv_model_number"
             tools:text="0000000122" />
 
+        <TextView
+            android:id="@+id/tv_invoice_image"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/invoice_image"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
+
+        <ImageView
+            android:id="@+id/iv_invoice_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:src="@color/orange"
+            app:layout_constraintStart_toStartOf="@id/tv_invoice_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" />
+
+        <TextView
+            android:id="@+id/tv_invoice_number"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/invoice_number"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_invoice_image" />
+
+        <TextView
+            android:id="@+id/tv_invoice_number_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_number"
+            />
+
+        <TextView
+            android:id="@+id/tv_invoice_date"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/invoice_date"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_number_value" />
+
+        <TextView
+            android:id="@+id/tv_invoice_date_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_date"
+            />
 
 
         <TextView
@@ -138,7 +211,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_model_name_value" />
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_date_value" />
 
         <TextView
             android:id="@+id/tv_description_value"
@@ -464,8 +537,9 @@
                 android:id="@+id/tv_task_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Update"
+                android:text="@string/btn_update"
                 android:visibility="gone"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="@id/li_warrantyList"
                 app:layout_constraintHorizontal_bias="0.002"
@@ -476,16 +550,44 @@
                 android:id="@+id/tv_hide_task_update"
                 style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
                 android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@id/li_warrantyList"
                 app:layout_constraintHorizontal_bias="0.0"
-                android:text="Update"
+                android:text="@string/btn_update"
                 android:visibility="gone"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="@id/li_warrantyList"
                 app:layout_constraintTop_toBottomOf="@id/li_warrantyList"/>
 
 
+            <Button
+                android:id="@+id/tv_cancel_task_update"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/cancel_task"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@id/li_warrantyList"
+                app:layout_constraintHorizontal_bias="0.002"
+                app:layout_constraintStart_toStartOf="@id/li_warrantyList"
+                app:layout_constraintTop_toBottomOf="@id/li_warrantyList"/>
+
+       <!-- <TextView
+            android:id="@+id/tv_cancel_task_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/li_warrantyList"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:text="@string/cancel_task"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="@color/failure_red"
+            app:layout_constraintStart_toStartOf="@id/li_warrantyList"
+            app:layout_constraintTop_toBottomOf="@id/li_warrantyList"/>
+-->
 
 
 

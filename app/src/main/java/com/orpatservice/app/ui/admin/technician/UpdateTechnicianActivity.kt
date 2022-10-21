@@ -111,6 +111,8 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
         binding.includedContent.etFirstName.setText(technicianList.first_name)
         binding.includedContent.etLastName.setText(technicianList.last_name)
         binding.includedContent.etMobileNo.setText(technicianList.mobile)
+        binding.includedContent.etAadharCardNum.setText(technicianList.aadhar_card_no)
+        binding.includedContent.etPassport.setText(technicianList.passcode)
 
         val list = ArrayList<String>()
             for(i in technicianList.pincodes) {
@@ -135,6 +137,12 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .placeholder(R.drawable.ic_tech_avatar)
             .into(binding.includedContent.ivUploadImage)
+
+        Glide.with(binding.includedContent.ivUploadAadharcard)
+            .load(technicianList.aadhar_image)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.ic_tech_avatar)
+            .into(binding.includedContent.ivUploadAadharcard)
     }
 
     private fun setObserver() {
@@ -146,16 +154,14 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
     }
 
-
-
     private fun onFileUploaded(resources: Resource<UploadFileResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-                //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
 
             }
             Status.ERROR -> {
-                //  hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
               /*  Utils.instance.popupPinUtil(this@UpdateTechnicianActivity,
                     resources.error?.message.toString(),
@@ -163,7 +169,7 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                     false)*/
             }
             else -> {
-                // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
                 val data = resources.data
 
@@ -209,11 +215,11 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
     private fun onAddTechnicianUpload(resources: Resource<AddTechnicianResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-                //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
             }
 
             Status.ERROR -> {
-
+                binding.cpiLoading.visibility = View.GONE
                 Utils.instance.popupPinUtil(this@UpdateTechnicianActivity,
                     resources.error?.message.toString(),
                     "",
@@ -221,7 +227,7 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
 
             }
             else -> {
-                // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
 
                 val data = resources.data
@@ -230,17 +236,22 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                     if(it?.success == true){
 
                         data?.let { it1 ->
-                            Utils.instance.popupUtil(this@UpdateTechnicianActivity,
+                            Utils.instance.popupPinUtil(this@UpdateTechnicianActivity,
                                 it1.message,
                                 "",
                                 true)
 
-                            Handler(Looper.getMainLooper()).postDelayed({
+                            /*Handler(Looper.getMainLooper()).postDelayed({
                                 val intent = Intent()
                                 intent.putExtra(PARCELABLE_TECHNICIANS, it.data)
                                 setResult(Activity.RESULT_OK, intent)
                                 finish()
-                            }, 5000)
+                            }, 5000)*/
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val intent = Intent(this, TechniciansActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            },5000)
                         }
                     }else{
                         it?.message?.let { msg ->
@@ -259,10 +270,10 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
     private fun getPincode(resources: Resource<RequestPincodeResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-
+                binding.cpiLoading.visibility = View.VISIBLE
             }
             Status.ERROR -> {
-
+                binding.cpiLoading.visibility = View.GONE
                 Utils.instance.popupPinUtil(
                     this,
                     resources.error?.message.toString(),
@@ -271,6 +282,7 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
                 )
             }
             else -> {
+                binding.cpiLoading.visibility = View.GONE
                 val response = resources.data
 
                 response?.let {
@@ -422,6 +434,7 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
             jsonObject.addProperty("image", profileImg)
             jsonObject.addProperty("aadhar_card_no", binding.includedContent.etAadharCardNum.text.toString().trim())
             jsonObject.addProperty("aadhar_image", aadharCardImg)
+            jsonObject.addProperty("passcode", binding.includedContent.etPassport.text.toString().trim())
             jsonObject.add("pincodes", jsArray)
 
         } catch (e: JSONException) {
@@ -513,6 +526,7 @@ class UpdateTechnicianActivity : AppCompatActivity(), View.OnClickListener,
             jsonObject.addProperty("image", profileImg)
             jsonObject.addProperty("aadhar_card_no", binding.includedContent.etAadharCardNum.text.toString().trim())
             jsonObject.addProperty("aadhar_image", aadharCardImg)
+            jsonObject.addProperty("passcode", binding.includedContent.etPassport.text.toString().trim())
             jsonObject.add("pincodes", jsArray)
 
         } catch (e: JSONException) {

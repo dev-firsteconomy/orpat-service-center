@@ -125,7 +125,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:hint="@string/aadhar_card"
-                android:inputType="phone"
+                android:inputType="number"
+                android:maxLength="12"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
                 app:layout_constraintTop_toBottomOf="@id/tv_aadhar_card" />
@@ -155,6 +156,31 @@
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
                 app:layout_constraintTop_toBottomOf="@id/tv_pin_code" />
 
+            <TextView
+                android:id="@+id/tv_passport"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/login_password"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/et_pin_code" />
+
+                <EditText
+                android:id="@+id/et_passport"
+                style="@style/Theme.OrpatServiceCenter.EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="top"
+                android:hint="@string/login_password"
+                android:inputType="number"
+                android:maxLength="4"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_passport" />
+
             <RadioGroup
                 android:id="@+id/rg_is_active_tech"
                 android:layout_width="0dp"
@@ -163,7 +189,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
-                app:layout_constraintTop_toBottomOf="@id/et_pin_code"
+                app:layout_constraintTop_toBottomOf="@id/et_passport"
                 app:layout_constraintBottom_toTopOf="@id/tv_upload_image"
                 android:weightSum="1">
 

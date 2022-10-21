@@ -123,7 +123,7 @@
                     android:padding="2dp"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/black"
-                    android:drawableRight="@drawable/ic_call_mini"
+                    android:drawableRight="@drawable/phone_call"
                     android:textColorHint="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -322,6 +322,7 @@
                     app:cornerRadius="0dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
+                    android:textSize="@dimen/text_size_14"
                     app:iconGravity="textEnd"
                     android:visibility="visible"
                     app:iconTint="@color/dim_white" />
@@ -345,9 +346,10 @@
                     style="@style/Theme.OrpatServiceCenter.Buttons_Flat_Black"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="@string/btn_service_cancel"
+                    android:text="@string/btn_cancel"
                     app:cornerRadius="0dp"
                     android:layout_margin="5dp"
+                    android:textSize="@dimen/text_size_14"
                     android:layout_weight="1"
                     app:iconGravity="textEnd"
                     android:visibility="visible"
@@ -368,10 +370,21 @@
 
             </LinearLayout>
 
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
-
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/cpi_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indicatorColor="@color/brown"
+        app:trackThickness="4dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

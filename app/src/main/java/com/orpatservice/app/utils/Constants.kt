@@ -15,6 +15,12 @@ object Constants {
     const val LATITUDE= "LEAD_DATA"
     const val LONGITUDE= "LEAD_DATA"
 
+    var REQUEST_TOTAL= ""
+    var ASSIGN_TOTAL= ""
+    var VERIFY_TOTAL= ""
+    var COMPLETE_REQ= ""
+    var CANCELLED_REQ= ""
+    var TECHNICIAN_TOTAL= ""
 
     //Constants for login session
     const val TOKEN = "TOKEN"
@@ -50,7 +56,7 @@ object Constants {
 
     val requestsTechnicianTabNameArray = arrayOf(
         "New",
-        "Finished",
+        "Completed Request",
         "Cancelled",
     )
 

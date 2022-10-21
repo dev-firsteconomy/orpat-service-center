@@ -1,14 +1,25 @@
 package com.orpatservice.app.ui.admin.dashboard
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
@@ -26,6 +37,7 @@ import com.orpatservice.app.ui.leads.technician.TechnicianHistoryLeadActivity
 import com.orpatservice.app.ui.login.SelectUserActivity
 import com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
+import com.orpatservice.app.ui.login.LoginActivity
 import com.orpatservice.app.utils.Utils
 
 
@@ -33,6 +45,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var requestLeadsViewModel: RequestsLeadsViewModel
     private lateinit var notificationCount: String
+
+    //val PERMISSION_ID = 42
+    //lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private var latitude : String = ""
+    private var longitude : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +60,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(binding.toolbar)
 
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+
+       // mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+       // getLastLocation()
 
         binding.includedContent.mcvRequest.setOnClickListener(this)
         binding.includedContent.mcvAddTechnician.setOnClickListener(this)
@@ -57,6 +78,109 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         setObserver()
 
     }
+
+ /*   @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+
+                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                    var location: Location? = task.result
+                    if (location == null) {
+                        requestNewLocationData()
+                    } else {
+                        println("latitude"+location.latitude.toString())
+                        println("longitude"+location.longitude.toString())
+                        latitude = location.latitude.toString()
+                        longitude = location.longitude.toString()
+                    }
+                }
+            } else {
+                //Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+                //  requireActivity().onBackPressed()
+            }
+        } else {
+            requestPermissions()
+        }
+    }
+
+*/
+   /* private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            PERMISSION_ID
+        )
+    }*/
+
+
+   /* override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            PERMISSION_ID -> if (grantResults.isNotEmpty() && grantResults[0] ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                getLastLocation()
+            }
+        }
+    }*/
+
+   /* @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        var mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationClient!!.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location = locationResult.lastLocation
+            latitude = mLastLocation.latitude.toString()
+            longitude = mLastLocation.longitude.toString()
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }*/
+
+
+
+
 
     private fun setObserver() {
 
@@ -85,19 +209,34 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
 
                 response?.let {
                     if (it.success) {
-                        notificationCount = response.data.notification_badge_count.barcode_request_tab
+                        notificationCount =
+                            response.data.notification_badge_count.barcode_request_tab
 
-                        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+                        if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
+                                .equals(Constants.SERVICE_CENTER)
+                        ) {
                             binding.includedContent.tvCount.visibility = VISIBLE
-                            binding.includedContent.tvCount.text = response.data.notification_badge_count.barcode_request_tab
-                            binding.includedContent.tvChargeableCount.text = response.data.notification_badge_count.no_barcode_request_tab
+                            binding.includedContent.tvCount.text =
+                                response.data.notification_badge_count.barcode_request_tab
+                            binding.includedContent.tvChargeableCount.text =
+                                response.data.notification_badge_count.no_barcode_request_tab
 
-                        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+                        } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
+                                .equals(Constants.TECHNICIAN)) {
                             binding.includedContent.tvCount.visibility = VISIBLE
-                            binding.includedContent.tvCount.text = response.data.notification_badge_count.barcode_request_tab
+                            binding.includedContent.tvCount.text =
+                                response.data.notification_badge_count.barcode_request_tab
 
                         }
                     }
+
+                    /*}else{
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }, 5000)
+                    }*/
                 }
             }
         }
@@ -141,6 +280,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+
+       // getLastLocation()
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             binding.tvTitle.setText("Admin")
 
@@ -157,8 +298,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             binding.includedContent.mcvAddTechnician.visibility = View.GONE
             binding.includedContent.mcvPayment.visibility = View.GONE
         }
-
     }
+
     private fun updateUI() {
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             binding.tvTitle.setText("Admin")

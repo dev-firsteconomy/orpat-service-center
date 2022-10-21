@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -44,6 +45,8 @@ class NewRequestsFragment : Fragment() {
     private var isLoading: Boolean = false
     private var pageNumber = 1
     private var totalPage = 1
+    private var total = 0
+    private lateinit var totalCount : TextView
 
     //Click listener for List Item
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
@@ -67,6 +70,7 @@ class NewRequestsFragment : Fragment() {
             }
         }
     }
+
     private val requestsLeadsAdapter = RequestsLeadsAdapter(
         leadDataArrayList, itemClickListener = onItemClickListener, Constants.LEAD_NEW
     )
@@ -213,6 +217,10 @@ class NewRequestsFragment : Fragment() {
                 response?.let {
                     if (it.success) {
                         totalPage = response.data.pagination.last_page
+                        total = response.data.pagination.total
+                        Constants.REQUEST_TOTAL = total.toString()
+                        totalCount.text = total.toString()
+
                         leadDataArrayList.clear()
                         tempDataArrayList.clear()
 
@@ -326,11 +334,28 @@ class NewRequestsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setObserver()
+
+    }
+
+    fun loadTotalLead(toolbarTotalLead: TextView) {
+        totalCount = toolbarTotalLead
+        totalCount.text = Constants.REQUEST_TOTAL.toString()
+    }
 
     private fun loadUI () {
         binding.tvNoLeads.visibility = View.GONE
         binding.cpiLoading.visibility = View.VISIBLE
     }
+
+
+
+    /*fun loadLead() {
+
+        Constants.TOTAL = total
+    }*/
 
     companion object {
         @JvmStatic

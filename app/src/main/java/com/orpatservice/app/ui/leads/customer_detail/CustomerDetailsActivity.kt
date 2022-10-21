@@ -21,12 +21,15 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.provider.Settings
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.Window
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,6 +38,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
 import com.google.gson.JsonObject
@@ -42,19 +47,20 @@ import com.orpatservice.app.BuildConfig
 import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
-import com.orpatservice.app.data.model.requests_leads.Enquiry
+import com.orpatservice.app.data.model.data.InvoiceData
 import com.orpatservice.app.data.model.requests_leads.LeadData
-import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
+import com.orpatservice.app.data.model.requests_leads.WarrantryPart
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
 import com.orpatservice.app.databinding.ItemComplaintBinding
 import com.orpatservice.app.ui.admin.technician.*
 import com.orpatservice.app.ui.leads.adapter.ComplaintAdapter
+import com.orpatservice.app.ui.leads.customer_detail.adapter.ServiceableWarrantryPartAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.RequestData
-import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.VerifyGSTRequestData
 import com.orpatservice.app.ui.leads.service_center.RequestLeadActivity
+import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 import okhttp3.MediaType.Companion.toMediaType
@@ -65,10 +71,9 @@ import org.json.JSONException
 import java.io.File
 import java.io.FileDescriptor
 import java.io.IOException
-import java.lang.IllegalArgumentException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 /**
  * Created by Vikas Singh on 26/12/21.
@@ -94,10 +99,13 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private lateinit var alertDialogBuilder:Dialog
     private var assignTechnicianListMsg:String? = null
     private var techList: ArrayList<RequestData> = ArrayList()
+    private var warrantyPartsList: ArrayList<WarrantryPart> = ArrayList()
+
     private  final val permissionCode  = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var latitude : String = ""
     private var longitude : String = ""
+    lateinit var  dialog: Dialog
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,20 +157,20 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         }
 
         //if (!leadData.enquiries.isEmpty()){
-            complaintAdapter = ComplaintAdapter(
-                leadData.enquiries,
-                leadData,
-                itemClickListener = onItemClickListener
-            )
-           // binding.includedContent.btnAddTask.visibility = GONE
-            binding.includedContent.rvComplaint.apply {
-                adapter = complaintAdapter
-            }
-       /* }else{
-           // binding.includedContent.btnAddTask.visibility = VISIBLE
-            //binding.includedContent.tvCancelLeadHide.visibility = GONE
+        complaintAdapter = ComplaintAdapter(
+            leadData.enquiries,
+            leadData,
+            itemClickListener = onItemClickListener
+        )
+        // binding.includedContent.btnAddTask.visibility = GONE
+        binding.includedContent.rvComplaint.apply {
+            adapter = complaintAdapter
+        }
+        /* }else{
+            // binding.includedContent.btnAddTask.visibility = VISIBLE
+             //binding.includedContent.tvCancelLeadHide.visibility = GONE
 
-        }*/
+         }*/
 
         if(leadData.pending_lead_enqury_detail_count == "0" /*&& leadData.in_warranty_enquiries_count!! > "0"*/){
             binding.includedContent.btnAssignTechnician.visibility = View.VISIBLE
@@ -179,12 +187,12 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        getLastLocation()
+        //  getLastLocation()
         bindUserDetails(leadData)
         setObserver()
 
-        customerDetailsViewModel.assignTechnicianLead()
-        //customerDetailsViewModel.loadAssignedTechnicianLeads(pageNumber)
+        // customerDetailsViewModel.loadTechnicianLeads(pageNumber,leadData.id!!)
+        // customerDetailsViewModel.loadAssignedTechnicianLeads(pageNumber)
 
     }
     @SuppressLint("MissingPermission")
@@ -210,7 +218,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 onBackPressed()
             }
         } else {
-            requestPermissions()
+            // requestPermissions()
         }
     }
 
@@ -239,7 +247,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         return false
     }
 
-    private fun requestPermissions() {
+    /*private fun requestPermissions() {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -249,11 +257,32 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             permissionCode
         )
     }
+*/
 
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this, arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ), com.orpatservice.app.ui.leads.technician.MY_PERMISSIONS_WRITE_READ_REQUEST_CODE
+        )
+    }
+
+    /*private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.CAMERA,
+                GALLERY
+            ),
+            permissionCode
+        )
+    }*/
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
-        var mLocationRequest = LocationRequest()
+        val mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = 0
         mLocationRequest.fastestInterval = 0
@@ -328,7 +357,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         customerDetailsViewModel.verifyNumData.observe(this, this::getVerifyData)
 
         customerDetailsViewModel.assignToTechnicianList.observe(this, this::getTechnicianList)
-       customerDetailsViewModel.loadTechnicianLeads(pageNumber,leadData.id!!)
+        leadData.id?.let { customerDetailsViewModel.loadTechnicianLeads(pageNumber, it) }
+
     }
 
     private fun bindUserDetails(leadData: LeadData) {
@@ -337,9 +367,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
         binding.includedContent.tvFullAddressValue.text = leadData.address1+""+" , "+""+leadData.address2/*+""+", "+""+leadData.state*/
         binding.includedContent.tvTvRequestIdValue.text = leadData.complain_id.toString()
-       // binding.includedContent.tvRequestDateValue.text = leadData.service_center_assigned_at
+        // binding.includedContent.tvRequestDateValue.text = leadData.service_center_assigned_at
         binding.includedContent.tvTimerValue.text = leadData.timer
-         binding.includedContent.tvTimerValue.setTextColor(Color.parseColor(leadData.color_code))
+        binding.includedContent.tvTimerValue.setTextColor(Color.parseColor(leadData.color_code))
         val str = leadData.created_at
         val delimiter = " "
         val parts = str?.split(delimiter)
@@ -347,6 +377,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         binding.includedContent.tvRequestDateValue.text = parts?.get(0)+""+" "+""+ parts?.get(1)+""+" "+""+ parts?.get(2)+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"
 
         binding.includedContent.btnAssignTechnician.setOnClickListener {
+
 
             if(!techList.isEmpty()) {
 
@@ -374,7 +405,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             openCallDialPad(leadData.mobile.toString())
         }
         binding.includedContent.tvFullAddressValue.setOnClickListener {
-           // openDirection()
+            // openDirection()
         }
 
         /*binding.includedContent.btnAddTask.setOnClickListener {
@@ -387,18 +418,19 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private fun getTechnicianList(resources: Resource<NewRequestResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-                //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
 
             }
             Status.ERROR -> {
-
-                Utils.instance.popupPinUtil(this,
-                    resources.error?.message.toString(),
-                    "",
-                    false)
+                binding.cpiLoading.visibility = View.GONE
+                //println("resources.error?.message.toString()"+resources.error?.message.toString())
+                /* Utils.instance.popupPinUtil(this,
+                     resources.error?.message.toString(),
+                     "",
+                     false)*/
             }
             else -> {
-                // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
                 val data = resources.data
 
@@ -443,9 +475,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                                 "",
                                 true)
                         }
-                      /*  try {
-                            println("indexindex"+index)
-                            *//*val listOfProducts = mutableListOf(leadData.enquiries)
+                        /*  try {
+                              println("indexindex"+index)
+                              *//*val listOfProducts = mutableListOf(leadData.enquiries)
                             for (i in listOfProducts.indices) {
                                 listOfProducts.de(index!!)
                             }
@@ -469,13 +501,13 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                         }catch (e: IllegalArgumentException){
 
                         }*/
-                       // println("indexindex"+leadData.enquiries.removeAt(index!!))
+                        // println("indexindex"+leadData.enquiries.removeAt(index!!))
                         //index?.let { it1 -> leadData.enquiries.removeAt(it1) }
-                       // val refresh = Intent(this, CustomerDetailsActivity::class.java)
+                        // val refresh = Intent(this, CustomerDetailsActivity::class.java)
                         //startActivity(refresh)
 
 
-                      Handler(Looper.getMainLooper()).postDelayed({
+                        Handler(Looper.getMainLooper()).postDelayed({
                             val intent = Intent(this, RequestLeadActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -511,7 +543,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-               // onBackPressed()
+                // onBackPressed()
                 val intent = Intent(this, RequestLeadActivity::class.java)
                 startActivity(intent)
                 return true
@@ -542,6 +574,28 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         })
     }
 
+    /*override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == permissionCode) {
+            if (grantResults.isNotEmpty() && grantResults.get(0) ==
+                PackageManager.PERMISSION_GRANTED){
+                    loadBottomSheetDialog()
+                //Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show()
+            } else {
+                //Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show()
+                Intent(ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${this!!.packageName}")).apply {
+                    addCategory(Intent.CATEGORY_DEFAULT)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(this)
+                }
+            }
+        }
+    }*/
+
     private var lastClickedPos: Int = 0
     private val onItemClickListener: (Int, View, ItemComplaintBinding) -> Unit = { position, view,binding ->
         pos = position.toString()
@@ -552,18 +606,24 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 goToFullScreenImageActivity(leadData.enquiries[position].invoice_url)
             }
             R.id.iv_qr_code_image -> {
-               // goToFullScreenImageActivity(leadData.enquiries[position].qr_image)
+                // goToFullScreenImageActivity(leadData.enquiries[position].qr_image)
             }
-            R.id.btn_upload_invoice -> {
+            R.id.btn_upload_invoices -> {
+
                 if (checkCameraPermission()) {
                     bindingAdapter = binding
                     loadBottomSheetDialog()
                 }
             }
+
             R.id.edt_select_invoice_date ->{
                 bindingAdapter = binding
                 val tvDatePicker: TextView = view.findViewById(R.id.edt_select_invoice_date)
-                openDatePicker(tvDatePicker)
+                if(leadData.enquiries[position].purchase_at == null /*&& binding.edtSelectInvoiceDate.text.toString().isEmpty()*/) {
+                    openDatePicker(tvDatePicker)
+                }else{
+                    openSelectedDatePicker(tvDatePicker)
+                }
 
                 binding.tvErrorInvoiceDate.visibility = GONE
             }
@@ -583,9 +643,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 hitUpdateRequest(binding,position,selectedUnderWarranty,view)
             }
 
-
             R.id.tv_verify_gst -> {
-                  hitVerifyApi(bindingAdapter.edtGstNumber.text.toString())
+                hitVerifyApi(bindingAdapter.edtGstNumber.text.toString())
             }
             R.id.radiobtn_yes -> {
 
@@ -610,8 +669,57 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             R.id.btn_gst_generate_chargeable -> {
                 hitCancelTask("",  position, "2")
             }
+            R.id.tv_remove_image -> {
+                invoiceUrl = null
+                Glide.with(bindingAdapter.ivInvoiceImage)
+                    .load("")
+                    .placeholder(R.color.gray)
+                    .into(bindingAdapter.ivInvoiceImage)
+                bindingAdapter.tvRemoveImage.visibility = GONE
+
+                val invoiceData = position.let { it1 ->
+                    InvoiceData(
+                        "",
+                        it1
+                    )
+                }
+                if (invoiceData != null) {
+                    CommonUtils.invoiceData.add(invoiceData)
+                }
+            }
+            R.id.tv_serviceable_warranty_parts -> {
+                openDropDown()
+            }
         }
     }
+
+    private fun openDropDown() {
+
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.warranty_parts_list)
+        val rv_complaint_list = dialog.findViewById(R.id.rv_warranty_parts_list) as RecyclerView
+        val popup_img_close = dialog.findViewById(R.id.popup_img_close) as ImageView
+        popup_img_close.setOnClickListener {
+            dialog.dismiss()
+        }
+        rv_complaint_list.layoutManager = LinearLayoutManager(this)
+
+        // This will pass the ArrayList to our Adapter
+        if(warrantyPartsList.isNullOrEmpty()){
+            val adapter = ServiceableWarrantryPartAdapter(leadData.enquiries[index!!].warranty_parts)
+            rv_complaint_list.adapter = adapter
+        }else {
+            val adapter = ServiceableWarrantryPartAdapter(warrantyPartsList)
+            rv_complaint_list.adapter = adapter
+        }
+
+        // Setting the Adapter with the recyclerview
+
+        dialog.show()
+    }
+
 
     private fun showCancelEnquiryPopUp(position: Int) {
 
@@ -641,21 +749,21 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
     private fun hitCancelTask(etCancelLeadReason: String?,position:Int,type:String) {
 
-            val jsonObject = JsonObject()
+        val jsonObject = JsonObject()
 
-            try {
-                //  val jsArray  = JsonArray()
-                jsonObject.addProperty("lead_cancelled_reason", etCancelLeadReason.toString())
-                jsonObject.addProperty("lead_id", leadData.id)
-                jsonObject.addProperty("enquiry_id", leadData.enquiries[position].id)
-                jsonObject.addProperty("cancellation_type", type)
+        try {
+            //  val jsArray  = JsonArray()
+            jsonObject.addProperty("lead_cancelled_reason", etCancelLeadReason.toString())
+            jsonObject.addProperty("lead_id", leadData.id)
+            jsonObject.addProperty("enquiry_id", leadData.enquiries[position].id)
+            jsonObject.addProperty("cancellation_type", type)
 
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
 
-            customerDetailsViewModel.hitTaskCancelRequest(jsonObject)
-                .observe(this, this::getCancelRequestLead)
+        customerDetailsViewModel.hitTaskCancelRequest(jsonObject)
+            .observe(this, this::getCancelRequestLead)
 
     }
 
@@ -667,29 +775,41 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private fun hitUpdateRequest(binding: ItemComplaintBinding,position: Int,selectedUnderWarranty: String,view: View) {
 
         if (Utils.instance.validateDescription(binding.tvServiceCenterDescriptionValue) //&&
-            //Utils.instance.validateInvoice(binding.edtInvoiceNumberValue) &&
-            //Utils.instance.validateDate(binding.edtSelectInvoiceDate) &&
-            //Utils.instance.validateGSTNum(binding.edtGstNumber)
+        //Utils.instance.validateInvoice(binding.edtInvoiceNumberValue) &&
+        //Utils.instance.validateDate(binding.edtSelectInvoiceDate) &&
+        //Utils.instance.validateGSTNum(binding.edtGstNumber)
         // Utils.instance.validateWarranty(binding,view)
-           // Utils.instance.validateImage(binding.ivInvoiceImage,view)
+        // Utils.instance.validateImage(binding.ivInvoiceImage,view)
         ) {
-             //validateImage(position)
+            //validateImage(position)
             val jsonObject = JsonObject()
 
             try {
                 //  val jsArray  = JsonArray()
-                if (invoiceUrl == null) {
+                if (CommonUtils.invoiceData.isEmpty()) {
                     jsonObject.addProperty(
                         "invoice_url",
                         leadData.enquiries.get(position).invoice_url
                     )
                 } else {
-                    jsonObject.addProperty("invoice_url", invoiceUrl)
+                    val arraylist = ArrayList<String>()
+                    var selectedPosInvoice : String = ""
+                    for(i in CommonUtils.invoiceData){
+                        if(i.position == index){
+                            //  arraylist.add(i.invoice_url)
+                            selectedPosInvoice = i.invoice_url
+                        }else{
+                            selectedPosInvoice = leadData.enquiries.get(position).invoice_url.toString()
+                        }
+                    }
+                    jsonObject.addProperty("invoice_url", selectedPosInvoice)
                 }
 
                 jsonObject.addProperty("purchase_at", binding.edtSelectInvoiceDate.text.toString())
                 jsonObject.addProperty("in_warranty", selectedUnderWarranty)
                 jsonObject.addProperty("invoice_no", binding.edtInvoiceNumberValue.text.toString().trim())
+                jsonObject.addProperty("seller_name", binding.edtSellerName.text.toString().trim())
+                jsonObject.addProperty("seller_gst_no", binding.edtGstNumber.text.toString().trim())
                 jsonObject.addProperty(
                     "service_center_discription",
                     binding.tvServiceCenterDescriptionValue.text.toString().trim()
@@ -708,7 +828,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         }
     }
 
-     fun validateImage(position: Int) {
+    fun validateImage(position: Int) {
 
         if(invoiceUrl == null /*&& leadData.enquiries[position].invoice_url == null*/){
             //Toast.makeText(getApplicationContext(), "Please upload invoice", Toast.LENGTH_SHORT).show();
@@ -726,7 +846,6 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             Status.LOADING -> {
                 binding.cpiLoading.visibility = View.VISIBLE
 
-
             }
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
@@ -738,10 +857,10 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
                 response?.let {
                     if (it.success) {
-
-
+                        val massage = Html.fromHtml(it.message)
+                        println("massage"+massage)
                         Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
-                            "Task Update Successfully",
+                            massage.toString(),
                             "",
                             true)
 
@@ -749,7 +868,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
                     } else {
                         Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
-                            "message",
+                            it.message,
                             "",
                             false)
 
@@ -760,15 +879,37 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     }
 
     private fun showData(data: UpdateRequestResponse) {
-        if (data.data.detail_status == "1") {
-            bindingAdapter.btnHideUpdate.visibility = View.VISIBLE
-            bindingAdapter.btnUpdate.visibility = View.GONE
+        if ((data.data.detail_status.toString()) == "1") {
+            bindingAdapter.imgUpdatedTask.visibility = View.VISIBLE
+            //bindingAdapter.btnHideUpdate.visibility = View.VISIBLE
+            //bindingAdapter.btnUpdate.visibility = View.GONE
+            /* if(data.data.purchase_at != null) {
+                 bindingAdapter.tvServiceableWarrantyParts.visibility = VISIBLE
+             }else{
+                 bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
+             }
+             warrantyPartsList.clear()
+             warrantyPartsList.add(data.data.warranty_parts.get(index!!))*/
+
+            if(data.data.purchase_at != null){
+                if(!data.data.warranty_parts.isEmpty()){
+                    warrantyPartsList.clear()
+                    warrantyPartsList.add(data.data.warranty_parts.get(index!!))
+                    bindingAdapter.tvServiceableWarrantyParts.visibility = VISIBLE
+                }else {
+                    bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
+                }
+            }else{
+                bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
+            }
+
         }else{
-            bindingAdapter.btnHideUpdate.visibility = View.GONE
-            bindingAdapter.btnUpdate.visibility = View.VISIBLE
+            bindingAdapter.imgUpdatedTask.visibility = View.GONE
+            bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
+            // bindingAdapter.btnHideUpdate.visibility = View.GONE
+            // bindingAdapter.btnUpdate.visibility = View.VISIBLE
         }
-        println("pending_lead_enqury_detail_count"+data.data.pending_lead_enqury_detail_count)
-        println("in_warranty_enquiries_count"+data.data.in_warranty_enquiries_count)
+
         if(data.data.pending_lead_enqury_detail_count == "0" /*&& data.data.in_warranty_enquiries_count > "0"*/){
             binding.includedContent.btnAssignTechnician.visibility = View.VISIBLE
             binding.includedContent.btnAssignTechnicianHide.visibility = View.GONE
@@ -782,25 +923,67 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private fun openDatePicker(tvDatePicker: TextView) {
         val calendar: Calendar = Calendar.getInstance()
         val  dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                calendar[Calendar.YEAR] = year
-                calendar[Calendar.MONTH] = month
-                calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
-                val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+            calendar[Calendar.YEAR] = year
+            calendar[Calendar.MONTH] = month
+            calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
+            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
 
-                tvDatePicker?.setText(simpleDateFormat.format(calendar.time))
-                bindingAdapter.tvErrorInvoiceDate.visibility = GONE
+            tvDatePicker.setText(simpleDateFormat.format(calendar.time))
+            bindingAdapter.tvErrorInvoiceDate.visibility = GONE
+        }
+
+        val datePickerDialog = DatePickerDialog(
+            this@CustomerDetailsActivity, dateSetListener, calendar
+                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        //following line to restrict future date selection
+        //following line to restrict future date selection
+        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+        datePickerDialog.show()
+
+    }
+
+    private fun openSelectedDatePicker(tvDatePicker: TextView) {
+
+        val calendar: Calendar = Calendar.getInstance()
+        val calendarEnd: Calendar = Calendar.getInstance()
+
+        val date = leadData.enquiries[index!!].purchase_at
+        //val date =bindingAdapter.edtSelectInvoiceDate.text.toString()
+        val selectedDate = date?.split("/")
+
+        var dayofMonth = selectedDate?.get(0)
+        var months = selectedDate?.get(1)
+        var years = selectedDate?.get(2)
+
+
+        val  dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            if (years != null) {
+                calendar[Calendar.YEAR] = years. toInt()
             }
+            if (months != null) {
+                calendar[Calendar.MONTH] = months.toInt()
+            }
+            calendar[Calendar.DAY_OF_MONTH] = dayofMonth!!.toInt()
+            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
 
-            val datePickerDialog = DatePickerDialog(
-                this@CustomerDetailsActivity, dateSetListener, calendar
-                    .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            //following line to restrict future date selection
+            tvDatePicker.setText(simpleDateFormat.format(calendar.time))
+            bindingAdapter.tvErrorInvoiceDate.visibility = GONE
+        }
 
-            //following line to restrict future date selection
-            datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
-            datePickerDialog.show()
+
+        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, myear, mmonth, mdayOfMonth ->
+
+            tvDatePicker.setText(""+calendar[Calendar.DAY_OF_MONTH]  +"/"+ calendar[Calendar.MONTH]  +"/"+ calendar[Calendar.YEAR])
+           // tvDatePicker.setText(""+mdayOfMonth +"/"+ mmonth  +"/"+ myear)
+        }, years!!.toInt(), (months!!.toInt()), dayofMonth!!.toInt())
+
+        datePickerDialog.show()
+        //following line to restrict future date selection
+        //following line to restrict future date selection
+         datePickerDialog.datePicker.maxDate = calendarEnd.timeInMillis
+
 
     }
 
@@ -811,7 +994,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     }
 
     private fun checkCameraPermission(): Boolean {
-        return if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        println("checkCameraPermission"+"checkCameraPermission")
+        return  if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.READ_EXTERNAL_STORAGE
             )
@@ -846,8 +1030,18 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
                     }.create().show()
             } else {
-                // No explanation needed, we can request the permission.
+                println("NOTclicked" + "NOTclicked")
                 requestPermissions()
+                /*Intent(
+                    ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:${this!!.packageName}")
+                ).apply {
+                    addCategory(Intent.CATEGORY_DEFAULT)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(this)
+                }*/
+                // No explanation needed, we can request the permission.
+                //requestPermissions()
             }
             false
         } else {
@@ -937,6 +1131,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 //do stuff here
             }
         }
+
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.btn_assign_technician -> {
@@ -995,6 +1190,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
             resultUri = Utils.instance.reSizeImg(image)
 
+
             //validationUtil()
 
         } catch (ex: java.lang.Exception) {
@@ -1015,11 +1211,10 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             val requestFile: RequestBody = files.asRequestBody("multipart/form-data".toMediaType())
             params.addFormDataPart("file", files.name, requestFile)
 
-           // binding.btnUploadInvoiceFile.visibility = View.VISIBLE
-           // binding.btnUploadInvoiceFile.setText(" ${files.name}")
+            // binding.btnUploadInvoiceFile.visibility = View.VISIBLE
+            // binding.btnUploadInvoiceFile.setText(" ${files.name}")
 
         }
-
         customerDetailsViewModel.hitServiceCenterUploadFile(
             params.build(),
         )
@@ -1027,19 +1222,19 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private fun onFileUploaded(resources: Resource<UploadFileResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-            //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
 
             }
             Status.ERROR -> {
-              //  hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
-                Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
-                    resources.error?.message.toString(),
-                    "",
-                    false)
+                /* Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
+                     resources.error?.message.toString(),
+                     "",
+                     false)*/
             }
             else -> {
-               // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
                 val data = resources.data
 
@@ -1054,17 +1249,30 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
                         Glide.with(bindingAdapter.ivInvoiceImage)
                             .load(invoiceUrl)
-                          //  .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            //  .diskCacheStrategy(DiskCacheStrategy.ALL)
                             //.circleCrop() // .error(R.drawable.active_dot)
                             .placeholder(R.color.gray)
                             .into(bindingAdapter.ivInvoiceImage)
 
+                        val invoiceData = index?.let { it1 ->
+                            InvoiceData(
+                                invoiceUrl!!,
+                                it1
+                            )
+                        }
+
+                        if (invoiceData != null) {
+                            CommonUtils.invoiceData.add(invoiceData)
+                        }
+
+                        bindingAdapter.tvRemoveImage.visibility = VISIBLE
+
                     }else{
                         it?.message?.let { msg ->
-                           // Utils.instance.popupUtil(this@CustomerDetailsActivity, msg, null, false)
+                            // Utils.instance.popupUtil(this@CustomerDetailsActivity, msg, null, false)
                         }
                         val r = Runnable {
-                           // barcodeView?.resume()
+                            // barcodeView?.resume()
                         }
                         Handler().postDelayed(r, 1000)
                     }
@@ -1077,19 +1285,19 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private fun getVerifyData(resources: Resource<VerifyGSTRequestData>) {
         when (resources.status) {
             Status.LOADING -> {
-                //    showLoadingUI()
+                binding.cpiLoading.visibility = View.VISIBLE
 
             }
             Status.ERROR -> {
-                //  hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
-                Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
-                    resources.error?.message.toString(),
-                    "",
-                    false)
+                /*  Utils.instance.popupPinUtil(this@CustomerDetailsActivity,
+                      resources.error?.message.toString(),
+                      "",
+                      false)*/
             }
             else -> {
-                // hideLoadingUI()
+                binding.cpiLoading.visibility = View.GONE
 
                 val data = resources.data
 
@@ -1113,7 +1321,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
                     }else{
                         it?.message?.let { msg ->
-                            // Utils.instance.popupUtil(this@CustomerDetailsActivity, msg, null, false)
+                             Utils.instance.popupUtil(this@CustomerDetailsActivity, msg, null, false)
                         }
                         val r = Runnable {
                             // barcodeView?.resume()
@@ -1130,8 +1338,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             if (result.resultCode == Activity.RESULT_OK) {
                 //setObserver()
                 // leadData.pending_lead_enquiries =
-                 // leadData.pending_lead_enquiries?.toInt()?.minus(1).toString()
-                     //  leadData.enquiries[lastClickedPos].status = true
+                // leadData.pending_lead_enquiries?.toInt()?.minus(1).toString()
+                //  leadData.enquiries[lastClickedPos].status = true
 
                 complaintAdapter.notifyItemChanged(lastClickedPos)
             }

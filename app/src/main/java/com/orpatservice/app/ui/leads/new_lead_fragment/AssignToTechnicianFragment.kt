@@ -17,6 +17,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -56,6 +57,9 @@ class AssignToTechnicianFragment : Fragment() , LocationListener {
 
     private var latitude: String =""
     private var longitude: String =""
+    private var total = 0
+    private  var totalCount :TextView? = null
+
 
 
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
@@ -210,7 +214,7 @@ class AssignToTechnicianFragment : Fragment() , LocationListener {
     private fun getAssignedLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-                // binding.cpiLoading.visibility = View.VISIBLE
+                 binding.cpiLoading.visibility = View.VISIBLE
             }
             Status.ERROR -> {
                 binding.cpiLoading.visibility = View.GONE
@@ -237,6 +241,12 @@ class AssignToTechnicianFragment : Fragment() , LocationListener {
                 response?.let {
                     if (it.success) {
                         totalPage = response.data.pagination.last_page
+                        total = response.data.pagination.total
+
+                        Constants.VERIFY_TOTAL = total.toString()
+
+                        totalCount?.text = Constants.VERIFY_TOTAL
+
                         leadDataArrayList.clear()
                         tempDataArrayList.clear()
                         leadDataArrayList.addAll(response.data.data)
@@ -255,6 +265,14 @@ class AssignToTechnicianFragment : Fragment() , LocationListener {
             }
         }
     }
+
+
+    fun loadTotalLead(toolbarTotalLead: TextView) {
+        totalCount = toolbarTotalLead
+
+        totalCount?.text = Constants.VERIFY_TOTAL.toString()
+    }
+
 
     fun loadSearchLead(query: String) {
         leadDataArrayList.clear()
@@ -288,6 +306,10 @@ class AssignToTechnicianFragment : Fragment() , LocationListener {
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setObserver()
+    }
 
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {

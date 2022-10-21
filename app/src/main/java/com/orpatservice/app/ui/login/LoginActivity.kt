@@ -14,6 +14,7 @@ import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
+import com.orpatservice.app.data.remote.ApiClient
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.service_center.ServiceCenterLoginFragment
 import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
@@ -80,6 +81,7 @@ class LoginActivity : AppCompatActivity(){
                     if(fragmentLoginUI is TechnicianLoginFragment) {
                         (fragmentLoginUI as TechnicianLoginFragment).hideLoadingUI()
                     }
+                    println("getTechnicianOtpAPI"+ resources.error?.message.toString())
 
                     Alerter.create(this)
                         .setText(resources.error?.message.toString())

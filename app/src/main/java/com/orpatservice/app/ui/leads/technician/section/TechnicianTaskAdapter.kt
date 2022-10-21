@@ -12,6 +12,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.orpatservice.app.R
 import com.orpatservice.app.base.Callback
 import com.orpatservice.app.data.model.requests_leads.Enquiry
@@ -140,13 +142,18 @@ class TechnicianTaskAdapter(
             binding.tvTask.text = "Task"+""+pos+""+"/"+""+count
             binding.tvCustomerNameValue.text = leadData.name
             binding.tvDateTimeValue.text = leadData.service_center_assigned_at
-
+            binding.tvInvoiceNumberValue.text = technicianData.invoice_no
+            binding.tvInvoiceDateValue.text = technicianData.purchase_at
+            Glide.with(binding.ivInvoiceImage)
+                .load(technicianData.invoice_url)
+                .placeholder(R.color.gray)
+                .into(binding.ivInvoiceImage)
 
             binding.tvDescriptionValue.text = technicianData.customer_discription
             binding.tvComplaintPresetValue.text = technicianData.complaint_preset
             binding.tvServiceCenterDescriptionValue.text = technicianData.service_center_discription
 
-            val warrantryPart = WarrantryPartAdapter(context,technicianData.warranty_parts,technicianData.lead_enquiry_images)
+            val warrantryPart = WarrantryPartAdapter(context,adapterPosition,technicianData.warranty_parts,technicianData.lead_enquiry_images)
             val dividerItemDecoration: RecyclerView.ItemDecoration =
                 DividerItemDecorator(ContextCompat.getDrawable(context, R.drawable.rv_divider))
 
@@ -173,6 +180,9 @@ class TechnicianTaskAdapter(
                 binding.radiobtnYes.setOnClickListener {
                     binding.liNoWarranty.visibility = GONE
                     binding.rvWarrantParts.visibility = VISIBLE
+
+                    binding.tvTaskUpdate.visibility = VISIBLE
+                    binding.tvCancelTaskUpdate.visibility = GONE
                     itemClickListener(
                         adapterPosition,
                         binding.radiobtnYes,binding
@@ -182,10 +192,18 @@ class TechnicianTaskAdapter(
                     binding.liNoWarranty.visibility = GONE
                     binding.rvWarrantParts.visibility = GONE
                     binding.tvSelectChangePart.visibility = GONE
+                    binding.tvTaskUpdate.visibility = GONE
+                    binding.tvCancelTaskUpdate.visibility = VISIBLE
 
                     itemClickListener(
                         adapterPosition,
                         binding.radiobtnNo,binding
+                    )
+                }
+                binding.tvCancelTaskUpdate.setOnClickListener{
+                    itemClickListener(
+                        adapterPosition,
+                        binding.tvCancelTaskUpdate,binding
                     )
                 }
                 binding.radiobtnChangePartYes.setOnClickListener {

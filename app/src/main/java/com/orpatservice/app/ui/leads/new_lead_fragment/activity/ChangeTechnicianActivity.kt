@@ -133,7 +133,6 @@ class ChangeTechnicianActivity  : AppCompatActivity(), Callback {
             R.id.li_technician_name -> {
 
                 clickedPosition = position
-                println("clickedPosition"+clickedPosition)
                 selected_technicianId = techList[position].id.toString()
             }
         }
@@ -211,10 +210,10 @@ class ChangeTechnicianActivity  : AppCompatActivity(), Callback {
                         it?.message?.let { msg ->
                             // Utils.instance.popupUtil(this@CustomerDetailsActivity, msg, null, false)
                         }
-                        val r = Runnable {
+                        /*val r = Runnable {
                             // barcodeView?.resume()
                         }
-                        Handler().postDelayed(r, 1000)
+                        Handler().postDelayed(r, 5000)*/
                     }
                 }.run {  }
             }
@@ -225,12 +224,12 @@ class ChangeTechnicianActivity  : AppCompatActivity(), Callback {
         return Observer { it ->
             when (it?.status) {
                 Status.LOADING -> {
-                    // binding.cpiLoading.visibility = View.VISIBLE
+                     binding.cpiLoading.visibility = View.VISIBLE
 
                 }
                 Status.ERROR -> {
                     isLoading = false
-                    // binding.cpiLoading.visibility = View.GONE
+                     binding.cpiLoading.visibility = View.GONE
 
                     /*Alerter.create(this@ChangeTechnicianActivity)
                         .setTitle("")
@@ -246,7 +245,7 @@ class ChangeTechnicianActivity  : AppCompatActivity(), Callback {
 
                 }
                 else -> {
-                    // binding.cpiLoading.visibility = View.GONE
+                     binding.cpiLoading.visibility = View.GONE
                     val data = it?.data
 
                     data?.let {

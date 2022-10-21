@@ -26,7 +26,7 @@
     <application
         android:networkSecurityConfig="@xml/network_security_config"
         android:name=".OrpatApp"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -140,23 +140,61 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent"
             tools:ignore="LockedOrientationActivity"/>
-        <activity android:name=".ui.leads.customer_detail.AllTechnicianActivity" />
-        <activity android:name=".ui.leads.technician.TechnicianCustomerDetailsActivity" />
-        <activity android:name=".ui.leads.service_center.TaskCompletedDetailsActivity" />
-        <activity android:name=".ui.leads.service_center.TechnicianTaskUpdateActivity" />
-        <activity android:name=".ui.leads.new_lead_fragment.activity.ChangeTechnicianActivity" />
-        <activity android:name=".ui.leads.new_lead_fragment.activity.LocationActivity" />
-        <activity android:name=".ui.leads.technician.SliderScreenImageActivity" />
-        <activity android:name=".ui.leads.service_center.AssignDetailsActivity" />
-        <activity android:name=".ui.leads.technician.section.EnquirySliderScreenImageActivity" />
-        <activity android:name=".ui.leads.technician.BarScannerActivity" />
-        <activity android:name=".ui.leads.customer_detail.AdminCustomerDetailsActivity" />
-        <activity android:name=".ui.leads.new_lead_fragment.activity.AddTaskActivity" />
-        <activity android:name=".ui.leads.chargeable_request.ChargeableRequestActivity" />
-        <activity android:name=".ui.leads.chargeable_request.ChargeableRequestDetailsActivity" />
-        <activity android:name=".ui.admin.technician.PincodeSelectionActivity" />
-        <activity android:name=".ui.admin.technician.UpdateTechnicianActivity" />
-        <activity android:name=".ui.leads.technician.TechnicianHistoryDetailsActivity" />
+        <activity android:name=".ui.leads.customer_detail.AllTechnicianActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.TechnicianCustomerDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.service_center.TaskCompletedDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.service_center.TechnicianTaskUpdateActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.new_lead_fragment.activity.ChangeTechnicianActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.new_lead_fragment.activity.LocationActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.SliderScreenImageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.service_center.AssignDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.section.EnquirySliderScreenImageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.BarScannerActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.customer_detail.AdminCustomerDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.new_lead_fragment.activity.AddTaskActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.chargeable_request.ChargeableRequestActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.chargeable_request.ChargeableRequestDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.admin.technician.PincodeSelectionActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.admin.technician.UpdateTechnicianActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.TechnicianHistoryDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.TechnicianWarrantyPartsImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.leads.history_lead_fragment.view_details.CompletedDetailsActivity" />
+        <activity android:name=".ui.leads.history_lead_fragment.view_details.SlideVerificationPartsActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

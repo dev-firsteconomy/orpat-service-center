@@ -77,6 +77,15 @@ class TechnicianCustomerDetailsAdapter(
                 //binding.liNoScannerPart.visibility = GONE
                // binding.liScannerPart.visibility = VISIBLE
             }
+            //if(enquiry.purchase_at != null) {
+                if (!enquiry.warranty_parts.isEmpty()) {
+                    binding.tvServiceableWarrantyParts.visibility = VISIBLE
+                } else {
+                    binding.tvServiceableWarrantyParts.visibility = GONE
+                }
+            /*}else{
+                binding.tvServiceableWarrantyParts.visibility = GONE
+            }*/
 
             binding.tvDescriptionValue.text = enquiry.customer_discription
             binding.tvModelNameValue.text = enquiry.model_no
@@ -124,6 +133,14 @@ class TechnicianCustomerDetailsAdapter(
                 itemClickListener(
                     adapterPosition,
                     binding.btnScanQrcode,binding,
+                    enquiryImage
+                )
+            }
+
+            binding.tvServiceableWarrantyParts.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.tvServiceableWarrantyParts,binding,
                     enquiryImage
                 )
             }

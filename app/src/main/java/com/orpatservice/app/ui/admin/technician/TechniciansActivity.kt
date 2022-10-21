@@ -256,7 +256,11 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                //onBackPressed()
+
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
+                finish()
                 return true
             }
         }
@@ -268,8 +272,8 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
             R.id.fab_add_technician -> {
                 val intent = Intent(this, AddTechnicianActivity::class.java)
                 intent.putExtra(ADD, ADD)
-                addTechnicianLauncher.launch(intent)
-
+               // addTechnicianLauncher.launch(intent)
+                startActivity(intent)
             }
             R.id.btn_submit_technician -> {
                 if (technicianId != null) {

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
+import com.orpatservice.app.ui.leads.history_lead_fragment.view_details.CompletedDetailsActivity
 import com.orpatservice.app.ui.leads.service_center.AssignDetailsActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
@@ -31,13 +33,15 @@ class CompletedRequestFragment : Fragment() {
     private var isLoading: Boolean = false
     private var pageNumber = 1
     private var totalPage = 1
+    private var total = 0
+    private  var totalCount :TextView? = null
 
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
             R.id.btn_view_details -> {
                 when (view.id) {
                     R.id.btn_view_details -> {
-                        val intent = Intent(activity, AssignDetailsActivity::class.java)
+                        val intent = Intent(activity, CompletedDetailsActivity::class.java)
 
                         intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
                         intent.putExtra(Constants.LEAD_TYPE, Constants.LEAD_NEW)
@@ -111,11 +115,11 @@ class CompletedRequestFragment : Fragment() {
                 binding.cpiLoading.visibility = View.GONE
                 isLoading = true
                 activity?.let {
-                    Alerter.create(it)
+                   /* Alerter.create(it)
                         .setText(resources.error?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1500)
-                        .show()
+                        .show()*/
                 }
             }
             else -> {
@@ -126,6 +130,13 @@ class CompletedRequestFragment : Fragment() {
                 response?.let {
                     if (it.success) {
                         totalPage = response.data.pagination.last_page
+                        total = response.data.pagination.total
+
+                        Constants.COMPLETE_REQ = total.toString()
+
+                        totalCount?.text = Constants.COMPLETE_REQ
+
+                        leadDataArrayList.clear()
                         leadDataArrayList.addAll(response.data.data)
                         requestsLeadsAdapter.notifyDataSetChanged()
 
@@ -146,6 +157,18 @@ class CompletedRequestFragment : Fragment() {
         binding.tvNoLeads.visibility = View.GONE
         binding.cpiLoading.visibility = View.VISIBLE
     }
+
+    override fun onResume() {
+        super.onResume()
+        setObserver()
+
+    }
+
+    fun loadTotalLead(toolbarTotalLead: TextView) {
+        totalCount = toolbarTotalLead
+        totalCount?.text = Constants.COMPLETE_REQ.toString()
+    }
+
 
     companion object {
         @JvmStatic

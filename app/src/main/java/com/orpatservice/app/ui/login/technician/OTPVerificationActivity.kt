@@ -24,6 +24,7 @@ import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.UserLoginViewModel
+import com.orpatservice.app.utils.Utils
 import com.tapadoo.alerter.Alerter
 
 
@@ -63,7 +64,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         setObserver()
         createOTPUI()
         getIntentData()
-        resendOTPTimer()
+       // resendOTPTimer()
     }
 
     private fun setObserver() {
@@ -77,19 +78,19 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     private fun onGetOTP(resources: Resource<OTPSendResponse>) {
         when (resources.status) {
             Status.LOADING -> {
-                binding.cpiLoadingResend.visibility = View.VISIBLE
+                //binding.cpiLoadingResend.visibility = View.VISIBLE
             }
             Status.ERROR -> {
                 binding.cpiLoadingResend.visibility = View.GONE
 
-                Alerter.create(this)
+               /* Alerter.create(this)
                     .setText(resources.error.toString())
                     .setBackgroundColorRes(R.color.orange)
                     .setDuration(1000)
-                    .show()
+                    .show()*/
             }
             else -> {
-                binding.cpiLoadingResend.visibility = View.GONE
+               // binding.cpiLoadingResend.visibility = View.GONE
 
                 val data = resources.data
 
@@ -97,7 +98,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                     if(it?.success == true){
 
                         //When timer is running then make sure click listener is disable
-                        binding.tvResendOtpTimer.setOnClickListener(null)
+                        /*binding.tvResendOtpTimer.setOnClickListener(null)
                         //Once opt resend to user, it will take 30 sec to enable resend OTP button
                         resendOTPTimer()
                         binding.tvResendOtpTimer.setTextColor(
@@ -105,14 +106,14 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                                 this@OTPVerificationActivity,
                                 R.color.brown
                             )
-                        )
+                        )*/
 
-                        Alerter.create(this)
+                       /* Alerter.create(this)
                             .setTitle(getString(R.string.otp_resend))
                             .setText(it.message)
                             .setBackgroundColorRes(R.color.orange)
                             .setDuration(2000)
-                            .show()
+                            .show()*/
                     }
                 }.run {  }
             }
@@ -123,17 +124,22 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     private fun onLogin(resources: Resource<LoginResponse>) {
         when (resources.status) {
             Status.LOADING -> {
+                Alerter.create(this)
+                    .setText(resources.error?.message.toString())
+                    .setBackgroundColorRes(R.color.orange)
+                    .setDuration(1000)
+                    .show()
                 binding.cpiLoading.visibility = View.VISIBLE
             }
             Status.ERROR -> {
                 binding.btnContinueOtp.visibility = View.VISIBLE
                 binding.cpiLoading.visibility = View.GONE
                 enableCodeEditTexts(true)
-                Alerter.create(this)
+               /* Alerter.create(this)
                     .setText(resources.error?.message.toString())
                     .setBackgroundColorRes(R.color.orange)
                     .setDuration(1000)
-                    .show()
+                    .show()*/
             }
             else -> {
                 binding.cpiLoading.visibility = View.GONE
@@ -144,6 +150,17 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                     if(it?.success == true){
                        //go to dashboard
                         dashboardLanding(it)
+                    }else{
+                        if (it != null) {
+                            Utils.instance.popupPinUtil(this@OTPVerificationActivity,
+                                it.message,
+                                "",
+                                false)
+                        }
+
+                        for (i in 0 until editTextArray.size)
+                            editTextArray[i].setText("")
+                            enableCodeEditTexts(true)
                     }
                 }.run {  }
             }
@@ -196,10 +213,10 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
     }
 
     private fun setMobileNumber(mobileNumber: String) {
-        val customMessage = binding.tvSubheading.text.toString() + " " + mobileNumber.substring(
+        val customMessage = binding.tvSubheading.text.toString() + " "/* + mobileNumber.substring(
             0,
             1
-        ) + "XXXX X" + mobileNumber.substring(6, 10)
+        ) + "XXXX X" + mobileNumber.substring(6, 10)*/
         binding.tvSubheading.text = customMessage
     }
 
@@ -276,7 +293,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
         if (verificationCode.isNotEmpty()) {
             enableCodeEditTexts(false)
             //API trigger
-            binding.btnContinueOtp.visibility = View.INVISIBLE
+            binding.btnContinueOtp.visibility = View.VISIBLE
             binding.cpiLoading.visibility = View.VISIBLE
             viewModel.hitVerifyOTPLoginApi(mobileNumber, verificationCode)
         }
