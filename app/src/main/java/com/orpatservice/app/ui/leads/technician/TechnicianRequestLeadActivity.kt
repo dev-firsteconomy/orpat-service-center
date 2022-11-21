@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
@@ -64,7 +65,7 @@ class TechnicianRequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelect
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         getLastLocation()
-
+        permissionCheck()
 
         viewPager = binding.vpRequests
         val tabLayout = binding.tabLayout
@@ -106,6 +107,19 @@ class TechnicianRequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelect
     override fun onResume() {
         super.onResume()
        // getLastLocation()
+    }
+
+    private fun permissionCheck() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || checkSelfPermission(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED) {
+                val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permission, 112)
+            }
+        }
+
     }
 
 

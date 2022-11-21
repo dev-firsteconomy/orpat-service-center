@@ -93,7 +93,6 @@ class TechnicianTaskAdapter(
 
                 }
 
-
             }else{
                 binding.tvTaskUpdate.visibility = VISIBLE
                 binding.tvHideTaskUpdate.visibility = GONE
@@ -153,7 +152,7 @@ class TechnicianTaskAdapter(
             binding.tvComplaintPresetValue.text = technicianData.complaint_preset
             binding.tvServiceCenterDescriptionValue.text = technicianData.service_center_discription
 
-            val warrantryPart = WarrantryPartAdapter(context,adapterPosition,technicianData.warranty_parts,technicianData.lead_enquiry_images)
+            val warrantryPart = WarrantryPartAdapter(context,adapterPosition,technicianData.warranty_parts,technicianData.lead_enquiry_images,technicianData)
             val dividerItemDecoration: RecyclerView.ItemDecoration =
                 DividerItemDecorator(ContextCompat.getDrawable(context, R.drawable.rv_divider))
 

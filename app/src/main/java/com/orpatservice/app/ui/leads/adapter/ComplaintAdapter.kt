@@ -60,7 +60,7 @@ class ComplaintAdapter(
             //binding.tvWarrantyStatusValue.text = enquiry.in_warranty
             if(enquiry.detail_status == 1){
                 binding.imgUpdatedTask.visibility = View.VISIBLE
-                if(enquiry.purchase_at != null) {
+                /*if(enquiry.purchase_at != null) {
                     if (!enquiry.warranty_parts.isEmpty()) {
                         binding.tvServiceableWarrantyParts.visibility = VISIBLE
                     } else {
@@ -69,13 +69,28 @@ class ComplaintAdapter(
                 }else{
                     binding.tvServiceableWarrantyParts.visibility = GONE
 
-                }
+                }*/
 
                 binding.tvServiceCenterDescriptionValue.setText(enquiry.service_center_discription)
                 binding.edtInvoiceNumberValue.setText(enquiry.invoice_no)
                 binding.edtSelectInvoiceDate.setText(enquiry.purchase_at)
-                binding.edtSellerName.setText(enquiry.seller_name)
+                binding.edtBuyerName.setText(enquiry.buyer_name)
                 binding.edtGstNumber.setText(enquiry.seller_gst_no)
+
+                if(enquiry.seller_gst_no != null){
+                    binding.tvGstFirstName.visibility = VISIBLE
+                    binding.tvGstTradeName.visibility = VISIBLE
+                    binding.tvGstName.visibility = VISIBLE
+                    binding.tvGstTrade.visibility = VISIBLE
+
+                    binding.tvGstFirstName.setText(enquiry.seller_name)
+                    binding.tvGstTradeName.setText(enquiry.seller_trade_name)
+                }else{
+                    binding.tvGstFirstName.visibility = GONE
+                    binding.tvGstTradeName.visibility = GONE
+                    binding.tvGstName.visibility = GONE
+                    binding.tvGstTrade.visibility = GONE
+                }
 
                 if(enquiry.in_warranty.equals("Yes")){
                     binding.radiobtnYes.isChecked = true
@@ -203,7 +218,7 @@ class ComplaintAdapter(
                 binding.imgUpdatedTask.visibility = View.GONE
                 binding.btnUpdate.visibility = View.VISIBLE
                 binding.btnHideUpdate.visibility = View.GONE
-                binding.tvServiceableWarrantyParts.visibility = GONE
+               // binding.tvServiceableWarrantyParts.visibility = GONE
 
             }
 
@@ -211,6 +226,11 @@ class ComplaintAdapter(
             binding.tvModelNameValue.text = enquiry.model_no
             binding.tvComplaintPresetValue.text = enquiry.complaint_preset
 
+            if(!enquiry.warranty_parts.isEmpty()){
+                binding.tvServiceableWarrantyParts.visibility = VISIBLE
+            }else {
+                binding.tvServiceableWarrantyParts.visibility = GONE
+            }
 
             if(!binding.tvServiceCenterDescriptionValue.text.isNullOrEmpty()){
                 binding.tvErrorDes.visibility = GONE

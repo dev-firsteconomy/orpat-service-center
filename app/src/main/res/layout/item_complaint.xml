@@ -372,7 +372,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_serviceable_warranty_parts" />
 
         <EditText
-            android:id="@+id/edt_seller_name"
+            android:id="@+id/edt_buyer_name"
             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
             android:layout_width="0dp"
             android:layout_height="40dp"
@@ -394,7 +394,7 @@
             android:text="@string/string_seller_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edt_seller_name"/>
+            app:layout_constraintTop_toBottomOf="@id/edt_buyer_name"/>
 
         <TextView
             android:id="@+id/tv_gst_number"

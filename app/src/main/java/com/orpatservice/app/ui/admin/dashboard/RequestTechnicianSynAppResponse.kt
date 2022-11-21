@@ -3,7 +3,8 @@ package com.orpatservice.app.ui.admin.dashboard
 class RequestTechnicianSynAppResponse (
     var success: Boolean,
     var data    : NotificationBadges,
-    var message: String
+    var message: String,
+    var code: Int
     )
 
     data class NotificationBadges (

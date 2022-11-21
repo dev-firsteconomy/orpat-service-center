@@ -228,6 +228,12 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                                 response.data.notification_badge_count.barcode_request_tab
 
                         }
+                    }else{
+                        if(it.code == 401){
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
                     }
 
                     /*}else{
@@ -271,6 +277,12 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                             binding.includedContent.tvCount.visibility = VISIBLE
                             binding.includedContent.tvCount.text = response.data.notification_badge_count.barcode_request_tab
 
+                        }
+                    }else{
+                        if(it.code == 401){
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
                         }
                     }
                 }

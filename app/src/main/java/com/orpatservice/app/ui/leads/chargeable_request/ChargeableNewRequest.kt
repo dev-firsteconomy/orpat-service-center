@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -44,6 +45,8 @@ class ChargeableNewRequest : Fragment() {
     private var isLoading: Boolean = false
     private var pageNumber = 1
     private var totalPage = 1
+    private var total = 0
+    private  var totalCount :TextView? = null
 
     //Click listener for List Item
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
@@ -177,7 +180,7 @@ class ChargeableNewRequest : Fragment() {
     }
 
 
-
+    private var nextPage: String? = null
     private fun getChargeableLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {
@@ -202,15 +205,24 @@ class ChargeableNewRequest : Fragment() {
                 response?.let {
                     if (it.success) {
                         totalPage = response.data.pagination.last_page
+                        total = response.data.pagination.total
+                        nextPage = it.data.pagination.next_page_url
+                        Constants.CHARGEABLE_NEW_REQUEST = total.toString()
+
+                        totalCount?.text = Constants.CHARGEABLE_NEW_REQUEST
+
                         leadDataArrayList.clear()
                         tempDataArrayList.clear()
-
                         leadDataArrayList.addAll(response.data.data)
                         tempDataArrayList.addAll(response.data.data)
                         requestsLeadsAdapter.notifyDataSetChanged()
 
                         isLoading = false
-
+                        if (pageNumber == 1) {
+                            requestsLeadsAdapter.notifyDataSetChanged()
+                        }else {
+                            requestsLeadsAdapter.notifyItemInserted(leadDataArrayList.size - 1)
+                        }
                         if(leadDataArrayList.isNullOrEmpty()){
                             binding.tvNoLeads.visibility = View.VISIBLE
                         } else {
@@ -305,6 +317,11 @@ class ChargeableNewRequest : Fragment() {
         }
     }
 
+    fun loadTotalLead(toolbarTotalLead: TextView) {
+        totalCount = toolbarTotalLead
+
+        totalCount?.text = Constants.CHARGEABLE_NEW_REQUEST.toString()
+    }
 
     private fun loadUI () {
         binding.tvNoLeads.visibility = View.GONE

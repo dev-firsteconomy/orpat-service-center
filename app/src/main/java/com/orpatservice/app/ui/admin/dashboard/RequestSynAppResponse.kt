@@ -4,7 +4,8 @@ package com.orpatservice.app.ui.admin.dashboard
  class RequestSynAppResponse(
     var success: Boolean,
     var data    : NotificationBadge,
-    var message: String
+    var message: String,
+    var code: Int
 )
 
 data class NotificationBadge (

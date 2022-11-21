@@ -153,7 +153,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
                     }else{
                         if (it != null) {
                             Utils.instance.popupPinUtil(this@OTPVerificationActivity,
-                                it.message,
+                                "Incorrect Password!",
                                 "",
                                 false)
                         }

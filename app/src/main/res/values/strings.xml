@@ -210,5 +210,6 @@
     <string name="part_verification_image">Part verifiaction images</string>
     <string name="buyer_text_string">Buyer Name</string>
     <string name="login_password">Login Password</string>
+    <string name="not_covered_below_condition_string">Not covered under below condition</string>
 
 </resources>

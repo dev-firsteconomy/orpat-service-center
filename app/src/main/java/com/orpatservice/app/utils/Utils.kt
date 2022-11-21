@@ -185,7 +185,7 @@ class Utils {
     }
 
 
-    fun reSizeImg(bm: Bitmap) : Uri {
+    fun reSizeImg(bm: Bitmap,context: Context) : Uri {
         var imageFile : File?=null
         var bm: Bitmap? = bm
         try {
@@ -210,7 +210,8 @@ class Utils {
             val thumbBitmap = Bitmap.createBitmap(bm, 0, 0, bm.width, bm.height, matrix, true)
             bm.recycle()
             bm = null
-            val files = Environment.getExternalStorageDirectory()
+            //val files = Environment.getExternalStorageDirectory()
+            val files = context.getExternalFilesDir(Environment.DIRECTORY_DCIM)
             val rootFolder = File(files, "orpatservicecenter")
             if (!rootFolder.exists()) rootFolder.mkdir()
             val subFolder = File(rootFolder, "images")

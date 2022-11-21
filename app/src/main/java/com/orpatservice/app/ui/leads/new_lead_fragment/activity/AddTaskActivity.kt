@@ -618,7 +618,7 @@ class AddTaskActivity : AppCompatActivity(), CameraBottomSheetDialogFragment.Bot
             val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
             parcelFileDescriptor?.close()
 
-            resultUri = Utils.instance.reSizeImg(image)
+            resultUri = Utils.instance.reSizeImg(image,this)
             val  edtDesc = binding.includedContent.edtCustomerDesc.text.toString()
             if (!edtDesc.isEmpty() && currentScannedProduct != null) {
                 //  Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show()

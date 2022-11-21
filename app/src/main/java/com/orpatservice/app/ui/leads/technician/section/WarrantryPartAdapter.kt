@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.orpatservice.app.R
 import com.orpatservice.app.base.Callback
-import com.orpatservice.app.data.model.requests_leads.ImageData
-import com.orpatservice.app.data.model.requests_leads.LeadEnquiryImage
-import com.orpatservice.app.data.model.requests_leads.WarrantryPart
+import com.orpatservice.app.data.model.requests_leads.*
 import com.orpatservice.app.databinding.UnderWarrantyPartsAdapterBinding
 import com.orpatservice.app.ui.leads.customer_detail.CheckWarrantyList
 import com.orpatservice.app.ui.leads.customer_detail.FullScreenImageActivity
@@ -32,7 +30,8 @@ class WarrantryPartAdapter(
     private val context :Context,
     private val partsPosition :Int,
     private val warrantyList: ArrayList<WarrantryPart>,
-    private  val leadImageList: ArrayList<LeadEnquiryImage>
+    private  val leadImageList: ArrayList<LeadEnquiryImage>,
+    private  val enquiry :Enquiry
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var callback: Callback? = null
@@ -55,7 +54,7 @@ class WarrantryPartAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is TechnicianViewHolder -> {
-                holder.bind(context, warrantyList[position],leadImageList,partsPosition)
+                holder.bind(context, warrantyList[position],leadImageList,partsPosition,enquiry)
             }
         }
     }
@@ -78,6 +77,7 @@ class WarrantryPartAdapter(
             technicianData: WarrantryPart,
             leadEnquiryImage: ArrayList<LeadEnquiryImage>,
             partsPosition: Int,
+            enquiry: Enquiry,
         ) {
 
            // bind = binding
@@ -115,6 +115,12 @@ class WarrantryPartAdapter(
                 }
             }
 
+            if(enquiry.parts_verification_status == "1"){
+                binding.checkWarrantyParts.setFocusable(false);
+                binding.checkWarrantyParts.setEnabled(false);
+                binding.checkWarrantyParts.setCursorVisible(false);
+                binding.checkWarrantyParts.setKeyListener(null);
+            }
 
                 binding.checkWarrantyParts.setOnClickListener {
 
@@ -124,45 +130,63 @@ class WarrantryPartAdapter(
 
                         val warrantyPart = CheckWarrantyList(adapterPosition,"true")
                         CommonUtils.warrantyListData.add(warrantyPart)
-                     }else{
-                        println("CommonUtils.warrantyListData"+CommonUtils.warrantyListData)
-                      // println("CommonUtils.warrantyListData"+CommonUtils.imageData)
-                        //val warrantyPart = CheckWarrantyList(adapterPosition,"false")
-                        binding.checkWarrantyParts.isChecked = false
-                        println("adapterPosition"+adapterPosition)
-                        binding.imgSelectedImage.visibility = INVISIBLE
+
+                    }else{
+                            selectedParts = ""
+                            println("CommonUtils.warrantyListData"+CommonUtils.warrantyListData)
+                            binding.checkWarrantyParts.isChecked = false
+                            binding.imgSelectedImage.visibility = INVISIBLE
                         try {
-                            CommonUtils.warrantyListData.removeAt(adapterPosition)
+                          /*  CommonUtils.warrantyListData.removeAt(adapterPosition)
                             if(!CommonUtils.imageData.isEmpty()) {
                              CommonUtils.imageData.removeAt(adapterPosition)
+                            }*/
+
+
+                            val iterator: MutableIterator<CheckWarrantyList> = CommonUtils.warrantyListData.iterator()
+                            while (iterator.hasNext()) {
+                                val string = iterator.next()
+                                if (string.listCount == adapterPosition) {
+                                        // Remove the current element from the iterator and the
+                                        iterator.remove()
+                                }
                             }
+                            if(!CommonUtils.imageData.isEmpty()) {
+                                CommonUtils.imageData.removeAt(adapterPosition)
+                            }
+
                         }catch (e:IndexOutOfBoundsException){
                                 e.message.toString()
                         }
-
-                     }
+                    }
             }
             binding.tvUploadImage.setOnClickListener {
 
                 //println("secondImgsecondImg"+secondImg)
 
-
-                if (!selectedParts.isEmpty()) {
-                    showImageList(partsPosition)
-                } else {
-                    Utils.instance.popupPinUtil(
-                        context,
-                        "Please select warranty parts!",
-                        "",
-                        false
-                    )
+                if (enquiry.parts_verification_status == "0") {
+                    if (!selectedParts.isEmpty()) {
+                        showImageList(partsPosition)
+                    } else {
+                        Utils.instance.popupPinUtil(
+                            context,
+                            "Please select warranty parts!",
+                            "",
+                            false
+                        )
+                    }
+                }else{
+                    binding.tvUploadImage.setFocusable(false);
+                    binding.tvUploadImage.setEnabled(false);
+                    binding.tvUploadImage.setCursorVisible(false);
+                    binding.tvUploadImage.setKeyListener(null);
                 }
             }
             binding.imgSelectedImage.setOnClickListener {
 
                 if(!CommonUtils.imageData.isEmpty()) {
-                   // println("CommonUtils.imageData[0].image_data" + CommonUtils.imageData[adapterPosition].image_data)
-                    val pos = CommonUtils.imageData[adapterPosition].image_data
+                    // println("CommonUtils.imageData[0].image_data" + CommonUtils.imageData[adapterPosition].image_data)
+                    val pos = CommonUtils.imageData[adapterPosition].image_position
                     goToFullScreenImageActivity(leadImageList[pos].image)
                 }
             }
@@ -184,6 +208,9 @@ class WarrantryPartAdapter(
             val popupcloseImg = view.findViewById<ImageView>(R.id.popup_img_close)
             alertDialogBuilder = Dialog(context)
             alertDialogBuilder!!.setContentView(view)
+
+
+
 
             val gridAdapter =
                 GridAdapter(context,partsPosition,adapterPosition, leadImageList, itemClickListener = onItemClickListener)
@@ -234,11 +261,23 @@ class WarrantryPartAdapter(
                     val iterator: MutableIterator<ImageData> = CommonUtils.imageData.iterator()
                     while (iterator.hasNext()) {
                         val string = iterator.next()
-                        if (string.image_adapter_pos == adapterPosition) {
-                            // Remove the current element from the iterator and the list.
-                            iterator.remove()
+                        if(string.adapter_Position == partPos) {
+                            if (string.part_position == adapterPosition) {
+                                // Remove the current element from the iterator and the list.
+                                iterator.remove()
+                            }
                         }
                     }
+
+
+                /*val iterator1: MutableIterator<ImagePosition> = CommonUtils.imagePos.iterator()
+                while (iterator1.hasNext()) {
+                    val string = iterator1.next()
+                    if (string.image_pos.toInt() == partPos) {
+                        // Remove the current element from the iterator and the list.
+                        iterator1.remove()
+                    }
+                }*/
 
 
                 val imagePos = ImageData(position, "true", adapterPosition,partPos)
@@ -258,7 +297,7 @@ class WarrantryPartAdapter(
             }
                 try {
                     val warrantyPartData = productListData(
-                        warrantyList[position].id.toString(),
+                        warrantyList[adapterPosition].id.toString(),
                         leadImageList[position].id.toString()
                     )
                     CommonUtils.productListData.add(warrantyPartData)

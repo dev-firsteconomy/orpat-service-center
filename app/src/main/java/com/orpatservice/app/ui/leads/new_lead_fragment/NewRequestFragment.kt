@@ -30,6 +30,7 @@ import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
 import com.orpatservice.app.ui.leads.customer_detail.AdminCustomerDetailsActivity
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
+import com.orpatservice.app.ui.login.LoginActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 import com.tapadoo.alerter.Alerter
@@ -46,7 +47,7 @@ class NewRequestsFragment : Fragment() {
     private var pageNumber = 1
     private var totalPage = 1
     private var total = 0
-    private lateinit var totalCount : TextView
+    private var totalCount : TextView? = null
 
     //Click listener for List Item
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
@@ -187,7 +188,7 @@ class NewRequestsFragment : Fragment() {
     }
 
 
-
+    private var nextPage: String? = null
     private fun getPendingLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {
@@ -219,7 +220,8 @@ class NewRequestsFragment : Fragment() {
                         totalPage = response.data.pagination.last_page
                         total = response.data.pagination.total
                         Constants.REQUEST_TOTAL = total.toString()
-                        totalCount.text = total.toString()
+                        totalCount?.text = total.toString()
+                        nextPage = it.data.pagination.next_page_url
 
                         leadDataArrayList.clear()
                         tempDataArrayList.clear()
@@ -229,11 +231,22 @@ class NewRequestsFragment : Fragment() {
                         requestsLeadsAdapter.notifyDataSetChanged()
 
                         isLoading = false
+                        if (pageNumber == 1) {
+                            requestsLeadsAdapter.notifyDataSetChanged()
+                        }else {
+                            requestsLeadsAdapter.notifyItemInserted(leadDataArrayList.size - 1)
+                        }
 
                         if(leadDataArrayList.isNullOrEmpty()){
                             binding.tvNoLeads.visibility = View.VISIBLE
                         } else {
                             binding.tvNoLeads.visibility = View.GONE
+                        }
+                    }else{
+                        if(it.code == 401){
+                            val intent = Intent(requireActivity(), LoginActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
                         }
                     }
                 }
@@ -342,7 +355,7 @@ class NewRequestsFragment : Fragment() {
 
     fun loadTotalLead(toolbarTotalLead: TextView) {
         totalCount = toolbarTotalLead
-        totalCount.text = Constants.REQUEST_TOTAL.toString()
+        totalCount?.text = Constants.REQUEST_TOTAL.toString()
     }
 
     private fun loadUI () {

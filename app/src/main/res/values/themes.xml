@@ -264,4 +264,10 @@
         <item name="android:textColor">@color/brown</item>
     </style>
 -->
+
+    <style name="datepicker" parent="@android:style/Widget.DeviceDefault.DatePicker">
+        <!---TODO-->
+        <item name="android:focusedMonthDateColor">@android:color/holo_red_dark</item>
+    </style>
+
 </resources>

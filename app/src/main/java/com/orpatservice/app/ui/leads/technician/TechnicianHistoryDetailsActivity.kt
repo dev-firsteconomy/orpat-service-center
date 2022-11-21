@@ -20,6 +20,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.Window
+import android.widget.ExpandableListView
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -47,6 +48,7 @@ import com.orpatservice.app.ui.admin.technician.*
 import com.orpatservice.app.ui.leads.customer_detail.*
 import com.orpatservice.app.ui.leads.customer_detail.adapter.ServiceableWarrantryPartAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.AssignedDetailsAdapter
+import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.CustomExpandableListAdapter
 import com.orpatservice.app.ui.leads.technician.adapter.TechnicianHistoryDetailsAdapter
 import com.orpatservice.app.ui.leads.technician.section.EnquirySliderScreenImageActivity
 import com.orpatservice.app.utils.CommonUtils
@@ -303,6 +305,8 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.warranty_parts_list)
         val rv_complaint_list = dialog.findViewById(R.id.rv_warranty_parts_list) as RecyclerView
+        val expandableListView = dialog.findViewById(R.id.expandableListView) as ExpandableListView
+
         val popup_img_close = dialog.findViewById(R.id.popup_img_close) as ImageView
         popup_img_close.setOnClickListener {
             dialog.dismiss()
@@ -310,8 +314,32 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
         rv_complaint_list.layoutManager = LinearLayoutManager(this)
 
         // This will pass the ArrayList to our Adapter
-        val adapter = ServiceableWarrantryPartAdapter(leadData.enquiries[position].warranty_parts)
-        rv_complaint_list.adapter = adapter
+        //val adapter = ServiceableWarrantryPartAdapter(leadData.enquiries[position].warranty_parts)
+        //rv_complaint_list.adapter = adapter
+
+            val expandableListAdapter =
+                CustomExpandableListAdapter(
+                    this,
+                    leadData.enquiries[position].warranty_parts,
+                    expandableListView
+                )
+            expandableListView.setAdapter(expandableListAdapter)
+
+        expandableListView.setOnGroupExpandListener { groupPosition ->
+            println("groupPosition"+groupPosition)
+
+            // tv_not_covered_condition.setVisibility(View.VISIBLE);
+
+
+        }
+
+        expandableListView.setOnGroupCollapseListener { groupPosition ->
+
+        }
+        expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
+
+            false
+        }
 
         dialog.show()
     }
@@ -635,7 +663,7 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
             val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
             parcelFileDescriptor?.close()
 
-            resultUri = Utils.instance.reSizeImg(image)
+            resultUri = Utils.instance.reSizeImg(image,this)
 
             //validationUtil()
 

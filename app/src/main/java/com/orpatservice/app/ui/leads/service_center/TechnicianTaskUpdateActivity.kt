@@ -49,10 +49,7 @@ import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
 import com.orpatservice.app.ui.leads.technician.adapter.AdapterSectionRecycler
 import com.orpatservice.app.ui.leads.technician.section.*
 import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
-import com.orpatservice.app.utils.CommonUtils
-import com.orpatservice.app.utils.Constants
-import com.orpatservice.app.utils.DividerItemDecorator
-import com.orpatservice.app.utils.Utils
+import com.orpatservice.app.utils.*
 import com.tapadoo.alerter.Alerter
 import org.json.JSONException
 
@@ -75,6 +72,10 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
     private val editTextArray: ArrayList<EditText> = ArrayList(OTPVerificationActivity.NUM_OF_DIGITS)
     private val NUM_OF_DIGITS = 4
     private var numTemp = ""
+    private  var edtOTP1:EditText? = null
+    private  var edtOTP2:EditText?= null
+    private  var edtOTP3:EditText? = null
+    private  var edtOTP4:EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -167,7 +168,8 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
         binding.includedContent.btnVerifyOtp.setOnClickListener {
 
             println("requestData.id.toString()"+requestData.id.toString())
-            customerDetailsViewModel.hitAPITaskSendHappyCode(requestData.id.toString()).observe(this, loadHappyCodeData("verify"))
+            showOTPVarificationPopUp()
+            //customerDetailsViewModel.hitAPITaskSendHappyCode(requestData.id.toString()).observe(this, loadHappyCodeData("verify"))
 
         }
 
@@ -263,12 +265,38 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
         alertDialogBuilder.setContentView(view)
         alertDialog = alertDialogBuilder
         val layout: ConstraintLayout = view.findViewById(R.id.cl_otp_layout)
-        createOTPUI(layout)
+        //createOTPUI(layout)
+
+        val et1: EditText = view.findViewById(R.id.edt_digit1)
+        val et2: EditText = view.findViewById(R.id.edt_digit2)
+        val et3: EditText = view.findViewById(R.id.edt_digit3)
+        val et4: EditText = view.findViewById(R.id.edt_digit4)
+
         val btn_varify_otp = view.findViewById<Button>(R.id.btn_varify_otp)
         val subTitle = view.findViewById<TextView>(R.id.tv_subheading)
         tv_resend_happy_code = view.findViewById<Button>(R.id.tv_resend_happy_code)
 
         val close_btn = view.findViewById<ImageView>(R.id.close_btn)
+
+
+
+        et1.addTextChangedListener(GenericTextWatcher(et1, et2))
+        et2.addTextChangedListener(GenericTextWatcher(et2, et3))
+        et3.addTextChangedListener(GenericTextWatcher(et3, et4))
+        et4.addTextChangedListener(GenericTextWatcher(et4, null))
+
+        //GenericKeyEvent here works for deleting the element and to switch back to previous EditText
+        //first parameter is the current EditText and second parameter is previous EditText
+        et1.setOnKeyListener(GenericKeyEvent(et1, null))
+        et2.setOnKeyListener(GenericKeyEvent(et2, et1))
+        et3.setOnKeyListener(GenericKeyEvent(et3, et2))
+        et4.setOnKeyListener(GenericKeyEvent(et4,et3))
+
+        edtOTP1 = et1
+        edtOTP2 = et2
+        edtOTP3 = et3
+        edtOTP4 = et4
+
 
         subTitle.text = "Please verify the code sent to your mobile number +91"+" "+requestData.mobile
         tv_resend_happy_code.setOnClickListener {
@@ -280,7 +308,28 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
             alertDialog!!.dismiss()
         }
         btn_varify_otp.setOnClickListener {
-            validateOTP()
+           // val testCodeValidity = edtOTP1+edtOTP2+edtOTP3+edtOTP4
+
+            val testCodeValidity = et1.text.toString()+et2.text.toString()+et3.text.toString()+et4.text.toString()
+            //if(testCodeValidity.isNotEmpty()) {
+            if(et1.text.toString().isNotEmpty() && et2.text.toString().isNotEmpty() && et3.text.toString().isNotEmpty() && et4.text.toString().isNotEmpty()){
+                verifyOTPCode(testCodeValidity)
+            }else{
+                Utils.instance.popupPinUtil(this,
+                    getString(R.string.warning_enter_OTP),
+                    "",
+                    false)
+
+                // userClick()
+                // initFormComponent()
+                edtOTP1?.text = null
+                edtOTP2?.text = null
+                edtOTP3?.text = null
+                edtOTP4?.text = null
+
+                alertDialog?.dismiss()
+            }
+            //validateOTP()
         }
        // alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.show()
@@ -288,16 +337,16 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
     }
 
     private fun validateOTP() {
-     //   println("sizesizesize"+editTextArray.size)
+        // println("sizesizesize"+editTextArray.size)
 
-      /*  for(i in editTextArray){
+         /* for(i in editTextArray){
             println("toStringtoStringtoString"+i.text.toString())
         }*/
-      //  println("editTextArray.size"+editTextArray[1].text.toString()+editTextArray[2].text.toString()+editTextArray[3].text.toString())
+       // println("editTextArray.size"+editTextArray[1].text.toString()+editTextArray[2].text.toString()+editTextArray[3].text.toString())
+
         (0 until editTextArray.size)
             .forEach { i ->
                 if (editTextArray[i].text.isEmpty()) {
-                    println("texttexttext"+editTextArray[i].text.toString())
                     Utils.instance.popupPinUtil(this,
                         getString(R.string.warning_enter_OTP),
                         "",
@@ -307,7 +356,6 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                        // initFormComponent()
                         editTextArray.clear()
                         alertDialog?.dismiss()
-
 
                     return
                 }
@@ -329,6 +377,8 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 
     private fun createOTPUI(views: View) {
         //create array
+
+
 
         val layout: ConstraintLayout = views as ConstraintLayout
         for (index in 0 until (layout.childCount)) {
@@ -358,7 +408,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 
     private fun verifyOTPCode(verificationCode: String) {
         if (verificationCode.isNotEmpty()) {
-            enableCodeEditTexts(false)
+            enableCodeEditTexts(true)
             //API trigger
             println("taskCompletedRequestData.id"+requestData.id + verificationCode)
             customerDetailsViewModel.hitAPITaskSendHappyCodeVerification(requestData.id.toString(),verificationCode).observe(this, loadHappyCodeVerificationData())
@@ -405,15 +455,29 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                             }, 5000)
 
                         }else{
+
+                            edtOTP1?.text = null
+                            edtOTP2?.text = null
+                            edtOTP3?.text = null
+                            edtOTP4?.text = null
+                           // enableCodeEditTexts(true)
+                            edtOTP1?.isCursorVisible = true
+                            edtOTP2?.isCursorVisible = false
+                            edtOTP3?.isCursorVisible = false
+                            edtOTP4?.isCursorVisible = false
+
                             it.message.let { it1 ->
                                 Utils.instance.popupPinUtil(this,
                                     it1,
                                     "",
                                     false)
                             }
-                            for (i in 0 until editTextArray.size)
+                            /*for (i in 0 until editTextArray.size)
                                 editTextArray[i].setText("")
-                            enableCodeEditTexts(true)
+                            enableCodeEditTexts(true)*/
+
+
+
                             tv_resend_happy_code.visibility = VISIBLE
                         }
                     } ?: run {
@@ -862,6 +926,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 
                         bindingAdapter.tvTaskUpdate.visibility = GONE
                         bindingAdapter.tvHideTaskUpdate.visibility = View.VISIBLE
+
 
                         //println("it.data.data"+it.data.data.get(0));
 

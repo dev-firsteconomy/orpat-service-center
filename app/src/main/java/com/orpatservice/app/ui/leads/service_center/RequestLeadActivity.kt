@@ -1,6 +1,9 @@
 package com.orpatservice.app.ui.leads.service_center
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -42,6 +45,9 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
             setDisplayShowHomeEnabled(true)
         }
 
+        permissionCheck()
+
+
         //View pager with tab layout
         viewPager = binding.vpRequests
         val tabLayout = binding.tabLayout
@@ -64,6 +70,18 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         ////////////////////////////////////
 
         setObserver()
+    }
+
+    private fun permissionCheck() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || checkSelfPermission(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED) {
+                val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permission, 112)
+            }
+        }
     }
 
     private fun setObserver() {
@@ -177,7 +195,6 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
                 assignToTechnicianFragment.loadTotalLead(binding.toolbarTotalLead)
                 tab.select()
             }
-
             else -> {
                 tab.select()
             }

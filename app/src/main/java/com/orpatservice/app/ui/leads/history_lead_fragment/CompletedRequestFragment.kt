@@ -21,6 +21,7 @@ import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
 import com.orpatservice.app.ui.leads.history_lead_fragment.view_details.CompletedDetailsActivity
 import com.orpatservice.app.ui.leads.service_center.AssignDetailsActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
+import com.orpatservice.app.ui.login.LoginActivity
 import com.orpatservice.app.utils.Constants
 import com.tapadoo.alerter.Alerter
 
@@ -146,6 +147,12 @@ class CompletedRequestFragment : Fragment() {
                             binding.tvNoLeads.visibility = View.VISIBLE
                         } else {
                             binding.tvNoLeads.visibility = View.GONE
+                        }
+                    }else{
+                        if(it.code == 401){
+                            val intent = Intent(requireActivity(), LoginActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
                         }
                     }
                 }

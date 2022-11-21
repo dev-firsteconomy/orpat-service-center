@@ -22,6 +22,10 @@ object Constants {
     var CANCELLED_REQ= ""
     var TECHNICIAN_TOTAL= ""
 
+    var CHARGEABLE_NEW_REQUEST= ""
+    var CHARGEABLE_COMPLETED_REQUEST= ""
+    var CHARGEABLE_CANCELLED_REQUEST= ""
+
     //Constants for login session
     const val TOKEN = "TOKEN"
     const val NO_TOKEN = ""

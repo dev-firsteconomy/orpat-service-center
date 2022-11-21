@@ -6,15 +6,18 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
+import android.provider.Settings
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -22,10 +25,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.Window
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -59,6 +59,7 @@ import com.orpatservice.app.ui.admin.technician.CAMERA
 import com.orpatservice.app.ui.admin.technician.CANCEL
 import com.orpatservice.app.ui.leads.customer_detail.*
 import com.orpatservice.app.ui.leads.customer_detail.adapter.ServiceableWarrantryPartAdapter
+import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.CustomExpandableListAdapter
 import com.orpatservice.app.ui.leads.technician.adapter.TechnicianCustomerDetailsAdapter
 import com.orpatservice.app.ui.leads.technician.response.TechnicianEnquiryImage
 import com.orpatservice.app.ui.leads.technician.response.TechnicianLeadData
@@ -106,7 +107,10 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
     private lateinit var alertDialogBuilder:Dialog
     lateinit var  dialog: Dialog
     private var warrantyPartsList: ArrayList<WarrantryPart> = ArrayList()
+    var image_uri: Uri? = null
 
+    private val RESULT_LOAD_IMAGE = 123
+    val IMAGE_CAPTURE_CODE = 654
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -368,20 +372,6 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         return super.onOptionsItemSelected(item)
     }
 
-    private fun requestPermission() {
-        val currentapiVersion = Build.VERSION.SDK_INT
-        if (currentapiVersion >= Build.VERSION_CODES.M) {
-            if (!checkCameraPermission()) {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ), MY_PERMISSIONS_WRITE_READ_REQUEST_CODE
-                )
-            }
-        }
-    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private val onItemClickListener: (Int, View, ItemTechnicianComplaintBinding, enquiryImage: ArrayList<TechnicianEnquiryImage>) -> Unit =
@@ -510,11 +500,12 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
 
     private fun openDropDown() {
 
-        dialog = Dialog(this)
+        val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.warranty_parts_list)
         val rv_complaint_list = dialog.findViewById(R.id.rv_warranty_parts_list) as RecyclerView
+        val expandableListView = dialog.findViewById(R.id.expandableListView) as ExpandableListView
         val popup_img_close = dialog.findViewById(R.id.popup_img_close) as ImageView
         popup_img_close.setOnClickListener {
             dialog.dismiss()
@@ -528,11 +519,41 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             val adapter = ServiceableWarrantryPartAdapter(warrantyPartsList)
             rv_complaint_list.adapter = adapter
         }
-        // This will pass the ArrayList to our Adapter
-      //  val adapter = ServiceableWarrantryPartAdapter(leadData.enquiries[pos!!].warranty_parts)
+        if(warrantyPartsList.isNullOrEmpty()) {
+            val expandableListAdapter =
+                CustomExpandableListAdapter(
+                    this,
+                    leadData.enquiries[pos!!].warranty_parts,
+                    expandableListView
+                )
+            expandableListView.setAdapter(expandableListAdapter)
+        }else{
+            val expandableListAdapter =
+                CustomExpandableListAdapter(
+                    this,
+                    warrantyPartsList,
+                    expandableListView
+                )
+            expandableListView.setAdapter(expandableListAdapter)
+        }
 
-        // Setting the Adapter with the recyclerview
-        //rv_complaint_list.adapter = adapter
+        expandableListView.setOnGroupExpandListener { groupPosition ->
+            println("groupPosition"+groupPosition)
+
+            // tv_not_covered_condition.setVisibility(View.VISIBLE);
+
+        }
+
+        expandableListView.setOnGroupCollapseListener { groupPosition ->
+
+        }
+        expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
+
+            false
+        }
+
+        // This will pass the ArrayList to our Adapter
+
         dialog.show()
     }
 
@@ -635,7 +656,12 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             }else if(resultCode == 2){
                 bindingAdapter.btnCancelTask.visibility = VISIBLE
             }
-        }
+        }else if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK) {
+                //imageView.setImageURI(image_uri);
+                val bitmap = uriToBitmap(image_uri!!)
+                //binding.liUploadFileValue.visibility = VISIBLE
+                //binding.uploadedImg.setImageBitmap(bitmap)
+            }
     }
 
     private fun goToFullScreenImageActivity(invoiceImage: String?) {
@@ -737,7 +763,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
     }
 
     private fun checkCameraPermission(): Boolean {
-        return if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+       /* return if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.READ_EXTERNAL_STORAGE
             )
@@ -779,6 +805,80 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                     Manifest.permission.CAMERA)
                 // No explanation needed, we can request the permission.
                 //requestPermissions()
+            }
+            false
+        } else {
+            true
+        }*/
+
+        return if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+                    != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+
+                    != PackageManager.PERMISSION_GRANTED)
+        ) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.CAMERA
+                )
+                || ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+                || ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+
+            ) {
+                AlertDialog.Builder(this)
+                    .setTitle("Need External Permission")
+                    .setMessage("We need external access permission for uploading your image")
+                    .setPositiveButton(
+                        "ok"
+                    ) { dialogInterface: DialogInterface?, i: Int ->
+                        //Prompt the user once explanation has been shown
+                        requestPermissions()
+
+                    }.create().show()
+            } else {
+                // No explanation needed, we can request the permission.
+                // requestPermissions()
+
+
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_DENIED){
+                    println("PERMISSION_DENIED" + "PERMISSION_DENIED")
+
+                    requestPermissions()
+
+                    AlertDialog.Builder(this)
+                        .setTitle("Need External Permission")
+                        .setMessage("We need external access permission for uploading your image")
+                        .setPositiveButton(
+                            "ok"
+                        ) { dialogInterface: DialogInterface?, i: Int ->
+                            //Prompt the user once explanation has been shown
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.parse("package:${this!!.packageName}")
+                            ).apply {
+                                addCategory(Intent.CATEGORY_DEFAULT)
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(this)
+                            }
+
+                        }.create().show()
+                }else{
+                    println("GRANTED" + "GRANTED")
+                    loadBottomSheetDialog()
+                }
             }
             false
         } else {
@@ -1036,25 +1136,30 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             bindingAdapter.btnUploadImage.setCursorVisible(false);
             bindingAdapter.btnUploadImage.setKeyListener(null);
 
-            if(data.data.purchase_at != null){
+            //if(data.data.purchase_at != null){
                 if(!data.data.warranty_parts.isEmpty()){
                         warrantyPartsList.clear()
-                     warrantyPartsList.add(data.data.warranty_parts.get(pos!!))
+                    // warrantyPartsList.add(data.data.warranty_parts.get(pos!!))
                       bindingAdapter.tvServiceableWarrantyParts.visibility = VISIBLE
                 }else {
                         bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
-                    }
-            }else{
+                }
+           /* }else{
                 bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
-            }
-
+            }*/
 
         }else{
             bindingAdapter.btnTechnicianHideUpdate.visibility = View.GONE
             bindingAdapter.btnTechnicianUpdate.visibility = View.VISIBLE
 
         }
-
+      /*  if(!data.data.warranty_parts.isEmpty()){
+            warrantyPartsList.clear()
+            warrantyPartsList.add(data.data.warranty_parts.get(pos!!))
+            bindingAdapter.tvServiceableWarrantyParts.visibility = VISIBLE
+        }else {
+            bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
+        }*/
         //if(data.data.pending_technician_detail == "0" /*&& leadData.in_warranty_enquiries_count!! > "0"*/){
         if(data.data.pending_technician_detail == "0"/*&& leadData.in_warranty_enquiries_count!! > "0"*/){
             binding.includedContent.btnTaskComplete.visibility = View.VISIBLE
@@ -1115,7 +1220,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                 //  barcodeView?.pause()
                 startImageCapture()
             }
-          /*  GALLERY -> {
+            /* GALLERY -> {
                 getImageGallery()
             }*/
             CANCEL -> {
@@ -1187,7 +1292,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
 
     @SuppressLint("QueryPermissionsNeeded")
     private fun startImageCapture() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+       /* val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         if (intent.resolveActivity(this.packageManager) != null) {
@@ -1224,8 +1329,55 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                     ex.printStackTrace()
                 }
             }
+        }*/
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED) {
+                val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permission, 121)
+            } else {
+                openCamera()
+            }
+        } else {
+            openCamera()
         }
+        true
     }
+
+    private fun openCamera() {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New Picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
+        image_uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
+        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
+    }
+
+
+
+    private fun uriToBitmap(selectedFileUri: Uri): Bitmap? {
+        try {
+            val parcelFileDescriptor = contentResolver.openFileDescriptor(selectedFileUri, "r")
+            val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor
+            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+
+            resultUri = Utils.instance.reSizeImg(image,this)
+            //val resultUri = Utils.instance.getCompressedBitmap(image)
+            println("resultUri"+resultUri)
+
+            buildMutilPart()
+
+
+            //parcelFileDescriptor.close()
+            return image
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
     @Throws(IOException::class)
     private fun createImageFile(): File? {
 
@@ -1283,11 +1435,6 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                     if(it?.success == true){
                         invoiceUrl = it.data.invoice_url
 
-                       /* Alerter.create(this)
-                            .setText(it?.message.toString())
-                            .setBackgroundColorRes(R.color.orange)
-                            .setDuration(1500)
-                            .show()*/
 
                         Utils.instance.popupPinUtil(
                             this@TechnicianCustomerDetailsActivity,
@@ -1295,7 +1442,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                             null,
                             true
                         )
-                        println("invoiceUrlinvoiceUrl"+it.data.invoice_url)
+                       // println("invoiceUrlinvoiceUrl"+it.data.invoice_url)/
                         Glide.with(bindingAdapter.ivUploadImage)
                             .load(invoiceUrl)
                             //.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -1321,12 +1468,12 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
 
                     }else{
                         it?.message?.let { msg ->
-                            // Utils.instance.popupUtil(this@CustomerDetailsActivity, msg, null, false)
+                             Utils.instance.popupUtil(this@TechnicianCustomerDetailsActivity, msg, null, false)
                         }
-                        val r = Runnable {
+                        /*val r = Runnable {
                             // barcodeView?.resume()
                         }
-                        Handler().postDelayed(r, 1000)
+                        Handler().postDelayed(r, 1000)*/
                     }
                 }.run {  }
             }

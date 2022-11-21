@@ -441,7 +441,7 @@ class CloseComplaintActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
             parcelFileDescriptor?.close()
 
-            resultUri = Utils.instance.reSizeImg(image)
+            resultUri = Utils.instance.reSizeImg(image ,this)
 
         } catch (ex: java.lang.Exception) {
             ex.printStackTrace()

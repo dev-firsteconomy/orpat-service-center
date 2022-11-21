@@ -87,11 +87,18 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
     private lateinit var searchView : SearchView
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
-
+        /*if (supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
+            binding.toolbarTotalLead.text = ""
+            newRequestFragment.loadTotalLead(binding.toolbarTotalLead)
+        }*//*else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignedLeadFragment) {
+            binding.toolbarTotalLead.text = ""
+            chargeableFinishedFragment.loadTotalLead(binding.toolbarTotalLead)
+        } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment) {
+            chargeableCancelledFragment.loadSearchLead(query)
+        }*/
         return true
     }
-
-    /*override fun onBackPressed() {
+        /*override fun onBackPressed() {
         *//*if (!searchView.isIconified) {
             searchView.onActionViewCollapsed()
             searchView.isIconified = true
@@ -110,6 +117,15 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
     override fun onTabSelected(tab: TabLayout.Tab) {
         when (tab.position) {
             0 -> {
+                newRequestFragment.loadTotalLead(binding.toolbarTotalLead)
+                tab.select()
+            }
+            1 -> {
+                chargeableFinishedFragment.loadTotalLead(binding.toolbarTotalLead)
+                tab.select()
+            }
+            2 -> {
+                chargeableCancelledFragment.loadTotalLead(binding.toolbarTotalLead)
                 tab.select()
             }
             else -> {

@@ -8,7 +8,8 @@ import com.orpatservice.app.data.model.PaginationData
 class RequestLeadResponse(
     var success: Boolean,
     var data    : ListData,
-    var message: String
+    var message: String,
+    var code: Int
 )
 
 data class ListData (

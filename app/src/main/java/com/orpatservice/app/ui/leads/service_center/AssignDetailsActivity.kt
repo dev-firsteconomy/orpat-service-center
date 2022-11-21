@@ -601,7 +601,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
             val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
             parcelFileDescriptor?.close()
 
-            resultUri = Utils.instance.reSizeImg(image)
+            resultUri = Utils.instance.reSizeImg(image,this)
 
             //validationUtil()
 

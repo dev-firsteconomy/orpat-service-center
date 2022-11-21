@@ -34,6 +34,7 @@ import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.AssignedLeadAdapt
 import com.orpatservice.app.ui.leads.service_center.AssignDetailsActivity
 import com.orpatservice.app.ui.leads.service_center.RequestLeadActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
+import com.orpatservice.app.ui.login.LoginActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 
@@ -163,6 +164,7 @@ class AssignedLeadFragment  : Fragment() {
         requestLeadsViewModel.assignTechnicianData.observe(viewLifecycleOwner, this::getAssignedLeads)
     }
 
+    private var nextPage: String? = null
     private fun getAssignedLeads(resources: Resource<RequestLeadResponse>) {
         when (resources.status) {
             Status.LOADING -> {
@@ -193,7 +195,7 @@ class AssignedLeadFragment  : Fragment() {
                     if (it.success) {
                         totalPage = response.data.pagination.last_page
                         total = response.data.pagination.total
-
+                        nextPage = it.data.pagination.next_page_url
                         Constants.ASSIGN_TOTAL = total.toString()
                         
                         totalCount?.text = Constants.ASSIGN_TOTAL
@@ -205,11 +207,22 @@ class AssignedLeadFragment  : Fragment() {
                         requestsLeadsAdapter.notifyDataSetChanged()
 
                         isLoading = false
+                        if (pageNumber == 1) {
+                            requestsLeadsAdapter.notifyDataSetChanged()
+                        }else {
+                            requestsLeadsAdapter.notifyItemInserted(leadDataArrayList.size - 1)
+                        }
 
                         if(leadDataArrayList.isNullOrEmpty()){
                             binding.tvNoLeads.visibility = View.VISIBLE
                         } else {
                             binding.tvNoLeads.visibility = View.GONE
+                        }
+                    }else{
+                        if(it.code == 401){
+                            val intent = Intent(requireActivity(), LoginActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
                         }
                     }
                 }

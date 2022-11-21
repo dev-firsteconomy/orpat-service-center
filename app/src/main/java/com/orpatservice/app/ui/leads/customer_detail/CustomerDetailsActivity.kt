@@ -6,44 +6,36 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
-import android.os.Bundle
-import android.os.Environment
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.Window
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
 import com.google.gson.JsonObject
-import com.orpatservice.app.BuildConfig
 import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
@@ -56,6 +48,7 @@ import com.orpatservice.app.databinding.ItemComplaintBinding
 import com.orpatservice.app.ui.admin.technician.*
 import com.orpatservice.app.ui.leads.adapter.ComplaintAdapter
 import com.orpatservice.app.ui.leads.customer_detail.adapter.ServiceableWarrantryPartAdapter
+import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.CustomExpandableListAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.RequestData
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.VerifyGSTRequestData
@@ -80,7 +73,7 @@ import java.util.*
  */
 
 const val MY_PERMISSIONS_WRITE_READ_REQUEST_CODE = 1000
-class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraBottomSheetDialogFragment.BottomSheetItemClick {
+class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraBottomSheetDialogFragment.BottomSheetItemClick/*, DatePickerDialog.OnDateSetListener*/ {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION = 10
@@ -106,7 +99,10 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private var latitude : String = ""
     private var longitude : String = ""
     lateinit var  dialog: Dialog
+    var image_uri: Uri? = null
 
+    private val RESULT_LOAD_IMAGE = 123
+    val IMAGE_CAPTURE_CODE = 654
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -619,7 +615,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             R.id.edt_select_invoice_date ->{
                 bindingAdapter = binding
                 val tvDatePicker: TextView = view.findViewById(R.id.edt_select_invoice_date)
-                if(leadData.enquiries[position].purchase_at == null /*&& binding.edtSelectInvoiceDate.text.toString().isEmpty()*/) {
+                if(/*leadData.enquiries[position].purchase_at == null &&*/ binding.edtSelectInvoiceDate.text.toString().isEmpty()) {
                     openDatePicker(tvDatePicker)
                 }else{
                     openSelectedDatePicker(tvDatePicker)
@@ -700,10 +696,12 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.warranty_parts_list)
         val rv_complaint_list = dialog.findViewById(R.id.rv_warranty_parts_list) as RecyclerView
+        val expandableListView = dialog.findViewById(R.id.expandableListView) as ExpandableListView
         val popup_img_close = dialog.findViewById(R.id.popup_img_close) as ImageView
         popup_img_close.setOnClickListener {
             dialog.dismiss()
         }
+
         rv_complaint_list.layoutManager = LinearLayoutManager(this)
 
         // This will pass the ArrayList to our Adapter
@@ -715,8 +713,39 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             rv_complaint_list.adapter = adapter
         }
 
-        // Setting the Adapter with the recyclerview
+        if(warrantyPartsList.isNullOrEmpty()) {
+            val expandableListAdapter =
+                CustomExpandableListAdapter(
+                    this,
+                    leadData.enquiries[index!!].warranty_parts,
+                    expandableListView
+                )
+            expandableListView.setAdapter(expandableListAdapter)
+        }else{
+            val expandableListAdapter =
+                CustomExpandableListAdapter(
+                    this,
+                    warrantyPartsList,
+                    expandableListView
+                )
+            expandableListView.setAdapter(expandableListAdapter)
+        }
 
+        expandableListView.setOnGroupExpandListener { groupPosition ->
+            println("groupPosition"+groupPosition)
+
+            // tv_not_covered_condition.setVisibility(View.VISIBLE);
+
+
+        }
+
+        expandableListView.setOnGroupCollapseListener { groupPosition ->
+
+        }
+        expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
+
+            false
+        }
         dialog.show()
     }
 
@@ -799,7 +828,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                             //  arraylist.add(i.invoice_url)
                             selectedPosInvoice = i.invoice_url
                         }else{
-                            selectedPosInvoice = leadData.enquiries.get(position).invoice_url.toString()
+                            selectedPosInvoice = leadData.enquiries.get(position).invoice_url!!
                         }
                     }
                     jsonObject.addProperty("invoice_url", selectedPosInvoice)
@@ -808,8 +837,10 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 jsonObject.addProperty("purchase_at", binding.edtSelectInvoiceDate.text.toString())
                 jsonObject.addProperty("in_warranty", selectedUnderWarranty)
                 jsonObject.addProperty("invoice_no", binding.edtInvoiceNumberValue.text.toString().trim())
-                jsonObject.addProperty("seller_name", binding.edtSellerName.text.toString().trim())
+                jsonObject.addProperty("buyer_name", binding.edtBuyerName.text.toString().trim())
                 jsonObject.addProperty("seller_gst_no", binding.edtGstNumber.text.toString().trim())
+                jsonObject.addProperty("seller_name", binding.tvGstFirstName.text.toString().trim())
+                jsonObject.addProperty("seller_trade_name", binding.tvGstTradeName.text.toString().trim())
                 jsonObject.addProperty(
                     "service_center_discription",
                     binding.tvServiceCenterDescriptionValue.text.toString().trim()
@@ -841,6 +872,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
         }
     }
+
     private fun onUpdateRequest(resources: Resource<UpdateRequestResponse>) {
         when (resources.status) {
             Status.LOADING -> {
@@ -891,17 +923,17 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
              warrantyPartsList.clear()
              warrantyPartsList.add(data.data.warranty_parts.get(index!!))*/
 
-            if(data.data.purchase_at != null){
+            //if(data.data.purchase_at != null){
                 if(!data.data.warranty_parts.isEmpty()){
                     warrantyPartsList.clear()
-                    warrantyPartsList.add(data.data.warranty_parts.get(index!!))
+                   // warrantyPartsList.add(data.data.warranty_parts.get(index!!))
                     bindingAdapter.tvServiceableWarrantyParts.visibility = VISIBLE
                 }else {
                     bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
                 }
-            }else{
+            /*}else{
                 bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
-            }
+            }*/
 
         }else{
             bindingAdapter.imgUpdatedTask.visibility = View.GONE
@@ -909,6 +941,14 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             // bindingAdapter.btnHideUpdate.visibility = View.GONE
             // bindingAdapter.btnUpdate.visibility = View.VISIBLE
         }
+
+        /*if(!data.data.warranty_parts.isEmpty()){
+            warrantyPartsList.clear()
+            warrantyPartsList.add(data.data.warranty_parts.get(index!!))
+            bindingAdapter.tvServiceableWarrantyParts.visibility = VISIBLE
+        }else {
+            bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
+        }*/
 
         if(data.data.pending_lead_enqury_detail_count == "0" /*&& data.data.in_warranty_enquiries_count > "0"*/){
             binding.includedContent.btnAssignTechnician.visibility = View.VISIBLE
@@ -921,22 +961,38 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     }
 
     private fun openDatePicker(tvDatePicker: TextView) {
-        val calendar: Calendar = Calendar.getInstance()
+        /*val calendar: Calendar = Calendar.getInstance()
         val  dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendar[Calendar.YEAR] = year
             calendar[Calendar.MONTH] = month
-            calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
+            calendar[Calendar.DAY_OF_MONTH] = dayOfMonth*/
             val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
 
-            tvDatePicker.setText(simpleDateFormat.format(calendar.time))
+
+            val calendar = Calendar.getInstance()
+            val year = calendar[Calendar.YEAR]
+            val month = calendar[Calendar.MONTH]
+            val day = calendar[Calendar.DAY_OF_MONTH]
+          //  tvDatePicker.setText(simpleDateFormat.format(calendar.time))
+          //  bindingAdapter.tvErrorInvoiceDate.visibility = GONE
+      //  }
+
+        /*val datePickerDialog = DatePickerDialog(
+            this@CustomerDetailsActivity, dateSetListener, calendar
+                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )*/
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            tvDatePicker.setText(dayOfMonth.toString() + "/" + (month+1) + "/" + year)
             bindingAdapter.tvErrorInvoiceDate.visibility = GONE
         }
 
         val datePickerDialog = DatePickerDialog(
-            this@CustomerDetailsActivity, dateSetListener, calendar
-                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
+            this,
+            AlertDialog.THEME_HOLO_LIGHT, dateSetListener, year, month, day
         )
+
+
         //following line to restrict future date selection
         //following line to restrict future date selection
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
@@ -949,16 +1005,22 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         val calendar: Calendar = Calendar.getInstance()
         val calendarEnd: Calendar = Calendar.getInstance()
 
-        val date = leadData.enquiries[index!!].purchase_at
-        //val date =bindingAdapter.edtSelectInvoiceDate.text.toString()
-        val selectedDate = date?.split("/")
 
-        var dayofMonth = selectedDate?.get(0)
-        var months = selectedDate?.get(1)
-        var years = selectedDate?.get(2)
+        /*val year = calendar[Calendar.YEAR]
+        val month = calendar[Calendar.MONTH]
+        val day = calendar[Calendar.DAY_OF_MONTH]
+*/
+
+       // val date = leadData.enquiries[index!!].purchase_at
+        val date =bindingAdapter.edtSelectInvoiceDate.text.toString()
+        val selectedDate = date.split("/")
+
+        var dayofMonth = selectedDate.get(0)
+        var months = selectedDate.get(1)
+        var years = selectedDate.get(2)
 
 
-        val  dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+        /*val  dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             if (years != null) {
                 calendar[Calendar.YEAR] = years. toInt()
             }
@@ -971,13 +1033,36 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             tvDatePicker.setText(simpleDateFormat.format(calendar.time))
             bindingAdapter.tvErrorInvoiceDate.visibility = GONE
         }
+*/
 
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
 
-        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, myear, mmonth, mdayOfMonth ->
+            if (years != null) {
+                calendar[Calendar.YEAR] = years. toInt()
+            }
+            if (months != null) {
+                calendar[Calendar.MONTH -1] = months.toInt()
+            }
+            calendar[Calendar.DAY_OF_MONTH] = dayofMonth!!.toInt()
 
-            tvDatePicker.setText(""+calendar[Calendar.DAY_OF_MONTH]  +"/"+ calendar[Calendar.MONTH]  +"/"+ calendar[Calendar.YEAR])
-           // tvDatePicker.setText(""+mdayOfMonth +"/"+ mmonth  +"/"+ myear)
+            //val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+           // tvDatePicker.setText(simpleDateFormat.format(calendar.time))
+            tvDatePicker.setText(dayOfMonth.toString() + "/" + (month+1) + "/" + year)
+            bindingAdapter.tvErrorInvoiceDate.visibility = GONE
+        }
+
+        /*val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, myear, mmonth, mdayOfMonth ->
+
+           tvDatePicker.setText(""+calendar[Calendar.DAY_OF_MONTH]  +"/"+ calendar[Calendar.MONTH]  +"/"+ calendar[Calendar.YEAR])
+         // tvDatePicker.setText(""+mdayOfMonth +"/"+ mmonth  +"/"+ myear)
         }, years!!.toInt(), (months!!.toInt()), dayofMonth!!.toInt())
+*/
+
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            AlertDialog.THEME_HOLO_LIGHT, dateSetListener, years!!.toInt(), (months!!.toInt()-1), dayofMonth!!.toInt()
+        )
 
         datePickerDialog.show()
         //following line to restrict future date selection
@@ -994,8 +1079,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     }
 
     private fun checkCameraPermission(): Boolean {
-        println("checkCameraPermission"+"checkCameraPermission")
-        return  if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        /*return  if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.READ_EXTERNAL_STORAGE
             )
@@ -1032,16 +1116,90 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             } else {
                 println("NOTclicked" + "NOTclicked")
                 requestPermissions()
-                /*Intent(
+                *//*Intent(
                     ACTION_APPLICATION_DETAILS_SETTINGS,
                     Uri.parse("package:${this!!.packageName}")
                 ).apply {
                     addCategory(Intent.CATEGORY_DEFAULT)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(this)
-                }*/
+                }*//*
                 // No explanation needed, we can request the permission.
                 //requestPermissions()
+            }
+            false
+        } else {
+            true
+        }*/
+
+        return if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+                    != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+
+                    != PackageManager.PERMISSION_GRANTED)
+        ) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.CAMERA
+                )
+                || ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+                || ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+
+            ) {
+                AlertDialog.Builder(this)
+                    .setTitle("Need External Permission")
+                    .setMessage("We need external access permission for uploading your image")
+                    .setPositiveButton(
+                        "ok"
+                    ) { dialogInterface: DialogInterface?, i: Int ->
+                        //Prompt the user once explanation has been shown
+                        requestPermissions()
+
+                    }.create().show()
+            } else {
+                // No explanation needed, we can request the permission.
+                // requestPermissions()
+
+
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_DENIED){
+                    println("PERMISSION_DENIED" + "PERMISSION_DENIED")
+
+                    requestPermissions()
+
+                    AlertDialog.Builder(this)
+                        .setTitle("Need External Permission")
+                        .setMessage("We need external access permission for uploading your image")
+                        .setPositiveButton(
+                            "ok"
+                        ) { dialogInterface: DialogInterface?, i: Int ->
+                            //Prompt the user once explanation has been shown
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.parse("package:${this!!.packageName}")
+                            ).apply {
+                                addCategory(Intent.CATEGORY_DEFAULT)
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(this)
+                            }
+
+                        }.create().show()
+                }else{
+                    println("GRANTED" + "GRANTED")
+                    loadBottomSheetDialog()
+                }
             }
             false
         } else {
@@ -1052,7 +1210,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
     @SuppressLint("QueryPermissionsNeeded")
     private fun startImageCapture() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+       /* val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         if (intent.resolveActivity(this.packageManager) != null) {
@@ -1089,7 +1247,68 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                     ex.printStackTrace()
                 }
             }
+        }*/
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED) {
+                val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permission, 121)
+            } else {
+                openCamera()
+            }
+        } else {
+            openCamera()
         }
+        true
+    }
+
+    private fun openCamera() {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New Picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
+        image_uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
+        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK) {
+            //imageView.setImageURI(image_uri);
+            val bitmap = uriToBitmap(image_uri!!)
+            //binding.liUploadFileValue.visibility = VISIBLE
+            //binding.uploadedImg.setImageBitmap(bitmap)
+        }
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+            image_uri = data.data
+            //imageView.setImageURI(image_uri);
+            val bitmap = uriToBitmap(image_uri!!)
+            //binding.liUploadFileValue.visibility = VISIBLE
+            // binding.uploadedImg?.setImageBitmap(bitmap)
+        }
+    }
+
+    private fun uriToBitmap(selectedFileUri: Uri): Bitmap? {
+        try {
+            val parcelFileDescriptor = contentResolver.openFileDescriptor(selectedFileUri, "r")
+            val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor
+            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+
+            resultUri = Utils.instance.reSizeImg(image,this)
+            //val resultUri = Utils.instance.getCompressedBitmap(image)
+            println("resultUri"+resultUri)
+
+            buildMutilPart()
+
+
+            //parcelFileDescriptor.close()
+            return image
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return null
     }
 
     override fun bottomSheetItemClick(clickAction: String?) {
@@ -1160,10 +1379,14 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     }
 
     private fun getImageGallery() {
-        val chosePhoto =
+        /*val chosePhoto =
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         chosePhoto.type = "image/*"
-        startForResultGallery.launch(chosePhoto)
+        startForResultGallery.launch(chosePhoto)*/
+         */
+
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE)
 
     }
     private val startForResultGallery =
@@ -1188,7 +1411,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
             parcelFileDescriptor?.close()
 
-            resultUri = Utils.instance.reSizeImg(image)
+            resultUri = Utils.instance.reSizeImg(image,this)
 
 
             //validationUtil()
@@ -1323,10 +1546,19 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                         it?.message?.let { msg ->
                              Utils.instance.popupUtil(this@CustomerDetailsActivity, msg, null, false)
                         }
-                        val r = Runnable {
+
+                        bindingAdapter.tvGstName.visibility = GONE
+                        bindingAdapter.tvGstFirstName.visibility = GONE
+                        bindingAdapter.tvGstTrade.visibility = GONE
+                        bindingAdapter.tvGstTradeName.visibility = GONE
+                        bindingAdapter.tvErrorGstNumber.visibility = GONE
+
+                        bindingAdapter.tvGstFirstName.text = ""
+                        bindingAdapter.tvGstTradeName.text = ""
+                        /*val r = Runnable {
                             // barcodeView?.resume()
                         }
-                        Handler().postDelayed(r, 1000)
+                        Handler().postDelayed(r, 1000)*/
                     }
                 }.run {  }
             }
@@ -1344,5 +1576,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 complaintAdapter.notifyItemChanged(lastClickedPos)
             }
         }
+
+   /* override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        textview.setText(day + ":" + (month+1) + ":" + year);
+    }*/
 }
 

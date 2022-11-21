@@ -86,8 +86,8 @@ public class ApiClient {
     @NonNull
     private static Retrofit getHeaderRetrofitInstance(boolean hasSSLPinning) {
         /* String baseUrl = SharedPrefs.getInstance().getString(SharedPrefsConstant.BASE_URL, BuildConfig.DOMAIN);*/
-       // String baseUrl = BuildConfig.DOMAIN;
-        String baseUrl = "https://testingservice.orpatdistributors.com/api/";
+        String baseUrl = BuildConfig.DOMAIN;
+       // String baseUrl = "https://testingservice.orpatdistributors.com/api/";
 
         Gson gson = new GsonBuilder()
                 .setLenient()

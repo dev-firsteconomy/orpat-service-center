@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
+import com.orpatservice.app.ui.login.LoginActivity
 import com.orpatservice.app.utils.DividerItemDecorator
 
 
@@ -142,11 +143,11 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
                     data?.let {
                         if (it.success) {
-                           // totalPage = it.data.pagination.last_page
+                            totalPage = it.data.pagination.last_page
                             techList.addAll(it.data.data)
-                        //    nextPage = it.data.pagination.next_page_url
+                            nextPage = it.data.pagination.next_page_url
 
-                            //technicianAdapter.notifyDataSetChanged()
+                            technicianAdapter.notifyDataSetChanged()
                             isLoading = false
 
                             if (pageNumber == 1)
@@ -154,6 +155,12 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
                             else
                                 technicianAdapter.notifyItemInserted(techList.size - 1)
 
+                        }else{
+                            if(it.code == 401){
+                                val intent = Intent(this, LoginActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
                         }
                     } ?: run {
                         /*Alerter.create(this@TechniciansActivity)

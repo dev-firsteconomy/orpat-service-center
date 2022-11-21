@@ -1,12 +1,16 @@
 package com.orpatservice.app.ui.leads.customer_detail
 
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityFullScreenImageBinding
 import com.orpatservice.app.utils.Constants
+import com.orpatservice.app.utils.ScaleListener
+
 
 /**
  * Created by Vikas Singh on 01/01/22.
@@ -14,6 +18,7 @@ import com.orpatservice.app.utils.Constants
 
 class FullScreenImageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFullScreenImageBinding
+    var scaleGestureDetector : ScaleGestureDetector?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,5 +33,12 @@ class FullScreenImageActivity : AppCompatActivity() {
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .placeholder(R.color.gray)
             .into(binding.ivFullScreenImage)
+
+        scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
+    }
+
+    override fun onTouchEvent(motionEvent: MotionEvent?): Boolean {
+        scaleGestureDetector?.onTouchEvent(motionEvent)
+        return true
     }
 }
