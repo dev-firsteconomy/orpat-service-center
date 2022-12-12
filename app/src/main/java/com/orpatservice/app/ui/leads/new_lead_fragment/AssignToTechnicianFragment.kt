@@ -55,7 +55,6 @@ class AssignToTechnicianFragment : Fragment() , LocationListener {
     private var isLoading: Boolean = false
     private var pageNumber = 1
     private var totalPage = 1
-
     private var latitude: String =""
     private var longitude: String =""
     private var total = 0

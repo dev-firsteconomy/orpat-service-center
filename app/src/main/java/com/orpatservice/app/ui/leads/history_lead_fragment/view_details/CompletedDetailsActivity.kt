@@ -150,7 +150,7 @@ class CompletedDetailsActivity : AppCompatActivity(), View.OnClickListener, Came
         binding.includedContent.tvCustomerNameValue.text = leadData.name
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
-        binding.includedContent.tvFullAddressValue.text = leadData.address1+""+", "+""+leadData.address2
+        binding.includedContent.tvFullAddressValue.text = leadData.address1+""+", "+""+leadData.address2+""+", "+""+leadData.landmark
         binding.includedContent.tvTvRequestIdValue.text = leadData.complain_id.toString()
         //binding.includedContent.tvRequestDateValue.text = leadData.service_center_assigned_at
         binding.includedContent.tvTimerValue.text = leadData.timer
@@ -193,10 +193,11 @@ class CompletedDetailsActivity : AppCompatActivity(), View.OnClickListener, Came
     }
 
     private fun goToFullScreenImageActivity(invoiceImage: String?) {
-        val intent = Intent(this, FullScreenImageActivity::class.java)
-
-        intent.putExtra(Constants.IMAGE_URL, invoiceImage)
-        startActivity(intent)
+        if(!invoiceImage.isNullOrEmpty()) {
+            val intent = Intent(this, FullScreenImageActivity::class.java)
+            intent.putExtra(Constants.IMAGE_URL, invoiceImage)
+            startActivity(intent)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -669,7 +670,7 @@ class CompletedDetailsActivity : AppCompatActivity(), View.OnClickListener, Came
                             .load(invoiceUrl)
                             //  .diskCacheStrategy(DiskCacheStrategy.ALL)
                             //.circleCrop() // .error(R.drawable.active_dot)
-                            .placeholder(R.color.gray)
+                            .placeholder(R.drawable.ic_no_invoice)
                             .into(bindingAdapter.ivInvoiceImage)
 
                     }else{

@@ -64,6 +64,18 @@ object Constants {
         "Cancelled",
     )
 
+
+    val orderCountArray = arrayOf(
+        "new_request_count",
+        "assigned_request_count",
+        "verify_request_count",
+        "history_completed_request_count",
+        "history_cancelled_request_count",
+        "chargeable_new_request_count",
+        "chargeable_completed_request_count",
+        "chargeable_cancelled_request_count",
+    )
+
     const val PARENT = 0
     const val CHILD = 1
 
@@ -90,7 +102,7 @@ object Constants {
     // Technician
     const val IS_NAV = "IS_NAV"
     const val LEADS_ID = "LEADS_ID"
-    const val IMAGE_URL = "IMAGE_URL"
+    var IMAGE_URL = "IMAGE_URL"
     const val SELECTED_PARTS = "SELECTED_PARTS"
     const val TECHNICIAN_ID = "SELECTED_PARTS"
     const val COMPLAINT_ID = "COMPLAINT_ID"

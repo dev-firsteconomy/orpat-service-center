@@ -211,5 +211,6 @@
     <string name="buyer_text_string">Buyer Name</string>
     <string name="login_password">Login Password</string>
     <string name="not_covered_below_condition_string">Not covered under below condition</string>
+    <string name="warning_msg_string">Please upload all part images which you have replaced</string>
 
 </resources>

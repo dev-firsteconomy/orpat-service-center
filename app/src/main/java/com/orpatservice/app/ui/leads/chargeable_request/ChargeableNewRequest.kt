@@ -30,6 +30,7 @@ import com.orpatservice.app.databinding.LayoutDialogCancelLeadBinding
 import com.orpatservice.app.ui.leads.adapter.RequestsLeadsAdapter
 import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsActivity
 import com.orpatservice.app.ui.leads.new_lead_fragment.NewRequestsFragment
+import com.orpatservice.app.ui.leads.service_center.AssignDetailsActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
@@ -52,7 +53,14 @@ class ChargeableNewRequest : Fragment() {
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
             R.id.btn_view_details -> {
-                val intent = Intent(activity, ChargeableRequestDetailsActivity::class.java)
+               /* val intent = Intent(activity, ChargeableRequestDetailsActivity::class.java)
+
+                intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
+                //No need to send new lead data because closing complaint perform through adapter
+                intent.putExtra(Constants.LEAD_TYPE, Constants.LEAD_NEW)
+                startActivity(intent)*/
+
+                 val intent = Intent(activity, ChargeableViewDetailsActivity::class.java)
 
                 intent.putExtra(Constants.LEAD_DATA, leadDataArrayList[position])
                 //No need to send new lead data because closing complaint perform through adapter

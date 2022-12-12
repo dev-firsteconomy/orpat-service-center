@@ -219,7 +219,7 @@ class CompletedDetailsAdapter (
                 .load(enquiry.invoice_url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 //.circleCrop() // .error(R.drawable.active_dot)
-                .placeholder(R.color.gray)
+                .placeholder(R.drawable.ic_no_invoice)
                 .into(binding.ivInvoiceImage)
 
             Glide.with(binding.ivQrCodeImage.context)

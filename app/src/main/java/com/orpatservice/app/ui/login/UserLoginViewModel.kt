@@ -31,7 +31,7 @@ class UserLoginViewModel : ViewModel() {
     }
     //API to get OTP on user register mobile number
     fun hitOTPApi(mobileNumber: String) {
-        if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
+       /* if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
         //No need for now, as per discussion Service Center have login by email and password
         //DataRepository.instance.hitServiceCenterOTPApi(mobileNumber).enqueue(callbackGetOTP)
         } else if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
@@ -39,7 +39,13 @@ class UserLoginViewModel : ViewModel() {
            DataRepository.instance.hitTechnicianOTPApi(mobileNumber).
            enqueue(callbackGetOTP)
         }
+*/
 
+        //if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
+
+            DataRepository.instance.hitTechnicianOTPApi(mobileNumber).
+            enqueue(callbackGetOTP)
+      //  }
     }
 
     private val callbackGetOTP: Callback<OTPSendResponse> =

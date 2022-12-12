@@ -46,5 +46,6 @@
     <dimen name="text_size_18">18dp</dimen>
     <dimen name="text_size_14">14dp</dimen>
     <dimen name="text_size_12">12dp</dimen>
+    <dimen name="text_size_10">10dp</dimen>
     <dimen name="indicator_right_side">350dp</dimen>
 </resources>

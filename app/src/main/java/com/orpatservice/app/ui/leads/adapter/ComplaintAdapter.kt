@@ -112,107 +112,12 @@ class ComplaintAdapter(
                     binding.radiobtnNo.isChecked = false
                 }
 
-
-                //binding.btnUpdate.visibility = View.GONE
-                //binding.btnHideUpdate.visibility = View.VISIBLE
-
-                /*binding.tvServiceCenterDescriptionValue.setText(enquiry.service_center_discription)
-                binding.tvServiceCenterDescriptionValue.setFocusable(false);
-                binding.tvServiceCenterDescriptionValue.setEnabled(false);
-                binding.tvServiceCenterDescriptionValue.setCursorVisible(false);
-                binding.tvServiceCenterDescriptionValue.setKeyListener(null);*/
-               /// binding.tvServiceCenterDescriptionValue.setBackgroundColor(Color.TRANSPARENT);
-
-                /*binding.edtInvoiceNumberValue.setText(enquiry.invoice_no)
-                binding.edtInvoiceNumberValue.setFocusable(false);
-                binding.edtInvoiceNumberValue.setEnabled(false);
-                binding.edtInvoiceNumberValue.setCursorVisible(false);
-                binding.edtInvoiceNumberValue.setKeyListener(null);*/
-               // binding.edtInvoiceNumberValue.setBackgroundColor(Color.TRANSPARENT);
-
-                /*binding.edtSelectInvoiceDate.setText(enquiry.purchase_at)
-                binding.edtSelectInvoiceDate.setFocusable(false);
-                binding.edtSelectInvoiceDate.setEnabled(false);
-                binding.edtSelectInvoiceDate.setCursorVisible(false);
-                binding.edtSelectInvoiceDate.setKeyListener(null);*/
-               // binding.edtSelectInvoiceDate.setBackgroundColor(Color.TRANSPARENT);
-
-                /*binding.edtSellerName.setText(enquiry.seller_name)
-                binding.edtSellerName.setFocusable(false);
-                binding.edtSellerName.setEnabled(false);
-                binding.edtSellerName.setCursorVisible(false);
-                binding.edtSellerName.setKeyListener(null);*/
-               // binding.edtSellerName.setBackgroundColor(Color.TRANSPARENT);
-
-                /*binding.edtGstNumber.setText(enquiry.seller_gst_no)
-                binding.edtGstNumber.setFocusable(false);
-                binding.edtGstNumber.setEnabled(false);
-                binding.edtGstNumber.setCursorVisible(false);
-                binding.edtGstNumber.setKeyListener(null);*/
-               // binding.edtGstNumber.setBackgroundColor(Color.TRANSPARENT);
-
-
-                /*binding.tvVerifyGst.setFocusable(false);
-                binding.tvVerifyGst.setEnabled(false);
-                binding.tvVerifyGst.setCursorVisible(false);
-                binding.tvVerifyGst.setKeyListener(null);*/
-                // binding.edtGstNumber.setBackgroundColor(Color.TRANSPARENT);
-
-                /*binding.btnUploadInvoices.isEnabled = false
-                binding.btnUploadInvoices.isClickable = false*/
-
-                /*if(enquiry.in_warranty.equals("Yes")){
-                    binding.radiobtnYes.isChecked = true
-
-                    binding.radiobtnNo.isChecked = false
-                    binding.radiobtnNotSure.isChecked = false
-
-                    binding.radiobtnNo.setFocusable(false);
-                    binding.radiobtnNo.setEnabled(false);
-                    binding.radiobtnNo.setCursorVisible(false);
-                    binding.radiobtnNo.setKeyListener(null);
-
-
-                    binding.radiobtnNotSure.setFocusable(false);
-                    binding.radiobtnNotSure.setEnabled(false);
-                    binding.radiobtnNotSure.setCursorVisible(false);
-                    binding.radiobtnNotSure.setKeyListener(null);
-
-                }else if(enquiry.in_warranty.equals("No")){
-                    binding.radiobtnNo.isChecked = true
-
-                    binding.radiobtnYes.isChecked = false
-                    binding.radiobtnNotSure.isChecked = false
-
-                    binding.radiobtnYes.setFocusable(false);
-                    binding.radiobtnYes.setEnabled(false);
-                    binding.radiobtnYes.setCursorVisible(false);
-                    binding.radiobtnYes.setKeyListener(null);
-
-
-                    binding.radiobtnNotSure.setFocusable(false);
-                    binding.radiobtnNotSure.setEnabled(false);
-                    binding.radiobtnNotSure.setCursorVisible(false);
-                    binding.radiobtnNotSure.setKeyListener(null);
-
-                }else if(enquiry.in_warranty.equals("Not Sure")){
-                    binding.radiobtnNotSure.isChecked = true
-
-                    binding.radiobtnYes.isChecked = false
-                    binding.radiobtnNo.isChecked = false
-
-                    binding.radiobtnYes.setFocusable(false);
-                    binding.radiobtnYes.setEnabled(false);
-                    binding.radiobtnYes.setCursorVisible(false);
-                    binding.radiobtnYes.setKeyListener(null);
-
-
-                    binding.radiobtnNo.setFocusable(false);
-                    binding.radiobtnNo.setEnabled(false);
-                    binding.radiobtnNo.setCursorVisible(false);
-                    binding.radiobtnNo.setKeyListener(null);
-                }*/
-
+                binding.imgInvoiceImage.setOnClickListener {
+                    itemClickListener(
+                        adapterPosition,
+                        binding.imgInvoiceImage,binding
+                    )
+                }
 
             }else{
                 binding.imgUpdatedTask.visibility = View.GONE
@@ -220,6 +125,12 @@ class ComplaintAdapter(
                 binding.btnHideUpdate.visibility = View.GONE
                // binding.tvServiceableWarrantyParts.visibility = GONE
 
+                binding.imgInvoiceImage.setOnClickListener {
+                    itemClickListener(
+                        adapterPosition,
+                        binding.imgInvoiceImage,binding
+                    )
+                }
             }
 
             binding.tvDescriptionValue.text = enquiry.customer_discription
@@ -355,12 +266,12 @@ class ComplaintAdapter(
               binding.tvErrorUnderWarranty.visibility = GONE
             })
 
-            Glide.with(binding.ivInvoiceImage.context)
+            Glide.with(binding.imgInvoiceImage.context)
                 .load(enquiry.invoice_url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 //.circleCrop() // .error(R.drawable.active_dot)
-                .placeholder(R.color.gray)
-                .into(binding.ivInvoiceImage)
+                .placeholder(R.drawable.ic_no_invoice)
+                .into(binding.imgInvoiceImage)
 
             Glide.with(binding.ivQrCodeImage.context)
                 .load(enquiry.dummy_barcode)
@@ -369,10 +280,17 @@ class ComplaintAdapter(
                 .placeholder(R.color.gray)
                 .into(binding.ivQrCodeImage)
             binding.tvQrCodeNumber.text = enquiry.scanned_barcode
-            binding.ivInvoiceImage.setOnClickListener {
+
+           /* binding.ivInvoiceImage.setOnClickListener {
                 itemClickListener(
                     adapterPosition,
                     binding.ivInvoiceImage,binding
+                )
+            }*/
+            binding.imgClose.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.imgClose,binding
                 )
             }
             binding.btnUploadInvoices.setOnClickListener{
@@ -387,10 +305,10 @@ class ComplaintAdapter(
                     binding.edtSelectInvoiceDate,binding
                 )
             }
-            binding.ivInvoiceImage.setOnClickListener {
+            binding.imgInvoiceImage.setOnClickListener {
                 itemClickListener(
                     adapterPosition,
-                    binding.ivInvoiceImage,binding
+                    binding.imgInvoiceImage,binding
                 )
             }
 

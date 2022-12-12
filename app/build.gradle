@@ -14,8 +14,8 @@ android {
         applicationId "com.orpatservice.app"
         minSdk 21
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -93,7 +93,7 @@ android {
     }
 
     compileOptions {
-        //coreLibraryDesugaringEnabled true
+       // coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -153,10 +153,10 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
 
-    /*implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+   /* implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-    implementation "androidx.multidex:multidex:2.0.1"*/
-
+    implementation "androidx.multidex:multidex:2.0.1"
+*/
 
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
@@ -177,8 +177,4 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
-
-    implementation("io.coil-kt:coil:0.9.1")
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-
 }

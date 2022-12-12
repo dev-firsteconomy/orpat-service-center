@@ -39,7 +39,7 @@
                 android:layout_gravity="end"
                 android:text="3"
                 android:textColor="@color/white"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/iv_request"
                 app:layout_constraintEnd_toEndOf="@id/iv_request"
                 app:layout_constraintHorizontal_bias="0.0"

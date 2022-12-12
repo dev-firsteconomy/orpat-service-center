@@ -1,6 +1,6 @@
 package com.orpatservice.app.ui.leads.technician.adapter
 
-import android.service.voice.VisibleActivityInfo
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -67,7 +67,7 @@ class TechnicianHistoryDetailsAdapter (
             binding.edtInvoiceNumberValue.text = enquiry.invoice_no
             binding.edtSelectInvoiceDate.text = enquiry.purchase_at
 
-            val str = leadData.created_at
+            val str = enquiry.purchase_at
             val delimiter = " "
             val parts = str?.split(delimiter)
 
@@ -229,7 +229,7 @@ class TechnicianHistoryDetailsAdapter (
                 .load(enquiry.invoice_url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 //.circleCrop() // .error(R.drawable.active_dot)
-                .placeholder(R.color.gray)
+                .placeholder(R.drawable.ic_no_invoice)
                 .into(binding.ivInvoiceImage)
 
             Glide.with(binding.ivQrCodeImage.context)

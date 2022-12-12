@@ -10,10 +10,7 @@ data class TechnicianUpdateRequestResponse (
     val success: Boolean
     )
     data class UpdateData(
-        /*val technician_detail_status: String,
-        val pending_lead_enqury_detail_count: String,
-        val in_warranty_enquiries_count: String,
-        val pending_technician_detail: String,*/
+
         var invoice_url: String?,
         var scanned_barcode: String? ,
         // var qr_image: String?,
@@ -30,6 +27,7 @@ data class TechnicianUpdateRequestResponse (
         val pending_lead_enqury_detail_count: String,
         val in_warranty_enquiries_count: String,
         val pending_technician_detail: String,
+        val pending_technician_detail_count: String,
         var warranty_parts: ArrayList<WarrantryPart> = arrayListOf(),
         var lead_enquiry_images: ArrayList<TechnicianEnquiryImage> = arrayListOf()
 

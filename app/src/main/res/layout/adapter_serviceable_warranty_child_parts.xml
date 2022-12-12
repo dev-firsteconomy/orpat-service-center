@@ -28,4 +28,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtHeader"/>
 
+    <View
+        android:id="@+id/txtFooter"
+        android:textColor="@android:color/holo_green_light"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:background="@color/brown"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_serviceable_warranty_child_parts_name"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

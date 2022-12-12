@@ -37,6 +37,7 @@ class TechnicianLoginFragment : Fragment(), View.OnClickListener {
 
             showLoadingUI()
             val mobileNumber = binding.edtMobile.text.toString()
+
             (activity as LoginActivity).signUpTechnician(mobileNumber)
         }
     }
@@ -44,6 +45,7 @@ class TechnicianLoginFragment : Fragment(), View.OnClickListener {
     fun showLoadingUI() {
         binding.btnContinueMobile.visibility = View.INVISIBLE
         binding.cpiLoading.visibility = View.VISIBLE
+
     }
 
     fun hideLoadingUI() {

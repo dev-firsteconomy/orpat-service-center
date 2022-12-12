@@ -129,7 +129,7 @@ class TechnicianRequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelect
             if (isLocationEnabled()) {
 
                 mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                    var location: Location? = task.result
+                    val location: Location? = task.result
                     if (location == null) {
                         requestNewLocationData()
                     } else {

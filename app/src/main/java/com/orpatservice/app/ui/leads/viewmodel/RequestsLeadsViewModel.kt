@@ -1,7 +1,9 @@
 package com.orpatservice.app.ui.leads.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.JsonObject
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.model.requests_leads.CancelLeadResponse
 import com.orpatservice.app.data.model.requests_leads.RequestLeadResponse
@@ -12,6 +14,8 @@ import com.orpatservice.app.ui.admin.dashboard.RequestSynAppResponse
 import com.orpatservice.app.ui.admin.dashboard.RequestTechnicianSynAppResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
+import com.orpatservice.app.ui.leads.service_center.response.OrderCountResponse
+import com.orpatservice.app.ui.leads.technician.TechnicianUpdateRequestResponse
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
 import com.orpatservice.app.utils.Constants
 import retrofit2.Call
@@ -81,6 +85,14 @@ class RequestsLeadsViewModel : ViewModel() {
             DataRepository.instance.hitTechnicianSearchPendingLeads(keyword).enqueue(callbackPendingLeads)*/
         }
     }
+
+    fun hitOrderCountRequest(
+        requestBody: JsonObject,
+
+        ): LiveData<Resource<OrderCountResponse>> {
+        return DataRepository.instance.hitOrderCountRequestApi(requestBody)
+    }
+
 
     private val callbackPendingLeads: Callback<RequestLeadResponse> =
         object : Callback<RequestLeadResponse> {

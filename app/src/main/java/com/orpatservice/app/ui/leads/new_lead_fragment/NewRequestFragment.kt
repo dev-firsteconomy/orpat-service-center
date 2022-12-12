@@ -198,11 +198,7 @@ class NewRequestsFragment : Fragment() {
                 binding.cpiLoading.visibility = View.GONE
                 isLoading = false
                 activity?.let {
-                   /* Alerter.create(it)
-                        .setText(resources.error?.message.toString())
-                        .setBackgroundColorRes(R.color.orange)
-                        .setDuration(1500)
-                        .show()*/
+
 
                     Utils.instance.popupPinUtil(requireActivity(),
                         resources.error?.message.toString(),

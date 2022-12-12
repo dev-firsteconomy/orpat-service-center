@@ -12,7 +12,6 @@ import com.orpatservice.app.utils.Constants
 
 class SliderScreenImageActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySliderImageBinding
-    //private lateinit var imageData: TechnicianImageData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +19,7 @@ class SliderScreenImageActivity : AppCompatActivity() {
         binding = ActivitySliderImageBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val imageList = intent.getSerializableExtra(Constants.IMAGE_DATA) as ArrayList<*>?
-        println("myListmyList"+imageList)
+
        // imageData = intent?.getParcelableExtra<TechnicianImageData>(Constants.IMAGE_DATA) as TechnicianImageData
 
 
@@ -34,8 +33,10 @@ class SliderScreenImageActivity : AppCompatActivity() {
 
     private fun displayList(imageList: ArrayList<*>?) {
         val imgList = CommonUtils.imageList
-        println("CommonUtils.imageList"+CommonUtils.imageList)
+
         binding.recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         binding.recyclerView.adapter = ImageSliderAdapter(this,imageList as ArrayList<String>)
+
+
     }
 }

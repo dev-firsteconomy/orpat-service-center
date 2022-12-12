@@ -66,7 +66,7 @@ class ChargeableRequestDetailsActivity: AppCompatActivity() {
         binding.tvRequestDateValue.text = leadData.created_at
         binding.tvPincodeValue.text = leadData.pincode
         binding.tvStatusValue.text = leadData.status
-        binding.tvAddressValue.text = leadData.address1+""+" "+""+leadData.address2
+        binding.tvAddressValue.text = leadData.address1+""+" "+""+leadData.address2+""+", "+""+leadData.landmark
 
         if(leadData.is_open.equals("false")){
             binding.btnCancel.visibility = GONE

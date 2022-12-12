@@ -172,7 +172,6 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         bindUserDetails(leadData)
         setObserver()
 
-
     }
 
     private fun setObserver() {
@@ -260,7 +259,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         binding.includedContent.tvCustomerNameValue.text = leadData.name
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
-        binding.includedContent.tvFullAddressValue.text = leadData.address1+""+","+""+leadData.address2/*+""+","+""+leadData.state*/
+        binding.includedContent.tvFullAddressValue.text = leadData.address1+""+","+""+leadData.address2+""+", "+""+leadData.landmark
         binding.includedContent.tvTvRequestIdValue.text = leadData.complain_id.toString()
        // binding.includedContent.tvRequestDateValue.text = leadData.service_center_assigned_at
         val str = leadData.created_at
@@ -658,17 +657,18 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             }
         }else if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK) {
                 //imageView.setImageURI(image_uri);
-                val bitmap = uriToBitmap(image_uri!!)
+                val bitmap = image_uri!!.let { uriToBitmap(it) }
                 //binding.liUploadFileValue.visibility = VISIBLE
                 //binding.uploadedImg.setImageBitmap(bitmap)
             }
     }
 
     private fun goToFullScreenImageActivity(invoiceImage: String?) {
-        val intent = Intent(this, FullScreenImageActivity::class.java)
-
-        intent.putExtra(Constants.IMAGE_URL, invoiceImage)
-        startActivity(intent)
+        if(!invoiceImage.isNullOrEmpty()) {
+            val intent = Intent(this, FullScreenImageActivity::class.java)
+            intent.putExtra(Constants.IMAGE_URL, invoiceImage)
+            startActivity(intent)
+        }
     }
     private fun goToSliderImageActivity(imageList: ArrayList<ImageListData>?) {
         val arraylist = ArrayList<String>()
@@ -708,26 +708,8 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                     jsonObj.addProperty("file",i)
                     //jsArray.add(jsonObj)
                     jsArray.add(i)
-                    //println("i.file"+jsArray)
                 }
-                /*for (i in CommonUtils.imageList){
-                    val jsonObj = JsonObject()
-                    jsonObj.addProperty("file",i.file)
-                    //jsArray.add(jsonObj)
-                    jsArray.add(i.file)
-                    //println("i.file"+jsArray)
-                }*/
 
-               /* if (invoiceUrl == null) {
-                    jsonObject.addProperty(
-                       // "image_link", enquiryImage!![position].image
-                        "image_link", leadData.enquiries.get(pos!!).invoice_url
-                    )
-                } else {
-                    jsonObject.addProperty("image_link", invoiceUrl)
-                }
-*/
-                println("jsArray"+jsArray);
                 jsonObject.add("image_links", jsArray)
                 customerDetailsViewModel.hitTechnicianUpdateRequest(
                     jsonObject,
@@ -1073,7 +1055,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                         val r = Runnable {
                             barcodeView?.resume()
                         }
-                        Handler().postDelayed(r, 1000)
+                      //  Handler().postDelayed(r, 1000)
 
 
                         Handler(Looper.getMainLooper()).postDelayed({
@@ -1102,14 +1084,6 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
 
                 response?.let {
                     if (it.success) {
-
-                      /*  Alerter.create(this@TechnicianCustomerDetailsActivity)
-                            .setTitle("")
-                            .setText("" + it.message?.toString())
-                            .setBackgroundColorRes(R.color.orange)
-                            .setDuration(1000)
-                            .show()*/
-
 
                         Utils.instance.popupUtil(this@TechnicianCustomerDetailsActivity,
                             it.message,
@@ -1161,7 +1135,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             bindingAdapter.tvServiceableWarrantyParts.visibility = GONE
         }*/
         //if(data.data.pending_technician_detail == "0" /*&& leadData.in_warranty_enquiries_count!! > "0"*/){
-        if(data.data.pending_technician_detail == "0"/*&& leadData.in_warranty_enquiries_count!! > "0"*/){
+        if(data.data.pending_technician_detail_count == "0"/*&& leadData.in_warranty_enquiries_count!! > "0"*/){
             binding.includedContent.btnTaskComplete.visibility = View.VISIBLE
             binding.includedContent.btnTaskCompleteHide.visibility = View.GONE
 
@@ -1356,7 +1330,6 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
     }
 
 
-
     private fun uriToBitmap(selectedFileUri: Uri): Bitmap? {
         try {
             val parcelFileDescriptor = contentResolver.openFileDescriptor(selectedFileUri, "r")
@@ -1447,7 +1420,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                             .load(invoiceUrl)
                             //.diskCacheStrategy(DiskCacheStrategy.ALL)
                             //.circleCrop() // .error(R.drawable.active_dot)
-                            .placeholder(R.color.gray)
+                            .placeholder(R.drawable.ic_no_invoice)
                             .into(bindingAdapter.ivUploadImage)
 
                         val imageData = ImageListData(invoiceUrl,pos.toString())

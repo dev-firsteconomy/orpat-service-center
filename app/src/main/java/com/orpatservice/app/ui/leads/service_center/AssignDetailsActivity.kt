@@ -161,7 +161,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
         binding.includedContent.tvCustomerNameValue.text = leadData.name
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
-        binding.includedContent.tvFullAddressValue.text = leadData.address1+""+", "+""+leadData.address2
+        binding.includedContent.tvFullAddressValue.text = leadData.address1+""+", "+""+leadData.address2+""+", "+""+leadData.landmark
         binding.includedContent.tvTvRequestIdValue.text = leadData.complain_id.toString()
         //binding.includedContent.tvRequestDateValue.text = leadData.service_center_assigned_at
         binding.includedContent.tvTimerValue.text = leadData.timer
@@ -204,10 +204,11 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
     }
 
     private fun goToFullScreenImageActivity(invoiceImage: String?) {
-        val intent = Intent(this, FullScreenImageActivity::class.java)
-
-        intent.putExtra(Constants.IMAGE_URL, invoiceImage)
-        startActivity(intent)
+        if(!invoiceImage.isNullOrEmpty()) {
+            val intent = Intent(this, FullScreenImageActivity::class.java)
+            intent.putExtra(Constants.IMAGE_URL, invoiceImage)
+            startActivity(intent)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -98,7 +98,7 @@ class ChargeableRequestsLeadsAdapter constructor(
                 )
             }
 
-            (leadData.address1 + " , " + leadData.address2).also {
+            (leadData.address1 + " , " + leadData.address2+ " , " + leadData.landmark).also {
                 binding.tvRequestLocation.text = it
             }
 

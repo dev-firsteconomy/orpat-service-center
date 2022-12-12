@@ -249,15 +249,15 @@ class Utils {
         if(isSuccessPopup){
 
             popupTitle.setTextColor(ContextCompat.getColor(context, R.color.success_green))
-           /* Glide.with(context)
+            Glide.with(context)
                 .load(R.drawable.ic_verified_icon)
-                .into(popupIcon)*/
+                .into(popupIcon)
 
         }else{
             popupTitle.setTextColor(ContextCompat.getColor(context, R.color.failure_red))
-           /* Glide.with(context)
+            Glide.with(context)
                 .load(R.drawable.ic_error_icon)
-                .into(popupIcon)*/
+                .into(popupIcon)
 
         }
         Handler().postDelayed(Runnable { alertDialogBuilder.dismiss() }, 5000)

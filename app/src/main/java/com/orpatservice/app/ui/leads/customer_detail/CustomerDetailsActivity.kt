@@ -361,7 +361,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         binding.includedContent.tvCustomerNameValue.text = leadData.name
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
-        binding.includedContent.tvFullAddressValue.text = leadData.address1+""+" , "+""+leadData.address2/*+""+", "+""+leadData.state*/
+        binding.includedContent.tvFullAddressValue.text = leadData.address1+""+" , "+""+leadData.address2+""+", "+""+leadData.landmark
         binding.includedContent.tvTvRequestIdValue.text = leadData.complain_id.toString()
         // binding.includedContent.tvRequestDateValue.text = leadData.service_center_assigned_at
         binding.includedContent.tvTimerValue.text = leadData.timer
@@ -525,15 +525,42 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     }
 
     private fun goToFullScreenImageActivity(invoiceImage: String?) {
-        if(invoiceUrl.isNullOrEmpty()) {
-            val intent = Intent(this, FullScreenImageActivity::class.java)
-            intent.putExtra(Constants.IMAGE_URL, invoiceImage)
-            startActivity(intent)
-        }else{
-            val intent = Intent(this, FullScreenImageActivity::class.java)
-            intent.putExtra(Constants.IMAGE_URL, invoiceUrl)
-            startActivity(intent)
+
+
+        if (CommonUtils.invoiceData.isEmpty()) {
+            if(invoiceImage != null) {
+                val intent = Intent(this, FullScreenImageActivity::class.java)
+                intent.putExtra(Constants.IMAGE_URL, invoiceImage)
+                startActivity(intent)
+            }
+
+        } else {
+            for (i in CommonUtils.invoiceData) {
+                if (i.position == index) {
+                    val intent = Intent(this, FullScreenImageActivity::class.java)
+                    intent.putExtra(Constants.IMAGE_URL, i.invoice_url)
+                    startActivity(intent)
+                }
+            }
         }
+
+        /*if(invoiceUrl.isNullOrEmpty()) {
+            if(!invoiceImage.isNullOrEmpty()) {
+                val intent = Intent(this, FullScreenImageActivity::class.java)
+                intent.putExtra(Constants.IMAGE_URL, invoiceImage)
+                startActivity(intent)
+            }
+        }else{
+            if(CommonUtils.invoiceData[0].position == index) {
+                val intent = Intent(this, FullScreenImageActivity::class.java)
+                intent.putExtra(Constants.IMAGE_URL, invoiceUrl)
+                startActivity(intent)
+            }else{
+                val intent = Intent(this, FullScreenImageActivity::class.java)
+                intent.putExtra(Constants.IMAGE_URL, invoiceImage)
+                startActivity(intent)
+            }
+        }*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -598,7 +625,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         index = position
         bindingAdapter = binding
         when (view.id) {
-            R.id.iv_invoice_image -> {
+            R.id.img_Invoice_image -> {
+                println("clicksssssssssssssssss"+"click")
                 goToFullScreenImageActivity(leadData.enquiries[position].invoice_url)
             }
             R.id.iv_qr_code_image -> {
@@ -622,6 +650,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 }
 
                 binding.tvErrorInvoiceDate.visibility = GONE
+            }
+            R.id.img_close -> {
+                bindingAdapter.edtSelectInvoiceDate.text = ""
             }
 
             R.id.btn_update -> {
@@ -667,12 +698,13 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             }
             R.id.tv_remove_image -> {
                 invoiceUrl = null
-                Glide.with(bindingAdapter.ivInvoiceImage)
+                Glide.with(bindingAdapter.imgInvoiceImage)
                     .load("")
-                    .placeholder(R.color.gray)
-                    .into(bindingAdapter.ivInvoiceImage)
+                    .placeholder(R.drawable.ic_no_invoice)
+                    .into(bindingAdapter.imgInvoiceImage)
                 bindingAdapter.tvRemoveImage.visibility = GONE
 
+                Constants.IMAGE_URL = ""
                 val invoiceData = position.let { it1 ->
                     InvoiceData(
                         "",
@@ -732,7 +764,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         }
 
         expandableListView.setOnGroupExpandListener { groupPosition ->
-            println("groupPosition"+groupPosition)
+
 
             // tv_not_covered_condition.setVisibility(View.VISIBLE);
 
@@ -827,8 +859,12 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                         if(i.position == index){
                             //  arraylist.add(i.invoice_url)
                             selectedPosInvoice = i.invoice_url
-                        }else{
-                            selectedPosInvoice = leadData.enquiries.get(position).invoice_url!!
+                        }else {
+                            if (leadData.enquiries.get(position).invoice_url != null) {
+                                selectedPosInvoice = leadData.enquiries.get(position).invoice_url!!
+                            }else{
+                                selectedPosInvoice = ""
+                            }
                         }
                     }
                     jsonObject.addProperty("invoice_url", selectedPosInvoice)
@@ -985,6 +1021,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             tvDatePicker.setText(dayOfMonth.toString() + "/" + (month+1) + "/" + year)
             bindingAdapter.tvErrorInvoiceDate.visibility = GONE
+            bindingAdapter.imgClose.visibility = VISIBLE
         }
 
         val datePickerDialog = DatePickerDialog(
@@ -1049,6 +1086,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
            // tvDatePicker.setText(simpleDateFormat.format(calendar.time))
             tvDatePicker.setText(dayOfMonth.toString() + "/" + (month+1) + "/" + year)
             bindingAdapter.tvErrorInvoiceDate.visibility = GONE
+            bindingAdapter.imgClose.visibility = VISIBLE
         }
 
         /*val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, myear, mmonth, mdayOfMonth ->
@@ -1470,12 +1508,13 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                             "",
                             true)
 
-                        Glide.with(bindingAdapter.ivInvoiceImage)
+                        Glide.with(bindingAdapter.imgInvoiceImage)
                             .load(invoiceUrl)
                             //  .diskCacheStrategy(DiskCacheStrategy.ALL)
                             //.circleCrop() // .error(R.drawable.active_dot)
-                            .placeholder(R.color.gray)
-                            .into(bindingAdapter.ivInvoiceImage)
+                            .placeholder(R.drawable.ic_no_invoice)
+                            .into(bindingAdapter.imgInvoiceImage)
+                       // CommonUtils.invoiceData.clear()
 
                         val invoiceData = index?.let { it1 ->
                             InvoiceData(

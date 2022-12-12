@@ -189,13 +189,11 @@
             app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" >
 
             <ImageView
-                android:id="@+id/iv_invoice_image"
+                android:id="@+id/img_Invoice_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="fitXY"
-                android:src="@color/orange"
-                app:layout_constraintStart_toStartOf="@id/tv_invoice_image"
-                app:layout_constraintTop_toBottomOf="@id/tv_invoice_image" />
+                android:background="@drawable/bg_text_border" />
 
             <TextView
                 android:id="@+id/tv_remove_image"
@@ -316,19 +314,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_error_invoice_number" />
 
-        <TextView
-            android:id="@+id/edt_select_invoice_date"
-            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+        <LinearLayout
+            android:id="@+id/li_invoice_date"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:paddingLeft="10dp"
-            android:hint="@string/select_date"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_edit_text_border"
-            android:textSize="14sp"
+            android:orientation="horizontal"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_select_invoice_date" />
+            android:background="@drawable/bg_edit_text_border"
+
+            app:layout_constraintTop_toBottomOf="@id/tv_select_invoice_date">
+
+            <TextView
+                android:id="@+id/edt_select_invoice_date"
+                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:layout_weight="1"
+                android:hint="@string/select_date"
+                android:gravity="center_vertical"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_select_invoice_date" />
+
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:paddingRight="5dp"
+                android:src="@drawable/ic_close"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_error_invoice_date"
@@ -339,7 +360,7 @@
             android:text="@string/error_invoice_date_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edt_select_invoice_date"/>
+            app:layout_constraintTop_toBottomOf="@id/li_invoice_date"/>
 
         <TextView
             android:id="@+id/tv_serviceable_warranty_parts"

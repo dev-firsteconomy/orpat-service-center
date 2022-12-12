@@ -33,13 +33,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
-            android:textSize="12sp"
-            android:paddingBottom="5dp"
+            android:textSize="10sp"
             android:paddingRight="5dp"
-            android:paddingTop="5dp"
             android:layout_weight="0.6"
             android:textColor="@color/black"
-            android:text="@string/task_completed" />
+            android:text="@string/task_completed"/>
 
         <TextView
             android:id="@+id/tv_upload_image"

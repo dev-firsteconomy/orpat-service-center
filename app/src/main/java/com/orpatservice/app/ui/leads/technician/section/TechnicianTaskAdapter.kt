@@ -45,7 +45,7 @@ class TechnicianTaskAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is TechnicianViewHolder -> {
-                holder.bind(techList[position],context)
+                holder.bind(techList[position], context)
             }
         }
     }
@@ -57,23 +57,27 @@ class TechnicianTaskAdapter(
     inner class TechnicianViewHolder(private val binding: TechnicianTaskUpdateBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         private lateinit var linearLayoutManager: LinearLayoutManager
+
         init {
             // binding.btnAssignAlltechnician.setOnClickListener(this)
         }
 
-        fun bind(technicianData: Enquiry,context : Context) {
+        fun bind(technicianData: Enquiry, context: Context) {
 
-            val  pos = position +1
-            val  count  = techList.count()
+            val pos = position + 1
+            val count = techList.count()
 
-          //  println("technicianData.pending_parts_verification_status_count"+technicianData.pending_parts_verification_status_count)
-          //  println("technicianData.parts_verification_status"+technicianData.parts_verification_status)
-            if(/*technicianData.pending_parts_verification_status_count.equals("0") &&*/ technicianData.parts_verification_status.equals("1")){
+            //  println("technicianData.pending_parts_verification_status_count"+technicianData.pending_parts_verification_status_count)
+            //  println("technicianData.parts_verification_status"+technicianData.parts_verification_status)
+            if (/*technicianData.pending_parts_verification_status_count.equals("0") &&*/ technicianData.parts_verification_status.equals(
+                    "1"
+                )
+            ) {
                 binding.tvTaskUpdate.visibility = GONE
                 binding.tvHideTaskUpdate.visibility = VISIBLE
 
 
-                if(technicianData.in_warranty.equals("Yes")){
+                if (technicianData.in_warranty.equals("Yes")) {
                     binding.radiobtnYes.isChecked = true
 
                     binding.radiobtnNo.isChecked = false
@@ -82,7 +86,7 @@ class TechnicianTaskAdapter(
                     binding.radiobtnNo.setCursorVisible(false);
                     binding.radiobtnNo.setKeyListener(null);
 
-                }else if(technicianData.in_warranty.equals("No")){
+                } else if (technicianData.in_warranty.equals("No")) {
                     binding.radiobtnNo.isChecked = true
 
                     binding.radiobtnYes.isChecked = false
@@ -93,12 +97,12 @@ class TechnicianTaskAdapter(
 
                 }
 
-            }else{
+            } else {
                 binding.tvTaskUpdate.visibility = VISIBLE
                 binding.tvHideTaskUpdate.visibility = GONE
 
             }
-           /* if(technicianData.pending_parts_verification_status_count.equals("0")){
+            /* if(technicianData.pending_parts_verification_status_count.equals("0")){
                 binding.tvTaskUpdate.visibility = GONE
                 binding.tvHideTaskUpdate.visibility = VISIBLE
 
@@ -118,14 +122,14 @@ class TechnicianTaskAdapter(
             }*/
 
 
-            if(technicianData.is_cancelled.equals("Yes")){
+            if (technicianData.is_cancelled.equals("Yes")) {
                 binding.tvCancelLead.visibility = VISIBLE
-               // binding.tvTaskUpdate.visibility = GONE
-              //  binding.tvHideTaskUpdate.visibility = VISIBLE
-            }else{
+                // binding.tvTaskUpdate.visibility = GONE
+                //  binding.tvHideTaskUpdate.visibility = VISIBLE
+            } else {
                 binding.tvCancelLead.visibility = GONE
-               // binding.tvTaskUpdate.visibility = VISIBLE
-              //  binding.tvHideTaskUpdate.visibility = GONE
+                // binding.tvTaskUpdate.visibility = VISIBLE
+                //  binding.tvHideTaskUpdate.visibility = GONE
             }
 
             /*if(technicianData.parts_verification_status.equals("1")){
@@ -138,21 +142,27 @@ class TechnicianTaskAdapter(
 
             binding.tvModelNameValue.text = technicianData?.model_no
             binding.tvWarrantyDateYear.text = technicianData?.in_warranty
-            binding.tvTask.text = "Task"+""+pos+""+"/"+""+count
+            binding.tvTask.text = "Task" + "" + pos + "" + "/" + "" + count
             binding.tvCustomerNameValue.text = leadData.name
             binding.tvDateTimeValue.text = leadData.service_center_assigned_at
             binding.tvInvoiceNumberValue.text = technicianData.invoice_no
             binding.tvInvoiceDateValue.text = technicianData.purchase_at
             Glide.with(binding.ivInvoiceImage)
                 .load(technicianData.invoice_url)
-                .placeholder(R.color.gray)
+                .placeholder(R.drawable.ic_no_invoice)
                 .into(binding.ivInvoiceImage)
 
             binding.tvDescriptionValue.text = technicianData.customer_discription
             binding.tvComplaintPresetValue.text = technicianData.complaint_preset
             binding.tvServiceCenterDescriptionValue.text = technicianData.service_center_discription
 
-            val warrantryPart = WarrantryPartAdapter(context,adapterPosition,technicianData.warranty_parts,technicianData.lead_enquiry_images,technicianData)
+            val warrantryPart = WarrantryPartAdapter(
+                context,
+                adapterPosition,
+                technicianData.warranty_parts,
+                technicianData.lead_enquiry_images,
+                technicianData,
+            )
             val dividerItemDecoration: RecyclerView.ItemDecoration =
                 DividerItemDecorator(ContextCompat.getDrawable(context, R.drawable.rv_divider))
 
@@ -163,63 +173,70 @@ class TechnicianTaskAdapter(
                 layoutManager = linearLayoutManager
             }
 
-                binding.tvTaskUpdate.setOnClickListener {
-                    itemClickListener(
-                        adapterPosition,
-                        binding.tvTaskUpdate,binding
-                    )
-                }
+            binding.tvTaskUpdate.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.tvTaskUpdate, binding
+                )
+            }
 
-               /* binding.tvNoWarrantyTaskUpdate.setOnClickListener {
+            binding.ivInvoiceImage.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.ivInvoiceImage, binding
+                )
+            }
+
+            /* binding.tvNoWarrantyTaskUpdate.setOnClickListener {
                     itemClickListener(
                         adapterPosition,
                         binding.tvNoWarrantyTaskUpdate
                     )
                 }*/
-                binding.radiobtnYes.setOnClickListener {
-                    binding.liNoWarranty.visibility = GONE
-                    binding.rvWarrantParts.visibility = VISIBLE
+            binding.radiobtnYes.setOnClickListener {
+                binding.liNoWarranty.visibility = GONE
+                binding.rvWarrantParts.visibility = VISIBLE
 
-                    binding.tvTaskUpdate.visibility = VISIBLE
-                    binding.tvCancelTaskUpdate.visibility = GONE
-                    itemClickListener(
-                        adapterPosition,
-                        binding.radiobtnYes,binding
-                    )
-                }
-                binding.radiobtnNo.setOnClickListener {
-                    binding.liNoWarranty.visibility = GONE
-                    binding.rvWarrantParts.visibility = GONE
-                    binding.tvSelectChangePart.visibility = GONE
-                    binding.tvTaskUpdate.visibility = GONE
-                    binding.tvCancelTaskUpdate.visibility = VISIBLE
+                binding.tvTaskUpdate.visibility = VISIBLE
+                binding.tvCancelTaskUpdate.visibility = GONE
+                itemClickListener(
+                    adapterPosition,
+                    binding.radiobtnYes, binding
+                )
+            }
+            binding.radiobtnNo.setOnClickListener {
+                binding.liNoWarranty.visibility = GONE
+                binding.rvWarrantParts.visibility = GONE
+                binding.tvSelectChangePart.visibility = GONE
+                binding.tvTaskUpdate.visibility = GONE
+                binding.tvCancelTaskUpdate.visibility = VISIBLE
 
-                    itemClickListener(
-                        adapterPosition,
-                        binding.radiobtnNo,binding
-                    )
-                }
-                binding.tvCancelTaskUpdate.setOnClickListener{
-                    itemClickListener(
-                        adapterPosition,
-                        binding.tvCancelTaskUpdate,binding
-                    )
-                }
-                binding.radiobtnChangePartYes.setOnClickListener {
-                    binding.liNoWarranty.visibility = GONE
-                    binding.rvWarrantParts.visibility = VISIBLE
-                    itemClickListener(
-                        adapterPosition,
-                        binding.radiobtnChangePartYes,binding
-                    )
-                }
-                binding.radiobtnChangePartNo.setOnClickListener {
-                    binding.liNoWarranty.visibility = VISIBLE
-                    binding.rvWarrantParts.visibility = GONE
-                    itemClickListener(
-                        adapterPosition,
-                        binding.radiobtnChangePartNo,binding
-                    )
+                itemClickListener(
+                    adapterPosition,
+                    binding.radiobtnNo, binding
+                )
+            }
+            binding.tvCancelTaskUpdate.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.tvCancelTaskUpdate, binding
+                )
+            }
+            binding.radiobtnChangePartYes.setOnClickListener {
+                binding.liNoWarranty.visibility = GONE
+                binding.rvWarrantParts.visibility = VISIBLE
+                itemClickListener(
+                    adapterPosition,
+                    binding.radiobtnChangePartYes, binding
+                )
+            }
+            binding.radiobtnChangePartNo.setOnClickListener {
+                binding.liNoWarranty.visibility = VISIBLE
+                binding.rvWarrantParts.visibility = GONE
+                itemClickListener(
+                    adapterPosition,
+                    binding.radiobtnChangePartNo, binding
+                )
                 //}
             }
         }
@@ -229,5 +246,4 @@ class TechnicianTaskAdapter(
             }
         }
     }
-
 }

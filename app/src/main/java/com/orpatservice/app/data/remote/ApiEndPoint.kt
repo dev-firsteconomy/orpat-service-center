@@ -22,6 +22,7 @@ import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewReque
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.VerifyGSTRequestData
+import com.orpatservice.app.ui.leads.service_center.response.OrderCountResponse
 import com.orpatservice.app.ui.leads.technician.TechnicianUpdateRequestResponse
 import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
@@ -246,6 +247,13 @@ interface ApiEndPoint {
         @Body body : JsonObject
 
     ): Call<TechnicianUpdateRequestResponse>
+
+    @POST("service-center/get-app-order-count")
+    fun hitOrderCountRequestLead(
+        @Header("Authorization") token : String,
+        @Body body : JsonObject
+
+    ): Call<OrderCountResponse>
 
 
     @POST("service-center/leads/{leadsId}/technician/{technicianId}")

@@ -66,12 +66,13 @@ class AssignedDetailsAdapter (
             binding.edtInvoiceNumberValue.text = enquiry.invoice_no
             binding.edtSelectInvoiceDate.text = enquiry.purchase_at
 
-            val str = leadData.created_at
-            val delimiter = " "
-            val parts = str?.split(delimiter)
+           // if(enquiry.purchase_at != null) {
+                val str = enquiry.purchase_at
+                val delimiter = " "
+                val parts = str?.split(delimiter)
 
-            binding.edtSelectInvoiceDate.text = parts?.get(0)+""+" "+""+ parts?.get(1)+""+" "+""+ parts?.get(2)/*+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"*/
-
+              //  binding.edtSelectInvoiceDate.text = parts?.get(0) + "" + " " + "" + parts?.get(1) + "" + " " + "" + parts?.get(2)/*+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"*/
+           // }
 
             /*if(enquiry.in_warranty.equals("Yes")){
                 binding.radiobtnYes.isChecked = true
@@ -216,7 +217,7 @@ class AssignedDetailsAdapter (
                 .load(enquiry.invoice_url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 //.circleCrop() // .error(R.drawable.active_dot)
-                .placeholder(R.color.gray)
+                .placeholder(R.drawable.ic_no_invoice)
                 .into(binding.ivInvoiceImage)
 
             Glide.with(binding.ivQrCodeImage.context)

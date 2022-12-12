@@ -103,7 +103,7 @@ class AssignTechnicianLeadAdapter constructor(
             binding.tvRequestId.text = leadData.complain_id.toString()
             binding.tvRequestCustomerNameValue.text = "Customer Name :"+" "+""+leadData.name
            // binding.tvRequestCustomerName.text = leadData.technician?.first_name+""+" "+""+leadData.technician?.last_name
-            binding.tvRequestLocation.text = leadData.address1+""+" "+""+leadData.address2/*+""+" "+""+leadData.pincode*/
+            binding.tvRequestLocation.text = leadData.address1+""+" "+""+leadData.address2+ " , " + leadData.landmark
             binding.tvRequestTechnicianNameValue.text = "Technician Name :"+" "+""+leadData.technician?.first_name+""+" "+""+leadData.technician?.last_name
            // binding.tvRequestDateTime.text = leadData.created_at
 

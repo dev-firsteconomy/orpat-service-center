@@ -28,6 +28,7 @@ import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewReque
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.TakCompletedResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.VerifyGSTRequestData
+import com.orpatservice.app.ui.leads.service_center.response.OrderCountResponse
 import com.orpatservice.app.ui.leads.technician.TechnicianUpdateRequestResponse
 import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
@@ -58,6 +59,7 @@ class DataRepository {
     //To get OTP on user register mobile number
     fun hitTechnicianOTPApi(mobileNumber: String): Call<OTPSendResponse> {
        // return APIClient.apiAuthInterface().getTechnicianOtpAPI(mobileNumber)
+
         return ApiClient.getAuthApi().getTechnicianOtpAPI(mobileNumber)
     }
 
@@ -380,8 +382,6 @@ class DataRepository {
 
         mutableLiveData.value = (Resource.loading(null))
         val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
-        println("tokentoken"+token)
-        println("requestBodyrequestBody"+requestBody)
         ApiClient.getAuthApi().hitTechnicianUpdateRequestLead(token,taskId,requestBody)
             .enqueue(object : Callback<TechnicianUpdateRequestResponse> {
 
@@ -408,6 +408,45 @@ class DataRepository {
             })
         return mutableLiveData
     }
+
+
+
+
+
+    fun hitOrderCountRequestApi(
+        requestBody: JsonObject,
+    ): LiveData<Resource<OrderCountResponse>> {
+        val mutableLiveData = MutableLiveData<Resource<OrderCountResponse>>()
+
+        mutableLiveData.value = (Resource.loading(null))
+        val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        ApiClient.getAuthApi().hitOrderCountRequestLead(token,requestBody)
+            .enqueue(object : Callback<OrderCountResponse> {
+
+                override fun onFailure(call: Call<OrderCountResponse>, t: Throwable) {
+                    mutableLiveData.value = Resource.error(ErrorUtils.getError(t))
+                }
+
+                override fun onResponse(
+                    call: Call<OrderCountResponse>,
+                    response: Response<OrderCountResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        mutableLiveData.value = response.body()?.let { Resource.success(it) }
+                    } else {
+                        mutableLiveData.value =
+                            Resource.error(
+                                ErrorUtils.getError(
+                                    response.errorBody(),
+                                    response.code()
+                                )
+                            )
+                    }
+                }
+            })
+        return mutableLiveData
+    }
+
 
     fun hitCancelRequestApi(
         requestBody: JsonObject,

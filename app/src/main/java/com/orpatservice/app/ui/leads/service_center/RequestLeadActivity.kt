@@ -7,27 +7,47 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.orpatservice.app.R
+import com.orpatservice.app.data.Resource
+import com.orpatservice.app.data.Status
 import com.orpatservice.app.databinding.ActivityRequestsLeadsBinding
 import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
+import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsModel
 import com.orpatservice.app.ui.leads.new_lead_fragment.*
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.NewRequestViewPagerAdapter
+import com.orpatservice.app.ui.leads.service_center.response.OrderCountResponse
+import com.orpatservice.app.ui.leads.technician.TechnicianUpdateRequestResponse
+import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
+import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
+import com.orpatservice.app.utils.Utils
+
 
 class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
     private lateinit var binding: ActivityRequestsLeadsBinding
     private lateinit var viewPager: ViewPager2
+    lateinit var requestsLeadsViewModel: RequestsLeadsViewModel
     private val newRequestFragment = NewRequestsFragment()
     private  val assignedLeadFragment = AssignedLeadFragment()
     private val assignToTechnicianFragment = AssignToTechnicianFragment()
-   // private val taskCompletedFragment = TaskCompletedFragment()
-    //private val otpVerification = OTPVerificationFragment()
+    private var leadBadge : TextView? = null
+    private var leadBadge2 : TextView? = null
+    private var leadBadge3 : TextView? = null
+    private var tabPos : Int? = null
+    private var tabPos2 : Int? = null
+    private var tabPos3 : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +56,8 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
         // set toolbar as support action bar
         setSupportActionBar(binding.toolbar)
+        requestsLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+
 
         supportActionBar?.apply {
             title = ""
@@ -47,7 +69,7 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
         permissionCheck()
 
-
+        setObserver()
         //View pager with tab layout
         viewPager = binding.vpRequests
         val tabLayout = binding.tabLayout
@@ -65,11 +87,43 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
         //Tab name
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = Constants.requestsTabNameArray[position]
+
+            if(position == 0){
+                tabPos = position
+                tab.setCustomView(R.layout.custom_tab_badge)
+                leadBadge = tab.customView!!.findViewById(R.id.tv_count) as TextView
+                val tab_name = tab.customView!!.findViewById(R.id.tv_title) as TextView
+                tab_name.text = "New"
+               // leadBadge?.text =
+
+
+                //tab.text = "New"
+            }else if(position == 1){
+               // tab.text = "Assign"
+                tabPos2 = position
+                tab.setCustomView(R.layout.custom_tab_badge)
+                leadBadge2 = tab.customView!!.findViewById(R.id.tv_count) as TextView
+                val tab_name = tab.customView!!.findViewById(R.id.tv_title) as TextView
+                tab_name.text = "Assign"
+                //badge.text = "5"
+
+
+            }else if(position == 2){
+              //  tab.text = "Verify"
+                tabPos3 = position
+                tab.setCustomView(R.layout.custom_tab_badge)
+                leadBadge3 = tab.customView!!.findViewById(R.id.tv_count) as TextView
+                val tab_name = tab.customView!!.findViewById(R.id.tv_title) as TextView
+                tab_name.text = "Verify"
+                //badge.text = "4"
+
+            }
+           // tab.text = Constants.requestsTabNameArray[position]
         }.attach()
         ////////////////////////////////////
+      //  tabLayout.getTabAt(0)?.getOrCreateBadge()?.setNumber(10);
 
-        setObserver()
+
     }
 
     private fun permissionCheck() {
@@ -86,6 +140,25 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
     private fun setObserver() {
 
+        val jsonObject = JsonObject()
+
+        try {
+            val arraylist = java.util.ArrayList<String>()
+            for (i in Constants.orderCountArray) {
+                    arraylist.add(i)
+            }
+            val jsArray = JsonArray()
+            for (i in arraylist) {
+                jsArray.add(i)
+            }
+            jsonObject.add("app_order_count", jsArray)
+            requestsLeadsViewModel.hitOrderCountRequest(
+                jsonObject,
+            ).observe(this@RequestLeadActivity, this::onOrderCountResponse)
+
+        }catch (ex : Exception){
+            ex.toString()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -106,10 +179,10 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
 
         if (supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
             binding.toolbarTotalLead.text = ""
-            newRequestFragment.loadTotalLead(binding.toolbarTotalLead)
+            newRequestFragment.loadTotalLead(leadBadge!!)
         }else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignedLeadFragment) {
             binding.toolbarTotalLead.text = ""
-            assignedLeadFragment.loadTotalLead(binding.toolbarTotalLead)
+            assignedLeadFragment.loadTotalLead(leadBadge2!!)
         } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment) {
             //assignToTechnicianFragment.loadSearchLead(query)
         }
@@ -154,8 +227,44 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         return true
     }
 
+
+    private fun onOrderCountResponse(resources: Resource<OrderCountResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                //binding.cpiLoading.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                //binding.cpiLoading.visibility = View.GONE
+            }
+            else -> {
+               // binding.cpiLoading.visibility = View.GONE
+                val response = resources.data
+
+                response?.let {
+                    if (it.success) {
+
+                        if(tabPos == 0){
+                            leadBadge?.text = it.data.app_order_count?.new_request_count.toString()
+                        }
+                        if(tabPos2 == 1){
+                            leadBadge2?.text = it.data.app_order_count?.assigned_request_count.toString()
+                        }
+                        if(tabPos3 == 2){
+                            leadBadge3?.text = it.data.app_order_count?.verify_request_count.toString()
+                        }
+
+                    } else {
+
+                    }
+                }
+            }
+        }
+    }
+
+
     override fun onResume() {
         super.onResume()
+       // setObserver()
     }
   /*  override fun onBackPressed() {
         *//*if (!searchView.isIconified) {
@@ -188,11 +297,11 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
                 tab.select()
             }
             1 -> {
-                assignedLeadFragment.loadTotalLead(binding.toolbarTotalLead)
+                assignedLeadFragment.loadTotalLead(leadBadge2!!)
                 tab.select()
             }
             2 -> {
-                assignToTechnicianFragment.loadTotalLead(binding.toolbarTotalLead)
+                assignToTechnicianFragment.loadTotalLead(leadBadge3!!)
                 tab.select()
             }
             else -> {

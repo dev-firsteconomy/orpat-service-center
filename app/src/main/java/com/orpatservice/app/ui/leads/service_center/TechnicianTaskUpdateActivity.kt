@@ -23,6 +23,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEachIndexed
+import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,10 +40,7 @@ import com.orpatservice.app.data.model.login.SendHappyCodeResponse
 import com.orpatservice.app.data.model.requests_leads.*
 import com.orpatservice.app.databinding.*
 import com.orpatservice.app.ui.leads.adapter.AllTechnicianAdapter
-import com.orpatservice.app.ui.leads.customer_detail.CancelRequestResponse
-import com.orpatservice.app.ui.leads.customer_detail.CustomerDetailsModel
-import com.orpatservice.app.ui.leads.customer_detail.UpdateRequestResponse
-import com.orpatservice.app.ui.leads.customer_detail.productListData
+import com.orpatservice.app.ui.leads.customer_detail.*
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.TechnicianTaskUpdateAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.LeadList
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
@@ -67,6 +66,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
     private lateinit var technicianTaskAdapter: TechnicianTaskAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
     private  lateinit var bindingAdapter : TechnicianTaskUpdateBinding
+    private  lateinit var bindingChildAdapter : UnderWarrantyPartsAdapterBinding
     private var alertDialog : Dialog? = null
     private lateinit var tv_resend_happy_code:Button
     private val editTextArray: ArrayList<EditText> = ArrayList(OTPVerificationActivity.NUM_OF_DIGITS)
@@ -131,7 +131,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
         binding.includedContent.tvTvRequestIdValue.text = requestData.complain_id.toString()
         binding.includedContent.tvTimerValue.text = requestData.timer
         binding.includedContent.tvTimerValue.setTextColor(Color.parseColor(requestData.color_code))
-        binding.includedContent.tvCustomerFullAddressValues.text = requestData.address1+""+" ,"+""+requestData.address2/*+""+" ,"+""+requestData.state*/
+        binding.includedContent.tvCustomerFullAddressValues.text = requestData.address1+""+" ,"+""+requestData.address2+""+", "+""+requestData.landmark
         binding.includedContent.tvContactNumber.setOnClickListener {
             openCallDialPad(requestData.mobile.toString())
         }
@@ -331,7 +331,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
             }
             //validateOTP()
         }
-       // alertDialogBuilder.setCancelable(false)
+        // alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.show()
 
     }
@@ -377,8 +377,6 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 
     private fun createOTPUI(views: View) {
         //create array
-
-
 
         val layout: ConstraintLayout = views as ConstraintLayout
         for (index in 0 until (layout.childCount)) {
@@ -512,11 +510,10 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 
         when (view.id) {
             R.id.tv_task_update -> {
-                println("CommonUtils.warrantyListData.count()"+CommonUtils.warrantyListData.count())
-                println("CommonUtils.imageData.count()"+CommonUtils.imageData.count())
+                //println("CommonUtils.warrantyListData.count()"+CommonUtils.warrantyListData.count())
+                //println("CommonUtils.imageData.count()"+CommonUtils.imageData.count())
                 if(CommonUtils.warrantyListData.count() == CommonUtils.imageData.count()) {
                     val jsonObject = JsonObject()
-
                     try {
 
                         val jsArray = JsonArray()
@@ -524,6 +521,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                             val jsonObj = JsonObject()
                             // jsonObj.addProperty("",i.part_ids)
                             // jsonObj.addProperty("",i.lead_enquiry_image_id)
+
 
                             jsonObj.addProperty(i.part_ids, i.lead_enquiry_image_id)
                             jsArray.add(jsonObj)
@@ -572,9 +570,20 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
             R.id.radiobtn_change_part_no -> {
                 radiobtn_change_part_yes = "No"
 
-            }
+            } R.id.iv_invoice_image -> {
+            goToFullScreenImageActivity(requestData.enquiries[position].invoice_url)
+
+        }
         }
     }
+    private fun goToFullScreenImageActivity(invoiceImage: String?) {
+        if(!invoiceImage.isNullOrEmpty()) {
+            val intent = Intent(this, FullScreenImageActivity::class.java)
+            intent.putExtra(Constants.IMAGE_URL, invoiceImage)
+            startActivity(intent)
+        }
+    }
+
 
     private fun showCancelEnquiryPopUp(position: Int) {
 
@@ -927,7 +936,44 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                         bindingAdapter.tvTaskUpdate.visibility = GONE
                         bindingAdapter.tvHideTaskUpdate.visibility = View.VISIBLE
 
+                       /* bindingAdapter.rvWarrantParts.setClickable(false);
+                        bindingAdapter.rvWarrantParts.setEnabled(false);
+                        bindingAdapter.rvWarrantParts.setFocusable(false);*/
+                        /*bindingAdapter.rvWarrantParts.forEachIndexed { _, view ->
+                            view.isEnabled = false
+                        }*/
 
+                        /*bindingAdapter.rvWarrantParts.forEachIndexed { _, view ->
+                            view.isEnabled = false
+                            view.isClickable = false
+                            view.isFocusable = false
+                            view.setOnKeyListener(null)
+
+                        }*/
+                       /* bindingChild.checkWarrantyParts.setFocusable(false);
+                        bindingChild.checkWarrantyParts.setEnabled(false);
+                        bindingChild.checkWarrantyParts.setCursorVisible(false);
+                        bindingChild.checkWarrantyParts.setKeyListener(null);
+*/
+                        if(data?.data?.in_warranty.equals("Yes")){
+                            bindingAdapter.radiobtnYes.isChecked = true
+
+                            bindingAdapter.radiobtnNo.isChecked = false
+                            bindingAdapter.radiobtnNo.setFocusable(false);
+                            bindingAdapter.radiobtnNo.setEnabled(false);
+                            bindingAdapter.radiobtnNo.setCursorVisible(false);
+                            bindingAdapter.radiobtnNo.setKeyListener(null);
+
+                        }else if(data?.data?.in_warranty.equals("No")){
+                            bindingAdapter.radiobtnNo.isChecked = true
+
+                            bindingAdapter.radiobtnYes.isChecked = false
+                            bindingAdapter.radiobtnYes.setFocusable(false);
+                            bindingAdapter.radiobtnYes.setEnabled(false);
+                            bindingAdapter.radiobtnYes.setCursorVisible(false);
+                            bindingAdapter.radiobtnYes.setKeyListener(null);
+
+                        }
                         //println("it.data.data"+it.data.data.get(0));
 
                         /*if(data?.data?.pending_lead_enqury_detail_count.equals("0")){
@@ -940,7 +986,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                         }
 */
 
-                        if(data?.data?.pending_lead_enqury_detail_count.equals("0")){
+                        if(data?.data?.pending_parts_verification_status_count.equals("0")){
                             binding.includedContent.btnVerifyOtp.visibility = VISIBLE
                             binding.includedContent.btnHideVerifyOtp.visibility = GONE
                         }else{

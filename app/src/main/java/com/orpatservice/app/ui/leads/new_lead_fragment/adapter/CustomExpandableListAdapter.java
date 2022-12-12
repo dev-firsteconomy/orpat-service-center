@@ -19,6 +19,7 @@ import com.orpatservice.app.data.model.requests_leads.WarrantryPart;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Handler;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
@@ -61,6 +62,14 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             TextView expandedListTextView = (TextView) convertView
                     .findViewById(R.id.tv_serviceable_warranty_child_parts_name);
 
+            View txtFooter = (View) convertView.findViewById(R.id.txtFooter);
+
+          /*  Log.d("getWarranty_conditions",""+expandableListTitle.get(listPosition).getWarranty_conditions().get(expandableListTitle.get(listPosition).getWarranty_conditions().size()-1).getTitle());
+            if(Objects.equals(expandableListTitle.get(listPosition).getWarranty_conditions().get(expandedListPosition).getTitle(), expandableListTitle.get(listPosition).getWarranty_conditions().get(expandableListTitle.get(listPosition).getWarranty_conditions().size() - 1).getTitle())){
+                txtFooter.setVisibility(View.VISIBLE);
+            }else{
+                txtFooter.setVisibility(View.GONE);
+            }*/
            /* TextView footer = new TextView(context);
             footer.setGravity(Gravity.CENTER);
             footer.setTextSize(15);

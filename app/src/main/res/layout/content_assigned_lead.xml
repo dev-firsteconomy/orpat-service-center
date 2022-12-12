@@ -144,7 +144,6 @@
                 tools:text="+91929292952" />
 
 
-
             <TextView
                 android:id="@+id/tv_technician_name"
                 style="@style/Theme.OrpatServiceCenter.SmallRegularText"
@@ -153,6 +152,7 @@
                 android:layout_marginTop="10dp"
                 android:drawablePadding="2dp"
                 android:paddingLeft="10dp"
+
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
                 android:text="@string/technician_name"

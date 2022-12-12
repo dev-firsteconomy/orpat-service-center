@@ -179,15 +179,13 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     }*/
 
 
-
-
-
     private fun setObserver() {
 
         /*requestLeadsViewModel.synAppConfig.observe(this, this::getSynAppConfig)
         requestLeadsViewModel.loadSynAppConfig()
         requestLeadsViewModel.technicianSynAppConfig.observe(this, this::getTechnicianSynAppConfig)
         requestLeadsViewModel.loadTechnicianSynAppConfig()*/
+
 
     }
 

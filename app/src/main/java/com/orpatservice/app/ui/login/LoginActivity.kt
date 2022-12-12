@@ -20,6 +20,7 @@ import com.orpatservice.app.ui.login.service_center.ServiceCenterLoginFragment
 import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
 import com.orpatservice.app.ui.login.technician.TechnicianLoginFragment
 import com.orpatservice.app.utils.Constants
+import com.orpatservice.app.utils.Utils
 import com.tapadoo.alerter.Alerter
 
 
@@ -83,11 +84,17 @@ class LoginActivity : AppCompatActivity(){
                     }
                     println("getTechnicianOtpAPI"+ resources.error?.message.toString())
 
-                    Alerter.create(this)
+                    /*Alerter.create(this)
                         .setText(resources.error?.message.toString())
                         .setBackgroundColorRes(R.color.orange)
                         .setDuration(1500)
-                        .show()
+                        .show()*/
+
+
+                    Utils.instance.popupPinUtil(this,
+                        resources.error?.message.toString(),
+                        "",
+                        false)
                 }
                 else -> {
                     if(fragmentLoginUI is TechnicianLoginFragment) {
@@ -102,6 +109,11 @@ class LoginActivity : AppCompatActivity(){
                             intent.putExtra(Constants.MOBILE_NUMBER, it.data.mobile)
 
                             startActivity(intent)
+                        }else{
+                            Utils.instance.popupPinUtil(this,
+                                it?.message.toString(),
+                                "",
+                                false)
                         }
                     }.run {  }
                 }
@@ -120,11 +132,15 @@ class LoginActivity : AppCompatActivity(){
                 if(fragmentLoginUI is ServiceCenterLoginFragment) {
                     (fragmentLoginUI as ServiceCenterLoginFragment).hideLoadingUI()
                 }
-                Alerter.create(this)
+                /*Alerter.create(this)
                     .setText(resources.error?.message.toString())
                     .setBackgroundColorRes(R.color.orange)
                     .setDuration(1000)
-                    .show()
+                    .show()*/
+                Utils.instance.popupPinUtil(this,
+                    resources.error?.message.toString(),
+                    "",
+                    false)
             }
             else -> {
                 if(fragmentLoginUI is ServiceCenterLoginFragment) {
@@ -152,6 +168,7 @@ class LoginActivity : AppCompatActivity(){
     }
 
     fun signUpTechnician(mobileNumber: String) {
+
         viewModel.hitOTPApi(mobileNumber)
     }
 

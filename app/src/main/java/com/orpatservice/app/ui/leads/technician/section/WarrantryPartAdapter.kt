@@ -124,16 +124,17 @@ class WarrantryPartAdapter(
 
                 binding.checkWarrantyParts.setOnClickListener {
 
+
                     if (binding.checkWarrantyParts.isChecked) {
 
                         selectedParts = warrantyList[position].id.toString()
 
-                        val warrantyPart = CheckWarrantyList(adapterPosition,"true")
+                        val warrantyPart = CheckWarrantyList(adapterPosition,"true",partsPosition)
                         CommonUtils.warrantyListData.add(warrantyPart)
 
                     }else{
                             selectedParts = ""
-                            println("CommonUtils.warrantyListData"+CommonUtils.warrantyListData)
+
                             binding.checkWarrantyParts.isChecked = false
                             binding.imgSelectedImage.visibility = INVISIBLE
                         try {
@@ -146,14 +147,31 @@ class WarrantryPartAdapter(
                             val iterator: MutableIterator<CheckWarrantyList> = CommonUtils.warrantyListData.iterator()
                             while (iterator.hasNext()) {
                                 val string = iterator.next()
-                                if (string.listCount == adapterPosition) {
+
+                                if (string.partPos == adapterPosition) {
                                         // Remove the current element from the iterator and the
                                         iterator.remove()
                                 }
                             }
-                            if(!CommonUtils.imageData.isEmpty()) {
+                            /*if(!CommonUtils.imageData.isEmpty()) {
                                 CommonUtils.imageData.removeAt(adapterPosition)
+                            }*/
+
+                            if(!CommonUtils.imageData.isEmpty()) {
+                                val iterator1: MutableIterator<ImageData> =
+                                    CommonUtils.imageData.iterator()
+
+                                while (iterator1.hasNext()) {
+                                    val string = iterator1.next()
+                                    if (string.adapter_Position == partsPosition) {
+                                        if (string.part_position == adapterPosition) {
+                                            // Remove the current element from the iterator and the list.
+                                            iterator1.remove()
+                                        }
+                                    }
+                                }
                             }
+
 
                         }catch (e:IndexOutOfBoundsException){
                                 e.message.toString()
@@ -208,8 +226,6 @@ class WarrantryPartAdapter(
             val popupcloseImg = view.findViewById<ImageView>(R.id.popup_img_close)
             alertDialogBuilder = Dialog(context)
             alertDialogBuilder!!.setContentView(view)
-
-
 
 
             val gridAdapter =
@@ -269,17 +285,6 @@ class WarrantryPartAdapter(
                         }
                     }
 
-
-                /*val iterator1: MutableIterator<ImagePosition> = CommonUtils.imagePos.iterator()
-                while (iterator1.hasNext()) {
-                    val string = iterator1.next()
-                    if (string.image_pos.toInt() == partPos) {
-                        // Remove the current element from the iterator and the list.
-                        iterator1.remove()
-                    }
-                }*/
-
-
                 val imagePos = ImageData(position, "true", adapterPosition,partPos)
                 CommonUtils.imageData.add(imagePos)
 
@@ -296,11 +301,33 @@ class WarrantryPartAdapter(
 
             }
                 try {
+
                     val warrantyPartData = productListData(
                         warrantyList[adapterPosition].id.toString(),
                         leadImageList[position].id.toString()
                     )
+                    /*if(!CommonUtils.productListData.isEmpty()) {
+                        for (i in CommonUtils.productListData) {
+                            if (i.part_ids.equals(warrantyList[adapterPosition].id.toString())) {
+                                CommonUtils.productListData.removeAt(CommonUtils.productListData.count() - 1)
+
+                            } else {
+                                println("productListData" + CommonUtils.productListData)
+                            }
+                        }
+                    }*/
+
+                    val iterator: MutableIterator<productListData> = CommonUtils.productListData.iterator()
+                    while (iterator.hasNext()) {
+                        val string = iterator.next()
+                            if (string.part_ids.equals(warrantyList[adapterPosition].id.toString())) {
+                                // Remove the current element from the iterator and the list.
+                                iterator.remove()
+                        }
+                    }
+
                     CommonUtils.productListData.add(warrantyPartData)
+
 
                     } catch (e: IndexOutOfBoundsException){
 
