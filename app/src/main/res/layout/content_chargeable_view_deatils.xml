@@ -10,13 +10,13 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/sv_item"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gl_horizontal"
@@ -309,6 +309,107 @@
                 style="@style/Theme.OrpatServiceCenter.MediumText"
                 app:layout_constraintTop_toBottomOf="@id/v_divider"/>
 
+            <LinearLayout
+                android:id="@+id/li_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_margin="@dimen/filed_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_task" >
+
+                <TextView
+                    android:id="@+id/tv_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:hint="Category :"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_category_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/li_subcategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_margin="@dimen/filed_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/li_category" >
+
+                <TextView
+                    android:id="@+id/tv_subcategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:hint="Sub Category :"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_subcategory_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/li_cancel_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_margin="@dimen/filed_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/li_subcategory" >
+
+                <TextView
+                    android:id="@+id/tv_cancel_reason"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:hint="Cancel Reason :"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_cancel_reason_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_complaint"
                 android:layout_width="match_parent"
@@ -318,13 +419,85 @@
                 android:paddingBottom="20dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                 app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
                 app:layout_constraintStart_toStartOf="@id/tv_customer_name"
-                app:layout_constraintTop_toBottomOf="@id/tv_task"
+                app:layout_constraintTop_toBottomOf="@id/li_cancel_reason"
+                app:layout_constraintBottom_toTopOf="@id/bottom_buttons_layout"
                 tools:itemCount="4"
                 tools:listitem="@layout/adapter_assigned_details" />
+
+            <LinearLayout
+                android:id="@+id/bottom_buttons_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:weightSum="2"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_finish"
+                    style="@style/Theme.OrpatServiceCenter.Buttons_Flat_Black"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/service_done"
+                    android:textSize="@dimen/text_size_14"
+                    android:visibility="visible"
+                    app:cornerRadius="10dp"
+                    app:iconGravity="textEnd"
+                    app:iconTint="@color/dim_white" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_finish_hide"
+                    style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite_Flat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/finish"
+                    android:visibility="gone"
+                    app:cornerRadius="0dp"
+                    app:iconGravity="textEnd"
+                    app:iconTint="@color/white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cancel"
+                    style="@style/Theme.OrpatServiceCenter.Buttons_Flat_Black"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_cancel"
+                    android:textSize="@dimen/text_size_14"
+                    android:visibility="visible"
+                    app:cornerRadius="10dp"
+                    app:iconGravity="textEnd"
+                    app:iconTint="@color/dim_white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cancel_hide"
+                    style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite_Flat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_cancel"
+                    android:visibility="gone"
+                    app:cornerRadius="0dp"
+                    app:iconGravity="textEnd"
+                    app:iconTint="@color/white" />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

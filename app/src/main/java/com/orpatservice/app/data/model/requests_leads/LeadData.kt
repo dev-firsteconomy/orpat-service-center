@@ -20,6 +20,8 @@ class LeadData() : Parcelable {
     var address2: String? = null
     var latitude: String? = null
     var longitude: String? = null
+    var category_name: String? = null
+    var subcategory_name: String? = null
     var status: String? = null
     var city: String? = null
     var state: String? = null
@@ -49,6 +51,8 @@ class LeadData() : Parcelable {
         address2 = parcel.readString()
         latitude = parcel.readString()
         longitude = parcel.readString()
+        category_name = parcel.readString()
+        subcategory_name = parcel.readString()
         status = parcel.readString()
         city = parcel.readString()
         state = parcel.readString()
@@ -83,6 +87,8 @@ class LeadData() : Parcelable {
         parcel?.writeString(address2)
         parcel?.writeString(latitude)
         parcel?.writeString(longitude)
+        parcel?.writeString(category_name)
+        parcel?.writeString(subcategory_name)
         parcel?.writeString(status)
         parcel?.writeString(city)
         parcel?.writeString(state)

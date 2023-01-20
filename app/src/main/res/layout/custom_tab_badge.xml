@@ -19,6 +19,8 @@
             android:text="New"
             android:layout_weight="1"
             android:textSize="@dimen/text_size_12"
+            android:autoSizeMinTextSize="8sp"
+            android:lines="2"
             android:textColor="@drawable/selector_tab"
             android:gravity="center_vertical"
 

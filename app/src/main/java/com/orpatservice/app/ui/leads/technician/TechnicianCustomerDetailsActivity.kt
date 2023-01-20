@@ -335,7 +335,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
 
                 response?.let {
                     if (it.success) {
-
+                        CommonUtils.imageList.clear()
                         it.message?.toString()?.let { it1 ->
                             Utils.instance.popupUtil(this,
                                 it1,
@@ -657,7 +657,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
             }
         }else if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK) {
                 //imageView.setImageURI(image_uri);
-                val bitmap = image_uri!!.let { uriToBitmap(it) }
+                val bitmap = image_uri?.let { uriToBitmap(it) }
                 //binding.liUploadFileValue.visibility = VISIBLE
                 //binding.uploadedImg.setImageBitmap(bitmap)
             }

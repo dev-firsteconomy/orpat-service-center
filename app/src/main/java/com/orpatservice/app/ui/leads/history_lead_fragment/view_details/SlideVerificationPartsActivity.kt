@@ -23,12 +23,27 @@ class SlideVerificationPartsActivity : AppCompatActivity() {
         val imageList = intent.getSerializableExtra(Constants.IMAGE_URL) as ArrayList<LeadEnquiryImage>
         // imageData = intent?.getParcelableExtra<TechnicianImageData>(Constants.IMAGE_DATA) as TechnicianImageData
 
-
         displayList(imageList)
 
         binding.imgCancel.setOnClickListener {
             onBackPressed()
             finish()
+        }
+
+        binding.imgNext.setOnClickListener {
+            var layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager;
+            var adapter = binding.recyclerView.adapter as SlideVerificationPartsAdater;
+            if (layoutManager.findLastCompletelyVisibleItemPosition() < (adapter.getItemCount() - 1)) {
+                layoutManager.scrollToPosition(layoutManager.findLastCompletelyVisibleItemPosition() + 1);
+            }
+        }
+
+        binding.imgPrev.setOnClickListener {
+            var layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager;
+            var adapter = binding.recyclerView.adapter as SlideVerificationPartsAdater;
+            if (layoutManager.findLastCompletelyVisibleItemPosition() > 0) {
+                layoutManager.scrollToPosition(layoutManager.findLastCompletelyVisibleItemPosition() - 1);
+            }
         }
     }
 

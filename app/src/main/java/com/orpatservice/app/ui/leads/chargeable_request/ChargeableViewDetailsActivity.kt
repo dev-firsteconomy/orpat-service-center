@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,10 +16,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -28,6 +33,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.gson.JsonObject
 import com.orpatservice.app.BuildConfig
 import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
@@ -48,6 +54,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.json.JSONException
 import java.io.File
 import java.io.FileDescriptor
 import java.io.IOException
@@ -60,6 +67,7 @@ class ChargeableViewDetailsActivity : AppCompatActivity(), View.OnClickListener,
     companion object {
         private const val REQUEST_CAMERA_PERMISSION = 10
     }
+    private lateinit var alertDialogBuilder:Dialog
     private lateinit var binding: ActivityChargeableViewDeatilsBinding
     private lateinit var leadData: LeadData
     private lateinit var complaintAdapter: ChargeableViewDetailsAdapter
@@ -168,6 +176,35 @@ class ChargeableViewDetailsActivity : AppCompatActivity(), View.OnClickListener,
         binding.includedContent.tvTechnicianNameValues.text =
             leadData.technician?.first_name + "" + " " + "" + leadData.technician?.last_name
         binding.includedContent.tvTechnicianNumberValues.text = leadData.technician?.mobile
+        if (leadData.category_name != ""){
+            binding.includedContent.tvCategoryValue.text = leadData.category_name
+        }else{
+            binding.includedContent.liCategory.visibility = GONE
+        }
+        if (leadData.subcategory_name != ""){
+            binding.includedContent.tvSubcategoryValue.text = leadData.subcategory_name
+        }else{
+            binding.includedContent.liSubcategory.visibility = GONE
+        }
+        if (leadData.lead_cancelled_reason != ""){
+            binding.includedContent.tvCancelReasonValue.text = leadData.lead_cancelled_reason
+        }else{
+            binding.includedContent.liCancelReason.visibility = GONE
+        }
+        if(leadData.is_open.equals("false")){
+            binding.includedContent.btnCancel.visibility = GONE
+            binding.includedContent.btnFinish.visibility = GONE
+
+            //  binding.btnCancelHide.visibility = VISIBLE
+            //  binding.btnFinishHide.visibility = VISIBLE
+        }else{
+            binding.includedContent.btnCancel.visibility = View.VISIBLE
+            binding.includedContent.btnFinish.visibility = View.VISIBLE
+
+            //  binding.btnCancelHide.visibility = GONE
+            //  binding.btnFinishHide.visibility = GONE
+        }
+
         binding.includedContent.tvTechnicianNumberValues.setOnClickListener {
             openCallDialPad(leadData.technician?.mobile.toString())
         }
@@ -187,6 +224,15 @@ class ChargeableViewDetailsActivity : AppCompatActivity(), View.OnClickListener,
         }
         binding.includedContent.tvFullAddressValue.setOnClickListener {
             // openDirection()
+        }
+        binding.includedContent.btnCancel.setOnClickListener {
+
+            showCancelLeadPopUp()
+        }
+
+        binding.includedContent.btnFinish.setOnClickListener {
+
+            hitFinishApi()
         }
     }
 
@@ -700,4 +746,105 @@ class ChargeableViewDetailsActivity : AppCompatActivity(), View.OnClickListener,
                 complaintAdapter.notifyItemChanged(lastClickedPos)
             }
         }
+    private fun hitFinishApi() {
+
+        val jsonObject = JsonObject()
+
+        try {
+            jsonObject.addProperty("message", "")
+            jsonObject.addProperty("type", "1")
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        customerDetailsViewModel.hitChargeableCancelRequest(jsonObject, leadData.id)
+            .observe(this, this::getCancelRequestLead)
+
+        //alertDialogBuilder.dismiss()
+
+    }
+
+
+    private fun showCancelLeadPopUp() {
+
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view: View = inflater.inflate(R.layout.cancel_lead_popup_layout, null)
+        var tv_cancel_lead_cancel = view.findViewById<TextView>(R.id.tv_cancel_lead_cancel)
+        val tv_cancel_lead_ok = view.findViewById<TextView>(R.id.tv_cancel_lead_ok)
+        val et_cancel_lead_reason = view.findViewById<EditText>(R.id.et_cancel_lead_reason)
+        alertDialogBuilder = Dialog(this@ChargeableViewDetailsActivity)
+        alertDialogBuilder.setContentView(view)
+        //alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alertDialogBuilder.setCancelable(false)
+        tv_cancel_lead_cancel.setOnClickListener {
+            alertDialogBuilder.dismiss()
+        }
+        tv_cancel_lead_ok.setOnClickListener {
+
+            hitCancelLead(et_cancel_lead_reason, alertDialogBuilder)
+        }
+        alertDialogBuilder.show()
+
+    }
+
+    private fun hitCancelLead(etCancelLeadReason: EditText?, alertDialogBuilder: Dialog) {
+        if (Utils.instance.validateReason(etCancelLeadReason)
+
+        ) {
+            val jsonObject = JsonObject()
+
+            try {
+                //  val jsArray  = JsonArray()
+                jsonObject.addProperty("message", etCancelLeadReason?.text.toString())
+                jsonObject.addProperty("type", "2")
+
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            customerDetailsViewModel.hitChargeableCancelRequest(jsonObject, leadData.id)
+                .observe(this, this::getCancelRequestLead)
+
+            alertDialogBuilder.dismiss()
+        }else{
+
+        }
+    }
+
+
+    private fun getCancelRequestLead(resources: Resource<CancelRequestResponse>) {
+        when (resources.status) {
+            Status.LOADING -> {
+                binding.cpiLoading.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                binding.cpiLoading.visibility = View.GONE
+            }
+            else -> {
+                binding.cpiLoading.visibility = View.GONE
+                val response = resources.data
+
+                response?.let {
+                    if (it.success) {
+
+                        it.message?.toString()?.let { it1 ->
+                            Utils.instance.popupUtil(this,
+                                it1,
+                                "",
+                                true)
+                        }
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(this, ChargeableRequestActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }, 5000)
+
+                    } else {
+
+                    }
+                }
+            }
+        }
+    }
 }
