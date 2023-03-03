@@ -5,15 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityProfileBinding
 import com.orpatservice.app.data.model.login.LoginBaseData
 import com.orpatservice.app.data.model.login.ServiceCenter
-import com.orpatservice.app.data.model.login.Technician
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.ui.login.SelectUserActivity
 import com.orpatservice.app.utils.Constants

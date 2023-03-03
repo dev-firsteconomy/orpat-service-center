@@ -176,17 +176,17 @@ class ChargeableViewDetailsActivity : AppCompatActivity(), View.OnClickListener,
         binding.includedContent.tvTechnicianNameValues.text =
             leadData.technician?.first_name + "" + " " + "" + leadData.technician?.last_name
         binding.includedContent.tvTechnicianNumberValues.text = leadData.technician?.mobile
-        if (leadData.category_name != ""){
+        if (leadData.category_name != "" && leadData.category_name != null){
             binding.includedContent.tvCategoryValue.text = leadData.category_name
         }else{
             binding.includedContent.liCategory.visibility = GONE
         }
-        if (leadData.subcategory_name != ""){
+        if (leadData.subcategory_name != "" && leadData.subcategory_name != null){
             binding.includedContent.tvSubcategoryValue.text = leadData.subcategory_name
         }else{
             binding.includedContent.liSubcategory.visibility = GONE
         }
-        if (leadData.lead_cancelled_reason != ""){
+        if (leadData.lead_cancelled_reason != "" && leadData.lead_cancelled_reason != null){
             binding.includedContent.tvCancelReasonValue.text = leadData.lead_cancelled_reason
         }else{
             binding.includedContent.liCancelReason.visibility = GONE

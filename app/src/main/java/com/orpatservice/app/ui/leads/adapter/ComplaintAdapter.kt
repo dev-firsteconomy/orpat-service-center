@@ -55,7 +55,17 @@ class ComplaintAdapter(
             tatalCount: Int,
             itemClickListener: (Int, View,ItemComplaintBinding) -> Unit
         ) {
-
+            binding.tvServiceCenterDescriptionValue.setText(enquiry.service_center_discription ?: "")
+            binding.edtInvoiceNumberValue.setText(enquiry.invoice_no ?: "")
+            binding.edtSelectInvoiceDate.setText(enquiry.purchase_at ?: "")
+            binding.edtBuyerName.setText(enquiry.buyer_name ?: "")
+            binding.edtGstNumber.setText(enquiry.seller_gst_no ?: "")
+            binding.imgInvoiceImage.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.imgInvoiceImage,binding
+                )
+            }
           //  binding.tvModelNameValue.text = enquiry.id
             //binding.tvWarrantyStatusValue.text = enquiry.in_warranty
             if(enquiry.detail_status == 1){
@@ -71,11 +81,7 @@ class ComplaintAdapter(
 
                 }*/
 
-                binding.tvServiceCenterDescriptionValue.setText(enquiry.service_center_discription)
-                binding.edtInvoiceNumberValue.setText(enquiry.invoice_no)
-                binding.edtSelectInvoiceDate.setText(enquiry.purchase_at)
-                binding.edtBuyerName.setText(enquiry.buyer_name)
-                binding.edtGstNumber.setText(enquiry.seller_gst_no)
+
 
                 if(enquiry.seller_gst_no != null){
                     binding.tvGstFirstName.visibility = VISIBLE
@@ -112,14 +118,21 @@ class ComplaintAdapter(
                     binding.radiobtnNo.isChecked = false
                 }
 
-                binding.imgInvoiceImage.setOnClickListener {
-                    itemClickListener(
-                        adapterPosition,
-                        binding.imgInvoiceImage,binding
-                    )
-                }
+
 
             }else{
+                if(enquiry.in_warranty.equals("No")){
+                    binding.radiobtnYes.isEnabled = false
+                    binding.radiobtnNo.isEnabled = false
+                    binding.radiobtnNotSure.isEnabled = false
+                    binding.radiobtnNo.isChecked = true
+
+                    binding.radiobtnYes.isChecked = false
+                    binding.radiobtnNotSure.isChecked = false
+                    binding.liUpdate.visibility = GONE
+                    binding.liGenerateCancel.visibility = VISIBLE
+
+                }
                 binding.imgUpdatedTask.visibility = View.GONE
                 binding.btnUpdate.visibility = View.VISIBLE
                 binding.btnHideUpdate.visibility = View.GONE

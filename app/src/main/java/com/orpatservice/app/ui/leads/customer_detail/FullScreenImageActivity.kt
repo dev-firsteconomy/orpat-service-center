@@ -49,7 +49,9 @@ class FullScreenImageActivity : AppCompatActivity() {
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .placeholder(R.color.gray)
             .into(binding.ivFullScreenImage)
-*/      binding.webView.webViewClient = WebViewClient()
+*/
+        binding.webView.setInitialScale(50);
+//        binding.webView.settings.useWideViewPort = false;
         binding.webView.loadUrl((intent.getStringExtra(Constants.IMAGE_URL).toString()))
         binding.webView.settings.javaScriptEnabled = true
 
