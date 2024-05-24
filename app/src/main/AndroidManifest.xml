@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
 
     <queries>
         <intent>
@@ -201,6 +203,7 @@
 
         <activity android:name=".ui.leads.chargeable_request.ChargeableViewDetailsActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.force_update.ForceUpdateActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -211,6 +214,99 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+
+
+
+       <!-- <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />-->
+
+      <!--  <meta-data
+            android:name="com.pushwoosh.senderid"
+            android:value="@string/fcm_sender_id" />-->
+
+
+       <!-- <service
+            android:name=".data.sharedprefs.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.moengage.firebase.MoEFireBaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>-->
+       <!-- <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification" />-->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+       <!-- <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/black" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />-->
+
+
+
+
+        <meta-data
+            android:name="com.pushwoosh.appid"
+            android:value="D7518-8F4C0" />
+        <meta-data
+            android:name="com.pushwoosh.senderid"
+            android:value="@string/fcm_sender_id" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+       <!-- <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_ic_notification" />
+        &lt;!&ndash; Set color used with incoming notification messages. This is used when no color is set for the incoming notification message. &ndash;&gt;
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />-->
+        <service
+            android:name=".ui.admin.notification.YourNotificationServiceExtension"
+            android:exported="false"
+            android:directBootAware="true"
+            tools:targetApi="n">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--  <meta-data
+              android:name="com.pushwoosh.notification_service_extension"
+              android:value="com.orpatservice.app.ui.admin.notification.MyNotificationServiceExtension"/>
+  -->
+       <!-- <service
+            android:name=".ui.admin.notification.YourNotificationServiceExtension"
+            android:exported="false"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>-->
+
     </application>
 
 </manifest>

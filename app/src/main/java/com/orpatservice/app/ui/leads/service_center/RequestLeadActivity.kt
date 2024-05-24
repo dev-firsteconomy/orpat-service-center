@@ -48,6 +48,7 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     private var tabPos : Int? = null
     private var tabPos2 : Int? = null
     private var tabPos3 : Int? = null
+    private var tab_model : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +58,10 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         // set toolbar as support action bar
         setSupportActionBar(binding.toolbar)
         requestsLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+
+
+        tab_model = intent.getStringExtra(Constants.NEW).toString()
+        println("Constants.NEW)"+intent.getStringExtra(Constants.NEW).toString())
 
 
         supportActionBar?.apply {
@@ -123,7 +128,19 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         ////////////////////////////////////
       //  tabLayout.getTabAt(0)?.getOrCreateBadge()?.setNumber(10);
 
+        openTab(tab_model,tabLayout)
+    }
 
+    private fun openTab(tabModel: String, tabLayout: TabLayout) {
+
+        println("tabModel"+tabModel)
+        if(tabModel.equals(Constants.REQUEST_NEW)) {
+            tabLayout.selectTab(tabLayout.getTabAt(0));
+        }else if(tabModel.equals(Constants.REQUEST_ASSIGN)) {
+            tabLayout.selectTab(tabLayout.getTabAt(1));
+        }else if(tabModel.equals(Constants.REQUEST_VERIFY)) {
+            tabLayout.selectTab(tabLayout.getTabAt(2));
+        }
     }
 
     private fun permissionCheck() {
@@ -164,7 +181,7 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-               // onBackPressed()
+              // super.onBackPressed()
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -177,7 +194,7 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     private lateinit var searchView : SearchView
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
-        if (supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
+      /*  if (supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
             binding.toolbarTotalLead.text = ""
             newRequestFragment.loadTotalLead(leadBadge!!)
         }else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignedLeadFragment) {
@@ -185,44 +202,9 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
             assignedLeadFragment.loadTotalLead(leadBadge2!!)
         } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment) {
             //assignToTechnicianFragment.loadSearchLead(query)
-        }
-
-      /*  menuInflater.inflate(R.menu.menu_search, menu)
-
-        // Associate searchable configuration with the SearchView
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchView = menu.findItem(R.id.action_search).actionView as SearchView
-        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
-        (searchView).apply {
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        }
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                if(!query.isNullOrEmpty()) {
-                    if (supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
-                        newRequestFragment.loadSearchLead(query)
-                    } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment) {
-                        assignToTechnicianFragment.loadSearchLead(query)
-                    } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment) {
-                        //taskCompletedFragment.loadSearchLead(query)
-                    }
-                }else{
-                    if (supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
-                        newRequestFragment.loadSearchLead("")
-                    } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment) {
-                        assignToTechnicianFragment.loadSearchLead("")
-                    } else if (supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment) {
-                        //taskCompletedFragment.loadSearchLead(query)
-                    }
-                }
-                searchView.clearFocus()
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })*/
+            binding.toolbarTotalLead.text = ""
+            assignToTechnicianFragment.loadTotalLead(leadBadge3!!)
+        }*/
 
         return true
     }
@@ -266,25 +248,15 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         super.onResume()
        // setObserver()
     }
-  /*  override fun onBackPressed() {
-        *//*if (!searchView.isIconified) {
-            searchView.onActionViewCollapsed()
-            searchView.isIconified = true
-            if(supportFragmentManager.fragments.get(viewPager.currentItem) is NewRequestsFragment) {
-                newRequestFragment.loadOldLeadData()
-            } else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignedLeadFragment){
-                assignToTechnicianFragment.loadOldLeadData()
-            }else if(supportFragmentManager.fragments.get(viewPager.currentItem) is AssignToTechnicianFragment){
-                assignToTechnicianFragment.loadOldLeadData()
-            }*//**//*else if(supportFragmentManager.fragments.get(viewPager.currentItem) is TaskCompletedFragment){
-                taskCompletedFragment.loadOldLeadData()
-            }*//**//**//**//*else if(supportFragmentManager.fragments.get(viewPager.currentItem) is OTPVerificationFragment){
-                otpVerification.loadOldLeadData()
-            }*//**//*
-            return
-        }*//*
-        super.onBackPressed()
-    }*/
+
+
+    override fun onBackPressed() {
+
+        val intent = Intent(this, DashboardActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 
     /**
      * Tab selection logic
@@ -294,6 +266,7 @@ class RequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         when (tab.position) {
 
             0 -> {
+                newRequestFragment.loadTotalLead(leadBadge!!)
                 tab.select()
             }
             1 -> {

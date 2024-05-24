@@ -37,6 +37,7 @@ import com.orpatservice.app.ui.leads.technician.adapter.TechnicianRequestLeadAda
 import com.orpatservice.app.ui.leads.technician.response.TechnicianLeadData
 import com.orpatservice.app.ui.leads.technician.response.TechnicianRequestLeadResponse
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
+import com.orpatservice.app.ui.login.LoginActivity
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 import com.tapadoo.alerter.Alerter
@@ -302,7 +303,13 @@ class TechnicianNewRequest : Fragment() {
                         } else {
                             binding.tvNoLeads.visibility = View.GONE
                         }
+                    } else{
+                    if(it.code == 401){
+                        val intent = Intent(requireActivity(), LoginActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
                     }
+                }
                 }
             }
         }

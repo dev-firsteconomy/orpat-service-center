@@ -8,12 +8,10 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.orpatservice.app.R
 import com.orpatservice.app.databinding.ActivityFullScreenImageBinding
 import com.orpatservice.app.utils.Constants
 import kotlin.math.max
@@ -50,9 +48,13 @@ class FullScreenImageActivity : AppCompatActivity() {
             .placeholder(R.color.gray)
             .into(binding.ivFullScreenImage)
 */
-        binding.webView.setInitialScale(50);
+      //  binding.webView.setInitialScale(50);
 //        binding.webView.settings.useWideViewPort = false;
-        binding.webView.loadUrl((intent.getStringExtra(Constants.IMAGE_URL).toString()))
+        //binding.webView.loadUrl((intent.getStringExtra(Constants.IMAGE_URL).toString()))
+
+        val html =
+            "<html><body><img src=\"" + intent.getStringExtra(Constants.IMAGE_URL).toString() + "\" width=\"100%\" height=\"100%\"\"/></body></html>"
+        binding.webView.loadData(html, "text/html", null)
         binding.webView.settings.javaScriptEnabled = true
 
 

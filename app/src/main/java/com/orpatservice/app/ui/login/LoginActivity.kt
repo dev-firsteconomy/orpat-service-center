@@ -16,6 +16,7 @@ import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
 import com.orpatservice.app.data.remote.ApiClient
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity
 import com.orpatservice.app.ui.login.service_center.ServiceCenterLoginFragment
 import com.orpatservice.app.ui.login.technician.OTPVerificationActivity
 import com.orpatservice.app.ui.login.technician.TechnicianLoginFragment
@@ -172,8 +173,8 @@ class LoginActivity : AppCompatActivity(){
         viewModel.hitOTPApi(mobileNumber)
     }
 
-    fun signUpServiceCenter(email: String, password: String) {
-        viewModel.hitServiceCenterLoginApi(email, password)
+    fun signUpServiceCenter(email: String, password: String,token:String) {
+        viewModel.hitServiceCenterLoginApi(email, password,token)
     }
 
     //After successful login user get land on dashboard activity
@@ -193,10 +194,17 @@ class LoginActivity : AppCompatActivity(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                super.onBackPressed()
+               // finish()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+
+        super.onBackPressed()
+      //  finish()
     }
 }

@@ -17,4 +17,22 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/cpi_loading"
+        android:layout_width="15dp"
+        android:visibility="gone"
+        android:layout_height="15dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:indicatorColor="@color/red"
+        app:trackThickness="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

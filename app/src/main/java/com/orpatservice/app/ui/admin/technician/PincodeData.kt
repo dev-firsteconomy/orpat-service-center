@@ -21,11 +21,11 @@ class PincodeData() : Parcelable {
 
     }
 
-    override fun writeToParcel(parcel: Parcel?, flags: Int) {
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
       //  parcel?.writeValue(id)
-        parcel?.writeString(id)
-        parcel?.writeString(pincode)
-        parcel?.writeString(officename)
+        parcel.writeString(id)
+        parcel.writeString(pincode)
+        parcel.writeString(officename)
 
     }
 

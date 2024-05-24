@@ -38,7 +38,7 @@ class TechnicianRequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelect
     private lateinit var binding : ActivityTechnicianRequestLeadBinding
     private val newRequestFragment = TechnicianNewRequest()
     private lateinit var viewPager: ViewPager2
-
+    private var tab_model : String = ""
 
     val PERMISSION_ID = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
@@ -53,6 +53,10 @@ class TechnicianRequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelect
 
         // set toolbar as support action bar
         setSupportActionBar(binding.toolbar)
+
+
+        tab_model = intent.getStringExtra(Constants.NEW_CHARGEABLE).toString()
+        println("Constants.NEW)"+intent.getStringExtra(Constants.NEW_CHARGEABLE).toString())
 
         supportActionBar?.apply {
             title = ""
@@ -83,6 +87,8 @@ class TechnicianRequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelect
 */
         //loadFragment(newRequestFragment)
         newRequestFragment.loadTotalLead(binding.tvToolbarTotalLead)
+
+
     }
 
     private fun loadFragment(fragment: Fragment){
@@ -95,9 +101,10 @@ class TechnicianRequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelect
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                //onBackPressed()
+               // super.onBackPressed()
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
+                finish()
                 return true
             }
         }
@@ -282,4 +289,6 @@ class TechnicianRequestLeadActivity : AppCompatActivity(), TabLayout.OnTabSelect
 
     override fun onTabReselected(tab: TabLayout.Tab) {
     }
+
+
 }

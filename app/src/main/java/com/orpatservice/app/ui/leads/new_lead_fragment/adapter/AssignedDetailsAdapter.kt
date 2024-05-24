@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -74,13 +75,6 @@ class AssignedDetailsAdapter (
               //  binding.edtSelectInvoiceDate.text = parts?.get(0) + "" + " " + "" + parts?.get(1) + "" + " " + "" + parts?.get(2)/*+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"*/
            // }
 
-            /*if(enquiry.in_warranty.equals("Yes")){
-                binding.radiobtnYes.isChecked = true
-            }else if(enquiry.in_warranty.equals("No")){
-                binding.radiobtnNo.isChecked = true
-            }else if(enquiry.in_warranty.equals("Not Sure")){
-                binding.radiobtnNotSure.isChecked = true
-            }*/
 
             if(enquiry.in_warranty.equals("Yes")){
                 binding.radiobtnYes.isChecked = true
@@ -102,19 +96,22 @@ class AssignedDetailsAdapter (
             }else if(enquiry.in_warranty.equals("No")){
                 binding.radiobtnNo.isChecked = true
 
-                binding.radiobtnYes.isChecked = false
-                binding.radiobtnNotSure.isChecked = false
+               // binding.radiobtnYes.isChecked = false
+              //  binding.radiobtnNotSure.isChecked = false
 
-                binding.radiobtnYes.setFocusable(false);
-                binding.radiobtnYes.setEnabled(false);
-                binding.radiobtnYes.setCursorVisible(false);
-                binding.radiobtnYes.setKeyListener(null);
+                binding.radiobtnYes.visibility = GONE
+                binding.radiobtnNotSure.visibility = GONE
 
-
-                binding.radiobtnNotSure.setFocusable(false);
-                binding.radiobtnNotSure.setEnabled(false);
-                binding.radiobtnNotSure.setCursorVisible(false);
-                binding.radiobtnNotSure.setKeyListener(null);
+//                binding.radiobtnYes.setFocusable(false);
+//                binding.radiobtnYes.setEnabled(false);
+//                binding.radiobtnYes.setCursorVisible(false);
+//                binding.radiobtnYes.setKeyListener(null);
+//
+//
+//                binding.radiobtnNotSure.setFocusable(false);
+//                binding.radiobtnNotSure.setEnabled(false);
+//                binding.radiobtnNotSure.setCursorVisible(false);
+//                binding.radiobtnNotSure.setKeyListener(null);
 
             }else if(enquiry.in_warranty.equals("Not Sure")){
                 binding.radiobtnNotSure.isChecked = true

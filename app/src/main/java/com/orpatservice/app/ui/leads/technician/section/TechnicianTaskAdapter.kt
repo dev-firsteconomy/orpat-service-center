@@ -96,6 +96,11 @@ class TechnicianTaskAdapter(
                     binding.radiobtnYes.setKeyListener(null);
 
                 }
+              if(technicianData.selected_sub_complaint_preset !=  null){
+                  binding.tvSubComplaintPresetValue.text = technicianData.selected_sub_complaint_preset?.name
+                  binding.tvSubComplaintPresetValue.isClickable = false
+                  binding.tvSubComplaintPresetValue.isEnabled = false
+              }
 
             } else {
                 binding.tvTaskUpdate.visibility = VISIBLE
@@ -120,6 +125,13 @@ class TechnicianTaskAdapter(
                 binding.tvHideTaskUpdate.visibility = GONE
 
             }*/
+
+            println("technicianData.status.toString()"+technicianData.status.toString())
+            if(technicianData.status.toString() == "Parts Verification Pending"){
+                binding.tvSubComplaintPresetValue.visibility = VISIBLE
+            }else{
+                binding.tvSubComplaintPresetValue.visibility = GONE
+            }
 
 
             if (technicianData.is_cancelled.equals("Yes")) {
@@ -154,6 +166,7 @@ class TechnicianTaskAdapter(
 
             binding.tvDescriptionValue.text = technicianData.customer_discription
             binding.tvComplaintPresetValue.text = technicianData.complaint_preset
+
             binding.tvServiceCenterDescriptionValue.text = technicianData.service_center_discription
 
             val warrantryPart = WarrantryPartAdapter(
@@ -184,6 +197,24 @@ class TechnicianTaskAdapter(
                 itemClickListener(
                     adapterPosition,
                     binding.ivInvoiceImage, binding
+                )
+            }
+
+
+            binding.tvSubComplaintPresetValue.setOnClickListener {
+                /* val subComplaintPresetData = adapterPosition?.let { it1 ->
+                     SubComplaintPresetData(
+                         "",it1
+                     )
+                 }
+                 if (subComplaintPresetData != null) {
+                     CommonUtils.subComplaintPresetData.add(subComplaintPresetData)
+                 }
+ */
+
+                itemClickListener(
+                    adapterPosition,
+                    binding.tvSubComplaintPresetValue,binding
                 )
             }
 

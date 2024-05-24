@@ -98,6 +98,8 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
 
     }
 
+
+
     private fun addScrollerListener() {
         //attaches scrollListener with RecyclerView
         binding.rvTechList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -263,10 +265,10 @@ class TechniciansActivity : AppCompatActivity(), View.OnClickListener, Callback 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                //onBackPressed()
+                super.onBackPressed()
 
-                val intent = Intent(this, DashboardActivity::class.java)
-                startActivity(intent)
+                //val intent = Intent(this, DashboardActivity::class.java)
+               // startActivity(intent)
                 finish()
                 return true
             }

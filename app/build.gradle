@@ -2,21 +2,24 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+
 }
 
+
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.orpatservice.app"
-        minSdk 21
-        targetSdk 31
-        versionCode 4
-        versionName "1.4"
-
+        minSdk 26
+        targetSdk 33
+        versionCode 7
+        versionName "1.7"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,8 +38,8 @@ android {
 
     productFlavors {
         Prod {
-            buildConfigField("String", "DOMAIN", "\"http://service.orpatdistributors.com/api/\"")
-            buildConfigField("String", "SSL_HOST", "\"http://service.orpatdistributors.com/api/\"")
+            buildConfigField("String", "DOMAIN", "\"https://service.orpatdistributors.com/api/\"")
+            buildConfigField("String", "SSL_HOST", "\"https://service.orpatdistributors.com/api/\"")
             buildConfigField("String", "CERT_FILE_NAME", '""')
 
             buildConfigField("String", "AUTH_SCOPE", authScope)
@@ -50,8 +53,8 @@ android {
 
         Dev {
             buildConfigField("String", "DOMAIN", "\"https://testingservice.orpatdistributors.com/api/\"")
-            //buildConfigField("String", "DOMAIN", "\"http://service.orpatdistributors.com/api/\"")
-            buildConfigField("String", "SSL_HOST", "\"http://service.orpatdistributors.com/api/\"")
+          //  buildConfigField("String", "DOMAIN", "\"https://service.orpatdistributors.com/api/\"")
+            buildConfigField("String", "SSL_HOST", "\"https://service.orpatdistributors.com/api/\"")
             buildConfigField("String", "CERT_FILE_NAME", '""')
 
             buildConfigField("String", "AUTH_SCOPE", authScope)
@@ -63,37 +66,36 @@ android {
             buildConfigField("boolean", "ENABLE_SSL_PINNING", "false")
         }
 
-        Staging {
-            buildConfigField("String", "DOMAIN", baseUrl_Staging)
-            buildConfigField("String", "SSL_HOST", baseUrl_Staging)
-            buildConfigField("String", "CERT_FILE_NAME", '""')
-
-            buildConfigField("String", "AUTH_SCOPE", authScope)
-            buildConfigField("String", "AUTH_GRANT_TYPE", authGrantType)
-            buildConfigField("String", "AUTH_GRANT_TYPE_REFRESH", authGrantTypeRefresh)
-            buildConfigField("String", "AUTH_CLIENT_ID", clientId_Staging)
-            buildConfigField("String", "AUTH_CLIENT_SECRET", clientSecret_Staging)
-
-            buildConfigField("boolean", "ENABLE_SSL_PINNING", "false")
-        }
-
-        QA {
-            buildConfigField("String", "DOMAIN", baseUrl_Qa)
-            buildConfigField("String", "SSL_HOST", baseUrl_Qa)
-            buildConfigField("String", "CERT_FILE_NAME", '""')
-
-            buildConfigField("String", "AUTH_SCOPE", authScope)
-            buildConfigField("String", "AUTH_GRANT_TYPE", authGrantType)
-            buildConfigField("String", "AUTH_GRANT_TYPE_REFRESH", authGrantTypeRefresh)
-            buildConfigField("String", "AUTH_CLIENT_ID", clientId_Qa)
-            buildConfigField("String", "AUTH_CLIENT_SECRET", clientSecret_Qa)
-
-            buildConfigField("boolean", "ENABLE_SSL_PINNING", "false")
-        }
+//        Staging {
+//            buildConfigField("String", "DOMAIN", baseUrl_Staging)
+//            buildConfigField("String", "SSL_HOST", baseUrl_Staging)
+//            buildConfigField("String", "CERT_FILE_NAME", '""')
+//
+//            buildConfigField("String", "AUTH_SCOPE", authScope)
+//            buildConfigField("String", "AUTH_GRANT_TYPE", authGrantType)
+//            buildConfigField("String", "AUTH_GRANT_TYPE_REFRESH", authGrantTypeRefresh)
+//            buildConfigField("String", "AUTH_CLIENT_ID", clientId_Staging)
+//            buildConfigField("String", "AUTH_CLIENT_SECRET", clientSecret_Staging)
+//
+//            buildConfigField("boolean", "ENABLE_SSL_PINNING", "false")
+//        }
+//
+//        QA {
+//            buildConfigField("String", "DOMAIN", baseUrl_Qa)
+//            buildConfigField("String", "SSL_HOST", baseUrl_Qa)
+//            buildConfigField("String", "CERT_FILE_NAME", '""')
+//
+//            buildConfigField("String", "AUTH_SCOPE", authScope)
+//            buildConfigField("String", "AUTH_GRANT_TYPE", authGrantType)
+//            buildConfigField("String", "AUTH_GRANT_TYPE_REFRESH", authGrantTypeRefresh)
+//            buildConfigField("String", "AUTH_CLIENT_ID", clientId_Qa)
+//            buildConfigField("String", "AUTH_CLIENT_SECRET", clientSecret_Qa)
+//
+//            buildConfigField("boolean", "ENABLE_SSL_PINNING", "false")
+//        }
     }
 
     compileOptions {
-       // coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -153,13 +155,13 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
 
-   /* implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-    implementation "androidx.multidex:multidex:2.0.1"
-*/
+    /* implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+     implementation "androidx.multidex:multidex:2.0.1"
+ */
 
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
 
 
@@ -177,4 +179,26 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    // Firebase Cloud Messaging (Java)
+    implementation 'com.google.firebase:firebase-messaging'
+
+    // Firebase Cloud Messaging (Kotlin)
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.0'
+    implementation 'com.google.firebase:firebase-database:19.6.0'
+
+
+
+
+    //implementation("com.moengage:moe-android-sdk:11.4.02")
+    implementation("com.moengage:moe-android-sdk:12.10.02")
+
+    //Pushwoosh
+    implementation 'com.pushwoosh:pushwoosh-firebase:6.+'
+    //implementation 'com.pushwoosh:pushwoosh-firebase:+'
+    implementation 'com.pushwoosh:pushwoosh:6.+'
+
+
+    implementation 'com.google.firebase:firebase-messaging-directboot:20.2.0'
+
 }

@@ -34,20 +34,20 @@ class TechnicianList() : Parcelable {
         parcel.readTypedList(pincodes, PincodeData.CREATOR)
     }
 
-    override fun writeToParcel(parcel: Parcel?, flags: Int) {
-        parcel?.writeValue(id)
-        parcel?.writeString(first_name)
-        parcel?.writeString(last_name)
-        parcel?.writeString(aadhar_card_no)
-        parcel?.writeString(aadhar_image)
-        parcel?.writeString(email)
-        parcel?.writeString(mobile)
-        parcel?.writeString(pincode)
-        parcel?.writeString(image)
-        parcel?.writeString(status)
-        parcel?.writeString(passcode)
-        parcel?.writeString(active_leads_count)
-        parcel?.writeTypedList(pincodes)
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeValue(id)
+        parcel.writeString(first_name)
+        parcel.writeString(last_name)
+        parcel.writeString(aadhar_card_no)
+        parcel.writeString(aadhar_image)
+        parcel.writeString(email)
+        parcel.writeString(mobile)
+        parcel.writeString(pincode)
+        parcel.writeString(image)
+        parcel.writeString(status)
+        parcel.writeString(passcode)
+        parcel.writeString(active_leads_count)
+        parcel.writeTypedList(pincodes)
     }
 
 

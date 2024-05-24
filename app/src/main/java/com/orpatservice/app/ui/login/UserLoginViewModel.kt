@@ -12,6 +12,7 @@ import com.orpatservice.app.data.remote.ApiEndPoint
 import com.orpatservice.app.data.remote.ErrorUtils
 import com.orpatservice.app.data.repository.DataRepository
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.force_update.ForceUpdateResponse
 import com.orpatservice.app.utils.Constants
 import org.json.JSONException
 import retrofit2.Call
@@ -25,9 +26,10 @@ class UserLoginViewModel : ViewModel() {
     val OTPData = MutableLiveData<Resource<OTPSendResponse>>()
     val loginData = MutableLiveData<Resource<LoginResponse>>()
     val otpVerifyData = MutableLiveData<Resource<OTPSendResponse>>()
+    val forceUpdateResponse = MutableLiveData<Resource<ForceUpdateResponse>>()
 
-    fun hitServiceCenterLoginApi(email: String, password: String) {
-        DataRepository.instance.hitServiceCenterLoginApi(email, password).enqueue(callbackLogin)
+    fun hitServiceCenterLoginApi(email: String, password: String,token:String) {
+        DataRepository.instance.hitServiceCenterLoginApi(email, password,token).enqueue(callbackLogin)
     }
     //API to get OTP on user register mobile number
     fun hitOTPApi(mobileNumber: String) {
@@ -72,12 +74,12 @@ class UserLoginViewModel : ViewModel() {
         }
 
     //API to verify and login
-    fun hitVerifyOTPLoginApi(mobileNumber: String, otp: String) {
+    fun hitVerifyOTPLoginApi(mobileNumber: String, otp: String,pushToken:String) {
         if(SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
         //No need for now, as per discussion Service Center have login by email and password
         //DataRepository.instance.hitVerifyServiceCenterOTPLoginApi(mobileNumber, otp).enqueue(callbackVerifyOTPLogin)
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)){
-            DataRepository.instance.hitVerifyTechnicianOTPLoginApi(mobileNumber, otp)
+            DataRepository.instance.hitVerifyTechnicianOTPLoginApi(mobileNumber, otp,pushToken)
                 .enqueue(callbackLogin)
         }
     }
@@ -126,6 +128,34 @@ class UserLoginViewModel : ViewModel() {
             otpVerifyData.value = Resource.error(ErrorUtils.getError(t))
         }
     }
+
+
+    fun checkForceUpdate(deviceId: String, appVersionCode: Int) {
+        DataRepository.instance.hitCheckForceUpdate(deviceId,appVersionCode).enqueue(callbackCheckForceUpdate)
+    }
+    private val callbackCheckForceUpdate: Callback<ForceUpdateResponse> =
+        object : Callback<ForceUpdateResponse> {
+            override fun onResponse(
+                call: Call<ForceUpdateResponse>,
+                response: Response<ForceUpdateResponse>) {
+
+                if (response.isSuccessful) {
+                    forceUpdateResponse.postValue(response.body().let { Resource.success(it) })
+                } else {
+                    forceUpdateResponse.postValue(
+                        Resource.error(
+                            ErrorUtils.getError(
+                                response.errorBody(),
+                                response.code()
+                            )
+                        ))
+                }
+            }
+
+            override fun onFailure(call: Call<ForceUpdateResponse>, t: Throwable) {
+                forceUpdateResponse.postValue(Resource.error(ErrorUtils.getError(t)))
+            }
+        }
 }
 
 

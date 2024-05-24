@@ -3,7 +3,6 @@ package com.orpatservice.app.ui.leads.technician
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ActivityManager
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ContentValues
@@ -32,7 +31,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,7 +44,6 @@ import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
-import com.orpatservice.app.BuildConfig
 import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
@@ -58,7 +55,7 @@ import com.orpatservice.app.databinding.ItemTechnicianComplaintBinding
 import com.orpatservice.app.ui.admin.technician.CAMERA
 import com.orpatservice.app.ui.admin.technician.CANCEL
 import com.orpatservice.app.ui.leads.customer_detail.*
-import com.orpatservice.app.ui.leads.customer_detail.adapter.ServiceableWarrantryPartAdapter
+import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.CustomExpandableDataAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.CustomExpandableListAdapter
 import com.orpatservice.app.ui.leads.technician.adapter.TechnicianCustomerDetailsAdapter
 import com.orpatservice.app.ui.leads.technician.response.TechnicianEnquiryImage
@@ -361,10 +358,11 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                //onBackPressed()
+              //onBackPressed()
                 CommonUtils.imageList.clear()
-                val intent = Intent(this, TechnicianRequestLeadActivity::class.java)
-                startActivity(intent)
+                super.onBackPressed()
+               // val intent = Intent(this, TechnicianRequestLeadActivity::class.java)
+               // startActivity(intent)
                 return true
             }
         }
@@ -511,7 +509,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         }
         rv_complaint_list.layoutManager = LinearLayoutManager(this)
 
-        if(warrantyPartsList.isNullOrEmpty()){
+        /*if(warrantyPartsList.isNullOrEmpty()){
             val adapter = ServiceableWarrantryPartAdapter(leadData.enquiries[pos!!].warranty_parts)
             rv_complaint_list.adapter = adapter
         }else {
@@ -549,7 +547,26 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
 
             false
+        }*/
+
+
+        val data: HashMap<String, List<String>>
+        // get() {
+        val listData = HashMap<String, List<String>>()
+
+        val redmiMobiles = ArrayList<String>()
+        redmiMobiles.add("")
+
+        for(i in leadData.enquiries[pos!!].warranty_parts){
+            listData[i.name.toString()] = redmiMobiles
         }
+
+
+        // }
+        //val listData = data
+        var titleList = ArrayList(leadData.enquiries[pos!!].warranty_parts)
+        val adapter = CustomExpandableDataAdapter(this, titleList as ArrayList<WarrantryPart> , listData)
+        expandableListView.setAdapter(adapter)
 
         // This will pass the ArrayList to our Adapter
 

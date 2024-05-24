@@ -23,7 +23,7 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@id/tv_warranty"
-            app:layout_constraintHorizontal_bias="0.091"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,7 +106,8 @@
             android:padding="2dp"
             android:layout_marginTop="10dp"
             android:text="@string/model_number"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             android:textAlignment="textStart"
             app:layout_constraintEnd_toStartOf="@id/tv_warranty"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,12 +115,14 @@
 
         <TextView
             android:id="@+id/tv_model_name_value"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:paddingLeft="20dp"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+
             app:layout_constraintEnd_toEndOf="@id/tv_model_number"
             app:layout_constraintStart_toStartOf="@id/tv_model_number"
             app:layout_constraintTop_toBottomOf="@id/tv_model_number"
@@ -133,7 +136,8 @@
             android:layout_marginTop="8dp"
             android:text="@string/invoice_image"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.52"
             app:layout_constraintStart_toStartOf="parent"
@@ -157,7 +161,8 @@
             android:layout_marginTop="8dp"
             android:text="@string/invoice_number"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.52"
             app:layout_constraintStart_toStartOf="parent"
@@ -165,11 +170,13 @@
 
         <TextView
             android:id="@+id/tv_invoice_number_value"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_invoice_number"
@@ -183,18 +190,21 @@
             android:layout_marginTop="10dp"
             android:text="@string/invoice_date"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_invoice_number_value" />
 
         <TextView
             android:id="@+id/tv_invoice_date_value"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_invoice_date"
@@ -209,18 +219,21 @@
             android:layout_marginTop="10dp"
             android:text="@string/customer_note"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_invoice_date_value" />
 
         <TextView
             android:id="@+id/tv_description_value"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_customer_description"
@@ -234,22 +247,57 @@
             android:layout_marginTop="10dp"
             android:text="@string/complaint_preset"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_description_value" />
 
         <TextView
             android:id="@+id/tv_complaint_preset_value"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset"
             />
+
+
+        <TextView
+            android:id="@+id/tv_subComplaint_preset"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/sub_complaint_preset"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/text_size_12"
+            android:visibility="visible"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset_value" />
+
+        <TextView
+            android:id="@+id/tv_subComplaint_preset_value"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_40dp"
+            android:background="@drawable/bg_edit_text_border"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:visibility="visible"
+            android:paddingLeft="@dimen/padding_10dp"
+            android:hint="@string/please_select_sub_preset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_subComplaint_preset"
+            />
+
 
         <TextView
             android:id="@+id/tv_service_center_description"
@@ -260,18 +308,19 @@
             android:layout_marginTop="10dp"
             android:text="@string/service_center_description"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset_value" />
+            app:layout_constraintTop_toBottomOf="@id/tv_subComplaint_preset_value" />
 
         <TextView
             android:id="@+id/tv_service_center_description_value"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_service_center_description" />
@@ -285,7 +334,8 @@
             android:layout_marginTop="27dp"
             android:padding="2dp"
             android:text="@string/warranty"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             android:textAlignment="textEnd"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_model_number"
@@ -293,13 +343,14 @@
 
         <TextView
             android:id="@+id/tv_warranty_date_year"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:padding="2dp"
             android:textAlignment="textEnd"
-            android:textSize="14sp"
+            android:paddingLeft="20dp"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@id/tv_warranty"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/tv_warranty"
@@ -315,7 +366,8 @@
             android:padding="2dp"
             android:text="@string/under_warranty"
             android:textAlignment="textStart"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/tv_service_center_description_value"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/tv_service_center_description_value"
@@ -337,7 +389,7 @@
                 android:checked="false"
                 android:text="Yes"
                 android:layout_marginLeft="10dp"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_12"
                 app:backgroundTint="#FFFFFF" />
 
             <RadioButton
@@ -347,7 +399,7 @@
                 android:checked="false"
                 android:padding="5dp"
                 android:text="No"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_12"
                 app:backgroundTint="#FFFFFF" />
 
         </RadioGroup>
@@ -408,7 +460,8 @@
             android:paddingLeft="5dp"
             android:text="@string/select_parts_covered_under_warranty"
             android:textAlignment="textStart"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/radio_btn_change_part"
             app:layout_constraintHorizontal_bias="0.18"
             app:layout_constraintStart_toStartOf="@id/radio_btn_change_part"

@@ -19,9 +19,9 @@ class WarrantryCondition() : Parcelable {
         return 0
     }
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeValue(id)
-        dest?.writeString(title)
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeValue(id)
+        dest.writeString(title)
     }
 
     companion object CREATOR : Parcelable.Creator<WarrantryCondition> {

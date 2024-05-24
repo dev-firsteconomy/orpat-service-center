@@ -21,6 +21,7 @@ import com.orpatservice.app.ui.admin.dashboard.RequestSynAppResponse
 import com.orpatservice.app.ui.admin.dashboard.RequestTechnicianSynAppResponse
 import com.orpatservice.app.ui.admin.technician.RequestPincodeResponse
 import com.orpatservice.app.ui.admin.technician.RequestTechnicianData
+import com.orpatservice.app.ui.force_update.ForceUpdateResponse
 import com.orpatservice.app.ui.leads.customer_detail.CancelRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UpdateRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
@@ -48,8 +49,9 @@ class DataRepository {
     }
 
     //Service Center login by email and password
-    fun hitServiceCenterLoginApi(email: String, password: String): Call<LoginResponse> {
-        return ApiClient.getAuthApi().getServiceCenterLogin(email, password)
+    fun hitServiceCenterLoginApi(email: String, password: String,pushtoken:String): Call<LoginResponse> {
+      println("pushtokenpushtoken"+pushtoken)
+        return ApiClient.getAuthApi().getServiceCenterLogin(email, password,pushtoken)
     }
     //To get OTP on user register mobile number
     fun hitServiceCenterOTPApi(mobileNumber: String): Call<OTPSendResponse> {
@@ -69,14 +71,20 @@ class DataRepository {
     }
 
     //To verify OTP and login
-    fun hitVerifyTechnicianOTPLoginApi(mobileNumber: String, otp: String): Call<LoginResponse> {
-        return ApiClient.getAuthApi().verifyTechnicianOTPLoginAPI(mobileNumber, otp)
+    fun hitVerifyTechnicianOTPLoginApi(mobileNumber: String, otp: String,pushToken:String): Call<LoginResponse> {
+      println("tokennnnnnnnnnnnnnnnnnn"+pushToken)
+        return ApiClient.getAuthApi().verifyTechnicianOTPLoginAPI(mobileNumber, otp,pushToken)
     }
 
 
     fun hitServiceValidateProductApi(scanned_barcode: String): Call<ValidateProductResponse> {
         val token :String = "Bearer "+SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
         return ApiClient.getClient().validateProduct(token,scanned_barcode)
+    }
+
+
+    fun hitCheckForceUpdate(deviceId:String,appVersionCode:Int): Call<ForceUpdateResponse> {
+        return ApiClient.getClient().getCheckForceUpdateAPI(deviceId,"android",appVersionCode,"service-admin")
     }
 
 

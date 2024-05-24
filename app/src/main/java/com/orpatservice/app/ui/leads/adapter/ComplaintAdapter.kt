@@ -17,6 +17,7 @@ import com.orpatservice.app.data.model.requests_leads.Enquiry
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.databinding.ItemComplaintBinding
 import com.orpatservice.app.utils.CommonUtils
+import java.util.*
 
 /**
  * Created by Ajay Yadav on 22/12/21.
@@ -56,6 +57,7 @@ class ComplaintAdapter(
             itemClickListener: (Int, View,ItemComplaintBinding) -> Unit
         ) {
             binding.tvServiceCenterDescriptionValue.setText(enquiry.service_center_discription ?: "")
+            binding.tvCallCenterNoteValue.setText(enquiry.orpat_description)
             binding.edtInvoiceNumberValue.setText(enquiry.invoice_no ?: "")
             binding.edtSelectInvoiceDate.setText(enquiry.purchase_at ?: "")
             binding.edtBuyerName.setText(enquiry.buyer_name ?: "")
@@ -66,10 +68,13 @@ class ComplaintAdapter(
                     binding.imgInvoiceImage,binding
                 )
             }
-          //  binding.tvModelNameValue.text = enquiry.id
+            //  binding.tvModelNameValue.text = enquiry.id
             //binding.tvWarrantyStatusValue.text = enquiry.in_warranty
-            if(enquiry.detail_status == 1){
+            if(enquiry.detail_status == 1) {
                 binding.imgUpdatedTask.visibility = View.VISIBLE
+            }else {
+                binding.imgUpdatedTask.visibility = View.GONE
+            }
                 /*if(enquiry.purchase_at != null) {
                     if (!enquiry.warranty_parts.isEmpty()) {
                         binding.tvServiceableWarrantyParts.visibility = VISIBLE
@@ -78,7 +83,6 @@ class ComplaintAdapter(
                     }
                 }else{
                     binding.tvServiceableWarrantyParts.visibility = GONE
-
                 }*/
 
 
@@ -118,25 +122,25 @@ class ComplaintAdapter(
                     binding.radiobtnNo.isChecked = false
                 }
 
-
-
-            }else{
+         //   }else{
                 if(enquiry.in_warranty.equals("No")){
                     binding.radiobtnYes.isEnabled = false
-                    binding.radiobtnNo.isEnabled = false
+                    binding.radiobtnYes.isChecked = false
+                  //  binding.radiobtnNo.isEnabled = false
                     binding.radiobtnNotSure.isEnabled = false
+                    binding.radiobtnNotSure.isChecked = false
+
                     binding.radiobtnNo.isChecked = true
 
-                    binding.radiobtnYes.isChecked = false
-                    binding.radiobtnNotSure.isChecked = false
                     binding.liUpdate.visibility = GONE
                     binding.liGenerateCancel.visibility = VISIBLE
 
                 }
+
                 binding.imgUpdatedTask.visibility = View.GONE
                 binding.btnUpdate.visibility = View.VISIBLE
                 binding.btnHideUpdate.visibility = View.GONE
-               // binding.tvServiceableWarrantyParts.visibility = GONE
+                // binding.tvServiceableWarrantyParts.visibility = GONE
 
                 binding.imgInvoiceImage.setOnClickListener {
                     itemClickListener(
@@ -144,7 +148,7 @@ class ComplaintAdapter(
                         binding.imgInvoiceImage,binding
                     )
                 }
-            }
+            //}
 
             binding.tvDescriptionValue.text = enquiry.customer_discription
             binding.tvModelNameValue.text = enquiry.model_no
@@ -161,23 +165,23 @@ class ComplaintAdapter(
             }else{
                 binding.tvErrorDes.visibility = VISIBLE
             }
-           /* if(!binding.edtInvoiceNumberValue.text.isNullOrEmpty()){
-                binding.tvErrorInvoiceNumber.visibility = GONE
-            }else{
-                binding.tvErrorInvoiceNumber.visibility = VISIBLE
-            }
+            /* if(!binding.edtInvoiceNumberValue.text.isNullOrEmpty()){
+                 binding.tvErrorInvoiceNumber.visibility = GONE
+             }else{
+                 binding.tvErrorInvoiceNumber.visibility = VISIBLE
+             }
 
-            if(!binding.edtSelectInvoiceDate.text.isNullOrEmpty()){
-                binding.tvErrorInvoiceDate.visibility = GONE
-            }else{
-                binding.tvErrorInvoiceDate.visibility = VISIBLE
-            }*/
+             if(!binding.edtSelectInvoiceDate.text.isNullOrEmpty()){
+                 binding.tvErrorInvoiceDate.visibility = GONE
+             }else{
+                 binding.tvErrorInvoiceDate.visibility = VISIBLE
+             }*/
 
-           // enquiry.purchase_at?.let { binding.tvPurchaseAt.text = CommonUtils.dateFormat(it) }
+            // enquiry.purchase_at?.let { binding.tvPurchaseAt.text = CommonUtils.dateFormat(it) }
             binding.tvServiceCenterDescriptionValue.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     if(s!!.isEmpty()){
-                     //   binding.tvErrorDes.visibility = View.VISIBLE
+                        //   binding.tvErrorDes.visibility = View.VISIBLE
                     }else{
                         binding.tvErrorDes.visibility = View.GONE
                     }
@@ -186,7 +190,7 @@ class ComplaintAdapter(
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                     //  validationUtil()
                     if(s!!.isEmpty()){
-                      //  binding.tvErrorDes.visibility = View.VISIBLE
+                        //  binding.tvErrorDes.visibility = View.VISIBLE
                     }else{
                         binding.tvErrorDes.visibility = View.GONE
                     }
@@ -196,7 +200,7 @@ class ComplaintAdapter(
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
                     if(count == 0){
-                      //  binding.tvErrorDes.visibility = View.VISIBLE
+                        //  binding.tvErrorDes.visibility = View.VISIBLE
                     }else {
                         binding.tvErrorDes.visibility = View.GONE
                     }
@@ -206,7 +210,7 @@ class ComplaintAdapter(
             binding.edtInvoiceNumberValue.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     if(s!!.isEmpty()){
-                       // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
+                        // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
                     }else{
                         binding.tvErrorInvoiceNumber.visibility = View.GONE
                     }
@@ -214,7 +218,7 @@ class ComplaintAdapter(
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                     if(s!!.isEmpty()){
-                       // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
+                        // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
                     }else{
                         binding.tvErrorInvoiceNumber.visibility = View.GONE
                     }
@@ -229,31 +233,107 @@ class ComplaintAdapter(
                 }
             })
 
-            binding.edtGstNumber.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    if(s!!.isEmpty()){
-                        // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
-                    }else{
-                        binding.tvErrorGstNumber.visibility = View.GONE
-                    }
-                }
+            if(enquiry.is_audit_verified == "0") {
+                binding.tvGstNumber.visibility = VISIBLE
+                binding.liGstNum.visibility = VISIBLE
 
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                    if(s!!.isEmpty()){
-                        // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
-                    }else{
-                        binding.tvErrorGstNumber.visibility = View.GONE
-                    }
-                }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if(count == 0){
-                        //binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
-                    }else {
-                        binding.tvErrorGstNumber.visibility = View.GONE
+                binding.edtGstNumber.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+                        if (s!!.isEmpty()) {
+                            // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
+                        } else {
+                            binding.tvErrorGstNumber.visibility = View.GONE
+                        }
                     }
-                }
-            })
+
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                        if (s!!.isEmpty()) {
+                            // binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
+                        } else {
+                            binding.tvErrorGstNumber.visibility = View.GONE
+                        }
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                        if (count == 0) {
+                            //binding.tvErrorInvoiceNumber.visibility = View.VISIBLE
+                        } else {
+                            binding.tvErrorGstNumber.visibility = View.GONE
+                        }
+                    }
+                })
+            }else{
+                binding.tvGstNumber.visibility = GONE
+                binding.liGstNum.visibility = GONE
+                binding.tvErrorGstNumber.visibility = GONE
+            }
+
+            binding.tvSubComplaintPresetValue.setOnClickListener {
+                /* val subComplaintPresetData = adapterPosition?.let { it1 ->
+                     SubComplaintPresetData(
+                         "",it1
+                     )
+                 }
+                 if (subComplaintPresetData != null) {
+                     CommonUtils.subComplaintPresetData.add(subComplaintPresetData)
+                 }
+ */
+
+                itemClickListener(
+                    adapterPosition,
+                    binding.tvSubComplaintPresetValue,binding
+                )
+            }
+
+
+            if(enquiry.is_audit_verified.toString() == "1"){
+
+                binding.btnUploadInvoices.setFocusable(false);
+                binding.btnUploadInvoices.setEnabled(false);
+                binding.btnUploadInvoices.setCursorVisible(false);
+                binding.btnUploadInvoices.setKeyListener(null);
+
+                binding.imgInvoiceImage.setFocusable(false);
+                binding.imgInvoiceImage.setEnabled(false);
+
+                binding.edtInvoiceNumberValue.setFocusable(false);
+                binding.edtInvoiceNumberValue.setEnabled(false);
+                binding.edtInvoiceNumberValue.setCursorVisible(false);
+                binding.edtInvoiceNumberValue.setKeyListener(null);
+
+                binding.edtSelectInvoiceDate.setFocusable(false);
+                binding.edtSelectInvoiceDate.setEnabled(false);
+                binding.edtSelectInvoiceDate.setCursorVisible(false);
+                binding.edtSelectInvoiceDate.setKeyListener(null);
+
+                binding.edtBuyerName.setFocusable(false);
+                binding.edtBuyerName.setEnabled(false);
+                binding.edtBuyerName.setCursorVisible(false);
+                binding.edtBuyerName.setKeyListener(null);
+
+                binding.edtGstNumber.setFocusable(false);
+                binding.edtGstNumber.setEnabled(false);
+                binding.edtGstNumber.setCursorVisible(false);
+                binding.edtGstNumber.setKeyListener(null);
+
+                binding.tvVerifyGst.setFocusable(false);
+                binding.tvVerifyGst.setEnabled(false);
+                binding.tvVerifyGst.setCursorVisible(false);
+                binding.tvVerifyGst.setKeyListener(null);
+
+            }
+
 
             binding.tvRemoveImage.setOnClickListener {
                 itemClickListener(
@@ -276,7 +356,7 @@ class ComplaintAdapter(
             }
 
             binding.rbGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { radioGroup, i ->
-              binding.tvErrorUnderWarranty.visibility = GONE
+                binding.tvErrorUnderWarranty.visibility = GONE
             })
 
             Glide.with(binding.imgInvoiceImage.context)
@@ -294,12 +374,12 @@ class ComplaintAdapter(
                 .into(binding.ivQrCodeImage)
             binding.tvQrCodeNumber.text = enquiry.scanned_barcode
 
-           /* binding.ivInvoiceImage.setOnClickListener {
-                itemClickListener(
-                    adapterPosition,
-                    binding.ivInvoiceImage,binding
-                )
-            }*/
+            /* binding.ivInvoiceImage.setOnClickListener {
+                 itemClickListener(
+                     adapterPosition,
+                     binding.ivInvoiceImage,binding
+                 )
+             }*/
             binding.imgClose.setOnClickListener {
                 itemClickListener(
                     adapterPosition,

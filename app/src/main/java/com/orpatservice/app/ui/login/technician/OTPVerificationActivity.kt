@@ -295,7 +295,7 @@ class OTPVerificationActivity : AppCompatActivity(), TextWatcher, View.OnClickLi
             //API trigger
             binding.btnContinueOtp.visibility = View.VISIBLE
             binding.cpiLoading.visibility = View.VISIBLE
-            viewModel.hitVerifyOTPLoginApi(mobileNumber, verificationCode)
+            viewModel.hitVerifyOTPLoginApi(mobileNumber, verificationCode,Constants.REGISTRATION_TOKEN)
         }
     }
 

@@ -64,14 +64,14 @@ class ChargeableViewDetailsAdapter  (
             binding.edtInvoiceNumberValue.text = enquiry.invoice_no
             binding.edtSelectInvoiceDate.text = enquiry.purchase_at
 
-            if(enquiry.purchase_at != null) {
+           /* if(enquiry.purchase_at != null) {
                 val str = enquiry.purchase_at
                 val delimiter = " "
                 val parts = str?.split(delimiter)
 
                 binding.edtSelectInvoiceDate.text =
-                    parts?.get(0) + "" + " " + "" + parts?.get(1) + "" + " " + "" + parts?.get(2)/*+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"*/
-            }
+                    parts?.get(0) + "" + " " + "" + parts?.get(1) + "" + " " + "" + parts?.get(2)*//*+""+""+"\n"+ parts?.get(3)+""+" "+""+ parts?.get(4)+"\n"*//*
+            }*/
 
             /*if(enquiry.in_warranty.equals("Yes")){
                 binding.radiobtnYes.isChecked = true

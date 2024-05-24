@@ -49,24 +49,24 @@ class TechnicianEnquiry() : Parcelable {
         return 0
     }
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeValue(id)
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeValue(id)
         // dest?.writeString(model_no)
-        dest?.writeString(invoice_url)
-        dest?.writeString(scanned_barcode)
+        dest.writeString(invoice_url)
+        dest.writeString(scanned_barcode)
         //  dest?.writeString(qr_image)
-        dest?.writeString(purchase_at)
-        dest?.writeString(complaint_preset)
-        dest?.writeString(in_warranty)
-        dest?.writeValue(status)
-        dest?.writeString(customer_discription)
-        dest?.writeString(service_center_discription)
-        dest?.writeString(dummy_barcode)
-        dest?.writeString(model_no)
-        dest?.writeValue(technician_detail_status)
-        dest?.writeValue(technician_scan_status)
-        dest?.writeTypedList(warranty_parts)
-        dest?.writeTypedList(lead_enquiry_images)
+        dest.writeString(purchase_at)
+        dest.writeString(complaint_preset)
+        dest.writeString(in_warranty)
+        dest.writeValue(status)
+        dest.writeString(customer_discription)
+        dest.writeString(service_center_discription)
+        dest.writeString(dummy_barcode)
+        dest.writeString(model_no)
+        dest.writeValue(technician_detail_status)
+        dest.writeValue(technician_scan_status)
+        dest.writeTypedList(warranty_parts)
+        dest.writeTypedList(lead_enquiry_images)
     }
 
     companion object CREATOR : Parcelable.Creator<TechnicianEnquiry> {

@@ -22,11 +22,11 @@ class LeadEnquiryImage() : Parcelable {
         return 0
     }
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeValue(id)
-        dest?.writeString(image)
-        dest?.writeString(status)
-        dest?.writeString(part)
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeValue(id)
+        dest.writeString(image)
+        dest.writeString(status)
+        dest.writeString(part)
 
     }
 

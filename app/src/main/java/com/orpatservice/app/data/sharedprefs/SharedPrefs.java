@@ -45,6 +45,14 @@ public class SharedPrefs {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
+    public void addUpdateString(String key, String value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.apply();
+        sharedPrefMap.put(key, value);
+    }
+
+
     public void addString(String key, String value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);

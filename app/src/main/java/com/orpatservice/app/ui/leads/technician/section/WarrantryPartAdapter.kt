@@ -143,7 +143,7 @@ class WarrantryPartAdapter(
                              CommonUtils.imageData.removeAt(adapterPosition)
                             }*/
 
-
+                            println("warrantyListData" + CommonUtils.warrantyListData)
                             val iterator: MutableIterator<CheckWarrantyList> = CommonUtils.warrantyListData.iterator()
                             while (iterator.hasNext()) {
                                 val string = iterator.next()
@@ -153,6 +153,7 @@ class WarrantryPartAdapter(
                                         iterator.remove()
                                 }
                             }
+                            println("xxxxxx" + CommonUtils.warrantyListData)
                             /*if(!CommonUtils.imageData.isEmpty()) {
                                 CommonUtils.imageData.removeAt(adapterPosition)
                             }*/
@@ -172,6 +173,21 @@ class WarrantryPartAdapter(
                                 }
                             }
 
+                            val iterator1: MutableIterator<productListData> = CommonUtils.productListData.iterator()
+                            while (iterator1.hasNext()) {
+                                val string = iterator1.next()
+                                if (string.part_ids.equals(warrantyList[adapterPosition].id.toString())) {
+                                    // Remove the current element from the iterator and the list.
+//                                    println("productListData" + CommonUtils.productListData)
+//                                    println("string.part_ids" + string.part_ids)
+//                                    println("adapterPosition" + adapterPosition)
+                                    iterator1.remove()
+
+                                }
+                            }
+
+                            println("vvvvvvvv" + CommonUtils.imageData)
+                            println("zzzzzzzz" + CommonUtils.productListData)
 
                         }catch (e:IndexOutOfBoundsException){
                                 e.message.toString()
@@ -322,7 +338,9 @@ class WarrantryPartAdapter(
                         val string = iterator.next()
                             if (string.part_ids.equals(warrantyList[adapterPosition].id.toString())) {
                                 // Remove the current element from the iterator and the list.
+                                println("productListData" + CommonUtils.productListData)
                                 iterator.remove()
+                                println("sssssssssss" + CommonUtils.productListData)
                         }
                     }
 

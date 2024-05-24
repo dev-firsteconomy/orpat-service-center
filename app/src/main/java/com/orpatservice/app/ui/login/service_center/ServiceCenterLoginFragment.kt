@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.orpatservice.app.R
 import com.orpatservice.app.databinding.FragmentServiceCenterLoginBinding
 import com.orpatservice.app.ui.login.LoginActivity
+import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 
 class ServiceCenterLoginFragment : Fragment(), View.OnClickListener {
@@ -39,7 +40,7 @@ class ServiceCenterLoginFragment : Fragment(), View.OnClickListener {
             showLoadingUI()
             val email = binding.edtEmailId.text.toString()
             val password = binding.edtPassword.text.toString()
-            (activity as LoginActivity).signUpServiceCenter(email, password)
+            (activity as LoginActivity).signUpServiceCenter(email, password, Constants.REGISTRATION_TOKEN)
         }
     }
 

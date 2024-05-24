@@ -17,5 +17,8 @@ public class OrpatApp extends Application {
         SharedPrefs.initialize(this);
 
         applicationInstance = this;
+
+
+
     }
 }

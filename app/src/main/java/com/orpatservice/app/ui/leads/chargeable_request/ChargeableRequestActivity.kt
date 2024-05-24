@@ -38,6 +38,8 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
     private var tabPos : Int? = null
     private var tabPos2 : Int? = null
     private var tabPos3 : Int? = null
+    private var tab_model : String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,10 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
         // set toolbar as support action bar
         setSupportActionBar(binding.toolbar)
         requestsLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+
+        tab_model = intent.getStringExtra(Constants.NEW_CHARGEABLE).toString()
+        println("Constants.NEW)"+intent.getStringExtra(Constants.NEW_CHARGEABLE).toString())
+
 
 
         supportActionBar?.apply {
@@ -63,10 +69,14 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
         val tabLayout = binding.tabLayout
         tabLayout.addOnTabSelectedListener(this)
 
+
+
         val fragmentArrayList: ArrayList<Fragment> = ArrayList()
         fragmentArrayList.add(newRequestFragment)
         fragmentArrayList.add(chargeableFinishedFragment)
         fragmentArrayList.add(chargeableCancelledFragment)
+
+
 
         val adapter = ChageableRequestTechnicianAdapter(fragmentArrayList, supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
@@ -101,7 +111,21 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
              // tab.text = Constants.requestsTechnicianTabNameArray[position]
           }.attach()
 
+
+        openTab(tab_model,tabLayout)
         //loadFragment(newRequestFragment)
+    }
+
+    private fun openTab(tabModel: String, tabLayout: TabLayout) {
+
+        println("tabModel"+tabModel)
+        if(tabModel.equals(Constants.CHARGEABLE_NEW)) {
+            tabLayout.selectTab(tabLayout.getTabAt(0));
+        }else if(tabModel.equals(Constants.CHARGEABLE_COMPLETED)) {
+            tabLayout.selectTab(tabLayout.getTabAt(1));
+        }else if(tabModel.equals(Constants.CHARGEABLE_CANCELLED)) {
+            tabLayout.selectTab(tabLayout.getTabAt(2));
+        }
     }
 
     private fun setObserver() {
@@ -137,9 +161,10 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-               // onBackPressed()
+              // super.onBackPressed()
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
+                finish()
                 return true
             }
         }
@@ -178,6 +203,7 @@ class ChargeableRequestActivity : AppCompatActivity() , TabLayout.OnTabSelectedL
             }
         }
     }
+
 
 
     private lateinit var searchView : SearchView

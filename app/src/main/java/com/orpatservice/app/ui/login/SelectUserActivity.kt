@@ -61,15 +61,23 @@ class SelectUserActivity : AppCompatActivity(), View.OnClickListener {
         SharedPrefs.getInstance().addString(Constants.USER_TYPE, userType)
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
+       // finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                super.onBackPressed()
+                finish()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+
+        super.onBackPressed()
+        finish()
     }
 }

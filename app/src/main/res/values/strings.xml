@@ -12,6 +12,10 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+
+    <string name="fcm_sender_id">22742525395</string>
+
+
     <!-- Login Module-->
     <string name="select_your_role">Select your Role</string>
     <string name="admin">Admin</string>
@@ -81,6 +85,7 @@
     <string name="request_id">Request Id</string>
     <string name="customer_name">Customer Name</string>
     <string name="request_date">Request Date</string>
+    <string name="assign_date">Assign Date</string>
     <string name="contact_number">Contact Number</string>
     <string name="full_address">Full Address</string>
     <string name="model_name">Model Name</string>
@@ -212,5 +217,16 @@
     <string name="login_password">Login Password</string>
     <string name="not_covered_below_condition_string">Not covered under below condition</string>
     <string name="warning_msg_string">Please upload all part images which you have replaced</string>
+    <string name="sub_complaint_preset">Sub Complaint Preset</string>
+    <string name="please_select_sub_preset">Please Select Sub Complaint Preset</string>
+    <string name="call_center_note">Call Center Note</string>
+
+
+    <string name="default_notification_channel_id">CHANEL_ID</string>
+
+
+
+    <string name="force_update_title_string">Hey! It\'s time to update</string>
+    <string name="force_update_subtitle_string">There is a new version of the app available.\nClick below to update.</string>
 
 </resources>

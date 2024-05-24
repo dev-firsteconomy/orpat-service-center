@@ -2,6 +2,7 @@ package com.orpatservice.app.ui.admin.dashboard
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -27,6 +28,9 @@ import com.orpatservice.app.ui.leads.technician.TechnicianRequestLeadActivity
 import com.orpatservice.app.ui.leads.viewmodel.RequestsLeadsViewModel
 import com.orpatservice.app.ui.login.LoginActivity
 import com.orpatservice.app.utils.Utils
+import com.pushwoosh.Pushwoosh
+import org.json.JSONException
+import org.json.JSONObject
 
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
@@ -38,6 +42,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     //lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var latitude : String = ""
     private var longitude : String = ""
+    private var page_model : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +53,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(binding.toolbar)
 
         requestLeadsViewModel = ViewModelProvider(this)[RequestsLeadsViewModel::class.java]
+
+        page_model = intent.getStringExtra(Constants.RECEIVE_DATA).toString()
+
+
+
 
        // mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -62,39 +72,91 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         binding.includedContent.mcvChargeableRequest.setOnClickListener(this)
         binding.ivLogout.setOnClickListener(this)
 
+       // println("Pushwoosh.PUSH_RECEIVE_EVENT"+intent.getStringExtra(Pushwoosh.PUSH_RECEIVE_EVENT))
+
+
+
         updateUI()
         setObserver()
 
+
     }
 
- /*   @SuppressLint("MissingPermission")
-    private fun getLastLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
+    private fun openPage(pageModel: String) {
+        println("pageModelpageModel"+pageModel)
 
-                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                    var location: Location? = task.result
-                    if (location == null) {
-                        requestNewLocationData()
-                    } else {
-                        println("latitude"+location.latitude.toString())
-                        println("longitude"+location.longitude.toString())
-                        latitude = location.latitude.toString()
-                        longitude = location.longitude.toString()
-                    }
-                }
-            } else {
-                //Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
-                //  requireActivity().onBackPressed()
-            }
-        } else {
-            requestPermissions()
+        if(pageModel.equals(Constants.REQUEST_NEW)){
+            val intent = Intent(this, RequestLeadActivity::class.java)
+            intent.putExtra(Constants.NEW, pageModel)
+            startActivity(intent)
+        }else if(pageModel.equals(Constants.REQUEST_ASSIGN)){
+
+            val intent = Intent(this, RequestLeadActivity::class.java)
+            intent.putExtra(Constants.NEW, pageModel)
+            startActivity(intent)
+
+        }else if(pageModel.equals(Constants.REQUEST_VERIFY)){
+
+            val intent = Intent(this, RequestLeadActivity::class.java)
+            intent.putExtra(Constants.NEW, pageModel)
+            startActivity(intent)
+
+        }else if(pageModel.equals(Constants.CHARGEABLE_NEW)){
+
+            val intent = Intent(this, ChargeableRequestActivity::class.java)
+            intent.putExtra(Constants.NEW_CHARGEABLE, pageModel)
+            startActivity(intent)
+
+        }else if(pageModel.equals(Constants.CHARGEABLE_COMPLETED)){
+
+            val intent = Intent(this, ChargeableRequestActivity::class.java)
+            intent.putExtra(Constants.NEW_CHARGEABLE, pageModel)
+            startActivity(intent)
+
+        }else if(pageModel.equals(Constants.CHARGEABLE_CANCELLED)){
+
+            val intent = Intent(this, ChargeableRequestActivity::class.java)
+            intent.putExtra(Constants.NEW_CHARGEABLE, pageModel)
+            startActivity(intent)
+
+        }
+        else if(pageModel.equals(Constants.TECHNICIAN_REQUEST_NEW)){
+
+            val intent = Intent(this, TechnicianRequestLeadActivity::class.java)
+            intent.putExtra(Constants.NEW_CHARGEABLE, pageModel)
+            startActivity(intent)
+
         }
     }
 
-*/
+    /*   @SuppressLint("MissingPermission")
+       private fun getLastLocation() {
+           if (checkPermissions()) {
+               if (isLocationEnabled()) {
+
+                   mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                       var location: Location? = task.result
+                       if (location == null) {
+                           requestNewLocationData()
+                       } else {
+                           println("latitude"+location.latitude.toString())
+                           println("longitude"+location.longitude.toString())
+                           latitude = location.latitude.toString()
+                           longitude = location.longitude.toString()
+                       }
+                   }
+               } else {
+                   //Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+                   val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                   startActivity(intent)
+                   //  requireActivity().onBackPressed()
+               }
+           } else {
+               requestPermissions()
+           }
+       }
+
+   */
    /* private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -198,6 +260,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                         notificationCount =
                             response.data.notification_badge_count.barcode_request_tab
 
+
+                        openPage(page_model)
+
                         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "")
                                 .equals(Constants.SERVICE_CENTER)
                         ) {
@@ -216,7 +281,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                         }
                     }else{
                         if(it.code == 401){
-                            val intent = Intent(this, LoginActivity::class.java)
+                            val intent = Intent(this, SelectUserActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
@@ -254,6 +319,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                     if (it.success) {
                         notificationCount = response.data.notification_badge_count.barcode_request_tab
 
+                        openPage(page_model)
+
+
                         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
                             binding.includedContent.tvCount.visibility = VISIBLE
                             binding.includedContent.tvCount.text = response.data.notification_badge_count.barcode_request_tab
@@ -266,7 +334,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                         }
                     }else{
                         if(it.code == 401){
-                            val intent = Intent(this, LoginActivity::class.java)
+                            val intent = Intent(this, SelectUserActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
@@ -299,11 +367,18 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateUI() {
+
+
+
+
+
+
         if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.SERVICE_CENTER)) {
             binding.tvTitle.setText("Admin")
 
             requestLeadsViewModel.synAppConfig.observe(this, this::getSynAppConfig)
             requestLeadsViewModel.loadSynAppConfig()
+
 
         } else if (SharedPrefs.getInstance().getString(Constants.USER_TYPE, "").equals(Constants.TECHNICIAN)) {
             binding.tvTitle.setText("Technician")
@@ -316,6 +391,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             binding.includedContent.mcvPayment.visibility = View.GONE
         }
     }
+
+
 
     private fun confirmationDialog() {
 
@@ -405,4 +482,24 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         super.onPrepareOptionsMenu(menu)
         return true
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    /*override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //do your stuff
+            finish()
+
+        }
+        return super.onKeyDown(keyCode, event)
+    }*/
+
 }

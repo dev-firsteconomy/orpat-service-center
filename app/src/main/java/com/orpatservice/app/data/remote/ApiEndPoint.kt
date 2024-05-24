@@ -15,6 +15,7 @@ import com.orpatservice.app.ui.admin.dashboard.RequestSynAppResponse
 import com.orpatservice.app.ui.admin.dashboard.RequestTechnicianSynAppResponse
 import com.orpatservice.app.ui.admin.technician.RequestPincodeResponse
 import com.orpatservice.app.ui.admin.technician.RequestTechnicianData
+import com.orpatservice.app.ui.force_update.ForceUpdateResponse
 import com.orpatservice.app.ui.leads.customer_detail.CancelRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UpdateRequestResponse
 import com.orpatservice.app.ui.leads.customer_detail.UploadFileResponse
@@ -36,7 +37,8 @@ interface ApiEndPoint {
     @POST("service-center/login")
     fun getServiceCenterLogin(
         @Field("email") email: String,
-        @Field("password") password: String
+        @Field("password") password: String,
+        @Field("pushtoken") pushtoken: String
     ): Call<LoginResponse>
 
     //To get OTP on entered mobile number
@@ -65,7 +67,8 @@ interface ApiEndPoint {
     @POST("technician/verify-otp-and-login")
     fun verifyTechnicianOTPLoginAPI(
         @Field("mobile") mobile: String,
-        @Field("otp") otp: String
+        @Field("otp") otp: String,
+        @Field("pushtoken") pushToken:String
     ): Call<LoginResponse>
 
     @FormUrlEncoded
@@ -119,6 +122,11 @@ interface ApiEndPoint {
         @Path("technicianId") technicianId: String?
     ): Call<TechnicianResponse>
 
+    @GET("force-update")
+    fun getCheckForceUpdateAPI(@Query("device_id") device_id : String,
+                               @Query("platform") platform : String,
+                               @Query("version_code") version_code : Int,
+                               @Query("app_type") app_type : String): Call<ForceUpdateResponse>
 
     @GET("technician/get_parts")
     fun hitAPIParts(@Query("search") search: String?): Call<RepairPartResponse>

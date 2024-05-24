@@ -1,5 +1,6 @@
 package com.orpatservice.app.ui.leads.service_center
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -15,6 +16,7 @@ import com.orpatservice.app.R
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
 import com.orpatservice.app.databinding.ActivityLeadHistoryBinding
+import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
 import com.orpatservice.app.ui.leads.history_lead_fragment.CancelledRequestFragment
 import com.orpatservice.app.ui.leads.history_lead_fragment.CompletedRequestFragment
 import com.orpatservice.app.ui.leads.new_lead_fragment.AssignedLeadFragment
@@ -126,6 +128,10 @@ class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
         }
 
     }
+
+
+
+
     private fun onOrderCountResponse(resources: Resource<OrderCountResponse>) {
         when (resources.status) {
             Status.LOADING -> {
@@ -158,7 +164,11 @@ class LeadHistoryActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+               // super.onBackPressed()
+
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
+                finish()
                 return true
             }
         }

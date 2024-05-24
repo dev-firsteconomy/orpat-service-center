@@ -34,6 +34,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginTop="10dp"
             android:text="@string/model_number"
+            android:textSize="14sp"
             android:textAlignment="textStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_task"/>
@@ -45,7 +46,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@id/tv_model_number"
             app:layout_constraintStart_toStartOf="@id/tv_model_number"
             app:layout_constraintTop_toBottomOf="@id/tv_model_number"
@@ -97,8 +98,9 @@
             style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_customer_description" />
@@ -123,8 +125,9 @@
             style="@style/Theme.OrpatServiceCenter.SmallText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:textAlignment="textStart"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_complaint_preset" />

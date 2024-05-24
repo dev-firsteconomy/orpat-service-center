@@ -203,7 +203,7 @@ class CompletedDetailsActivity : AppCompatActivity(), View.OnClickListener, Came
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                super.onBackPressed()
                 /* val intent = Intent(this, RequestLeadActivity::class.java)
                  startActivity(intent)*/
                 return true

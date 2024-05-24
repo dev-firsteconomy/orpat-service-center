@@ -45,16 +45,16 @@ class RequestData() : Parcelable {
 
     }
 
-    override fun writeToParcel(parcel: Parcel?, flags: Int) {
-        parcel?.writeValue(id)
-        parcel?.writeString(first_name)
-        parcel?.writeString(last_name)
-        parcel?.writeString(email)
-        parcel?.writeString(mobile)
-        parcel?.writeString(pincode)
-        parcel?.writeString(address1)
-        parcel?.writeString(status)
-        parcel?.writeString(active_leads_count)
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeValue(id)
+        parcel.writeString(first_name)
+        parcel.writeString(last_name)
+        parcel.writeString(email)
+        parcel.writeString(mobile)
+        parcel.writeString(pincode)
+        parcel.writeString(address1)
+        parcel.writeString(status)
+        parcel.writeString(active_leads_count)
         /*parcel?.writeString(city)
         parcel?.writeString(state)
         parcel?.writeString(timer)

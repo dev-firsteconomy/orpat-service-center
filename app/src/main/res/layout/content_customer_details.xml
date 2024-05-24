@@ -47,6 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:drawablePadding="6dp"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_12"
                 android:includeFontPadding="false"
                 android:text="@string/customer_name"
                 app:drawableStartCompat="@drawable/ic_customer"
@@ -55,11 +57,13 @@
 
             <TextView
                 android:id="@+id/tv_customer_name_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Lorem Ipsum"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
+                android:textStyle="normal"
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@id/tv_customer_name"
                 app:layout_constraintStart_toStartOf="@id/tv_customer_name"
                 app:layout_constraintTop_toBottomOf="@id/tv_customer_name"
@@ -74,7 +78,9 @@
                 android:drawablePadding="6dp"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
-                android:text="@string/request_date"
+                android:text="@string/assign_date"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_12"
                 app:drawableStartCompat="@drawable/ic_calender"
                 app:layout_constraintBottom_toBottomOf="@id/tv_customer_name"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
@@ -82,11 +88,14 @@
 
             <TextView
                 android:id="@+id/tv_request_date_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="2nd Dec 2021"
                 android:textSize="12sp"
+                android:paddingLeft="20dp"
+                android:textStyle="normal"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@id/tv_request_date"
                 app:layout_constraintStart_toStartOf="@id/tv_request_date"
                 app:layout_constraintTop_toBottomOf="@id/tv_customer_name"
@@ -101,6 +110,7 @@
                 android:drawablePadding="2dp"
                 android:includeFontPadding="false"
                 android:text="@string/contact_number"
+                android:textStyle="bold"
                 app:drawableStartCompat="@drawable/phone_call"
                 app:layout_constraintEnd_toEndOf="@id/tv_customer_name"
                 app:layout_constraintStart_toStartOf="@id/tv_customer_name"
@@ -108,11 +118,14 @@
 
             <TextView
                 android:id="@+id/tv_contact_number_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="+91929292952"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
+                android:textStyle="normal"
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@id/tv_contact_number"
                 app:layout_constraintStart_toStartOf="@id/tv_contact_number"
                 app:layout_constraintTop_toBottomOf="@id/tv_contact_number"
@@ -123,23 +136,26 @@
                 style="@style/Theme.OrpatServiceCenter.SmallRegularText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:drawablePadding="2dp"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:textStyle="bold"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
                 android:text="@string/request_id"
-                app:layout_constraintEnd_toEndOf="@id/tv_contact_number"
-                app:layout_constraintStart_toStartOf="@id/tv_contact_number"
+                app:layout_constraintEnd_toEndOf="@id/tv_contact_number_value"
+                app:layout_constraintStart_toStartOf="@id/tv_contact_number_value"
                 app:layout_constraintTop_toBottomOf="@id/tv_contact_number_value" />
 
             <TextView
                 android:id="@+id/tv_tv_request_id_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:textStyle="normal"
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/black"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="+91929292952"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
                 app:layout_constraintEnd_toEndOf="@id/tv_request_id"
                 app:layout_constraintStart_toStartOf="@id/tv_request_id"
                 app:layout_constraintTop_toBottomOf="@id/tv_request_id"
@@ -151,24 +167,29 @@
                 style="@style/Theme.OrpatServiceCenter.SmallRegularText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="6dp"
                 android:includeFontPadding="false"
                 android:text="@string/timer"
-                app:layout_constraintEnd_toEndOf="@id/tv_pin_code"
+                android:textStyle="bold"
+                android:paddingLeft="20dp"
+                app:layout_constraintEnd_toEndOf="@id/tv_pin_code_value"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/tv_pin_code"
-                app:layout_constraintTop_toBottomOf="@id/tv_pin_code" />
+                app:layout_constraintStart_toStartOf="@id/tv_pin_code_value"
+                app:layout_constraintTop_toBottomOf="@id/tv_pin_code_value" />
 
             <TextView
                 android:id="@+id/tv_timer_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:textStyle="normal"
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/black"
                 android:layout_width="0dp"
+                android:paddingLeft="20dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@id/tv_timer"
                 app:layout_constraintStart_toStartOf="@id/tv_timer"
                 app:layout_constraintTop_toBottomOf="@id/tv_timer"
-                android:textSize="@dimen/text_size_16"/>
+              />
 
 
             <TextView
@@ -179,18 +200,22 @@
                 android:drawablePadding="6dp"
                 android:includeFontPadding="false"
                 android:text="@string/pin_code"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
                 app:drawableStartCompat="@drawable/ic_location"
-                app:layout_constraintEnd_toEndOf="@id/tv_request_date"
-                app:layout_constraintStart_toStartOf="@id/tv_request_date"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_date_value"
+                app:layout_constraintStart_toStartOf="@id/tv_request_date_value"
                 app:layout_constraintTop_toBottomOf="@id/tv_request_date_value" />
 
             <TextView
                 android:id="@+id/tv_pin_code_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:textStyle="normal"
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/black"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="120123"
+                android:paddingLeft="20dp"
                 app:layout_constraintEnd_toEndOf="@id/tv_pin_code"
                 app:layout_constraintStart_toStartOf="@id/tv_pin_code"
                 app:layout_constraintTop_toBottomOf="@id/tv_pin_code"
@@ -206,27 +231,29 @@
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                 app:layout_constraintTop_toTopOf="@id/tv_pin_code" />
 
-
             <TextView
                 android:id="@+id/tv_full_address"
                 style="@style/Theme.OrpatServiceCenter.SmallRegularText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp"
                 android:text="@string/full_address"
-                app:layout_constraintEnd_toEndOf="@id/tv_contact_number_value"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_tv_request_id_value"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@id/tv_contact_number_value"
-                app:layout_constraintTop_toBottomOf="@id/tv_pin_code_value" />
+                app:layout_constraintStart_toStartOf="@id/tv_tv_request_id_value"
+                app:layout_constraintTop_toBottomOf="@id/tv_tv_request_id_value" />
 
             <TextView
                 android:id="@+id/tv_full_address_value"
-                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:textStyle="normal"
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/black"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="10dp"
+
+                android:paddingLeft="20dp"
                 android:text="In addition to setting the gravity, this can also help with alignment in some situations by reducing paddings on the top and bottom of the textview, which can be unequal:"
                 app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
                 app:layout_constraintHorizontal_bias="0.0"

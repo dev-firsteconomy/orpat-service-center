@@ -31,7 +31,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -45,15 +44,19 @@ import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.model.requests_leads.WarrantryPart
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.ActivityCustomerDetailsBinding
+import com.orpatservice.app.databinding.AdapterSubComplaintPresetBinding
 import com.orpatservice.app.databinding.ItemComplaintBinding
 import com.orpatservice.app.ui.admin.technician.*
 import com.orpatservice.app.ui.leads.adapter.ComplaintAdapter
-import com.orpatservice.app.ui.leads.customer_detail.adapter.ServiceableWarrantryPartAdapter
+
+import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.ComplaintPersetAdapter
+import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.CustomExpandableDataAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.CustomExpandableListAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.NewRequestResponse
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.RequestData
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.VerifyGSTRequestData
 import com.orpatservice.app.ui.leads.service_center.RequestLeadActivity
+import com.orpatservice.app.ui.leads.service_center.response.SubComplaintPresetData
 import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
@@ -67,6 +70,7 @@ import java.io.FileDescriptor
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -101,9 +105,12 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     private var longitude : String = ""
     lateinit var  dialog: Dialog
     var image_uri: Uri? = null
+    private var  selectedSubComplaintPreset: String? = null
+    private var  selectedComplaintName: String? = null
 
     private val RESULT_LOAD_IMAGE = 123
     val IMAGE_CAPTURE_CODE = 654
+    private var parentPosition : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -406,7 +413,6 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
         }
 
         /*binding.includedContent.btnAddTask.setOnClickListener {
-
             val intent = Intent(this, AddTaskActivity::class.java)
             intent.putExtra(Constants.LEAD_DETAILS, leadData)
             startActivity(intent)
@@ -449,7 +455,6 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             }
         }
     }
-
 
     private fun getCancelRequestLead(resources: Resource<CancelRequestResponse>) {
         when (resources.status) {
@@ -567,9 +572,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                // onBackPressed()
-                val intent = Intent(this, RequestLeadActivity::class.java)
-                startActivity(intent)
+                super.onBackPressed()
+               // val intent = Intent(this, RequestLeadActivity::class.java)
+              //  startActivity(intent)
                 return true
             }
         }
@@ -668,6 +673,18 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 }else{
                     selectedUnderWarranty = "Not Sure"
                 }
+                if(leadData.enquiries[position].is_audit_verified == "0"){
+                    if(binding.edtInvoiceNumberValue.text.toString() == ""){
+                        binding.tvErrorInvoiceNumber.visibility = VISIBLE
+                    }else{
+                        binding.tvErrorInvoiceNumber.visibility = GONE
+                    }
+                    if(binding.edtSelectInvoiceDate.text.toString() == ""){
+                        binding.tvErrorInvoiceDate.visibility = VISIBLE
+                    }else{
+                        binding.tvErrorInvoiceDate.visibility = GONE
+                    }
+                }
                 hitUpdateRequest(binding,position,selectedUnderWarranty,view)
             }
 
@@ -719,8 +736,70 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             R.id.tv_serviceable_warranty_parts -> {
                 openDropDown()
             }
+            R.id.tv_subComplaint_preset_value -> {
+               // openSubComplainPreset()
+            }
         }
     }
+
+    private fun openSubComplainPreset() {
+
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.sub_complaint_perset_list)
+        val rv_complaint_list = dialog.findViewById(R.id.rv_sub_complaint_list) as RecyclerView
+        val popup_img_close = dialog.findViewById(R.id.popup_img_close) as ImageView
+        popup_img_close.setOnClickListener {
+            dialog.dismiss()
+        }
+        rv_complaint_list.layoutManager = LinearLayoutManager(this)
+
+
+       /* val adapter = ComplaintPersetAdapter(leadData.enquiries[index!!].sub_complaint_presets, itemClickListener = onClickListener)
+        rv_complaint_list.adapter = adapter
+        dialog.show()*/
+    }
+
+    private val onClickListener: (Int, View, AdapterSubComplaintPresetBinding) -> Unit =
+        { position, view, bind ->
+            when (view.id) {
+              R.id.tv_sub_complaint_name -> {
+                    dialog.dismiss()
+
+                //    selectedSubComplaintPreset = leadData.enquiries[index!!].sub_complaint_presets[position].id.toString()
+                   // selectedComplaintName = leadData.enquiries[index!!].sub_complaint_presets[position].name.toString()
+                 //   bindingAdapter.tvSubComplaintPresetValue.text = leadData.enquiries[index!!].sub_complaint_presets[position].name
+
+                  bindingAdapter.btnUpdate.visibility = View.VISIBLE
+                  bindingAdapter.btnHideUpdate.visibility = View.GONE
+
+                 /* if(leadData.enquiries[index!!].sub_complaint_presets[position].is_free_service == "0"){
+
+
+                      bindingAdapter.liUpdate.visibility = GONE
+                      bindingAdapter.liGenerateCancel.visibility = VISIBLE
+
+
+                  }else{
+                      bindingAdapter.liUpdate.visibility = VISIBLE
+                      bindingAdapter.liGenerateCancel.visibility = GONE
+                  }*/
+
+
+                  val subComplaintPresetData1 = index?.let { it1 ->
+                      SubComplaintPresetData(
+                          selectedSubComplaintPreset!!,
+                          it1
+                      )
+                  }
+
+                  if (subComplaintPresetData1 != null) {
+                      CommonUtils.subComplaintPresetData.add(subComplaintPresetData1)
+                  }
+                }
+            }
+        }
 
     private fun openDropDown() {
 
@@ -737,7 +816,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
         rv_complaint_list.layoutManager = LinearLayoutManager(this)
 
-        // This will pass the ArrayList to our Adapter
+
+
+      /*  // This will pass the ArrayList to our Adapter
         if(warrantyPartsList.isNullOrEmpty()){
             val adapter = ServiceableWarrantryPartAdapter(leadData.enquiries[index!!].warranty_parts)
             rv_complaint_list.adapter = adapter
@@ -766,7 +847,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
         expandableListView.setOnGroupExpandListener { groupPosition ->
 
-
+            parentPosition = groupPosition
+            //println("groupPositiongroupPosition"+groupPosition)
             // tv_not_covered_condition.setVisibility(View.VISIBLE);
 
 
@@ -774,14 +856,53 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
 
         expandableListView.setOnGroupCollapseListener { groupPosition ->
 
+
         }
         expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
 
             false
         }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        val data: HashMap<String, List<String>>
+       // get() {
+            val listData = HashMap<String, List<String>>()
+
+            val redmiMobiles = ArrayList<String>()
+            redmiMobiles.add("")
+
+        for(i in leadData.enquiries[index!!].warranty_parts){
+            listData[i.name.toString()] = redmiMobiles
+        }
+
+       // }
+        //val listData = data
+        var titleList = ArrayList(leadData.enquiries[index!!].warranty_parts)
+        val adapter = CustomExpandableDataAdapter(this, titleList as ArrayList<WarrantryPart> , listData)
+        expandableListView.setAdapter(adapter)
+
         dialog.show()
     }
-
 
     private fun showCancelEnquiryPopUp(position: Int) {
 
@@ -806,7 +927,6 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             }
         }
         alertDialogBuilder.show()
-
     }
 
     private fun hitCancelTask(etCancelLeadReason: String?,position:Int,type:String) {
@@ -870,6 +990,29 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                     }
                     jsonObject.addProperty("invoice_url", selectedPosInvoice)
                 }
+
+                /*if (CommonUtils.subComplaintPresetData.isEmpty()) {
+                    jsonObject.addProperty(
+                        "sub_complain_type_id",
+                        leadData.enquiries.get(position).sub_complain_type_id
+                    )
+                } else {
+
+                    var selectedPosSubPreset : String = ""
+                    for(i in CommonUtils.subComplaintPresetData){
+                        if(i.sub_complain_type_pos == index){
+
+                            selectedPosSubPreset = i.sub_complain_type_id
+                        }else {
+                            if (leadData.enquiries.get(position).sub_complain_type_id != null) {
+                                selectedPosSubPreset = leadData.enquiries.get(position).sub_complain_type_id!!
+                            }else{
+                                selectedPosSubPreset = ""
+                            }
+                        }
+                    }
+                    jsonObject.addProperty("sub_complain_type_id", selectedPosSubPreset)
+                }*/
 
                 jsonObject.addProperty("purchase_at", binding.edtSelectInvoiceDate.text.toString())
                 jsonObject.addProperty("in_warranty", selectedUnderWarranty)
@@ -1620,5 +1763,8 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
    /* override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         textview.setText(day + ":" + (month+1) + ":" + year);
     }*/
+
+
+
 }
 

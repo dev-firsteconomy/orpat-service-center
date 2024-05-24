@@ -40,18 +40,12 @@ import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.Status
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
-import com.orpatservice.app.databinding.ActivityAssignedDetailsBinding
 import com.orpatservice.app.databinding.ActivityTechnicianHistoryDetailsBinding
-import com.orpatservice.app.databinding.AdapterAssignedDetailsBinding
 import com.orpatservice.app.databinding.AdapterTechnicianHistoryDetailsBinding
 import com.orpatservice.app.ui.admin.technician.*
 import com.orpatservice.app.ui.leads.customer_detail.*
-import com.orpatservice.app.ui.leads.customer_detail.adapter.ServiceableWarrantryPartAdapter
-import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.AssignedDetailsAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.CustomExpandableListAdapter
 import com.orpatservice.app.ui.leads.technician.adapter.TechnicianHistoryDetailsAdapter
-import com.orpatservice.app.ui.leads.technician.section.EnquirySliderScreenImageActivity
-import com.orpatservice.app.utils.CommonUtils
 import com.orpatservice.app.utils.Constants
 import com.orpatservice.app.utils.Utils
 import okhttp3.MediaType.Companion.toMediaType
@@ -221,7 +215,7 @@ class TechnicianHistoryDetailsActivity : AppCompatActivity(), View.OnClickListen
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                super.onBackPressed()
                 /* val intent = Intent(this, RequestLeadActivity::class.java)
                  startActivity(intent)*/
                 return true

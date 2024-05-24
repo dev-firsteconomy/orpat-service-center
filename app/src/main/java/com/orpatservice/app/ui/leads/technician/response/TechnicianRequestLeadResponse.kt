@@ -7,7 +7,8 @@ class TechnicianRequestLeadResponse (
 
     var success: Boolean,
     var data    : ListData,
-    var message: String
+    var message: String,
+    var code: Int
     )
 
 data class ListData (

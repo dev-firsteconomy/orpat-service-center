@@ -12,6 +12,8 @@ import com.orpatservice.app.databinding.ActivityProfileBinding
 import com.orpatservice.app.data.model.login.LoginBaseData
 import com.orpatservice.app.data.model.login.ServiceCenter
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
+import com.orpatservice.app.ui.admin.dashboard.DashboardActivity
+import com.orpatservice.app.ui.leads.chargeable_request.ChargeableRequestActivity
 import com.orpatservice.app.ui.login.SelectUserActivity
 import com.orpatservice.app.utils.Constants
 
@@ -97,6 +99,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 "Logout"
             ) { _, i ->
                 SharedPrefs.getInstance().removeAll()
+
                 startActivity(Intent(this, SelectUserActivity::class.java))
                 finish()
             }
@@ -106,10 +109,11 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
             .show()
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                super.onBackPressed()
                 return true
             }
         }

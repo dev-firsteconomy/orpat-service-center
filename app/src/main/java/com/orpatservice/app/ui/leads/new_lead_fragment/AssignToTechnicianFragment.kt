@@ -61,7 +61,6 @@ class AssignToTechnicianFragment : Fragment() , LocationListener {
     private  var totalCount :TextView? = null
 
 
-
     private val onItemClickListener: (Int, View) -> Unit = { position, view ->
         when (view.id) {
             R.id.btn_view_details -> {
@@ -425,4 +424,6 @@ class AssignToTechnicianFragment : Fragment() , LocationListener {
     override fun onLocationChanged(p0: Location) {
         TODO("Not yet implemented")
     }
+
+
 }

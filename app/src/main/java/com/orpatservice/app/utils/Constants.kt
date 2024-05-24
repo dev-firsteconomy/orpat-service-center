@@ -28,6 +28,7 @@ object Constants {
 
     //Constants for login session
     const val TOKEN = "TOKEN"
+    var REGISTRATION_TOKEN = "REGISTRATION_TOKEN"
     const val NO_TOKEN = ""
     const val SERVICE_CENTER_DATA = "SERVICE_CENTER"
 
@@ -43,7 +44,7 @@ object Constants {
         "Task Completed"
     )*/
 
-
+    const val DEVICE_ID = "DEVICE_ID"
     val requestsTabNameArray = arrayOf(
         "New",
         "Assigned",
@@ -115,4 +116,25 @@ object Constants {
 
     }
 
+    // Menu Dash Items
+    const val REQUEST_NEW = "Service_New"
+    const val REQUEST_ASSIGN = "Service_Assign"
+    const val REQUEST_VERIFY = "Service_Verify"
+    const val CHARGEABLE_NEW = "Service_Chargeable"
+    const val CHARGEABLE_COMPLETED = "Service_Completed_request"
+    const val CHARGEABLE_CANCELLED = "Service_Cancelled"
+
+    const val TECHNICIAN_REQUEST_NEW = "Technician_New_Request"
+
+    const val NEW = "New"
+    const val ASSIGN = "Assign"
+    const val VERIFY = "Verify"
+    const val NEW_CHARGEABLE = "New"
+    const val COMPLETED_CHARGEABLE = "Completed"
+    const val CANCELLED_CHARGEABLE = "Cancelled"
+
+    const val RECEIVE_DATA = "RECEIVE_DATA"
+
+
+    const val PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.orpatservice.app"
 }

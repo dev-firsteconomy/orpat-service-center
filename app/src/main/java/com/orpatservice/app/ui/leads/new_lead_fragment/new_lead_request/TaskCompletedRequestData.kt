@@ -59,18 +59,18 @@ class TaskCompletedRequestData() : Parcelable {
         }*/
     }
 
-    override fun writeToParcel(parcel: Parcel?, flags: Int) {
-        parcel?.writeValue(id)
-        parcel?.writeString(name)
-        parcel?.writeString(email)
-        parcel?.writeString(mobile)
-        parcel?.writeString(pincode)
-        parcel?.writeString(address1)
-        parcel?.writeString(status)
-        parcel?.writeString(city)
-        parcel?.writeString(state)
-        parcel?.writeString(created_at)
-        parcel?.writeTypedList(enquiries)
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeValue(id)
+        parcel.writeString(name)
+        parcel.writeString(email)
+        parcel.writeString(mobile)
+        parcel.writeString(pincode)
+        parcel.writeString(address1)
+        parcel.writeString(status)
+        parcel.writeString(city)
+        parcel.writeString(state)
+        parcel.writeString(created_at)
+        parcel.writeTypedList(enquiries)
         /*parcel?.writeString(pending_lead_enqury_detail_count)
         parcel?.writeString(in_warranty_enquiries_count)
         //     parcel?.writeString(pending_lead_enquiries)

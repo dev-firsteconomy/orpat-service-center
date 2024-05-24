@@ -10,10 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Button
@@ -41,9 +38,11 @@ import com.orpatservice.app.data.model.requests_leads.*
 import com.orpatservice.app.databinding.*
 import com.orpatservice.app.ui.leads.adapter.AllTechnicianAdapter
 import com.orpatservice.app.ui.leads.customer_detail.*
+import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.ComplaintPersetAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.adapter.TechnicianTaskUpdateAdapter
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.LeadList
 import com.orpatservice.app.ui.leads.new_lead_fragment.new_lead_request.UpdatePartsRequestData
+import com.orpatservice.app.ui.leads.service_center.response.SubComplaintPresetData
 import com.orpatservice.app.ui.leads.technician.ValidateProductResponse
 import com.orpatservice.app.ui.leads.technician.adapter.AdapterSectionRecycler
 import com.orpatservice.app.ui.leads.technician.section.*
@@ -76,6 +75,14 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
     private  var edtOTP2:EditText?= null
     private  var edtOTP3:EditText? = null
     private  var edtOTP4:EditText? = null
+    lateinit var  dialog: Dialog
+    private var index:Int? = 0
+
+
+    var image_uri: Uri? = null
+    private var  selectedSubComplaintPreset: String? = null
+    private var  selectedComplaintName: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -507,17 +514,21 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
     private val OnItemClick: (Int, View, TechnicianTaskUpdateBinding) -> Unit = {
             position, view,binding ->
         bindingAdapter = binding
+        index = position
 
         when (view.id) {
             R.id.tv_task_update -> {
-                //println("CommonUtils.warrantyListData.count()"+CommonUtils.warrantyListData.count())
-                //println("CommonUtils.imageData.count()"+CommonUtils.imageData.count())
+                println("CommonUtils.warrantyListData.count()"+CommonUtils.warrantyListData.count())
+                println("CommonUtils.imageData.count()"+CommonUtils.imageData.count())
                 if(CommonUtils.warrantyListData.count() == CommonUtils.imageData.count()) {
                     val jsonObject = JsonObject()
                     try {
-
+                        println("CommonUtils.warrantyListData"+CommonUtils.warrantyListData)
+                        println(" CommonUtils.imageData"+ CommonUtils.imageData)
+                        println("CommonUtils.productListData"+ CommonUtils.productListData)
                         val jsArray = JsonArray()
                         for (i in CommonUtils.productListData) {
+                            println("1111111111111111111111111"+i.part_ids)
                             val jsonObj = JsonObject()
                             // jsonObj.addProperty("",i.part_ids)
                             // jsonObj.addProperty("",i.lead_enquiry_image_id)
@@ -527,6 +538,29 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                             jsArray.add(jsonObj)
 
                         }
+                        if (CommonUtils.subComplaintPresetData.isEmpty()) {
+                            jsonObject.addProperty(
+                                "sub_complain_type_id",
+                                requestData.enquiries.get(position).sub_complain_type_id
+                            )
+                        } else {
+
+                            var selectedPosSubPreset : String = ""
+                            for(i in CommonUtils.subComplaintPresetData){
+                                if(i.sub_complain_type_pos == index){
+
+                                    selectedPosSubPreset = i.sub_complain_type_id
+                                }else {
+                                    if (requestData.enquiries.get(position).sub_complain_type_id != null) {
+                                        selectedPosSubPreset = requestData.enquiries.get(position).sub_complain_type_id!!
+                                    }else{
+                                        selectedPosSubPreset = ""
+                                    }
+                                }
+                            }
+                            jsonObject.addProperty("sub_complain_type_id", selectedPosSubPreset)
+                        }
+
 
                         if (!requestData.enquiries[position].lead_enquiry_images.isEmpty()) {
                             jsonObject.addProperty("lead_enquiry_image_id", "")
@@ -573,9 +607,71 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
             } R.id.iv_invoice_image -> {
             goToFullScreenImageActivity(requestData.enquiries[position].invoice_url)
 
-        }
+            }
+            R.id.tv_subComplaint_preset_value -> {
+                openSubComplainPreset()
+            }
         }
     }
+
+    private fun openSubComplainPreset() {
+
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.sub_complaint_perset_list)
+        val rv_complaint_list = dialog.findViewById(R.id.rv_sub_complaint_list) as RecyclerView
+        val popup_img_close = dialog.findViewById(R.id.popup_img_close) as ImageView
+        popup_img_close.setOnClickListener {
+            dialog.dismiss()
+        }
+        rv_complaint_list.layoutManager = LinearLayoutManager(this)
+
+         val adapter = ComplaintPersetAdapter(requestData.enquiries[index!!].sub_complaint_presets, itemClickListener = onClickListener)
+         rv_complaint_list.adapter = adapter
+         dialog.show()
+    }
+
+    private val onClickListener: (Int, View, AdapterSubComplaintPresetBinding) -> Unit =
+        { position, view, bind ->
+            when (view.id) {
+                R.id.tv_sub_complaint_name -> {
+                    dialog.dismiss()
+
+                    selectedSubComplaintPreset = requestData.enquiries[index!!].sub_complaint_presets[position].id.toString()
+                    selectedComplaintName = requestData.enquiries[index!!].sub_complaint_presets[position].name.toString()
+                    bindingAdapter.tvSubComplaintPresetValue.text = requestData.enquiries[index!!].sub_complaint_presets[position].name
+
+                   // bindingAdapter.tvTaskUpdate.visibility = View.VISIBLE
+                  //  bindingAdapter.tvHideTaskUpdate.visibility = View.GONE
+
+                    /* if(leadData.enquiries[index!!].sub_complaint_presets[position].is_free_service == "0"){
+
+                         bindingAdapter.liUpdate.visibility = GONE
+                         bindingAdapter.liGenerateCancel.visibility = VISIBLE
+
+                     }else{
+                         bindingAdapter.liUpdate.visibility = VISIBLE
+                         bindingAdapter.liGenerateCancel.visibility = GONE
+                     }*/
+
+
+                    val subComplaintPresetData1 = index?.let { it1 ->
+                        SubComplaintPresetData(
+                            selectedSubComplaintPreset!!,
+                            it1
+                        )
+                    }
+
+                    if (subComplaintPresetData1 != null) {
+                        CommonUtils.subComplaintPresetData.add(subComplaintPresetData1)
+                    }
+                }
+            }
+        }
+
+
+
     private fun goToFullScreenImageActivity(invoiceImage: String?) {
         if(!invoiceImage.isNullOrEmpty()) {
             val intent = Intent(this, FullScreenImageActivity::class.java)
@@ -936,6 +1032,15 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                         bindingAdapter.tvTaskUpdate.visibility = GONE
                         bindingAdapter.tvHideTaskUpdate.visibility = View.VISIBLE
 
+
+                        if(data?.data?.selected_sub_complaint_preset !=  null){
+                            bindingAdapter.tvSubComplaintPresetValue.text = data?.data?.selected_sub_complaint_preset?.name
+                            bindingAdapter.tvSubComplaintPresetValue.isClickable = false
+                            bindingAdapter.tvSubComplaintPresetValue.isEnabled = false
+                        }
+
+
+
                        /* bindingAdapter.rvWarrantParts.setClickable(false);
                         bindingAdapter.rvWarrantParts.setEnabled(false);
                         bindingAdapter.rvWarrantParts.setFocusable(false);*/
@@ -998,6 +1103,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
                             startActivity(intent)
                             finish()
                         }, 3000)*/
+
 
                     }else{
                         it?.message?.let { msg ->

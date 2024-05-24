@@ -27,14 +27,14 @@ class TechnicianEnquiryImage() : Parcelable {
         return 0
     }
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeValue(id)
-        dest?.writeString(lead_id)
-        dest?.writeString(lead_enquiry_id)
-        dest?.writeString(image)
-        dest?.writeString(status)
-        dest?.writeString(created_at)
-        dest?.writeString(updated_at)
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeValue(id)
+        dest.writeString(lead_id)
+        dest.writeString(lead_enquiry_id)
+        dest.writeString(image)
+        dest.writeString(status)
+        dest.writeString(created_at)
+        dest.writeString(updated_at)
 
     }
 
