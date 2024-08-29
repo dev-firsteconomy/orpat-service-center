@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:translationZ="2dp"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/fab_margin">
+
+        <TextView
+            android:id="@+id/tv_request_id"
+            style="@style/Theme.OrpatServiceCenter.MediumText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:layout_marginTop="@dimen/margin_20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/li_customer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_request_timer" >
+
+            <TextView
+                android:id="@+id/tv_request_customer_name"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:text="@string/cutomer_names"
+                android:layout_weight="1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_request_customer_name_value"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/li_technician_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/li_customer_name" >
+
+            <TextView
+                android:id="@+id/tv_request_technician_name"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:text="@string/cutomer_names"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/tv_request_technician_name_value"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_request_location"
+            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:padding="2dp"
+            android:textSize="12sp"
+            android:drawableStart="@drawable/ic_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/li_technician_name" />
+
+        <TextView
+            android:id="@+id/tv_request_date_time"
+            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_request_timer"
+            style="@style/Theme.OrpatServiceCenter.RegularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="timer"
+
+            android:textColor="@color/orange"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_request_date_time" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="@dimen/margin_10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_request_location">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_view_details"
+                style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/btn_view_details"
+                app:icon="@drawable/ic_eye"
+                android:visibility="visible"
+                app:iconGravity="textStart"
+                app:iconPadding="2dp"
+                app:iconTint="@color/brown" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_hide_view_details"
+                style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:visibility="gone"
+                android:layout_marginEnd="16dp"
+                android:text="@string/btn_view_details"
+                app:icon="@drawable/ic_eye"
+                app:iconGravity="textStart"
+                app:iconPadding="2dp"
+                app:iconTint="@color/brown" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_change_technician"
+                style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:text="@string/btn_change_technician"
+                android:visibility="visible"
+                app:icon="@drawable/ic_eye"
+                app:iconGravity="textStart"
+                app:iconPadding="2dp"
+                app:iconTint="@color/brown" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_hide_change_technician"
+                style="@style/Theme.OrpatServiceCenter.Buttons_OffGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:visibility="gone"
+                android:text="@string/btn_change_technician"
+                app:icon="@drawable/ic_eye"
+                app:iconGravity="textStart"
+                app:iconPadding="2dp"
+                app:iconTint="@color/brown"
+                />
+
+        </LinearLayout>
+
+
+
+        <!--   <com.google.android.material.button.MaterialButton
+               android:id="@+id/btn_direction"
+               style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="8dp"
+               android:layout_weight="1"
+               android:layout_marginTop="16dp"
+               android:layout_marginEnd="16dp"
+               android:text="@string/btn_direction"
+               app:icon="@drawable/ic_base_direction"
+               app:iconGravity="textStart"
+               app:iconPadding="2dp"
+               app:iconTint="@color/brown"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/tv_request_location" />
+-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

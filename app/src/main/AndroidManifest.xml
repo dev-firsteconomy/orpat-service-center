@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.orpatservice.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Open fone dialpad for calling -->
+    <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- Permission when working system apps -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
+    <application
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:name=".OrpatApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:hardwareAccelerated="true"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/Theme.OrpatServiceCenter"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.leads.customer_detail.CloseComplaintActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.leads.customer_detail.CustomerDetailsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.admin.technician.AddTechnicianActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.admin.technician.TechniciansActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.login.SelectUserActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            android:windowSoftInputMode="stateVisible"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.login.technician.OTPVerificationActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            android:windowSoftInputMode="stateVisible"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.admin.dashboard.DashboardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.leads.service_center.RequestLeadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.leads.technician.TechnicianRequestLeadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.leads.technician.TechnicianHistoryLeadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.leads.service_center.LeadHistoryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.leads.customer_detail.FullScreenImageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.OrpatServiceCenter.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.technician.HappyCodeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".ui.leads.customer_detail.AllTechnicianActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.TechnicianCustomerDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.service_center.TaskCompletedDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.service_center.TechnicianTaskUpdateActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.new_lead_fragment.activity.ChangeTechnicianActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.new_lead_fragment.activity.LocationActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.SliderScreenImageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.service_center.AssignDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.section.EnquirySliderScreenImageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.BarScannerActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.customer_detail.AdminCustomerDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.new_lead_fragment.activity.AddTaskActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.chargeable_request.ChargeableRequestActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.chargeable_request.ChargeableRequestDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.admin.technician.PincodeSelectionActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.admin.technician.UpdateTechnicianActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.TechnicianHistoryDetailsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.leads.technician.TechnicianWarrantyPartsImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.leads.history_lead_fragment.view_details.CompletedDetailsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.leads.history_lead_fragment.view_details.SlideVerificationPartsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.leads.chargeable_request.ChargeableViewDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.force_update.ForceUpdateActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.orpatservice.app.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/filepaths" />-->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+
+
+
+       <!-- <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />-->
+
+      <!--  <meta-data
+            android:name="com.pushwoosh.senderid"
+            android:value="@string/fcm_sender_id" />-->
+
+
+       <!-- <service
+            android:name=".data.sharedprefs.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.moengage.firebase.MoEFireBaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>-->
+       <!-- <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification" />-->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+       <!-- <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/black" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />-->
+
+
+
+
+        <meta-data
+            android:name="com.pushwoosh.appid"
+            android:value="D7518-8F4C0" />
+        <meta-data
+            android:name="com.pushwoosh.senderid"
+            android:value="@string/fcm_sender_id" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+       <!-- <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_ic_notification" />
+        &lt;!&ndash; Set color used with incoming notification messages. This is used when no color is set for the incoming notification message. &ndash;&gt;
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />-->
+        <service
+            android:name=".ui.admin.notification.YourNotificationServiceExtension"
+            android:exported="false"
+            android:directBootAware="true"
+            tools:targetApi="n">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--  <meta-data
+              android:name="com.pushwoosh.notification_service_extension"
+              android:value="com.orpatservice.app.ui.admin.notification.MyNotificationServiceExtension"/>
+  -->
+       <!-- <service
+            android:name=".ui.admin.notification.YourNotificationServiceExtension"
+            android:exported="false"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>-->
+
+    </application>
+
+</manifest>

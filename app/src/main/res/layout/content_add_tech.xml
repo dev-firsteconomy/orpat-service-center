@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/sv_item"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/btn_submit_mobile"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="30dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_vertical_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="50dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_vertical_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="50dp" />
+
+
+            <TextView
+                android:id="@+id/tv_first_name"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/gl_horizontal" />
+
+            <EditText
+                android:id="@+id/et_first_name"
+                style="@style/Theme.OrpatServiceCenter.EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:hint="@string/first_name"
+                android:inputType="text"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_first_name" />
+
+            <TextView
+                android:id="@+id/tv_last_name"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/last_name"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/et_first_name" />
+
+            <EditText
+                android:id="@+id/et_last_name"
+                style="@style/Theme.OrpatServiceCenter.EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:hint="@string/last_name"
+                android:inputType="text"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_last_name" />
+
+            <TextView
+                android:id="@+id/tv_mobile_number"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/mobile_number"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/et_last_name" />
+
+            <EditText
+                android:id="@+id/et_mobile_no"
+                style="@style/Theme.OrpatServiceCenter.EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:hint="@string/mobile_number"
+                android:inputType="phone"
+                android:maxLength="10"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_mobile_number" />
+
+
+
+            <TextView
+                android:id="@+id/tv_aadhar_card"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/aadhar_card"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/et_mobile_no" />
+
+            <EditText
+                android:id="@+id/et_aadhar_card_num"
+                style="@style/Theme.OrpatServiceCenter.EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:hint="@string/aadhar_card"
+                android:inputType="number"
+                android:maxLength="12"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_aadhar_card" />
+
+
+            <TextView
+                android:id="@+id/tv_pin_code"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/pin_code"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/et_aadhar_card_num" />
+
+            <TextView
+                android:id="@+id/et_pin_code"
+                style="@style/Theme.OrpatServiceCenter.EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="top"
+                android:hint="@string/pin_code"
+                android:inputType="number"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_pin_code" />
+
+            <TextView
+                android:id="@+id/tv_passport"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/login_password"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/et_pin_code" />
+
+                <EditText
+                android:id="@+id/et_passport"
+                style="@style/Theme.OrpatServiceCenter.EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="top"
+                android:hint="@string/login_password"
+                android:inputType="number"
+                android:maxLength="4"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_passport" />
+
+            <RadioGroup
+                android:id="@+id/rg_is_active_tech"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/et_passport"
+                app:layout_constraintBottom_toTopOf="@id/tv_upload_image"
+                android:weightSum="1">
+
+                <RadioButton
+                    android:id="@+id/rb_activate"
+                    style="@style/UserTypeRadioButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:drawablePadding="12dp"
+                    android:elevation="2dp"
+                    android:paddingTop="6dp"
+                    android:checked="true"
+                    android:paddingBottom="6dp"
+                    android:text="@string/activate"
+                    android:translationZ="2dp" />
+
+                <RadioButton
+                    android:id="@+id/rb_de_activate"
+                    style="@style/UserTypeRadioButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:drawablePadding="12dp"
+                    android:elevation="2dp"
+                    android:layout_marginStart="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="@string/deactivate"
+                    android:translationZ="2dp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_upload_image"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/upload_image"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/rg_is_active_tech" />
+
+            <View
+                android:id="@+id/v_image"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_otp_edittext"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_upload_image"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/iv_upload_image"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:src="@drawable/ic_upload"
+                app:layout_constraintBottom_toTopOf="@id/tv_image_title"
+                app:layout_constraintEnd_toEndOf="@id/v_image"
+                app:layout_constraintStart_toStartOf="@id/v_image"
+                app:layout_constraintTop_toTopOf="@id/v_image"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_image_title"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/image_title"
+                app:layout_constraintBottom_toBottomOf="@id/v_image"
+                app:layout_constraintEnd_toEndOf="@id/v_image"
+                app:layout_constraintStart_toStartOf="@id/v_image"
+                app:layout_constraintTop_toBottomOf="@id/iv_upload_image" />
+
+            <TextView
+                android:id="@+id/tv_upload_aadharcard"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/upload_aadhar_card"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_image_title" />
+
+            <View
+                android:id="@+id/v_upload_aadharcard"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/bg_otp_edittext"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_upload_aadharcard" />
+
+            <ImageView
+                android:id="@+id/iv_upload_aadharcard"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:src="@drawable/ic_upload"
+                app:layout_constraintBottom_toTopOf="@id/tv_aadharcard"
+                app:layout_constraintEnd_toEndOf="@id/v_upload_aadharcard"
+                app:layout_constraintHorizontal_bias="0.453"
+                app:layout_constraintStart_toStartOf="@id/v_upload_aadharcard"
+                app:layout_constraintTop_toTopOf="@id/v_upload_aadharcard"
+                app:layout_constraintVertical_bias="0.169"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_aadharcard"
+                style="@style/Theme.OrpatServiceCenter.RegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/image_aadhar_card"
+                app:layout_constraintBottom_toBottomOf="@id/v_upload_aadharcard"
+                app:layout_constraintEnd_toEndOf="@id/v_upload_aadharcard"
+                app:layout_constraintStart_toStartOf="@id/v_upload_aadharcard"
+                app:layout_constraintTop_toBottomOf="@id/iv_upload_aadharcard" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit_mobile"
+        style="@style/Theme.OrpatServiceCenter.Buttons_Flat"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/btn_submit"
+        app:cornerRadius="0dp"
+        app:icon="@drawable/ic_arrow_forward"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/dim_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sv_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

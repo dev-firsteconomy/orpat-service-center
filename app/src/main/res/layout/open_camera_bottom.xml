@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            android:id="@+id/iv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:elevation="1dp"
+            android:scaleType="fitXY"
+            android:background="@color/dim_white"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:elevation="2dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/please_select"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/brown"
+            android:translationZ="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Please select" />
+
+        <TextView
+            android:id="@+id/tv_camera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:textColor="@color/brown"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/camera"
+            app:layout_constraintTop_toBottomOf="@+id/iv_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/view_other_methods"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            app:layout_constraintBottom_toTopOf="@id/tv_gallery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_camera" />
+
+        <TextView
+            android:id="@+id/tv_gallery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:textColor="@color/brown"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/gallery"
+            app:layout_constraintBottom_toTopOf="@id/view_FromChinaUnionPay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_other_methods" />
+
+        <View
+            android:id="@+id/view_FromChinaUnionPay"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            app:layout_constraintBottom_toTopOf="@id/tv_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_gallery" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:textColor="@color/brown"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_FromChinaUnionPay" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

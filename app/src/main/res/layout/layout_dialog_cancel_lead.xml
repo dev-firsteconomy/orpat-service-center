@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_confirm_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/reject_lead"
+        style="@style/Theme.OrpatServiceCenter.RegularText" />
+
+    <TextView
+        android:id="@+id/tv_confirm_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/gray"
+        app:layout_constraintTop_toBottomOf="@id/tv_confirm_heading"
+        android:text="@string/please_enter_reason_for_rejection"
+        style="@style/Theme.OrpatServiceCenter.RegularText" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_rejection_reason"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/reason_for_rejection"
+        style="@style/Theme.OrpatServiceCenter.TextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_confirm_message">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_rejection_reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textColor="@color/brown" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        style="@style/Theme.OrpatServiceCenter.Buttons"
+        android:textColor="@color/brown"
+        app:backgroundTint="@color/off_white"
+        app:layout_constraintTop_toBottomOf="@id/til_rejection_reason"
+        app:layout_constraintEnd_toStartOf="@id/btn_reject"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_reject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reject"
+        style="@style/Theme.OrpatServiceCenter.Buttons"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/btn_cancel"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

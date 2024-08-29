@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:translationZ="2dp"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_task_completed_request_id"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:hint="12856465636"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/li_customer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="23dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_task_completed_request_id">
+
+
+            <TextView
+                android:id="@+id/tv_task_completed_request_customer_name"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:text="@string/cutomer_names"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_task_completed_request_id" />
+
+            <TextView
+                android:id="@+id/tv_task_completed_request_customer_name_value"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_task_completed_request_id" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_task_completed_request_location"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:padding="2dp"
+            android:textSize="12sp"
+            android:hint="Location"
+            android:drawableStart="@drawable/ic_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/li_customer_name" />
+
+        <TextView
+            android:id="@+id/tv_task_completed_request_date_time"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:gravity="end"
+            android:textSize="14sp"
+            android:hint="2nd Dec 16:00PM"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_task_completed_request_status"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:hint="Assigned"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_task_completed_request_date_time" />
+
+        <TextView
+            android:id="@+id/tv_status_value"
+            style="@style/Theme.OrpatServiceCenter.SmallText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Task Complete on 5th Dec 06:30PM"
+            android:gravity="center"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_task_completed_request_location" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_view_details"
+            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/btn_view_details"
+            app:iconGravity="textStart"
+            app:iconPadding="2dp"
+            app:iconTint="@color/brown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_status_value" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

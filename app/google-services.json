@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "22742525395",
+    "project_id": "orpatservicecenter",
+    "storage_bucket": "orpatservicecenter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22742525395:android:7b1bd536e87c05da83bb26",
+        "android_client_info": {
+          "package_name": "com.orpatservice.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22742525395-phipeepk7hkss3d8c4pdsvngptbbte18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs-Rd65JtUQ9vwkwD9h7SKueEdgkDW0yM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22742525395-phipeepk7hkss3d8c4pdsvngptbbte18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
