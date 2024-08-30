@@ -135,6 +135,7 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
        // binding.tvRequestDateValue.text = requestData.service_center_assigned_at
         binding.includedContent.tvContactNumberValue.text = requestData.mobile
         binding.includedContent.tvPinCodeValue.text = requestData.pincode
+        binding.includedContent.tvServiceType.text = requestData.service_request_type
         binding.includedContent.tvTvRequestIdValue.text = requestData.complain_id.toString()
         binding.includedContent.tvTimerValue.text = requestData.timer
         binding.includedContent.tvTimerValue.setTextColor(Color.parseColor(requestData.color_code))

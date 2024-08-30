@@ -160,6 +160,7 @@ class AssignDetailsActivity : AppCompatActivity(), View.OnClickListener, CameraB
     private fun bindUserDetails(leadData: LeadData) {
         binding.includedContent.tvCustomerNameValue.text = leadData.name
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
+        binding.includedContent.tvServiceType.text = leadData.service_request_type
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
         binding.includedContent.tvFullAddressValue.text = leadData.address1+""+", "+""+leadData.address2+""+", "+""+leadData.landmark
         binding.includedContent.tvTvRequestIdValue.text = leadData.complain_id.toString()

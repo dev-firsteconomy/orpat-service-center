@@ -161,6 +161,22 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_tv_request_id_value" />
 
             <TextView
+                android:id="@+id/tv_title_service_type"
+                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="2dp"
+
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:paddingLeft="10dp"
+                android:text="Lead type"
+                app:layout_constraintEnd_toEndOf="@id/tv_request_id"
+                app:layout_constraintStart_toStartOf="@id/tv_request_id"
+                app:layout_constraintTop_toBottomOf="@+id/tv_full_address_value" />
+
+            <TextView
                 android:id="@+id/tv_technician_name_values"
                 style="@style/Theme.OrpatServiceCenter.SmallText"
                 android:layout_width="0dp"
@@ -197,6 +213,17 @@
                 app:layout_constraintStart_toStartOf="@id/tv_technician_number"
                 app:layout_constraintTop_toBottomOf="@id/tv_technician_number"
                 />
+
+            <TextView
+                android:id="@+id/tv_service_type"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                app:layout_constraintEnd_toEndOf="@id/tv_technician_number"
+                app:layout_constraintStart_toStartOf="@id/tv_technician_number"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_service_type" />
+
 
             <TextView
                 android:id="@+id/tv_timer"
@@ -289,9 +316,9 @@
                 android:id="@+id/v_divider"
                 android:layout_width="match_parent"
                 android:layout_height="6dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/off_white"
-                app:layout_constraintTop_toBottomOf="@id/tv_full_address_value" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_service_type" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_task"

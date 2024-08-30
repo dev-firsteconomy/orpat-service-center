@@ -105,6 +105,7 @@ class AssignTechnicianLeadAdapter constructor(
            // binding.tvRequestCustomerName.text = leadData.technician?.first_name+""+" "+""+leadData.technician?.last_name
             binding.tvRequestLocation.text = leadData.address1+""+" "+""+leadData.address2+ " , " + leadData.landmark
             binding.tvRequestTechnicianNameValue.text = "Technician Name :"+" "+""+leadData.technician?.first_name+""+" "+""+leadData.technician?.last_name
+            binding.tvServiceType.text = "Lead Type :"+" "+""+leadData.service_request_type
            // binding.tvRequestDateTime.text = leadData.created_at
 
             val str = leadData.created_at

@@ -37,6 +37,8 @@ class LeadData() : Parcelable {
     var lead_cancelled_reason: String? = null
     var pending_parts_verification_status_count: String? = null
     var enquiries: ArrayList<Enquiry> = arrayListOf()
+    var service_request_type: String? = null
+
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -66,6 +68,7 @@ class LeadData() : Parcelable {
         created_at = parcel.readString()
         technician = parcel.readParcelable(TechnicianData::class.java.classLoader)
         lead_cancelled_reason = parcel.readString()
+        service_request_type = parcel.readString()
         pending_parts_verification_status_count = parcel.readString()
         parcel.readTypedList(enquiries,Enquiry.CREATOR)
 
@@ -102,6 +105,7 @@ class LeadData() : Parcelable {
         parcel.writeString(created_at)
         parcel.writeParcelable(technician, flags)
         parcel.writeString(lead_cancelled_reason)
+        parcel.writeString(service_request_type)
         parcel.writeString(pending_parts_verification_status_count)
         parcel.writeTypedList(enquiries)
     }

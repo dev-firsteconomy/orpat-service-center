@@ -168,6 +168,7 @@
     <string name="total_count">Total=</string>
     <string name="btn_direction">Direction</string>
     <string name="cutomer_names">Customer Name :</string>
+    <string name="service_type_label">Lead Type :</string>
     <string name="btn_update_parts">Update Parts</string>
     <string name="btn_verify_parts">Verify &amp; Update Parts</string>
     <string name="btn_update_otp">Update OTP</string>

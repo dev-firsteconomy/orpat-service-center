@@ -62,7 +62,10 @@ class AssignedLeadAdapter constructor(
             //binding.tvRequestStatus.text = leadData.status
             binding.tvRequestId.text = leadData.complain_id.toString()
             binding.tvRequestCustomerNameValue.text = "Customer Name : "+""+" "+""+leadData.name
-            binding.tvRequestTechnicianNameValue.text = "Technician Name : "+""+" "+""+leadData.technician?.first_name+""+" "+""+leadData.technician?.last_name
+            binding.tvRequestTechnicianNameValue.text =
+                "Technician Name : " + "" + " " + "" + leadData.technician?.first_name + "" + " " + "" + leadData.technician?.last_name
+            binding.tvServiceType.text =
+                "Lead Type : " + "" + " " + "" + leadData.service_request_type
             //binding.tvRequestDateTime.text = leadData.service_center_assigned_at
 
             val str = leadData.created_at
