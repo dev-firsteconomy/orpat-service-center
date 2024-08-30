@@ -256,6 +256,7 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         binding.includedContent.tvCustomerNameValue.text = leadData.name
         binding.includedContent.tvContactNumberValue.text = leadData.mobile
         binding.includedContent.tvPinCodeValue.text = leadData.pincode
+        binding.includedContent.tvServiceType.text = leadData.service_request_type
         binding.includedContent.tvFullAddressValue.text = leadData.address1+""+","+""+leadData.address2+""+", "+""+leadData.landmark
         binding.includedContent.tvTvRequestIdValue.text = leadData.complain_id.toString()
        // binding.includedContent.tvRequestDateValue.text = leadData.service_center_assigned_at
@@ -1325,8 +1326,14 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_DENIED) {
-                val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                requestPermissions(permission, 121)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                    openCamera()
+                }else{
+                    val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    requestPermissions(permission, 121)
+
+                }
             } else {
                 openCamera()
             }

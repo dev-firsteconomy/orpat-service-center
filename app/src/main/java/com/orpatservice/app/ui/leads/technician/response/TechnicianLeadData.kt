@@ -31,6 +31,7 @@ class TechnicianLeadData() : Parcelable {
     var created_at: String? = null
     var technician: TechnicianData? = null
     var lead_cancelled_reason: String? = null
+    var service_request_type: String? = null
     var enquiries: ArrayList<TechnicianEnquiry> = arrayListOf()
 
 
@@ -50,10 +51,10 @@ class TechnicianLeadData() : Parcelable {
         city = parcel.readString()
         state = parcel.readString()
         timer = parcel.readString()
+        service_request_type = parcel.readString()
         color_code = parcel.readString()
         pending_technician_detail_count = parcel.readString()
         in_warranty_enquiries_count = parcel.readString()
-        //   pending_lead_enquiries = parcel.readString()
         service_center_assigned_at = parcel.readString()
         technician_assigned_at = parcel.readString()
         created_at = parcel.readString()
@@ -82,6 +83,7 @@ class TechnicianLeadData() : Parcelable {
         parcel.writeString(city)
         parcel.writeString(state)
         parcel.writeString(timer)
+        parcel.writeString(service_request_type)
         parcel.writeString(color_code)
         parcel.writeString(pending_technician_detail_count)
         parcel.writeString(in_warranty_enquiries_count)

@@ -56,6 +56,7 @@ class TechnicianRequestLeadAdapter constructor(
             //binding.tvRequestStatus.text = leadData.status
             binding.tvRequestId.text = leadData.complain_id.toString()
             binding.tvRequestCustomerNameValue.text = leadData.name
+            binding.tvServiceType.text = leadData.service_request_type
 
             val str = leadData.created_at
             val delimiter = " "
