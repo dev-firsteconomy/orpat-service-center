@@ -45,7 +45,7 @@ class TechnicianTaskAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is TechnicianViewHolder -> {
-                holder.bind(techList[position], context)
+                holder.bind(techList[position], context,leadData)
             }
         }
     }
@@ -62,7 +62,7 @@ class TechnicianTaskAdapter(
             // binding.btnAssignAlltechnician.setOnClickListener(this)
         }
 
-        fun bind(technicianData: Enquiry, context: Context) {
+        fun bind(technicianData: Enquiry, context: Context,leadData: LeadData) {
 
             val pos = position + 1
             val count = techList.count()
@@ -269,6 +269,15 @@ class TechnicianTaskAdapter(
                     binding.radiobtnChangePartNo, binding
                 )
                 //}
+            }
+            if(leadData.service_request_type.equals("Installation")){
+                binding.tvSubComplaintPresetValue.visibility = GONE
+                binding.tvSubComplaintPreset.visibility = GONE
+                binding.tvSubComplaintPreset.isClickable = false
+            }else{
+                binding.tvSubComplaintPresetValue.visibility = VISIBLE
+                binding.tvSubComplaintPreset.visibility = VISIBLE
+                binding.tvSubComplaintPreset.isClickable = true
             }
         }
 
