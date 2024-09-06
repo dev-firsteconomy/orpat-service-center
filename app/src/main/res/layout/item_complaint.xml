@@ -217,6 +217,17 @@
             app:layout_constraintTop_toBottomOf="@id/tv_call_center_note"
             />
 
+        <ImageView
+            android:id="@+id/iv_link"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_youtube"
+            app:layout_constraintStart_toStartOf="@+id/tv_complaint_preset_value"
+            app:layout_constraintTop_toBottomOf="@+id/tv_complaint_preset_value">
+
+        </ImageView>
+
         <TextView
             android:id="@+id/tv_complaint_preset"
             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
@@ -282,15 +293,15 @@
             style="@style/Theme.OrpatServiceCenter.SmallRegularText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:padding="2dp"
-            android:layout_marginTop="10dp"
             android:text="@string/service_center_description"
             android:textAlignment="textStart"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_subComplaint_preset_value" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_link" />
 
         <EditText
             android:id="@+id/tv_service_center_description_value"

@@ -274,10 +274,12 @@ class TechnicianTaskAdapter(
                 binding.tvSubComplaintPresetValue.visibility = GONE
                 binding.tvSubComplaintPreset.visibility = GONE
                 binding.tvSubComplaintPreset.isClickable = false
+                binding.tvUnderWarranty.setText("Installation Done")
             }else{
                 binding.tvSubComplaintPresetValue.visibility = VISIBLE
                 binding.tvSubComplaintPreset.visibility = VISIBLE
                 binding.tvSubComplaintPreset.isClickable = true
+                binding.tvUnderWarranty.setText("Under Warranty")
             }
         }
 

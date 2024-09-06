@@ -1,6 +1,9 @@
 package com.orpatservice.app.ui.leads.adapter
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -9,6 +12,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -56,6 +60,14 @@ class ComplaintAdapter(
             tatalCount: Int,
             itemClickListener: (Int, View,ItemComplaintBinding) -> Unit
         ) {
+            if(!enquiry.installation_link.isNullOrEmpty()||!enquiry.service_link.isNullOrEmpty()){
+                binding.ivLink.visibility =  VISIBLE
+
+            }else{
+                binding.ivLink.visibility =  GONE
+            }
+
+
             binding.tvServiceCenterDescriptionValue.setText(enquiry.service_center_discription ?: "")
             binding.tvCallCenterNoteValue.setText(enquiry.orpat_description)
             binding.edtInvoiceNumberValue.setText(enquiry.invoice_no ?: "")
@@ -451,6 +463,15 @@ class ComplaintAdapter(
                     adapterPosition,
                     binding.btnGstGenerateChargeable,
                     binding)
+            }
+
+            binding.ivLink.setOnClickListener {
+
+                itemClickListener(
+                    adapterPosition,
+                    binding.ivLink,
+                    binding)
+
             }
 
         }

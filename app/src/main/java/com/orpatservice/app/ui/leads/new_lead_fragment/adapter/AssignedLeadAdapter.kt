@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.orpatservice.app.R
 import com.orpatservice.app.data.model.requests_leads.LeadData
 import com.orpatservice.app.data.sharedprefs.SharedPrefs
 import com.orpatservice.app.databinding.AdapterAssignedLeadBinding
@@ -49,6 +51,16 @@ class AssignedLeadAdapter constructor(
             leadData: LeadData,
             itemClickListener: (Int, View) -> Unit,
             fragmentType: String) {
+
+            if(leadData.service_request_type.equals("installation",true)){
+                binding.cardBg.setBackgroundColor(
+                    ContextCompat.getColor(binding.root.context, R.color.card_installation_clr)
+                )
+            }else{
+                binding.cardBg.setBackgroundColor(
+                    ContextCompat.getColor(binding.root.context, R.color.white)
+                )
+            }
 
 
             if(leadData.status.equals("Technician  Assigned")){

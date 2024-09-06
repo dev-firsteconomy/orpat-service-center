@@ -1063,7 +1063,6 @@ class TechnicianTaskUpdateActivity : AppCompatActivity() , TextWatcher {
 */
                         if(data?.data?.in_warranty.equals("Yes")){
                             bindingAdapter.radiobtnYes.isChecked = true
-
                             bindingAdapter.radiobtnNo.isChecked = false
                             bindingAdapter.radiobtnNo.setFocusable(false);
                             bindingAdapter.radiobtnNo.setEnabled(false);

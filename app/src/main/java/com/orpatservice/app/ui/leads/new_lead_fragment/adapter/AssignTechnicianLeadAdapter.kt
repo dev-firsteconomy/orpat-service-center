@@ -63,6 +63,15 @@ class AssignTechnicianLeadAdapter constructor(
             itemClickListener: (Int, View) -> Unit,
             fragmentType: String
         ) {
+            if(leadData.service_request_type.equals("installation",true)){
+                binding.cardBg.setBackgroundColor(
+                    ContextCompat.getColor(binding.root.context, R.color.card_installation_clr)
+                )
+            }else{
+                binding.cardBg.setBackgroundColor(
+                    ContextCompat.getColor(binding.root.context, R.color.white)
+                )
+            }
 
 
             /*if(leadData.status.equals("Parts Verification Pending")){
