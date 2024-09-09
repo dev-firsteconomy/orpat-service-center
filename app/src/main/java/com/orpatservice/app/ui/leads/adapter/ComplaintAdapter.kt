@@ -62,9 +62,11 @@ class ComplaintAdapter(
         ) {
             if(!enquiry.installation_link.isNullOrEmpty()||!enquiry.service_link.isNullOrEmpty()){
                 binding.ivLink.visibility =  VISIBLE
+                binding.tvInstallation.visibility =  VISIBLE
 
             }else{
                 binding.ivLink.visibility =  GONE
+                binding.tvInstallation.visibility =  GONE
             }
 
 

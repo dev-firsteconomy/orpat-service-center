@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
@@ -384,8 +385,26 @@ class TechnicianCustomerDetailsActivity : AppCompatActivity(), View.OnClickListe
                 R.id.iv_qr_code_image -> {
                     // goToFullScreenImageActivity(leadData.enquiries[position].qr_image)
                 }
+                R.id.iv_yt, R.id.tv_installation -> {
 
-                R.id.btn_scan_qr -> {
+
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.setPackage("com.google.android.youtube")
+                    if (leadData.service_request_type.equals("installation", true)) {
+                        intent.data = Uri.parse(leadData.enquiries[position].installation_link)
+                    } else {
+                        intent.data = Uri.parse(leadData.enquiries[position].service_link)
+                    }
+                    try {
+                        this@TechnicianCustomerDetailsActivity.startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        // YouTube app is not installed, open in a web browser instead
+                        intent.setPackage(null)
+                        this@TechnicianCustomerDetailsActivity.startActivity(intent)
+                    }
+                }
+
+                    R.id.btn_scan_qr -> {
                  // clearScannerAddMoreProducts()
                   //   barcodeView = binding.barcodeScanner
                    // initScanner()

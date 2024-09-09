@@ -641,7 +641,7 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
                 // goToFullScreenImageActivity(leadData.enquiries[position].qr_image)
             }
 
-            R.id.iv_link -> {
+            R.id.iv_link, R.id.tv_installation -> {
 
 
                 val intent = Intent(Intent.ACTION_VIEW)

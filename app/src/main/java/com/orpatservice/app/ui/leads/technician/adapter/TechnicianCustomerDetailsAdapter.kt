@@ -50,6 +50,24 @@ class TechnicianCustomerDetailsAdapter(
             itemClickListener: (Int, View, ItemTechnicianComplaintBinding, ArrayList<TechnicianEnquiryImage>) -> Unit
         ) {
 
+            //yt
+            if(!enquiry.installation_link.isNullOrEmpty()||!enquiry.service_link.isNullOrEmpty()){
+                binding.ivYt.visibility =  VISIBLE
+                binding.tvInstallation.visibility =  VISIBLE
+
+            }else{
+                binding.ivYt.visibility =  GONE
+                binding.tvInstallation.visibility =  GONE
+            }
+            if(leadData.service_request_type.equals("installation",true)){
+                binding.btnUploadImage.setText("Upload Installed Product Image")
+            }else{
+                binding.btnUploadImage.setText("Upload Part Image")
+
+            }
+
+
+
             if(enquiry.technician_scan_status == 1){
                 binding.liNoScannerPart.visibility = VISIBLE
                 binding.liScannerPart.visibility = GONE
@@ -199,6 +217,23 @@ class TechnicianCustomerDetailsAdapter(
 
                 )
             }
+            binding.tvInstallation.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.tvInstallation, binding,
+                    enquiryImage
+
+                )
+            }
+            binding.ivYt.setOnClickListener {
+                itemClickListener(
+                    adapterPosition,
+                    binding.ivYt, binding,
+                    enquiryImage
+
+                )
+            }
+
 
             val posi = adapterPosition+1
 

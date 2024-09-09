@@ -242,7 +242,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_upload_image"
                 style="@style/Theme.OrpatServiceCenter.SmallText"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/ic_upload_invoice"
@@ -425,142 +425,160 @@
     </LinearLayout>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    <LinearLayout
-        android:id="@+id/li_scanner_part"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible"
-        android:padding="16dp"
-        android:weightSum="2">
+        android:layout_height="wrap_content">
 
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_task_scan"
+        <LinearLayout
+            android:id="@+id/li_scanner_part"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="visible"
+            android:weightSum="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_task_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="Task 01/04"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_model_number_scan"
+                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="2dp"
+                android:text="@string/model_number" />
+
+            <TextView
+                android:id="@+id/tv_model_name_value_scan"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="0000000122" />
+
+            <TextView
+                android:id="@+id/tv_customer_description_scan"
+                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="2dp"
+                android:text="@string/customer_description"
+                android:textAlignment="textStart"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/tv_description_value_scan"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textAlignment="textStart"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_complaint_preset_scan"
+                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="2dp"
+                android:text="@string/complaint_preset"
+                android:textAlignment="textStart"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_complaint_preset_value_scan"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textAlignment="textStart"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_service_center_note_scan"
+                style="@style/Theme.OrpatServiceCenter.SmallRegularText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="2dp"
+                android:text="@string/service_center_note"
+                android:textAlignment="textStart"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_service_center_value_scan"
+                style="@style/Theme.OrpatServiceCenter.SmallText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textAlignment="textStart"
+                android:textSize="14sp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_scan_qrcode"
+                style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite_Flat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:text="@string/btn_scan" />
+
+
+            <TextView
+                android:id="@+id/btn_cancel_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/btn_cancel_task"
+                android:textColor="@color/failure_red"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_installation"
+            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:hint="Task 01/04"
+            android:layout_marginEnd="16dp"
+            android:padding="2dp"
+            android:visibility="gone"
+            android:text="Watch Installation"
+            android:textSize="@dimen/text_size_12"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_yt" />
 
-        <TextView
-            android:id="@+id/tv_model_number_scan"
-            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/model_number"
-           />
-
-        <TextView
-            android:id="@+id/tv_model_name_value_scan"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            tools:text="0000000122" />
-
-        <TextView
-            android:id="@+id/tv_customer_description_scan"
-            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/customer_description"
-            android:textAlignment="textStart"
-            android:textSize="14sp" />
-
-
-        <TextView
-            android:id="@+id/tv_description_value_scan"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:textAlignment="textStart"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_complaint_preset_scan"
-            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/complaint_preset"
-            android:textAlignment="textStart"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_complaint_preset_value_scan"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:textAlignment="textStart"
-            android:textSize="14sp"
-            />
-
-        <TextView
-            android:id="@+id/tv_service_center_note_scan"
-            style="@style/Theme.OrpatServiceCenter.SmallRegularText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/service_center_note"
-            android:textAlignment="textStart"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_service_center_value_scan"
-            style="@style/Theme.OrpatServiceCenter.SmallText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:textAlignment="textStart"
-            android:textSize="14sp"
-            />
-
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_scan_qrcode"
-            android:layout_width="match_parent"
-            style="@style/Theme.OrpatServiceCenter.Buttons_OffWhite_Flat"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:text="@string/btn_scan"
-            android:layout_weight="1"/>
-
-
-        <TextView
-            android:id="@+id/btn_cancel_task"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:visibility="invisible"
-            android:textColor="@color/failure_red"
-            android:text="@string/btn_cancel_task"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_yt"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/youtube_1384060"
+            app:layout_constraintEnd_toEndOf="@+id/tv_installation"
+            app:layout_constraintStart_toStartOf="@+id/tv_installation"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

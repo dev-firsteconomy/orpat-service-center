@@ -19,6 +19,8 @@ class TechnicianEnquiry() : Parcelable {
     var dummy_barcode: String? = null
     var model_no: String? = null
     var technician_detail_status: Int? = null
+    var installation_link :String? = null
+    var service_link :String? = null
     var technician_scan_status: Int? = null
     var warranty_parts: ArrayList<WarrantryPart> = arrayListOf()
     var lead_enquiry_images: ArrayList<TechnicianEnquiryImage> = arrayListOf()
@@ -29,6 +31,8 @@ class TechnicianEnquiry() : Parcelable {
         //  model_no = parcel.readString()
         invoice_url = parcel.readString()
         scanned_barcode = parcel.readString()
+        installation_link = parcel.readString()
+        service_link = parcel.readString()
         //   qr_image = parcel.readString()
         purchase_at = parcel.readString()
         complaint_preset = parcel.readString()
@@ -54,6 +58,8 @@ class TechnicianEnquiry() : Parcelable {
         // dest?.writeString(model_no)
         dest.writeString(invoice_url)
         dest.writeString(scanned_barcode)
+        dest.writeString(installation_link)
+        dest.writeString(service_link)
         //  dest?.writeString(qr_image)
         dest.writeString(purchase_at)
         dest.writeString(complaint_preset)
