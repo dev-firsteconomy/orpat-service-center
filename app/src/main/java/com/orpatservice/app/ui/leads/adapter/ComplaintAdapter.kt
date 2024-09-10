@@ -69,6 +69,13 @@ class ComplaintAdapter(
                 binding.tvInstallation.visibility =  GONE
             }
 
+            if(leadData.service_request_type.equals("installation",true)){
+                binding.tvInstallation.setText("Watch Installation")
+
+            }else{
+                binding.tvInstallation.setText("Watch Service")
+
+            }
 
             binding.tvServiceCenterDescriptionValue.setText(enquiry.service_center_discription ?: "")
             binding.tvCallCenterNoteValue.setText(enquiry.orpat_description)

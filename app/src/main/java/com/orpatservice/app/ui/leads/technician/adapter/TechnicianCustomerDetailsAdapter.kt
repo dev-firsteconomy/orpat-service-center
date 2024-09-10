@@ -61,8 +61,11 @@ class TechnicianCustomerDetailsAdapter(
             }
             if(leadData.service_request_type.equals("installation",true)){
                 binding.btnUploadImage.setText("Upload Installed Product Image")
+                binding.tvInstallation.setText("Watch Installation")
+
             }else{
                 binding.btnUploadImage.setText("Upload Part Image")
+                binding.tvInstallation.setText("Watch Service")
 
             }
 
