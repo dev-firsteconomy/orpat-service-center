@@ -45,10 +45,10 @@ class Enquiry() : Parcelable {
     var in_warranty_enquiries_count: String? = null
     var pending_technician_detail_count: String? = null
     var pending_parts_verification_status_count: String? = null
-    var installation_link: String? = null
-    var service_link: String? = null
     var warranty_parts: ArrayList<WarrantryPart> = arrayListOf()
     var lead_enquiry_images: ArrayList<LeadEnquiryImage> = arrayListOf()
+    var installation_link: String? = null
+    var service_link: String? = null
 
 
     constructor(parcel: Parcel) : this() {
@@ -56,8 +56,6 @@ class Enquiry() : Parcelable {
         scanned_barcode = parcel.readString()
         model_no = parcel.readString()
         invoice_url = parcel.readString()
-        installation_link = parcel.readString()
-        service_link = parcel.readString()
         invoice_no = parcel.readString()
      //   qr_image = parcel.readString()
         purchase_at = parcel.readString()
@@ -89,6 +87,8 @@ class Enquiry() : Parcelable {
         pending_parts_verification_status_count = parcel.readString()
         parcel.readTypedList(warranty_parts,WarrantryPart.CREATOR)
         parcel.readTypedList(lead_enquiry_images, LeadEnquiryImage.CREATOR)
+        installation_link = parcel.readString()
+        service_link = parcel.readString()
 
     }
 
@@ -103,8 +103,7 @@ class Enquiry() : Parcelable {
         dest.writeString(model_no)
         dest.writeString(invoice_url)
         dest.writeString(invoice_no)
-        dest.writeString(installation_link)
-        dest.writeString(service_link)
+
       //  dest?.writeString(qr_image)
         dest.writeString(purchase_at)
         dest.writeString(complaint_preset)
@@ -136,6 +135,8 @@ class Enquiry() : Parcelable {
         dest.writeString(pending_parts_verification_status_count)
         dest.writeTypedList(warranty_parts)
         dest.writeTypedList(lead_enquiry_images)
+        dest.writeString(installation_link)
+        dest.writeString(service_link)
     }
 
     companion object CREATOR : Parcelable.Creator<Enquiry> {

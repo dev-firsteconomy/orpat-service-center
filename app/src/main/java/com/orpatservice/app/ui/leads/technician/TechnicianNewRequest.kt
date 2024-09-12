@@ -223,7 +223,7 @@ class TechnicianNewRequest : Fragment() {
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == leadDataArrayList.size - 1 && totalPage > pageNumber) {
                     pageNumber++
                     binding.cpiLoading.visibility = View.VISIBLE
-                    requestLeadsViewModel.loadPendingLeads(pageNumber)
+                    requestLeadsViewModel.loadTechnicianPendingLeads(pageNumber)
                     isLoading = true
                 }
             }

@@ -22,6 +22,7 @@ import android.os.*
 import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
+import android.util.Patterns
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -626,6 +627,9 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             }
         }
     }*/
+    fun isValidUrl(url: String): Boolean {
+        return Patterns.WEB_URL.matcher(url).matches()
+    }
 
     private var lastClickedPos: Int = 0
     private val onItemClickListener: (Int, View, ItemComplaintBinding) -> Unit = { position, view,binding ->
@@ -642,7 +646,6 @@ class CustomerDetailsActivity : AppCompatActivity(), View.OnClickListener, Camer
             }
 
             R.id.iv_link, R.id.tv_installation -> {
-
 
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.setPackage("com.google.android.youtube")
