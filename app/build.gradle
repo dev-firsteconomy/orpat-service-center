@@ -16,9 +16,9 @@ android {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.orpatservice.app"
         minSdk 26
-        targetSdk 33
-        versionCode 7
-        versionName "1.7"
+        targetSdk 34
+        versionCode 9
+        versionName "1.9"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
