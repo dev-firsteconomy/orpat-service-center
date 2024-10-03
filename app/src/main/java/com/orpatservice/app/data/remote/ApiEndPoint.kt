@@ -6,6 +6,7 @@ import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
 import com.orpatservice.app.data.model.TechnicianResponse
+import com.orpatservice.app.data.model.VideoProductCategoriesData
 import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.SendHappyCodeResponse
 import com.orpatservice.app.data.model.login.TechnicianLoginResponse
@@ -396,5 +397,17 @@ interface ApiEndPoint {
 
     @GET("service-center/leads/assigned")
     fun getServiceCenterTaskCompletedLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<TakCompletedResponse>
+
+    @GET("videos/installation/categories")
+    fun getInstallationVideoCategories(@Header("Authorization") token : String): Call<List<VideoProductCategoriesData>>
+
+
+    @GET("videos/installation/categories/{id}")
+    fun getInstallationVideoSubCategories(@Header("Authorization") token : String,@Path("id") leadId: Int): Call<List<VideoProductCategoriesData>>
+
+
+    @GET("videos/installation/categories/{cat_id}/sub-category/{id}")
+    fun getInstallationVideoProducts(@Header("Authorization") token : String,@Query("search") keyword: String,@Path("cat_id") catId: Int,@Path("id") productId: Int): Call<List<VideoProductCategoriesData>>
+
 
 }

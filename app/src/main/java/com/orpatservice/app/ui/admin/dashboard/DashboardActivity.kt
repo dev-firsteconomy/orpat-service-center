@@ -69,6 +69,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         binding.includedContent.mcvProfile.setOnClickListener(this)
         binding.includedContent.mcvPayment.setOnClickListener(this)
         binding.includedContent.mcvMore.setOnClickListener(this)
+        binding.includedContent.mcvServiceVideos.setOnClickListener(this)
+        binding.includedContent.mcvInstallationVideos.setOnClickListener(this)
         binding.includedContent.mcvChargeableRequest.setOnClickListener(this)
         binding.ivLogout.setOnClickListener(this)
 
@@ -463,6 +465,18 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.mcv_more -> {
 
+            }
+
+            R.id.mcv_installation_videos -> {
+                val intent = Intent(this, CategoriesActivity::class.java)
+                intent.putExtra(Constants.KEY_SERVICE_TYPE_IDENTIFIER, true)
+                startActivity(intent)
+            }
+
+            R.id.mcv_service_videos -> {
+                val intent = Intent(this, CategoriesActivity::class.java)
+                intent.putExtra(Constants.KEY_SERVICE_TYPE_IDENTIFIER, false)
+                startActivity(intent)
             }
             R.id.iv_logout -> {
                 confirmationDialog()

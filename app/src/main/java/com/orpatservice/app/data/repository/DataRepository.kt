@@ -8,6 +8,7 @@ import com.orpatservice.app.data.model.AddTechnicianResponse
 import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.TechnicianResponse
+import com.orpatservice.app.data.model.VideoProductCategoriesData
 import com.orpatservice.app.data.model.login.LoginResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
 import com.orpatservice.app.data.model.login.SendHappyCodeResponse
@@ -1100,5 +1101,20 @@ class DataRepository {
     fun hitGetTechnicianCompletedLeads(pageNumber: Int): Call<RequestLeadResponse> {
         val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
         return ApiClient.getAuthApi().getTechnicianCompletedLeads(token,pageNumber)
+    }
+
+    fun hitGetInstallationVideosCategories(): Call<List<VideoProductCategoriesData>>{
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getInstallationVideoCategories(token)
+    }
+
+    fun hitGetInstallationVideosSubCategories(id:Int): Call<List<VideoProductCategoriesData>>{
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getInstallationVideoSubCategories(token,id)
+    }
+
+    fun hitGetInstallationVideosProducts(catId:Int,id:Int,searchQuery :String): Call<List<VideoProductCategoriesData>>{
+        val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
+        return ApiClient.getAuthApi().getInstallationVideoProducts(token,searchQuery,catId,id)
     }
 }

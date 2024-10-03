@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
-        android:paddingBottom="72dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+        android:paddingBottom="72dp">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_vertical_start"
@@ -33,6 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="130dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/corner_radius"
@@ -46,7 +47,6 @@
             app:layout_constraintVertical_chainStyle="packed">
 
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -56,12 +56,12 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center"
-                    app:layout_constraintVertical_chainStyle="packed"
                     android:src="@drawable/ic_request"
                     app:layout_constraintBottom_toTopOf="@id/tv_request"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                     android:id="@+id/tv_count"
@@ -86,8 +86,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/request"
                     android:layout_marginTop="6dp"
+                    android:text="@string/request"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -123,12 +123,12 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center"
-                    app:layout_constraintVertical_chainStyle="packed"
                     android:src="@drawable/ic_add_technician"
                     app:layout_constraintBottom_toTopOf="@id/tv_add_tech"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                     android:id="@+id/tv_add_tech"
@@ -174,13 +174,13 @@
                     android:id="@+id/iv_history"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    app:layout_constraintVertical_chainStyle="packed"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_history"
                     app:layout_constraintBottom_toTopOf="@id/tv_history"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                     android:id="@+id/tv_history"
@@ -188,8 +188,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/history"
                     android:layout_marginTop="6dp"
+                    android:text="@string/history"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -199,8 +199,104 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcv_service_videos"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/corner_radius"
+            app:cardElevation="14dp"
+            app:cardMaxElevation="36dp"
+            app:contentPadding="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/mcv_payment"
+            app:layout_constraintStart_toStartOf="@+id/gl_vertical_start"
+            app:layout_constraintTop_toBottomOf="@+id/mcv_payment">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <ImageView
+                    android:id="@+id/iv_service_videos"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/youtube_1384060"
+                    app:layout_constraintBottom_toTopOf="@id/tv_service_videos"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tv_service_videos"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:text="@string/installation_video"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_service_videos" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcv_installation_videos"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/corner_radius"
+            app:cardElevation="14dp"
+            app:cardMaxElevation="36dp"
+            app:contentPadding="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/mcv_payment"
+            app:layout_constraintEnd_toStartOf="@+id/gl_vertical_end"
+            app:layout_constraintStart_toEndOf="@+id/mcv_payment"
+            app:layout_constraintTop_toTopOf="@+id/mcv_payment">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_installation_videos"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/youtube_1384060"
+                    app:layout_constraintBottom_toTopOf="@id/tv_installation_videos"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tv_installation_videos"
+                    style="@style/Theme.OrpatServiceCenter.MediumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/service_video"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_installation_videos" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
 
         <com.google.android.material.card.MaterialCardView
@@ -210,11 +306,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/corner_radius"
             app:cardElevation="14dp"
             app:cardMaxElevation="36dp"
-            android:visibility="gone"
             app:contentPadding="16dp"
             app:layout_constraintBottom_toTopOf="@id/mcv_payment"
             app:layout_constraintEnd_toStartOf="@id/mcv_profile"
@@ -229,13 +325,13 @@
                     android:id="@+id/iv_chargeable_request"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    app:layout_constraintVertical_chainStyle="packed"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_history"
                     app:layout_constraintBottom_toTopOf="@id/tv_chargeable_request"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                     android:id="@+id/tv_chargeable_request"
@@ -243,8 +339,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/history"
                     android:layout_marginTop="6dp"
+                    android:text="@string/history"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -282,11 +378,11 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_profile"
-                    app:layout_constraintVertical_chainStyle="packed"
                     app:layout_constraintBottom_toTopOf="@id/tv_profile"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                     android:id="@+id/tv_profile"
@@ -294,8 +390,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/profile"
                     android:layout_marginTop="6dp"
+                    android:text="@string/profile"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -318,8 +414,7 @@
             app:cardElevation="14dp"
             app:cardMaxElevation="36dp"
             app:contentPadding="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/mcv_more"
+            app:layout_constraintEnd_toStartOf="@+id/mcv_installation_videos"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_start"
             app:layout_constraintTop_toBottomOf="@id/mcv_history">
 
@@ -329,12 +424,12 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="right"
-                android:text="0"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:visibility="visible"
+                android:background="@drawable/drawable_circle"
                 android:fontFamily="@font/poppins_medium"
-                android:background="@drawable/drawable_circle"/>
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/white"
+                android:visibility="visible" />
 
             <!--<TextView
                 android:id="@+id/tv_chargeable_count"
@@ -363,12 +458,11 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_icon_chargeable"
-                    app:layout_constraintVertical_chainStyle="packed"
                     app:layout_constraintBottom_toTopOf="@id/tv_payment"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
 
                 <TextView
@@ -377,8 +471,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="center"
                     android:layout_marginTop="6dp"
+                    android:gravity="center"
                     android:text="@string/chargeable_request"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -394,18 +488,17 @@
             android:id="@+id/mcv_more"
             android:layout_width="0dp"
             android:layout_height="150dp"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:visibility="invisible"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/corner_radius"
             app:cardElevation="14dp"
             app:cardMaxElevation="36dp"
             app:contentPadding="16dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/mcv_payment"
+            app:layout_constraintBottom_toBottomOf="@+id/mcv_service_videos"
             app:layout_constraintEnd_toStartOf="@id/gl_vertical_end"
-            app:layout_constraintStart_toEndOf="@id/mcv_payment"
-            app:layout_constraintTop_toTopOf="@id/mcv_payment"
+            app:layout_constraintStart_toStartOf="@+id/mcv_installation_videos"
+            app:layout_constraintTop_toTopOf="@+id/mcv_service_videos"
             card_view:cardBackgroundColor="@android:color/white">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -418,11 +511,11 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_more"
-                    app:layout_constraintVertical_chainStyle="packed"
                     app:layout_constraintBottom_toTopOf="@id/tv_more"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                     android:id="@+id/tv_more"
@@ -430,8 +523,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/more"
                     android:layout_marginTop="6dp"
+                    android:text="@string/more"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

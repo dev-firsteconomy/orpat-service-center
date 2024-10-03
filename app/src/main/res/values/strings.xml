@@ -49,6 +49,8 @@
     <string name="request">Request</string>
     <string name="add_technician">Add Technician</string>
     <string name="history">History</string>
+    <string name="service_video">Service Videos</string>
+    <string name="installation_video">Installation Videos</string>
     <string name="profile">Profile</string>
     <string name="payment">Payment</string>
     <string name="more">More</string>
