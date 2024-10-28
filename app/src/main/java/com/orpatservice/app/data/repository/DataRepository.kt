@@ -5,6 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.orpatservice.app.data.Resource
 import com.orpatservice.app.data.model.AddTechnicianResponse
+import com.orpatservice.app.data.model.BaseCategoryVideoResponse
+import com.orpatservice.app.data.model.BaseProductsVideoResponse
+import com.orpatservice.app.data.model.BaseSubCategoryVideoResponse
+import com.orpatservice.app.data.model.ProductVideoLinkDataResponse
 import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.TechnicianResponse
@@ -1103,18 +1107,18 @@ class DataRepository {
         return ApiClient.getAuthApi().getTechnicianCompletedLeads(token,pageNumber)
     }
 
-    fun hitGetInstallationVideosCategories(): Call<List<VideoProductCategoriesData>>{
+    fun hitGetInstallationVideosCategories(): Call<BaseCategoryVideoResponse>{
         val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
         return ApiClient.getAuthApi().getInstallationVideoCategories(token)
     }
 
-    fun hitGetInstallationVideosSubCategories(id:Int): Call<List<VideoProductCategoriesData>>{
+    fun hitGetInstallationVideosSubCategories(id:Int): Call<BaseSubCategoryVideoResponse>{
         val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
         return ApiClient.getAuthApi().getInstallationVideoSubCategories(token,id)
     }
 
-    fun hitGetInstallationVideosProducts(catId:Int,id:Int,searchQuery :String): Call<List<VideoProductCategoriesData>>{
+    fun hitGetInstallationVideosProducts(catId:Int,id:Int,searchQuery :String): Call<BaseProductsVideoResponse>{
         val token :String = "Bearer "+ SharedPrefs.getInstance().getString(Constants.TOKEN, Constants.NO_TOKEN)
-        return ApiClient.getAuthApi().getInstallationVideoProducts(token,searchQuery,catId,id)
+        return ApiClient.getAuthApi().getInstallationVideoProducts(token,catId,id,searchQuery)
     }
 }

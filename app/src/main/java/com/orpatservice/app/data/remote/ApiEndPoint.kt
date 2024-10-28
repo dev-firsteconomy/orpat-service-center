@@ -2,6 +2,10 @@ package com.orpatservice.app.data.remote
 
 import com.google.gson.JsonObject
 import com.orpatservice.app.data.model.AddTechnicianResponse
+import com.orpatservice.app.data.model.BaseCategoryVideoResponse
+import com.orpatservice.app.data.model.BaseProductsVideoResponse
+import com.orpatservice.app.data.model.BaseSubCategoryVideoResponse
+import com.orpatservice.app.data.model.ProductVideoLinkDataResponse
 import com.orpatservice.app.data.model.RepairPartResponse
 import com.orpatservice.app.data.model.SaveEnquiryResponse
 import com.orpatservice.app.data.model.login.OTPSendResponse
@@ -43,6 +47,7 @@ interface ApiEndPoint {
     ): Call<LoginResponse>
 
     //To get OTP on entered mobile number
+
     @FormUrlEncoded
     @POST("service-center/send-otp")
     fun getServiceCenterOtpAPI(@Field("mobile") mobile: String): Call<OTPSendResponse>
@@ -399,15 +404,15 @@ interface ApiEndPoint {
     fun getServiceCenterTaskCompletedLeads(@Header("Authorization") token : String,@Query("page") page: Int): Call<TakCompletedResponse>
 
     @GET("videos/installation/categories")
-    fun getInstallationVideoCategories(@Header("Authorization") token : String): Call<List<VideoProductCategoriesData>>
+    fun getInstallationVideoCategories(@Header("Authorization") token : String): Call<BaseCategoryVideoResponse>
 
 
     @GET("videos/installation/categories/{id}")
-    fun getInstallationVideoSubCategories(@Header("Authorization") token : String,@Path("id") leadId: Int): Call<List<VideoProductCategoriesData>>
+    fun getInstallationVideoSubCategories(@Header("Authorization") token : String,@Path("id") leadId: Int): Call<BaseSubCategoryVideoResponse>
 
 
     @GET("videos/installation/categories/{cat_id}/sub-category/{id}")
-    fun getInstallationVideoProducts(@Header("Authorization") token : String,@Query("search") keyword: String,@Path("cat_id") catId: Int,@Path("id") productId: Int): Call<List<VideoProductCategoriesData>>
+    fun getInstallationVideoProducts(@Header("Authorization") token : String,@Path("cat_id") catId: Int,@Path("id") productId: Int,@Query("search") keyword: String): Call<BaseProductsVideoResponse>
 
 
 }

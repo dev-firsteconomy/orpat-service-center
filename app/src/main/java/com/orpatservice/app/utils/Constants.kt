@@ -119,6 +119,9 @@ object Constants {
     // Menu Dash Items
     const val REQUEST_NEW = "Service_New"
     const val KEY_SERVICE_TYPE_IDENTIFIER = "key_service_type_identifier"
+    const val KEY_CATEGORIES_LEVEL_1 = "key_category_level_1"
+    const val KEY_CATEGORY_ID= "key_category_id"
+    const val KEY_SUB_CAT_ID= "key_sub_category_id"
     const val REQUEST_ASSIGN = "Service_Assign"
     const val REQUEST_VERIFY = "Service_Verify"
     const val CHARGEABLE_NEW = "Service_Chargeable"

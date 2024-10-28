@@ -470,12 +470,14 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
             R.id.mcv_installation_videos -> {
                 val intent = Intent(this, CategoriesActivity::class.java)
                 intent.putExtra(Constants.KEY_SERVICE_TYPE_IDENTIFIER, true)
+                intent.putExtra(Constants.KEY_CATEGORIES_LEVEL_1, true)
                 startActivity(intent)
             }
 
             R.id.mcv_service_videos -> {
                 val intent = Intent(this, CategoriesActivity::class.java)
                 intent.putExtra(Constants.KEY_SERVICE_TYPE_IDENTIFIER, false)
+                intent.putExtra(Constants.KEY_CATEGORIES_LEVEL_1, true)
                 startActivity(intent)
             }
             R.id.iv_logout -> {
